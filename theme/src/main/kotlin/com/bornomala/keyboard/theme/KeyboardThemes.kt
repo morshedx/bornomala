@@ -91,6 +91,7 @@ fun BornomalaTheme(
     theme: KeyboardTheme,
     highContrast: Boolean = false,
     font: KeyboardFont = KeyboardFont.SYSTEM,
+    metrics: KeyboardMetrics = keyboardMetrics(),
     content: @Composable () -> Unit,
 ) {
     val systemDark = isSystemInDarkTheme()
@@ -102,6 +103,7 @@ fun BornomalaTheme(
     CompositionLocalProvider(
         LocalKeyboardColors provides keyboardColors,
         LocalKeyboardFontFamily provides keyboardFontFamily(font),
+        LocalKeyboardMetrics provides metrics,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

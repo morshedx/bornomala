@@ -3,6 +3,7 @@ package com.bornomala.keyboard.ime.presentation
 import com.bornomala.keyboard.theme.LucideIcons
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
@@ -87,8 +88,9 @@ internal fun KeyView(
         else -> BornomalaTheme.shapes.keyCornerRadius
     }
 
-    val gap = BornomalaTheme.dimens.keyHorizontalGap
-    val vGap = BornomalaTheme.dimens.keyVerticalGap
+    val metrics = BornomalaTheme.metrics
+    val gap = metrics.horizontalGap
+    val vGap = metrics.verticalGap
     val description = key.contentDescription ?: defaultDescription(key, shift)
 
     Box(
@@ -96,6 +98,13 @@ internal fun KeyView(
             .padding(horizontal = gap / 2, vertical = vGap / 2)
             .clip(RoundedCornerShape(cornerRadius))
             .background(background)
+            .then(
+                if (metrics.keyBorder) {
+                    Modifier.border(1.dp, colors.keyStroke, RoundedCornerShape(cornerRadius))
+                } else {
+                    Modifier
+                },
+            )
             .semantics {
                 this.contentDescription = description
                 this.role = Role.Button
@@ -162,12 +171,13 @@ private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color) {
 
     val label = labelFor(key, shift)
     val isSpacebar = key.style == KeyStyle.SPACEBAR
+    val labelScale = BornomalaTheme.metrics.keyLabelScale
     // Multi-char function labels (?123, ABC, =\<) read better a touch smaller than glyphs.
     val labelSize = when {
         isSpacebar -> 14.sp
         label.length > 1 -> 15.sp
         else -> 20.sp
-    }
+    } * labelScale
     val fontFamily = BornomalaTheme.keyFontFamily
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(

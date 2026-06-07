@@ -127,6 +127,11 @@ internal data class SettingsCallbacks(
     val onThemeMode: (ThemeMode) -> Unit,
     val onKeyboardTheme: (KeyboardTheme) -> Unit,
     val onKeyboardFont: (KeyboardFont) -> Unit,
+    val onKeyBorder: (Boolean) -> Unit,
+    val onHorizontalGapScale: (Float) -> Unit,
+    val onVerticalGapScale: (Float) -> Unit,
+    val onKeyLabelScale: (Float) -> Unit,
+    val onSuggestionBarScale: (Float) -> Unit,
     val onHighContrast: (Boolean) -> Unit,
     val onKeyboardHeightScale: (Float) -> Unit,
     val onVibration: (Boolean) -> Unit,
@@ -149,6 +154,11 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
             onThemeMode = viewModel::onThemeModeChange,
             onKeyboardTheme = viewModel::onKeyboardThemeChange,
             onKeyboardFont = viewModel::onKeyboardFontChange,
+            onKeyBorder = viewModel::onKeyBorderChange,
+            onHorizontalGapScale = viewModel::onHorizontalGapScaleChange,
+            onVerticalGapScale = viewModel::onVerticalGapScaleChange,
+            onKeyLabelScale = viewModel::onKeyLabelScaleChange,
+            onSuggestionBarScale = viewModel::onSuggestionBarScaleChange,
             onHighContrast = viewModel::onHighContrastChange,
             onKeyboardHeightScale = viewModel::onKeyboardHeightScaleChange,
             onVibration = viewModel::onKeyPressVibrationChange,
@@ -376,7 +386,39 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
             scale = settings.keyboardHeightScale,
             onScaleChange = callbacks.onKeyboardHeightScale,
         )
+
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = "Key gaps & sizes",
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 4.dp),
+        )
+        SwitchSettingRow(
+            title = "Key border",
+            description = "Draw a hairline around each key.",
+            checked = settings.keyBorder,
+            onCheckedChange = callbacks.onKeyBorder,
+        )
+        ScaleSlider("Vertical gap", "Space between key rows.", settings.verticalGapScale, callbacks.onVerticalGapScale)
+        ScaleSlider("Horizontal gap", "Space between keys in a row.", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
+        ScaleSlider("Key label size", "Size of the text on each key.", settings.keyLabelScale, callbacks.onKeyLabelScale)
+        ScaleSlider("Suggestion bar size", "Height of the top action strip.", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
     }
+}
+
+@Composable
+private fun ScaleSlider(title: String, description: String, value: Float, onChange: (Float) -> Unit) {
+    val percent = (value * 100f).roundToInt()
+    SliderSettingRow(
+        title = title,
+        description = description,
+        valueLabel = "$percent%",
+        sliderContentDescription = "$title, $percent percent",
+        value = value,
+        valueRange = 0.5f..1.5f,
+        steps = 9,
+        onValueChange = onChange,
+    )
 }
 
 /** Gboard-style theme tile: a mini keyboard preview (tray + spacebar bar + accent enter dot). */

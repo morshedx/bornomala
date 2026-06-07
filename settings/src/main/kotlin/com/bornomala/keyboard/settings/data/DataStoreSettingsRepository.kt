@@ -59,6 +59,21 @@ internal class DataStoreSettingsRepository(
     override suspend fun setKeyboardFont(font: KeyboardFont): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.KEYBOARD_FONT] = font.name }
 
+    override suspend fun setKeyBorder(enabled: Boolean): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.KEY_BORDER] = enabled }
+
+    override suspend fun setHorizontalGapScale(scale: Float): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.HORIZONTAL_GAP_SCALE] = SettingsMapper.clampScale(scale) }
+
+    override suspend fun setVerticalGapScale(scale: Float): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.VERTICAL_GAP_SCALE] = SettingsMapper.clampScale(scale) }
+
+    override suspend fun setKeyLabelScale(scale: Float): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.KEY_LABEL_SCALE] = SettingsMapper.clampScale(scale) }
+
+    override suspend fun setSuggestionBarScale(scale: Float): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.SUGGESTION_BAR_SCALE] = SettingsMapper.clampScale(scale) }
+
     override suspend fun setHighContrast(enabled: Boolean): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.HIGH_CONTRAST] = enabled }
 

@@ -51,6 +51,12 @@ class SettingsViewModel @Inject constructor(
         repository.setKeyboardFont(font)
     }
 
+    fun onKeyBorderChange(enabled: Boolean) = launchEdit { repository.setKeyBorder(enabled) }
+    fun onHorizontalGapScaleChange(scale: Float) = launchEdit { repository.setHorizontalGapScale(scale) }
+    fun onVerticalGapScaleChange(scale: Float) = launchEdit { repository.setVerticalGapScale(scale) }
+    fun onKeyLabelScaleChange(scale: Float) = launchEdit { repository.setKeyLabelScale(scale) }
+    fun onSuggestionBarScaleChange(scale: Float) = launchEdit { repository.setSuggestionBarScale(scale) }
+
     fun onHighContrastChange(enabled: Boolean) = launchEdit {
         repository.setHighContrast(enabled)
     }

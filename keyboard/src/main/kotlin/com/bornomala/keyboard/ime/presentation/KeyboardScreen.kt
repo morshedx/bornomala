@@ -99,7 +99,7 @@ internal fun KeyboardScreen(
                 callbacks = callbacks,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(38.dp),
+                    .height(38.dp * BornomalaTheme.metrics.suggestionBarScale),
             )
 
             // Panels are sized to the alphabetic keyboard's key area so the IME window stays

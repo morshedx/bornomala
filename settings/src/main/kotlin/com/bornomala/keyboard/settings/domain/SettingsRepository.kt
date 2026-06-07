@@ -34,6 +34,16 @@ interface SettingsRepository {
 
     suspend fun setKeyboardFont(font: KeyboardFont): AppResult<Unit>
 
+    suspend fun setKeyBorder(enabled: Boolean): AppResult<Unit>
+
+    suspend fun setHorizontalGapScale(scale: Float): AppResult<Unit>
+
+    suspend fun setVerticalGapScale(scale: Float): AppResult<Unit>
+
+    suspend fun setKeyLabelScale(scale: Float): AppResult<Unit>
+
+    suspend fun setSuggestionBarScale(scale: Float): AppResult<Unit>
+
     suspend fun setHighContrast(enabled: Boolean): AppResult<Unit>
 
     /**

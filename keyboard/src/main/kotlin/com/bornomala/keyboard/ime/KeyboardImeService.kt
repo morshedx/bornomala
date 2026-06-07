@@ -160,6 +160,13 @@ class KeyboardImeService : InputMethodService() {
                     theme = settings.keyboardTheme,
                     highContrast = settings.highContrast,
                     font = settings.keyboardFont,
+                    metrics = com.bornomala.keyboard.theme.keyboardMetrics(
+                        horizontalGapScale = settings.horizontalGapScale,
+                        verticalGapScale = settings.verticalGapScale,
+                        keyLabelScale = settings.keyLabelScale,
+                        suggestionBarScale = settings.suggestionBarScale,
+                        keyBorder = settings.keyBorder,
+                    ),
                 ) {
                     KeyboardScreen(
                         state = state,

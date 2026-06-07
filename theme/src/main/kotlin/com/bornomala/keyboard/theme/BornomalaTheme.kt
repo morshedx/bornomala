@@ -66,6 +66,12 @@ object BornomalaTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalKeyboardFontFamily.current
+
+    /** User-tunable layout metrics (gaps, label/bar scale, border) for the active scope. */
+    val metrics: KeyboardMetrics
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalKeyboardMetrics.current
 }
 
 /**

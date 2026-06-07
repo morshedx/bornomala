@@ -27,6 +27,16 @@ internal object SettingsMapper {
             keyboardFont = prefs[SettingsPreferenceKeys.KEYBOARD_FONT]
                 ?.let(KeyboardFont::fromName)
                 ?: defaults.keyboardFont,
+            keyBorder = prefs[SettingsPreferenceKeys.KEY_BORDER]
+                ?: defaults.keyBorder,
+            horizontalGapScale = prefs[SettingsPreferenceKeys.HORIZONTAL_GAP_SCALE]
+                ?.let(::clampScale) ?: defaults.horizontalGapScale,
+            verticalGapScale = prefs[SettingsPreferenceKeys.VERTICAL_GAP_SCALE]
+                ?.let(::clampScale) ?: defaults.verticalGapScale,
+            keyLabelScale = prefs[SettingsPreferenceKeys.KEY_LABEL_SCALE]
+                ?.let(::clampScale) ?: defaults.keyLabelScale,
+            suggestionBarScale = prefs[SettingsPreferenceKeys.SUGGESTION_BAR_SCALE]
+                ?.let(::clampScale) ?: defaults.suggestionBarScale,
             highContrast = prefs[SettingsPreferenceKeys.HIGH_CONTRAST]
                 ?: defaults.highContrast,
             keyboardHeightScale = prefs[SettingsPreferenceKeys.KEYBOARD_HEIGHT_SCALE]
@@ -63,6 +73,9 @@ internal object SettingsMapper {
             ThemeMode.SYSTEM.name -> ThemeMode.SYSTEM
             else -> ThemeMode.SYSTEM
         }
+
+    /** Configurator scales are bounded to a sane range. */
+    fun clampScale(value: Float): Float = value.coerceIn(0.5f, 1.5f)
 
     fun clampHeightScale(value: Float): Float =
         value.coerceIn(
