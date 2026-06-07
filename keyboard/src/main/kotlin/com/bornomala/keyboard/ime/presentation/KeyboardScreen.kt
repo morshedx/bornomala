@@ -1,9 +1,12 @@
 package com.bornomala.keyboard.ime.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import com.bornomala.keyboard.theme.LucideIcons
+import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.model.KeyboardLayout
 import com.bornomala.keyboard.ime.domain.model.ShiftState
 import androidx.compose.runtime.Composable
@@ -27,6 +31,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.text.style.TextAlign
+import kotlin.math.roundToInt
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,11 +86,19 @@ internal fun KeyboardScreen(
         lerpDp(dimens.minKeyRowHeight, dimens.maxKeyRowHeight, keyHeightFraction.coerceIn(0f, 1f))
     }
 
+    // The active long-press: the key plus its on-screen bounds, so the popup can sit above it.
     var popupKey by remember { mutableStateOf<Key?>(null) }
+    var popupAnchor by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    var rootCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    // Finger position (root coords) while dragging over the popup; null = use the key center.
+    var popupPointer by remember { mutableStateOf<Offset?>(null) }
+    // Holds the glyph currently under the finger so release can commit it without recomputing.
+    val popupSelection = remember { intArrayOf(0) }
 
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .onGloballyPositioned { rootCoordinates = it }
             .background(colors.keyboardBackground)
             // Reserve the gesture/navigation-bar inset: the tray background paints to the
             // bottom edge while the keys sit above the gesture pill (no black gap, no overlap).
@@ -91,7 +110,11 @@ internal fun KeyboardScreen(
                 .padding(
                     start = dimens.keyboardHorizontalPadding,
                     end = dimens.keyboardHorizontalPadding,
-                    top = dimens.keyboardVerticalPadding,
+                    // No top padding: the toolbar/suggestion strip sits flush with the tray
+                    // top (Gboard-style). Its own internal padding gives the icons breathing
+                    // room, so there is no bare keyboard-background band above the strip that
+                    // would make the toolbar look top-heavy.
+                    top = 0.dp,
                     // Extra bottom margin (above the gesture inset) so the last row clears the
                     // gesture handle comfortably, matching Gboard's spacing.
                     bottom = dimens.keyboardVerticalPadding + 18.dp,
@@ -105,7 +128,7 @@ internal fun KeyboardScreen(
                 callbacks = callbacks,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(38.dp * BornomalaTheme.metrics.suggestionBarScale),
+                    .height(48.dp * BornomalaTheme.metrics.suggestionBarScale),
             )
 
             // Panels are sized to the alphabetic keyboard's key area so the IME window stays
@@ -145,7 +168,10 @@ internal fun KeyboardScreen(
                         rowHeight = rowHeight,
                         onKey = callbacks.onSearchKey,
                         onLongPressChar = {},
-                        onLongPressRequested = {},
+                        onLongPressRequested = { _, _ -> },
+                        onLongPressMove = {},
+                        onLongPressReleased = {},
+                        activePopupKey = null,
                     )
                 }
             } else {
@@ -156,29 +182,151 @@ internal fun KeyboardScreen(
                     rowHeight = rowHeight,
                     onKey = callbacks.onKey,
                     onLongPressChar = callbacks.onLongPressChar,
-                    onLongPressRequested = { pressedKey ->
+                    onLongPressRequested = { pressedKey, coords ->
                         // Long-pressing the comma opens keyboard settings (Gboard-style).
                         if (pressedKey.action == KeyAction.Character(',')) {
                             callbacks.onOpenSettings()
                         } else {
                             popupKey = pressedKey
+                            popupAnchor = coords
+                            popupPointer = null
+                            popupSelection[0] = 0
                         }
                     },
+                    onLongPressMove = { windowPos ->
+                        popupPointer = rootCoordinates?.windowToLocal(windowPos)
+                    },
+                    onLongPressReleased = {
+                        val k = popupKey
+                        if (k != null) {
+                            k.longPressChars.getOrNull(popupSelection[0])
+                                ?.let { callbacks.onLongPressChar(it) }
+                        }
+                        popupKey = null
+                        popupPointer = null
+                    },
+                    activePopupKey = popupKey,
                 )
             }
         }
 
         val activePopup = popupKey
-        if (activePopup != null) {
+        val anchorCoords = popupAnchor
+        val root = rootCoordinates
+        if (activePopup != null && anchorCoords != null && root != null && anchorCoords.isAttached) {
+            // Key bounds in the keyboard's own coordinate space, so the popup can be drawn
+            // directly above the pressed key.
+            val anchor = root.localBoundingBoxOf(anchorCoords, clipBounds = false)
             LongPressPopup(
-                key = activePopup,
+                chars = popupChars(activePopup),
+                anchor = anchor,
+                keyboardWidth = root.size.width.toFloat(),
+                pointer = popupPointer,
+                onSelectedIndex = { popupSelection[0] = it },
+                // Match the keyboard's own bounds (not the whole screen) so the dismiss scrim
+                // never forces the IME window to grow to full height — which would shove the
+                // keyboard to the top with a large empty band below it.
+                modifier = Modifier.matchParentSize(),
                 onPick = {
                     callbacks.onLongPressChar(it)
                     popupKey = null
+                    popupPointer = null
                 },
-                onDismiss = { popupKey = null },
+                onDismiss = {
+                    popupKey = null
+                    popupPointer = null
+                },
             )
         }
+    }
+}
+
+/**
+ * A live, non-interactive replica of the real keyboard for the settings configurator sheet.
+ *
+ * Renders the same [KeyGrid]/[KeyView] composables the IME uses, so it reflects the active
+ * [BornomalaTheme] colors, font and [com.bornomala.keyboard.theme.KeyboardMetrics] (gaps,
+ * label size, border) exactly. Dragging a configurator slider updates this preview because
+ * the host wraps it in a [BornomalaTheme] whose metrics come from the live settings — there
+ * is no separate mock to keep in sync.
+ *
+ * Laid out at a fixed footprint (constant [rowHeight], no navigation insets) so the enclosing
+ * bottom sheet never changes height while a slider is dragged. A transparent overlay swallows
+ * touches so the preview is display-only.
+ */
+/** No-op callbacks for the display-only configurator preview. */
+private val PreviewCallbacks = KeyboardCallbacks(
+    onKey = {},
+    onLongPressChar = {},
+    onSuggestion = {},
+    onOpenSettings = {},
+    onToggleEmoji = {},
+    onToggleNumbers = {},
+    onToggleClipboard = {},
+    onPaste = {},
+    onEmoji = {},
+    onHideKeyboard = {},
+    onSearchKey = {},
+    onOpenSearch = {},
+    onCloseSearch = {},
+)
+
+@Composable
+fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
+    val colors = BornomalaTheme.keyboardColors
+    val metrics = BornomalaTheme.metrics
+    val layout = remember {
+        LayoutProvider().layoutFor(
+            language = KeyboardLanguage.ENGLISH,
+            page = KeyboardPage.ALPHA,
+            showNumberRow = false,
+        )
+    }
+    Box(modifier) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .background(colors.keyboardBackground)
+                .padding(horizontal = 4.dp, vertical = 6.dp),
+        ) {
+            // The real toolbar/suggestion bar. With no suggestions it shows the tools row,
+            // exactly like the live keyboard before the user starts typing.
+            ActionStrip(
+                suggestions = emptyList(),
+                emojiActive = false,
+                clipboardActive = false,
+                numpadActive = false,
+                callbacks = PreviewCallbacks,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp * metrics.suggestionBarScale),
+            )
+            KeyGrid(
+                layout = layout,
+                shift = ShiftState.OFF,
+                enterIsAccent = true,
+                rowHeight = 56.dp,
+                onKey = {},
+                onLongPressChar = {},
+                onLongPressRequested = { _, _ -> },
+                onLongPressMove = {},
+                onLongPressReleased = {},
+                activePopupKey = null,
+            )
+        }
+        // Display-only: consume all pointer events so taps never alter the preview.
+        Box(
+            Modifier
+                .matchParentSize()
+                .pointerInput(Unit) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            awaitPointerEvent().changes.forEach { it.consume() }
+                        }
+                    }
+                },
+        )
     }
 }
 
@@ -191,7 +339,10 @@ private fun KeyGrid(
     rowHeight: Dp,
     onKey: (KeyAction) -> Unit,
     onLongPressChar: (Char) -> Unit,
-    onLongPressRequested: (Key) -> Unit,
+    onLongPressRequested: (Key, LayoutCoordinates) -> Unit,
+    onLongPressMove: (Offset) -> Unit,
+    onLongPressReleased: () -> Unit,
+    activePopupKey: Key?,
 ) {
     layout.rows.forEach { row ->
         Row(
@@ -207,7 +358,9 @@ private fun KeyGrid(
                     onKey = onKey,
                     onLongPressChar = onLongPressChar,
                     onLongPressRequested = onLongPressRequested,
-                    onLongPressDismissed = {},
+                    onLongPressMove = onLongPressMove,
+                    onLongPressReleased = onLongPressReleased,
+                    isPopupSource = key === activePopupKey,
                     modifier = Modifier
                         .weight(key.weight)
                         .fillMaxHeight(),
@@ -263,63 +416,111 @@ private fun PanelSearchBar(
 }
 
 /**
- * A simple overlay listing the long-press alternatives for [key]. A full-surface scrim
- * dismisses it; tapping a glyph commits it. Kept lightweight (no animation) and centred at
- * the top of the keyboard so it never falls outside the IME window.
+ * Long-press alternates popup, drawn as a rounded card directly above the pressed key
+ * ([anchor] = the key's bounds in this overlay's coordinate space). Like Gboard / HeliBoard's
+ * "more keys": many alternates wrap into a grid (balanced rows, capped width), index 0 sits
+ * bottom-left, and a dim scrim covers the keyboard behind it.
+ *
+ * Selection follows the finger: [pointer] is the current touch in overlay coordinates (null
+ * until the user moves), and the cell under it is highlighted with the theme accent. The
+ * resolved index is reported via [onSelectedIndex] so release can commit it; tapping a cell
+ * also commits via [onPick].
  */
 @Composable
 private fun LongPressPopup(
-    key: Key,
+    chars: List<Char>,
+    anchor: androidx.compose.ui.geometry.Rect,
+    keyboardWidth: Float,
+    pointer: Offset?,
+    onSelectedIndex: (Int) -> Unit,
     onPick: (Char) -> Unit,
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val colors = BornomalaTheme.keyboardColors
-    val chars = remember(key) { popupChars(key) }
     if (chars.isEmpty()) {
         onDismiss()
         return
     }
+    val n = chars.size
+    val maxPerRow = 5
+    val rows = (n + maxPerRow - 1) / maxPerRow
+    val perRow = (n + rows - 1) / rows
+
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    val itemDp = 46.dp
+    val padDp = 6.dp
+    val gapDp = 6.dp
+    val itemPx = with(density) { itemDp.toPx() }
+    val padPx = with(density) { padDp.toPx() }
+    val gapPx = with(density) { gapDp.toPx() }
+
+    val gridW = perRow * itemPx + 2 * padPx
+    val gridH = rows * itemPx + 2 * padPx
+    val left = (anchor.center.x - gridW / 2f).coerceIn(0f, (keyboardWidth - gridW).coerceAtLeast(0f))
+    val top = (anchor.top - gridH - gapPx).coerceAtLeast(0f)
+    val contentLeft = left + padPx
+    val contentTop = top + padPx
+
+    // Index under the finger (or the key center before the first move). Index 0 is bottom-left.
+    val px = pointer?.x ?: anchor.center.x
+    val py = pointer?.y ?: (contentTop + (rows - 0.5f) * itemPx)
+    val col = ((px - contentLeft) / itemPx).toInt().coerceIn(0, perRow - 1)
+    val rowFromTop = ((py - contentTop) / itemPx).toInt().coerceIn(0, rows - 1)
+    val rowFromBottom = rows - 1 - rowFromTop
+    val selected = (rowFromBottom * perRow + col).coerceIn(0, n - 1)
+    androidx.compose.runtime.SideEffect { onSelectedIndex(selected) }
+
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
+            .background(androidx.compose.ui.graphics.Color.Black.copy(alpha = 0.32f))
             .clickable(
                 interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() },
                 indication = null,
             ) { onDismiss() },
-        contentAlignment = Alignment.TopCenter,
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .padding(top = 4.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .offset { androidx.compose.ui.unit.IntOffset(left.roundToInt(), top.roundToInt()) }
+                .clip(RoundedCornerShape(12.dp))
                 .background(colors.popupBackground)
-                .padding(4.dp),
-            verticalAlignment = Alignment.CenterVertically,
+                .border(1.dp, colors.keyStroke, RoundedCornerShape(12.dp))
+                .padding(padDp),
         ) {
-            chars.forEach { c ->
-                Text(
-                    text = c.toString(),
-                    color = colors.popupContent,
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .padding(horizontal = 2.dp)
-                        .clip(RoundedCornerShape(6.dp))
-                        .size(width = 40.dp, height = 44.dp)
-                        .clickable { onPick(c) }
-                        .padding(top = 10.dp),
-                )
+            // Render top→bottom; index 0 lives in the bottom row, increasing left→right upward.
+            for (visualRow in 0 until rows) {
+                val rowBottom = rows - 1 - visualRow
+                val start = rowBottom * perRow
+                val end = minOf(start + perRow, n)
+                Row {
+                    for (i in start until end) {
+                        val isSel = i == selected
+                        Box(
+                            modifier = Modifier
+                                .size(itemDp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(if (isSel) colors.accentKeyBackground else androidx.compose.ui.graphics.Color.Transparent)
+                                .clickable { onPick(chars[i]) },
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = chars[i].toString(),
+                                color = if (isSel) colors.accentKeyContent else colors.popupContent,
+                                fontSize = 20.sp,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
 
 private fun popupChars(key: Key): List<Char> {
-    val primary = (key.action as? KeyAction.Character)?.char
-    if (key.longPressChars.isEmpty()) return primary?.let { listOf(it) } ?: emptyList()
-    val result = ArrayList<Char>(key.longPressChars.size + 1)
-    if (primary != null) result.add(primary)
-    for (c in key.longPressChars) if (c != primary) result.add(c)
-    return result
+    // Only the alternates — never the key's own base character (the user already sees that on
+    // the key itself; repeating it in the popup is confusing).
+    return key.longPressChars
 }
 
 private fun lerpDp(start: Dp, stop: Dp, fraction: Float): Dp =

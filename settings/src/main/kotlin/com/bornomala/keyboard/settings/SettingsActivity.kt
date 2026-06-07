@@ -35,7 +35,6 @@ class SettingsActivity : ComponentActivity() {
 
             BornomalaTheme(
                 theme = settings.keyboardTheme,
-                highContrast = settings.highContrast,
                 font = settings.keyboardFont,
             ) {
                 SettingsScreen(viewModel = viewModel)

@@ -10,6 +10,10 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -57,30 +61,40 @@ internal fun KeyView(
     enterIsAccent: Boolean,
     onKey: (KeyAction) -> Unit,
     onLongPressChar: (Char) -> Unit,
-    onLongPressRequested: (Key) -> Unit,
-    onLongPressDismissed: () -> Unit,
+    onLongPressRequested: (Key, LayoutCoordinates) -> Unit,
+    onLongPressMove: (Offset) -> Unit,
+    onLongPressReleased: () -> Unit,
     modifier: Modifier = Modifier,
+    isPopupSource: Boolean = false,
     repeatIntervalMs: Long = 45L,
     longPressTimeoutMs: Long = 300L,
 ) {
     val colors = BornomalaTheme.keyboardColors
     var pressed by remember { mutableStateOf(false) }
+    var coordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
 
     val style = key.style
     val isAccentEnter = style == KeyStyle.FUNCTIONAL && key.action == KeyAction.Enter && enterIsAccent
     val effectiveStyle = if (isAccentEnter) KeyStyle.ACCENT else style
 
-    val background = when (effectiveStyle) {
-        KeyStyle.NORMAL -> if (pressed) colors.keyBackgroundPressed else colors.keyBackground
-        KeyStyle.FUNCTIONAL -> if (pressed) colors.functionalKeyBackgroundPressed else colors.functionalKeyBackground
-        KeyStyle.SPACEBAR -> if (pressed) colors.keyBackgroundPressed else colors.spacebarBackground
-        KeyStyle.ACCENT -> colors.accentKeyBackground
+    // While this key is the active long-press source it takes the theme's accent color.
+    val background = when {
+        isPopupSource -> colors.accentKeyBackground
+        else -> when (effectiveStyle) {
+            KeyStyle.NORMAL -> if (pressed) colors.keyBackgroundPressed else colors.keyBackground
+            KeyStyle.FUNCTIONAL -> if (pressed) colors.functionalKeyBackgroundPressed else colors.functionalKeyBackground
+            KeyStyle.SPACEBAR -> if (pressed) colors.keyBackgroundPressed else colors.spacebarBackground
+            KeyStyle.ACCENT -> colors.accentKeyBackground
+        }
     }
-    val contentColor = when (effectiveStyle) {
-        KeyStyle.NORMAL -> colors.keyContent
-        KeyStyle.FUNCTIONAL -> colors.functionalKeyContent
-        KeyStyle.SPACEBAR -> colors.spacebarContent
-        KeyStyle.ACCENT -> colors.accentKeyContent
+    val contentColor = when {
+        isPopupSource -> colors.accentKeyContent
+        else -> when (effectiveStyle) {
+            KeyStyle.NORMAL -> colors.keyContent
+            KeyStyle.FUNCTIONAL -> colors.functionalKeyContent
+            KeyStyle.SPACEBAR -> colors.spacebarContent
+            KeyStyle.ACCENT -> colors.accentKeyContent
+        }
     }
 
     val cornerRadius = when (effectiveStyle) {
@@ -95,12 +109,20 @@ internal fun KeyView(
 
     Box(
         modifier = modifier
+            .onGloballyPositioned { coordinates = it }
             .padding(horizontal = gap / 2, vertical = vGap / 2)
             .clip(RoundedCornerShape(cornerRadius))
             .background(background)
             .then(
                 if (metrics.keyBorder) {
-                    Modifier.border(1.dp, colors.keyStroke, RoundedCornerShape(cornerRadius))
+                    // Derive the stroke from the key's own content colour so it stays visible on
+                    // every theme (a light outline on dark keys, a dark outline on light keys),
+                    // instead of a single faint tint that vanishes on dark backgrounds.
+                    Modifier.border(
+                        1.5.dp,
+                        contentColor.copy(alpha = 0.30f),
+                        RoundedCornerShape(cornerRadius),
+                    )
                 } else {
                     Modifier
                 },
@@ -129,12 +151,22 @@ internal fun KeyView(
                         }
                     } else if (key.longPressChars.isNotEmpty()) {
                         val up = waitForUpOrCancellationWindowed(longPressTimeoutMs)
-                        if (up == null) {
-                            // Held long enough: show popup; selection handled by overlay.
-                            onLongPressRequested(key)
-                            // Wait for the actual release to dismiss; the overlay reports the char.
-                            waitForUpOrCancellation()
-                            onLongPressDismissed()
+                        val coords = coordinates
+                        if (up == null && coords != null) {
+                            // Held long enough: show the popup above this key, then keep tracking
+                            // the finger so a swipe (while still held) moves the highlight; the
+                            // selected glyph is committed on release.
+                            onLongPressRequested(key, coords)
+                            while (true) {
+                                val moveEvent = awaitPointerEvent()
+                                val change = moveEvent.changes.firstOrNull() ?: break
+                                onLongPressMove(coords.localToWindow(change.position))
+                                if (!change.pressed) {
+                                    change.consume()
+                                    break
+                                }
+                            }
+                            onLongPressReleased()
                         } else {
                             onKey(key.action)
                         }
@@ -155,28 +187,29 @@ internal fun KeyView(
 
 @Composable
 private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color) {
+    val labelScale = BornomalaTheme.metrics.keyLabelScale
     val icon = iconFor(key, shift)
     if (icon != null) {
-        // The language-switch (globe) key reads better a bit larger than the other glyphs,
-        // so it gets less inset.
-        val iconPadding = if (key.action == KeyAction.SwitchLanguage) 7.dp else 12.dp
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = contentColor,
-            modifier = Modifier.fillMaxSize().padding(iconPadding),
-        )
+        // All icon keys use a single 20dp base, scaled by the "Key label size" slider (like the
+        // text labels) so they track it predictably and don't drift with key height/gaps.
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(20.dp * labelScale),
+            )
+        }
         return
     }
 
     val label = labelFor(key, shift)
     val isSpacebar = key.style == KeyStyle.SPACEBAR
-    val labelScale = BornomalaTheme.metrics.keyLabelScale
     // Multi-char function labels (?123, ABC, =\<) read better a touch smaller than glyphs.
     val labelSize = when {
-        isSpacebar -> 14.sp
-        label.length > 1 -> 15.sp
-        else -> 20.sp
+        isSpacebar -> 15.4.sp
+        label.length > 1 -> 15.5.sp
+        else -> 22.sp
     } * labelScale
     val fontFamily = BornomalaTheme.keyFontFamily
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

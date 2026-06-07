@@ -60,6 +60,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Bornomala"
+            android:windowSoftInputMode="adjustResize"
             tools:replace="android:exported" />
     </application>
 

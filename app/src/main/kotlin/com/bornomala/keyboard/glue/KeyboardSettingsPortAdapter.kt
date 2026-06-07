@@ -40,7 +40,6 @@ class KeyboardSettingsPortAdapter @Inject constructor(
                 verticalGapScale = s.verticalGapScale,
                 keyLabelScale = s.keyLabelScale,
                 suggestionBarScale = s.suggestionBarScale,
-                highContrast = s.highContrast,
                 keyHeightFraction = heightScaleToFraction(s.keyboardHeightScale),
                 hapticsEnabled = s.keyPressVibration,
                 soundEnabled = s.keyPressSound,
@@ -52,6 +51,7 @@ class KeyboardSettingsPortAdapter @Inject constructor(
                 // auto-commit / suggestions, not whether to route through the engine.
                 banglaTransliterationEnabled = true,
                 learnFromTyping = s.learnFromTyping,
+                volumeKeyCursorControl = s.volumeKeyCursorControl,
                 lastLanguage = language,
             )
         }

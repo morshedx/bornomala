@@ -106,6 +106,15 @@ internal object SharedKeys {
         longPressChars = listOf('!', '?', ',', '@', '#', '/', '\\'),
     )
 
+    /** Bangla sentence terminator — the dari (।, U+0964) replaces the period on Bangla layouts. */
+    val DARI = Key(
+        label = "।",
+        action = KeyAction.Character('।'),
+        weight = 1f,
+        style = KeyStyle.FUNCTIONAL,
+        longPressChars = listOf('.', '?', '!', ',', '…'),
+    )
+
     /** The number row digits 1..0 with their long-press fraction/superscript variants. */
     val NUMBER_ROW: KeyRow = KeyRow(
         listOf(
@@ -122,12 +131,73 @@ internal object SharedKeys {
         ),
     )
 
+    /** Bengali-digit number row (০–৯) for the Bangla layout; long-press gives the latin digit. */
+    val BANGLA_NUMBER_ROW: KeyRow = KeyRow(
+        listOf(
+            Key.symbol('১', longPress = "1"),
+            Key.symbol('২', longPress = "2"),
+            Key.symbol('৩', longPress = "3"),
+            Key.symbol('৪', longPress = "4"),
+            Key.symbol('৫', longPress = "5"),
+            Key.symbol('৬', longPress = "6"),
+            Key.symbol('৭', longPress = "7"),
+            Key.symbol('৮', longPress = "8"),
+            Key.symbol('৯', longPress = "9"),
+            Key.symbol('০', longPress = "0"),
+        ),
+    )
+
+    /**
+     * Shared symbol overlay for the QWERTY letter keys: corner hint + long-press set, keyed by
+     * the physical key's latin char. Applied to every QWERTY layout (English, Bangla Avro, …)
+     * via [letter] so the hint map is identical regardless of language — edit it here only.
+     * First char of each value is the visible hint; the whole string is the long-press popup.
+     */
+    private val LETTER_SYMBOLS: Map<Char, Pair<String, String>> = mapOf(
+        'q' to ("%" to "%"),
+        'w' to ("\\" to "\\"),
+        'e' to ("|" to "|éèêëē"),
+        'r' to ("[" to "["),
+        't' to ("]" to "]"),
+        'y' to ("<" to "<ÿ"),
+        'u' to (">" to ">úùûü"),
+        'i' to ("{" to "{íìîï"),
+        'o' to ("}" to "}óòôöõ"),
+        'p' to ("=" to "="),
+        'a' to ("@" to "@àáâäãåæ"),
+        's' to ("#" to "#ßś"),
+        'd' to ("$" to "$৳€£¥¢"),
+        'f' to ("_" to "_"),
+        'g' to ("&" to "&"),
+        'h' to ("-" to "-"),
+        'j' to ("+" to "+"),
+        'k' to ("(" to "("),
+        'l' to (")" to ")"),
+        'z' to ("*" to "*"),
+        'x' to ("\"" to "\""),
+        'c' to ("'" to "'çć"),
+        'v' to (":" to ":"),
+        'b' to (";" to ";"),
+        'n' to ("!" to "!ñ"),
+        'm' to ("?" to "?"),
+    )
+
+    /** A QWERTY letter key carrying the shared symbol hint + long-press overlay for [char]. */
+    fun letter(char: Char): Key {
+        val sym = LETTER_SYMBOLS[char]
+        return Key.letter(char, hint = sym?.first, longPress = sym?.second ?: "")
+    }
+
     /**
      * Builds the alphabetic bottom row for a language. Order: ?123, comma, language, space,
      * period, enter. On email fields the comma is replaced by "@" ([emailField]). The
      * spacebar shows the language name to confirm the active language.
      */
-    fun bottomRow(spaceLabel: String, emailField: Boolean = false): KeyRow = KeyRow(
+    fun bottomRow(
+        spaceLabel: String,
+        emailField: Boolean = false,
+        period: Key = PERIOD,
+    ): KeyRow = KeyRow(
         listOf(
             TO_SYMBOLS,
             if (emailField) AT else COMMA,
@@ -140,7 +210,7 @@ internal object SharedKeys {
                 contentDescription = "Space",
                 repeatable = true,
             ),
-            PERIOD,
+            period,
             ENTER,
         ),
     )

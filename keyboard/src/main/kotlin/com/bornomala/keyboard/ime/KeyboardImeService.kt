@@ -161,6 +161,13 @@ class KeyboardImeService : InputMethodService() {
         // window's decor view — not only on the ComposeView itself.
         attachComposeOwnersToWindow()
         val view = ComposeView(this).apply {
+            // Wrap to the keyboard's own height. Without an explicit WRAP_CONTENT the input
+            // view can be measured at the full available height on some skins/after a swipe-up,
+            // top-aligning the keys and leaving a large empty band below.
+            layoutParams = android.view.ViewGroup.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+            )
             setViewTreeLifecycleOwner(composeHost)
             setViewTreeViewModelStoreOwner(composeHost)
             setViewTreeSavedStateRegistryOwner(composeHost)
@@ -169,7 +176,6 @@ class KeyboardImeService : InputMethodService() {
                 val state by stateHolder.state.collectAsStateWithLifecycle()
                 BornomalaTheme(
                     theme = settings.keyboardTheme,
-                    highContrast = settings.highContrast,
                     font = settings.keyboardFont,
                     metrics = com.bornomala.keyboard.theme.keyboardMetrics(
                         horizontalGapScale = settings.horizontalGapScale,
@@ -246,11 +252,17 @@ class KeyboardImeService : InputMethodService() {
         super.onFinishInput()
     }
 
+    // Never expand into fullscreen/extract mode. Some launchers/OEM skins (and a swipe-up on
+    // the keyboard) otherwise grow the input window to full height and top-align the keys,
+    // leaving a large empty band below. Forcing this off keeps the keyboard at its content
+    // height, anchored to the bottom, always.
+    override fun onEvaluateFullscreenMode(): Boolean = false
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         // Volume keys nudge the cursor while the keyboard is visible (a common power-user
-        // accessibility aid). Consumed only when the input view is shown so volume control
-        // works normally otherwise.
-        if (isInputViewShown) {
+        // accessibility aid). Opt-in via settings, and consumed only when the input view is
+        // shown so volume control works normally otherwise.
+        if (isInputViewShown && settingsState.value.volumeKeyCursorControl) {
             when (keyCode) {
                 KeyEvent.KEYCODE_VOLUME_UP -> { moveCursor(1); return true }
                 KeyEvent.KEYCODE_VOLUME_DOWN -> { moveCursor(-1); return true }
@@ -260,7 +272,7 @@ class KeyboardImeService : InputMethodService() {
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        if (isInputViewShown &&
+        if (isInputViewShown && settingsState.value.volumeKeyCursorControl &&
             (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
         ) {
             return true

@@ -44,8 +44,6 @@ interface SettingsRepository {
 
     suspend fun setSuggestionBarScale(scale: Float): AppResult<Unit>
 
-    suspend fun setHighContrast(enabled: Boolean): AppResult<Unit>
-
     /**
      * Sets the keyboard height multiplier. The value is clamped to
      * [Settings.MIN_KEYBOARD_HEIGHT_SCALE]..[Settings.MAX_KEYBOARD_HEIGHT_SCALE] before
@@ -72,6 +70,8 @@ interface SettingsRepository {
     suspend fun setBanglaPhoneticSuggestions(enabled: Boolean): AppResult<Unit>
 
     suspend fun setLearnFromTyping(enabled: Boolean): AppResult<Unit>
+
+    suspend fun setVolumeKeyCursorControl(enabled: Boolean): AppResult<Unit>
 
     /** Restores every preference to its default value in a single atomic edit. */
     suspend fun resetToDefaults(): AppResult<Unit>

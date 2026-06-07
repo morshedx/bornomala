@@ -74,9 +74,6 @@ internal class DataStoreSettingsRepository(
     override suspend fun setSuggestionBarScale(scale: Float): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.SUGGESTION_BAR_SCALE] = SettingsMapper.clampScale(scale) }
 
-    override suspend fun setHighContrast(enabled: Boolean): AppResult<Unit> =
-        edit { prefs -> prefs[SettingsPreferenceKeys.HIGH_CONTRAST] = enabled }
-
     override suspend fun setKeyboardHeightScale(scale: Float): AppResult<Unit> =
         edit { prefs ->
             prefs[SettingsPreferenceKeys.KEYBOARD_HEIGHT_SCALE] =
@@ -112,6 +109,9 @@ internal class DataStoreSettingsRepository(
 
     override suspend fun setLearnFromTyping(enabled: Boolean): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.LEARN_FROM_TYPING] = enabled }
+
+    override suspend fun setVolumeKeyCursorControl(enabled: Boolean): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.VOLUME_KEY_CURSOR_CONTROL] = enabled }
 
     override suspend fun resetToDefaults(): AppResult<Unit> =
         edit { prefs -> prefs.clear() }

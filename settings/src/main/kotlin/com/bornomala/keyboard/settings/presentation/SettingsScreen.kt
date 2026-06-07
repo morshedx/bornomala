@@ -24,9 +24,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.activity.compose.BackHandler
@@ -38,19 +38,25 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -58,7 +64,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bornomala.keyboard.ime.presentation.KeyboardConfiguratorPreview
 import com.bornomala.keyboard.theme.BornomalaTheme
+import com.bornomala.keyboard.theme.keyboardMetrics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bornomala.keyboard.core.result.Resource
@@ -136,7 +144,6 @@ internal data class SettingsCallbacks(
     val onVerticalGapScale: (Float) -> Unit,
     val onKeyLabelScale: (Float) -> Unit,
     val onSuggestionBarScale: (Float) -> Unit,
-    val onHighContrast: (Boolean) -> Unit,
     val onKeyboardHeightScale: (Float) -> Unit,
     val onVibration: (Boolean) -> Unit,
     val onSound: (Boolean) -> Unit,
@@ -148,6 +155,7 @@ internal data class SettingsCallbacks(
     val onBanglaAutoCommit: (Boolean) -> Unit,
     val onBanglaPhoneticSuggestions: (Boolean) -> Unit,
     val onLearnFromTyping: (Boolean) -> Unit,
+    val onVolumeKeyCursorControl: (Boolean) -> Unit,
     val onResetToDefaults: () -> Unit,
 )
 
@@ -163,7 +171,6 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
             onVerticalGapScale = viewModel::onVerticalGapScaleChange,
             onKeyLabelScale = viewModel::onKeyLabelScaleChange,
             onSuggestionBarScale = viewModel::onSuggestionBarScaleChange,
-            onHighContrast = viewModel::onHighContrastChange,
             onKeyboardHeightScale = viewModel::onKeyboardHeightScaleChange,
             onVibration = viewModel::onKeyPressVibrationChange,
             onSound = viewModel::onKeyPressSoundChange,
@@ -175,6 +182,7 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
             onBanglaAutoCommit = viewModel::onBanglaAutoCommitChange,
             onBanglaPhoneticSuggestions = viewModel::onBanglaPhoneticSuggestionsChange,
             onLearnFromTyping = viewModel::onLearnFromTypingChange,
+            onVolumeKeyCursorControl = viewModel::onVolumeKeyCursorControlChange,
             onResetToDefaults = viewModel::onResetToDefaults,
         )
     }
@@ -343,71 +351,134 @@ private fun CategoryRow(item: CategoryItem, onClick: () -> Unit) {
 @Composable
 private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
     var showConfigurator by remember { mutableStateOf(false) }
-    Column(modifier) {
-        Text(
-            text = stringResource(R.string.settings_theme),
-            style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp),
-        )
-        val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
-        SettingsCard {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp),
-            ) {
-                KeyboardTheme.entries.chunked(3).forEach { rowThemes ->
-                    Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                        rowThemes.forEach { theme ->
-                            val preview = keyboardColorsFor(theme, systemDark)
-                            ThemeSwatch(
-                                name = theme.displayName,
-                                tray = preview.keyboardBackground,
-                                key = preview.keyBackground,
-                                accent = preview.accentKeyBackground,
-                                spacebarBar = preview.keyContent.copy(alpha = 0.35f),
-                                selected = theme == settings.keyboardTheme,
-                                onClick = {
-                                    callbacks.onKeyboardTheme(theme)
-                                    showConfigurator = true
-                                },
-                                modifier = Modifier.weight(1f),
-                            )
+    // "Try now" (SwiftKey-style): reveals a focused text field that summons the real keyboard,
+    // so the user can type and watch theme changes apply live. While it is active, tapping a
+    // theme tile applies the theme immediately instead of opening the configurator sheet (the
+    // sheet would cover the live keyboard).
+    var tryNow by rememberSaveable { mutableStateOf(false) }
+    if (tryNow) BackHandler { tryNow = false }
+
+    Box(Modifier.fillMaxSize()) {
+        Column(modifier) {
+            Text(
+                text = stringResource(R.string.settings_theme),
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp),
+            )
+            val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
+            SettingsCard {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(14.dp),
+                ) {
+                    KeyboardTheme.entries.chunked(3).forEach { rowThemes ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                            rowThemes.forEach { theme ->
+                                val preview = keyboardColorsFor(theme, systemDark)
+                                ThemeSwatch(
+                                    name = theme.displayName,
+                                    tray = preview.keyboardBackground,
+                                    key = preview.keyBackground,
+                                    accent = preview.accentKeyBackground,
+                                    spacebarBar = preview.keyContent.copy(alpha = 0.35f),
+                                    selected = theme == settings.keyboardTheme,
+                                    onClick = {
+                                        callbacks.onKeyboardTheme(theme)
+                                        if (!tryNow) showConfigurator = true
+                                    },
+                                    modifier = Modifier.weight(1f),
+                                )
+                            }
+                            repeat(3 - rowThemes.size) { Spacer(Modifier.weight(1f)) }
                         }
-                        repeat(3 - rowThemes.size) { Spacer(Modifier.weight(1f)) }
                     }
                 }
             }
-        }
-        Text(
-            text = "Font",
-            style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 8.dp),
-        )
-        SettingsCard {
-            RadioSettingGroup(
-                title = stringResource(R.string.settings_font),
-                description = stringResource(R.string.settings_font_desc),
-                options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
-                selected = settings.keyboardFont,
-                onSelected = callbacks.onKeyboardFont,
+            Text(
+                text = "Font",
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 8.dp),
             )
+            SettingsCard {
+                RadioSettingGroup(
+                    title = stringResource(R.string.settings_font),
+                    description = stringResource(R.string.settings_font_desc),
+                    options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
+                    selected = settings.keyboardFont,
+                    onSelected = callbacks.onKeyboardFont,
+                )
+            }
+            SettingsCard {
+                HeightSlider(
+                    scale = settings.keyboardHeightScale,
+                    onScaleChange = callbacks.onKeyboardHeightScale,
+                )
+            }
+            // Breathing room so the floating button never hides the last card.
+            Spacer(Modifier.height(88.dp))
         }
-        SettingsCard {
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_high_contrast),
-                description = stringResource(R.string.settings_high_contrast_desc),
-                checked = settings.highContrast,
-                onCheckedChange = callbacks.onHighContrast,
+
+        if (tryNow) {
+            TryNowField(
+                onClose = { tryNow = false },
+                modifier = Modifier.align(Alignment.BottomCenter),
             )
-            HeightSlider(
-                scale = settings.keyboardHeightScale,
-                onScaleChange = callbacks.onKeyboardHeightScale,
+        } else {
+            ExtendedFloatingActionButton(
+                onClick = { tryNow = true },
+                icon = { Icon(LucideIcons.Keyboard, contentDescription = null) },
+                text = { Text(stringResource(R.string.settings_try_now)) },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .navigationBarsPadding()
+                    .padding(20.dp),
             )
         }
     }
 
     if (showConfigurator) {
         ConfiguratorSheet(settings, callbacks, onDismiss = { showConfigurator = false })
+    }
+}
+
+/**
+ * The SwiftKey-style "try out your setup" bar. An auto-focused text field pinned above the
+ * IME (via [imePadding]); focusing it makes the system show the active keyboard — Bornomala,
+ * when it is the selected IME — so theme/gap/font changes (persisted to DataStore and observed
+ * by the running IME) are reflected live as the user types.
+ */
+@Composable
+private fun TryNowField(onClose: () -> Unit, modifier: Modifier = Modifier) {
+    val focusRequester = remember { FocusRequester() }
+    var text by rememberSaveable { mutableStateOf("") }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
+    // No imePadding / navigationBarsPadding here: the activity uses adjustResize, so the
+    // window already shrinks to sit directly on top of the keyboard. Adding insets would
+    // double-count the keyboard height and leave a large empty band above it.
+    Surface(modifier = modifier.fillMaxWidth(), tonalElevation = 3.dp) {
+        Column {
+            HorizontalDivider()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    placeholder = { Text(stringResource(R.string.settings_try_now_hint)) },
+                    singleLine = true,
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(focusRequester),
+                )
+                IconButton(onClick = onClose) {
+                    Icon(LucideIcons.X, contentDescription = stringResource(R.string.settings_back))
+                }
+            }
+        }
     }
 }
 
@@ -426,10 +497,28 @@ private fun ConfiguratorSheet(
                 .padding(bottom = 24.dp),
         ) {
             // Fixed-height frame so dragging the size sliders never resizes the sheet.
-            androidx.compose.foundation.layout.Box(
-                modifier = Modifier.fillMaxWidth().height(252.dp).padding(16.dp),
+            // Inside it we render the *real* keyboard composable wrapped in a BornomalaTheme
+            // whose metrics come from the live settings, so the preview matches the actual
+            // keyboard exactly and reacts to every slider/switch without a separate mock.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(340.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                KeyboardPreview(settings)
+                BornomalaTheme(
+                    theme = settings.keyboardTheme,
+                    font = settings.keyboardFont,
+                    metrics = keyboardMetrics(
+                        horizontalGapScale = settings.horizontalGapScale,
+                        verticalGapScale = settings.verticalGapScale,
+                        keyLabelScale = settings.keyLabelScale,
+                        suggestionBarScale = settings.suggestionBarScale,
+                        keyBorder = settings.keyBorder,
+                    ),
+                ) {
+                    KeyboardConfiguratorPreview(Modifier.fillMaxSize())
+                }
             }
             SwitchSettingRow(
                 title = "Key border",
@@ -446,89 +535,6 @@ private fun ConfiguratorSheet(
             ScaleSlider("Horizontal gap", "", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
             ScaleSlider("Key label size", "", settings.keyLabelScale, callbacks.onKeyLabelScale)
             ScaleSlider("Suggestion bar size", "", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
-        }
-    }
-}
-
-/** Lightweight, non-interactive keyboard mock reflecting the live theme + configurator values. */
-@Composable
-private fun KeyboardPreview(settings: Settings, modifier: Modifier = Modifier) {
-    val colors = BornomalaTheme.keyboardColors
-    val hGap = 4.dp * settings.horizontalGapScale
-    val vGap = 6.dp * settings.verticalGapScale
-    val labelSize = 15.sp * settings.keyLabelScale
-    val rowH = 30.dp
-    val shape = RoundedCornerShape(6.dp)
-
-    @Composable
-    fun RowScope.cell(
-        label: String? = null,
-        icon: ImageVector? = null,
-        weight: Float = 1f,
-        bg: Color = colors.keyBackground,
-        fg: Color = colors.keyContent,
-    ) {
-        androidx.compose.foundation.layout.Box(
-            modifier = Modifier
-                .weight(weight)
-                .height(rowH)
-                .clip(shape)
-                .background(bg)
-                .then(if (settings.keyBorder) Modifier.border(1.dp, colors.keyStroke, shape) else Modifier),
-            contentAlignment = Alignment.Center,
-        ) {
-            when {
-                icon != null -> Icon(icon, null, tint = fg, modifier = Modifier.size(16.dp))
-                label != null -> Text(label, color = fg, fontSize = if (label.length > 1) 11.sp else labelSize)
-            }
-        }
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(colors.keyboardBackground)
-            .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(vGap),
-    ) {
-        // Suggestion strip.
-        Row(
-            modifier = Modifier.fillMaxWidth().height(26.dp * settings.suggestionBarScale),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            listOf("I", "Love", "Borno").forEachIndexed { i, s ->
-                if (i > 0) {
-                    androidx.compose.foundation.layout.Box(
-                        Modifier.width(1.dp).height(14.dp).background(colors.suggestionDivider),
-                    )
-                }
-                Text(
-                    s,
-                    color = colors.suggestionText,
-                    fontSize = 12.sp,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                    modifier = Modifier.weight(1f),
-                )
-            }
-        }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
-            "QWERTYUIOP".forEach { cell(label = it.toString()) }
-        }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
-            "ASDFGHJKL".forEach { cell(label = it.toString()) }
-        }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
-            cell(icon = LucideIcons.ArrowBigUp, weight = 1.5f, bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
-            "ZXCVBNM".forEach { cell(label = it.toString()) }
-            cell(icon = LucideIcons.Delete, weight = 1.5f, bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
-        }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
-            cell(label = "?123", weight = 1.5f, bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
-            cell(label = ",", bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
-            cell(weight = 4f, bg = colors.spacebarBackground)
-            cell(label = ".", bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
-            cell(icon = LucideIcons.CornerDownLeft, weight = 1.5f, bg = colors.accentKeyBackground, fg = colors.accentKeyContent)
         }
     }
 }
@@ -651,6 +657,12 @@ private fun TypingSettings(settings: Settings, callbacks: SettingsCallbacks, mod
                 description = stringResource(R.string.settings_number_row_desc),
                 checked = settings.numberRowEnabled,
                 onCheckedChange = callbacks.onNumberRow,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_volume_cursor),
+                description = stringResource(R.string.settings_volume_cursor_desc),
+                checked = settings.volumeKeyCursorControl,
+                onCheckedChange = callbacks.onVolumeKeyCursorControl,
             )
         }
     }
@@ -778,6 +790,11 @@ private fun AboutSection() {
         )
         Text(
             text = stringResource(R.string.settings_about_avro),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(
+            text = stringResource(R.string.settings_about_licenses),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

@@ -48,8 +48,9 @@ fun keyboardColorsFor(theme: KeyboardTheme, systemInDark: Boolean): KeyboardColo
     KeyboardTheme.SUNSET -> colored(0xFF2A1512, 0xFF3C211B, 0xFF4D2C23, 0xFF331A15, 0xFF4D2C23, 0xFFF0743A)
     KeyboardTheme.GRAPE -> colored(0xFF1C1430, 0xFF2A1E45, 0xFF362858, 0xFF221839, 0xFF362858, 0xFFA277F0)
     KeyboardTheme.ROSE -> colored(0xFF2A1320, 0xFF3C1D2C, 0xFF4D2738, 0xFF331826, 0xFF4D2738, 0xFFF06B9E)
-    // Solarized Dark: base03 tray, base02 keys, cyan accent.
-    KeyboardTheme.SOLARIZED -> colored(0xFF002B36, 0xFF073642, 0xFF0A4B5A, 0xFF01303B, 0xFF0A4B5A, 0xFF2AA198)
+    // Slate tray + lighter slate keys, teal accent (Enter). Functional keys (shift, ?123,
+    // comma, period, globe, delete) share the letter-key slate so the whole grid is uniform.
+    KeyboardTheme.SOLARIZED -> colored(0xFF212B30, 0xFF394147, 0xFF454D53, 0xFF394147, 0xFF454D53, 0xFF39A097)
 }
 
 /** Builds a full [KeyboardColors] from a few seed colors (all colored themes are dark). */
@@ -79,7 +80,8 @@ private fun colored(
         suggestionText = content,
         suggestionTextHighlighted = accentColor,
         suggestionDivider = Color(keyPressed),
-        popupBackground = Color(key),
+        // Lighter than the keys so the long-press popup card reads as raised, not blended.
+        popupBackground = Color(keyPressed),
         popupContent = content,
         keyStroke = Color(0x22000000),
     )
@@ -92,7 +94,6 @@ private fun colored(
 @Composable
 fun BornomalaTheme(
     theme: KeyboardTheme,
-    highContrast: Boolean = false,
     font: KeyboardFont = KeyboardFont.SYSTEM,
     metrics: KeyboardMetrics = keyboardMetrics(),
     content: @Composable () -> Unit,
@@ -100,8 +101,7 @@ fun BornomalaTheme(
     val systemDark = isSystemInDarkTheme()
     val dark = theme.isDark(systemDark)
     val colorScheme = if (dark) BornomalaDarkColorScheme else BornomalaLightColorScheme
-    val base = keyboardColorsFor(theme, systemDark)
-    val keyboardColors = if (highContrast) base.toHighContrast(dark) else base
+    val keyboardColors = keyboardColorsFor(theme, systemDark)
 
     CompositionLocalProvider(
         LocalKeyboardColors provides keyboardColors,

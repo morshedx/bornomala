@@ -37,8 +37,6 @@ internal object SettingsMapper {
                 ?.let(::clampScale) ?: defaults.keyLabelScale,
             suggestionBarScale = prefs[SettingsPreferenceKeys.SUGGESTION_BAR_SCALE]
                 ?.let(::clampScale) ?: defaults.suggestionBarScale,
-            highContrast = prefs[SettingsPreferenceKeys.HIGH_CONTRAST]
-                ?: defaults.highContrast,
             keyboardHeightScale = prefs[SettingsPreferenceKeys.KEYBOARD_HEIGHT_SCALE]
                 ?.let(::clampHeightScale)
                 ?: defaults.keyboardHeightScale,
@@ -62,6 +60,8 @@ internal object SettingsMapper {
                 ?: defaults.banglaPhoneticSuggestions,
             learnFromTyping = prefs[SettingsPreferenceKeys.LEARN_FROM_TYPING]
                 ?: defaults.learnFromTyping,
+            volumeKeyCursorControl = prefs[SettingsPreferenceKeys.VOLUME_KEY_CURSOR_CONTROL]
+                ?: defaults.volumeKeyCursorControl,
         )
     }
 

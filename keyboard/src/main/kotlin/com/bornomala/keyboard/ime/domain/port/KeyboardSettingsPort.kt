@@ -26,7 +26,6 @@ interface KeyboardSettingsPort {
  * Defaults are safe values used until DataStore emits (and by the in-module fallback).
  *
  * @param themeMode light/dark/system, fed to [com.bornomala.keyboard.theme.BornomalaTheme].
- * @param highContrast accessibility high-contrast mode.
  * @param keyHeightFraction multiplier (0..1 of the min..max range) for the key row height.
  * @param hapticsEnabled key-press vibration.
  * @param soundEnabled key-press click sound.
@@ -35,6 +34,7 @@ interface KeyboardSettingsPort {
  * @param autoCapitalization auto-capitalize sentence starts in English.
  * @param doubleSpacePeriod insert ". " on double space.
  * @param banglaTransliterationEnabled route Bangla input through the engine (vs. fixed map).
+ * @param volumeKeyCursorControl move the cursor with the volume keys while the keyboard shows.
  * @param lastLanguage language to restore on start.
  */
 data class KeyboardSettings(
@@ -46,7 +46,6 @@ data class KeyboardSettings(
     val verticalGapScale: Float = 1f,
     val keyLabelScale: Float = 1f,
     val suggestionBarScale: Float = 1f,
-    val highContrast: Boolean = false,
     val keyHeightFraction: Float = 0.5f,
     val hapticsEnabled: Boolean = true,
     val soundEnabled: Boolean = false,
@@ -56,5 +55,6 @@ data class KeyboardSettings(
     val doubleSpacePeriod: Boolean = true,
     val banglaTransliterationEnabled: Boolean = true,
     val learnFromTyping: Boolean = true,
+    val volumeKeyCursorControl: Boolean = true,
     val lastLanguage: KeyboardLanguage = KeyboardLanguage.ENGLISH,
 )

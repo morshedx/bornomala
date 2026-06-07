@@ -42,7 +42,6 @@ private fun PreviewHost(themeMode: ThemeMode) {
             onVerticalGapScale = { settings = settings.copy(verticalGapScale = it) },
             onKeyLabelScale = { settings = settings.copy(keyLabelScale = it) },
             onSuggestionBarScale = { settings = settings.copy(suggestionBarScale = it) },
-            onHighContrast = { settings = settings.copy(highContrast = it) },
             onKeyboardHeightScale = { settings = settings.copy(keyboardHeightScale = it) },
             onVibration = { settings = settings.copy(keyPressVibration = it) },
             onSound = { settings = settings.copy(keyPressSound = it) },
@@ -54,10 +53,11 @@ private fun PreviewHost(themeMode: ThemeMode) {
             onBanglaAutoCommit = { settings = settings.copy(banglaAutoCommit = it) },
             onBanglaPhoneticSuggestions = { settings = settings.copy(banglaPhoneticSuggestions = it) },
             onLearnFromTyping = { settings = settings.copy(learnFromTyping = it) },
+            onVolumeKeyCursorControl = { settings = settings.copy(volumeKeyCursorControl = it) },
             onResetToDefaults = { settings = Settings.DEFAULTS.copy(themeMode = themeMode) },
         )
     }
-    BornomalaTheme(themeMode = settings.themeMode, highContrast = settings.highContrast) {
+    BornomalaTheme(themeMode = settings.themeMode) {
         Surface(modifier = Modifier.fillMaxSize()) {
             SettingsContent(settings = settings, callbacks = callbacks)
         }

@@ -15,7 +15,6 @@ import com.bornomala.keyboard.theme.ThemeMode
  * settings are read on the keyboard hot path.
  *
  * @property themeMode light / dark / system theme selection, consumed by `BornomalaTheme`.
- * @property highContrast accessibility option emphasizing key separation.
  * @property keyboardHeightScale multiplier applied to the base key-row height; clamped to
  *   [MIN_KEYBOARD_HEIGHT_SCALE]..[MAX_KEYBOARD_HEIGHT_SCALE].
  * @property keyPressVibration emit haptic feedback on key press (requires VIBRATE perm).
@@ -30,6 +29,7 @@ import com.bornomala.keyboard.theme.ThemeMode
  * @property banglaPhoneticSuggestions show transliteration candidate alternatives in the
  *   suggestion bar while typing Bangla.
  * @property learnFromTyping allow the user dictionary to learn frequently typed words.
+ * @property volumeKeyCursorControl move the text cursor with the volume keys while typing.
  */
 @Immutable
 data class Settings(
@@ -41,7 +41,6 @@ data class Settings(
     val verticalGapScale: Float = 1f,
     val keyLabelScale: Float = 1f,
     val suggestionBarScale: Float = 1f,
-    val highContrast: Boolean = false,
     val keyboardHeightScale: Float = DEFAULT_KEYBOARD_HEIGHT_SCALE,
     val keyPressVibration: Boolean = false,
     val keyPressSound: Boolean = false,
@@ -53,6 +52,7 @@ data class Settings(
     val banglaAutoCommit: Boolean = true,
     val banglaPhoneticSuggestions: Boolean = true,
     val learnFromTyping: Boolean = true,
+    val volumeKeyCursorControl: Boolean = true,
 ) {
     companion object {
         const val MIN_KEYBOARD_HEIGHT_SCALE: Float = 0.75f

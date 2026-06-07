@@ -23,7 +23,6 @@ class SettingsMapperTest {
     fun `stored values round-trip into the model`() {
         val prefs = mutablePreferencesOf(
             SettingsPreferenceKeys.THEME_MODE to ThemeMode.DARK.name,
-            SettingsPreferenceKeys.HIGH_CONTRAST to true,
             SettingsPreferenceKeys.KEYBOARD_HEIGHT_SCALE to 1.2f,
             SettingsPreferenceKeys.KEY_PRESS_VIBRATION to true,
             SettingsPreferenceKeys.NUMBER_ROW_ENABLED to true,
@@ -34,7 +33,6 @@ class SettingsMapperTest {
         val result = SettingsMapper.fromPreferences(prefs)
 
         assertThat(result.themeMode).isEqualTo(ThemeMode.DARK)
-        assertThat(result.highContrast).isTrue()
         assertThat(result.keyboardHeightScale).isEqualTo(1.2f)
         assertThat(result.keyPressVibration).isTrue()
         assertThat(result.numberRowEnabled).isTrue()

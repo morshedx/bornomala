@@ -17,7 +17,6 @@ internal object SettingsPreferenceKeys {
     val VERTICAL_GAP_SCALE = floatPreferencesKey("vertical_gap_scale")
     val KEY_LABEL_SCALE = floatPreferencesKey("key_label_scale")
     val SUGGESTION_BAR_SCALE = floatPreferencesKey("suggestion_bar_scale")
-    val HIGH_CONTRAST = booleanPreferencesKey("high_contrast")
     val KEYBOARD_HEIGHT_SCALE = floatPreferencesKey("keyboard_height_scale")
     val KEY_PRESS_VIBRATION = booleanPreferencesKey("key_press_vibration")
     val KEY_PRESS_SOUND = booleanPreferencesKey("key_press_sound")
@@ -29,4 +28,5 @@ internal object SettingsPreferenceKeys {
     val BANGLA_AUTO_COMMIT = booleanPreferencesKey("bangla_auto_commit")
     val BANGLA_PHONETIC_SUGGESTIONS = booleanPreferencesKey("bangla_phonetic_suggestions")
     val LEARN_FROM_TYPING = booleanPreferencesKey("learn_from_typing")
+    val VOLUME_KEY_CURSOR_CONTROL = booleanPreferencesKey("volume_key_cursor_control")
 }

@@ -57,10 +57,6 @@ class SettingsViewModel @Inject constructor(
     fun onKeyLabelScaleChange(scale: Float) = launchEdit { repository.setKeyLabelScale(scale) }
     fun onSuggestionBarScaleChange(scale: Float) = launchEdit { repository.setSuggestionBarScale(scale) }
 
-    fun onHighContrastChange(enabled: Boolean) = launchEdit {
-        repository.setHighContrast(enabled)
-    }
-
     fun onKeyboardHeightScaleChange(scale: Float) = launchEdit {
         repository.setKeyboardHeightScale(scale)
     }
@@ -103,6 +99,10 @@ class SettingsViewModel @Inject constructor(
 
     fun onLearnFromTypingChange(enabled: Boolean) = launchEdit {
         repository.setLearnFromTyping(enabled)
+    }
+
+    fun onVolumeKeyCursorControlChange(enabled: Boolean) = launchEdit {
+        repository.setVolumeKeyCursorControl(enabled)
     }
 
     fun onResetToDefaults() = launchEdit {

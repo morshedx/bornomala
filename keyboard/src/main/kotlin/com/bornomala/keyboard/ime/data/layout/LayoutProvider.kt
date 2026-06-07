@@ -55,7 +55,7 @@ class LayoutProvider @Inject constructor() {
                 for (email in listOf(false, true)) {
                     val base = baseLayout(language, page, email)
                     result[LayoutKey(language, page, numberRow = false, email = email)] = base
-                    val withNumbers = if (page == KeyboardPage.ALPHA) withNumberRow(base) else base
+                    val withNumbers = if (page == KeyboardPage.ALPHA) withNumberRow(base, language) else base
                     result[LayoutKey(language, page, numberRow = true, email = email)] = withNumbers
                 }
             }
@@ -88,9 +88,14 @@ class LayoutProvider @Inject constructor() {
         return layout.copy(id = layout.id + "_email", rows = rows)
     }
 
-    private fun withNumberRow(layout: KeyboardLayout): KeyboardLayout {
+    private fun withNumberRow(layout: KeyboardLayout, language: KeyboardLanguage): KeyboardLayout {
+        val numberRow = if (language == KeyboardLanguage.BANGLA) {
+            SharedKeys.BANGLA_NUMBER_ROW
+        } else {
+            SharedKeys.NUMBER_ROW
+        }
         val rows = ArrayList<KeyRow>(layout.rows.size + 1)
-        rows.add(SharedKeys.NUMBER_ROW)
+        rows.add(numberRow)
         rows.addAll(layout.rows)
         return layout.copy(id = layout.id + "_numrow", rows = rows)
     }

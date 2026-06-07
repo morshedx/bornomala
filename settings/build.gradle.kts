@@ -49,6 +49,8 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":theme"))
+    // The appearance configurator reuses the real keyboard composable as its live preview.
+    implementation(project(":keyboard"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

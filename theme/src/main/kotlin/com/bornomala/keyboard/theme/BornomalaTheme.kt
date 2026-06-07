@@ -15,13 +15,10 @@ import androidx.compose.runtime.ReadOnlyComposable
  * the many host apps it appears in, matching Samsung Keyboard's stable identity.
  *
  * @param themeMode user preference; defaults to [ThemeMode.SYSTEM].
- * @param highContrast reserved for the accessibility high-contrast option; when true
- *   the keyboard stroke tokens are emphasized for clearer key separation.
  */
 @Composable
 fun BornomalaTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
-    highContrast: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val useDark = when (themeMode) {
@@ -31,9 +28,7 @@ fun BornomalaTheme(
     }
 
     val colorScheme = if (useDark) BornomalaDarkColorScheme else BornomalaLightColorScheme
-    val baseKeyboardColors = if (useDark) DarkKeyboardColors else LightKeyboardColors
-    val keyboardColors =
-        if (highContrast) baseKeyboardColors.toHighContrast(useDark) else baseKeyboardColors
+    val keyboardColors = if (useDark) DarkKeyboardColors else LightKeyboardColors
 
     CompositionLocalProvider(LocalKeyboardColors provides keyboardColors) {
         MaterialTheme(
@@ -72,16 +67,4 @@ object BornomalaTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalKeyboardMetrics.current
-}
-
-/**
- * Strengthens key separation for the high-contrast accessibility mode by darkening /
- * lightening the stroke and dividers relative to the base scheme.
- */
-internal fun KeyboardColors.toHighContrast(useDark: Boolean): KeyboardColors {
-    val emphasizedStroke = if (useDark) BornomalaPalette.OnDarkVariant else BornomalaPalette.OnLight
-    return copy(
-        keyStroke = emphasizedStroke,
-        suggestionDivider = emphasizedStroke,
-    )
 }

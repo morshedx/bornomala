@@ -17,10 +17,6 @@
     <string name="settings_theme_system">System default</string>
     <string name="settings_theme_desc">Choose how the keyboard and settings appear.</string>
 
-    <!-- High contrast -->
-    <string name="settings_high_contrast">High contrast keys</string>
-    <string name="settings_high_contrast_desc">Stronger key borders for better visibility.</string>
-
     <!-- Keyboard height -->
     <string name="settings_keyboard_height">Keyboard height</string>
     <string name="settings_keyboard_height_desc">Adjust how tall the keyboard appears.</string>
@@ -35,6 +31,10 @@
     <!-- Features -->
     <string name="settings_number_row">Number row</string>
     <string name="settings_number_row_desc">Always show a dedicated row of digits.</string>
+    <string name="settings_volume_cursor">Volume keys move cursor</string>
+    <string name="settings_volume_cursor_desc">While the keyboard is open, volume up/down nudges the cursor right/left.</string>
+    <string name="settings_try_now">Try now</string>
+    <string name="settings_try_now_hint">Try out your setup</string>
     <string name="settings_suggestions">Word suggestions</string>
     <string name="settings_suggestions_desc">Show the suggestion bar while typing.</string>
     <string name="settings_clipboard">Clipboard history</string>
@@ -78,5 +78,6 @@
     <string name="settings_about_version">Version %1$s</string>
     <string name="settings_about_privacy">Privacy-first and fully offline. No internet permission, no tracking, no analytics, no data collection — everything stays on your device.</string>
     <string name="settings_about_avro">Bangla typing uses the Avro Phonetic scheme. Rule data © OmicronLab.</string>
+    <string name="settings_about_licenses">Open-source components: Avro Phonetic (OmicronLab, MIT), FrequencyWords (Hermit Dave, MIT), Lucide Icons (ISC), JetBrains Mono (OFL). Each under its own license.</string>
     <string name="settings_about_warranty">This software is provided \"as is\", without warranty of any kind, express or implied. The developer accepts no liability for any damages, data loss, or other harm arising from its use.</string>
 </resources>

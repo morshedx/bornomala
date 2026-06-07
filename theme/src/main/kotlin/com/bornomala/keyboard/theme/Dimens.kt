@@ -30,7 +30,7 @@ object KeyboardDimens {
 
     /** Gap between adjacent keys (applied as half on each side). */
     val keyHorizontalGap: Dp = 4.dp
-    val keyVerticalGap: Dp = 6.dp
+    val keyVerticalGap: Dp = 8.dp
 
     /** Outer padding around the whole keyboard tray. */
     val keyboardHorizontalPadding: Dp = 4.dp
