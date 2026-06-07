@@ -67,7 +67,7 @@ class DefaultClipboardRepositoryTest {
 
     @Test
     fun `enforces 100 item cap on non-pinned`() = runTest {
-        for (i in 1..150) {
+        for (i in 1..(ClipboardRepository.MAX_HISTORY_ITEMS + 50)) {
             repository.addItem("item-$i")
         }
         val items = repository.observeHistory().first()
@@ -78,7 +78,7 @@ class DefaultClipboardRepositoryTest {
     fun `pinned item survives eviction`() = runTest {
         val id = repository.addItem("keep-me").getOrNull()!!
         repository.setPinned(id, true)
-        for (i in 1..150) {
+        for (i in 1..(ClipboardRepository.MAX_HISTORY_ITEMS + 50)) {
             repository.addItem("noise-$i")
         }
         val items = repository.observeHistory().first()
@@ -89,7 +89,7 @@ class DefaultClipboardRepositoryTest {
     fun `unpinning re-enforces cap`() = runTest {
         val id = repository.addItem("formerly-pinned").getOrNull()!!
         repository.setPinned(id, true)
-        for (i in 1..150) {
+        for (i in 1..(ClipboardRepository.MAX_HISTORY_ITEMS + 50)) {
             repository.addItem("noise-$i")
         }
         // Now there are 100 unpinned + 1 pinned = 101.

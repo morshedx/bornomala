@@ -32,4 +32,10 @@ class KeyboardCallbacks(
     val onPaste: (String) -> Unit,
     val onEmoji: (String) -> Unit,
     val onHideKeyboard: () -> Unit,
+    /** Routes a key press to the in-panel search query (emoji/clipboard search keyboard). */
+    val onSearchKey: (KeyAction) -> Unit,
+    /** Activates the in-panel search keyboard. */
+    val onOpenSearch: () -> Unit,
+    /** Closes the in-panel search keyboard and clears the query. */
+    val onCloseSearch: () -> Unit,
 )

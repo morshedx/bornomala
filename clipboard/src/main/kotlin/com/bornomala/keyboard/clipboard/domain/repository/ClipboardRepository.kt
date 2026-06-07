@@ -50,7 +50,7 @@ interface ClipboardRepository {
     suspend fun clearUnpinned(): AppResult<Unit>
 
     companion object {
-        /** Hard upper bound on retained history items (per SPEC). */
-        const val MAX_HISTORY_ITEMS: Int = 100
+        /** Hard upper bound on retained non-pinned history items. */
+        const val MAX_HISTORY_ITEMS: Int = 500
     }
 }

@@ -30,6 +30,7 @@ internal interface EmojiHostEntryPoint {
 @Composable
 internal fun EmojiHost(
     onEmoji: (String) -> Unit,
+    query: String,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -40,6 +41,7 @@ internal fun EmojiHost(
         )
         EmojiPanelViewModel(deps.emojiRepository())
     }
+    androidx.compose.runtime.LaunchedEffect(query) { viewModel.onQueryChanged(query) }
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     EmojiPanel(

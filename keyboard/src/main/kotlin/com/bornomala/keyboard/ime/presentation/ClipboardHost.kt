@@ -32,6 +32,7 @@ internal interface ClipboardHostEntryPoint {
 @Composable
 internal fun ClipboardHost(
     onPaste: (String) -> Unit,
+    query: String,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -42,6 +43,7 @@ internal fun ClipboardHost(
         )
         ClipboardViewModel(deps.clipboardRepository(), deps.dispatchers())
     }
+    androidx.compose.runtime.LaunchedEffect(query) { viewModel.onQueryChange(query) }
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     ClipboardPanelContent(

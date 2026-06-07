@@ -12,7 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import com.bornomala.keyboard.theme.LucideIcons
+import com.bornomala.keyboard.ime.domain.model.KeyboardLayout
+import com.bornomala.keyboard.ime.domain.model.ShiftState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -111,47 +117,54 @@ internal fun KeyboardScreen(
                 rowHeight * rows
             }
 
-            if (state.panel == KeyboardPanel.EMOJI) {
-                EmojiHost(
-                    onEmoji = callbacks.onEmoji,
-                    modifier = Modifier.fillMaxWidth().height(panelHeight),
+            if (state.panel != KeyboardPanel.NONE) {
+                // Search bar above the panel; tapping it reveals the keyboard below (Gboard-
+                // style) whose keystrokes feed the panel query rather than the text field.
+                PanelSearchBar(
+                    query = state.panelQuery,
+                    active = state.panelSearchActive,
+                    isEmoji = state.panel == KeyboardPanel.EMOJI,
+                    onActivate = callbacks.onOpenSearch,
+                    onClose = callbacks.onCloseSearch,
                 )
-            } else if (state.panel == KeyboardPanel.CLIPBOARD) {
-                ClipboardHost(
-                    onPaste = callbacks.onPaste,
-                    modifier = Modifier.fillMaxWidth().height(panelHeight),
-                )
-            } else {
-                layout.rows.forEach { row ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(rowHeight),
-                    ) {
-                        row.keys.forEach { key ->
-                            KeyView(
-                                key = key,
-                                shift = state.shift,
-                                enterIsAccent = state.enterIsAccent,
-                                onKey = callbacks.onKey,
-                                onLongPressChar = callbacks.onLongPressChar,
-                                onLongPressRequested = { pressedKey ->
-                                    // Long-pressing the comma opens keyboard settings
-                                    // (Gboard-style) instead of showing a character popup.
-                                    if (pressedKey.action == KeyAction.Character(',')) {
-                                        callbacks.onOpenSettings()
-                                    } else {
-                                        popupKey = pressedKey
-                                    }
-                                },
-                                onLongPressDismissed = { /* popup stays interactive until a pick or scrim tap */ },
-                                modifier = Modifier
-                                    .weight(key.weight)
-                                    .fillMaxHeight(),
-                            )
-                        }
-                    }
+                val hostHeight = if (state.panelSearchActive) panelHeight * 0.5f else panelHeight
+                val hostModifier = Modifier.fillMaxWidth().height(hostHeight)
+                if (state.panel == KeyboardPanel.EMOJI) {
+                    EmojiHost(onEmoji = callbacks.onEmoji, query = state.panelQuery, modifier = hostModifier)
+                } else {
+                    ClipboardHost(onPaste = callbacks.onPaste, query = state.panelQuery, modifier = hostModifier)
                 }
+                if (state.panelSearchActive) {
+                    val alphaLayout = remember(state.language) {
+                        layoutProvider.layoutFor(state.language, KeyboardPage.ALPHA, showNumberRow = false)
+                    }
+                    KeyGrid(
+                        layout = alphaLayout,
+                        shift = state.shift,
+                        enterIsAccent = false,
+                        rowHeight = rowHeight,
+                        onKey = callbacks.onSearchKey,
+                        onLongPressChar = {},
+                        onLongPressRequested = {},
+                    )
+                }
+            } else {
+                KeyGrid(
+                    layout = layout,
+                    shift = state.shift,
+                    enterIsAccent = state.enterIsAccent,
+                    rowHeight = rowHeight,
+                    onKey = callbacks.onKey,
+                    onLongPressChar = callbacks.onLongPressChar,
+                    onLongPressRequested = { pressedKey ->
+                        // Long-pressing the comma opens keyboard settings (Gboard-style).
+                        if (pressedKey.action == KeyAction.Character(',')) {
+                            callbacks.onOpenSettings()
+                        } else {
+                            popupKey = pressedKey
+                        }
+                    },
+                )
             }
         }
 
@@ -164,6 +177,86 @@ internal fun KeyboardScreen(
                     popupKey = null
                 },
                 onDismiss = { popupKey = null },
+            )
+        }
+    }
+}
+
+/** Renders a layout's key rows. Reused by the normal keyboard and the in-panel search keyboard. */
+@Composable
+private fun KeyGrid(
+    layout: KeyboardLayout,
+    shift: ShiftState,
+    enterIsAccent: Boolean,
+    rowHeight: Dp,
+    onKey: (KeyAction) -> Unit,
+    onLongPressChar: (Char) -> Unit,
+    onLongPressRequested: (Key) -> Unit,
+) {
+    layout.rows.forEach { row ->
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(rowHeight),
+        ) {
+            row.keys.forEach { key ->
+                KeyView(
+                    key = key,
+                    shift = shift,
+                    enterIsAccent = enterIsAccent,
+                    onKey = onKey,
+                    onLongPressChar = onLongPressChar,
+                    onLongPressRequested = onLongPressRequested,
+                    onLongPressDismissed = {},
+                    modifier = Modifier
+                        .weight(key.weight)
+                        .fillMaxHeight(),
+                )
+            }
+        }
+    }
+}
+
+/** The search field shown atop the emoji/clipboard panel; tapping it reveals the keyboard. */
+@Composable
+private fun PanelSearchBar(
+    query: String,
+    active: Boolean,
+    isEmoji: Boolean,
+    onActivate: () -> Unit,
+    onClose: () -> Unit,
+) {
+    val colors = BornomalaTheme.keyboardColors
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 6.dp, vertical = 4.dp)
+            .height(40.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(colors.keyBackground)
+            .clickable { if (!active) onActivate() }
+            .padding(horizontal = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = LucideIcons.Search,
+            contentDescription = null,
+            tint = colors.suggestionText.copy(alpha = 0.6f),
+            modifier = Modifier.size(18.dp),
+        )
+        Spacer(Modifier.width(10.dp))
+        Text(
+            text = query.ifEmpty { if (isEmoji) "Search emoji" else "Search clipboard" },
+            color = if (query.isEmpty()) colors.suggestionText.copy(alpha = 0.6f) else colors.keyContent,
+            fontSize = 15.sp,
+            modifier = Modifier.weight(1f),
+        )
+        if (active) {
+            Icon(
+                imageVector = LucideIcons.X,
+                contentDescription = "Close search",
+                tint = colors.suggestionText.copy(alpha = 0.6f),
+                modifier = Modifier.size(18.dp).clickable { onClose() },
             )
         }
     }

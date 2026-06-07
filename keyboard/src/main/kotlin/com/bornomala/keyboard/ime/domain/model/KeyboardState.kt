@@ -33,6 +33,8 @@ data class KeyboardState(
     val enterIsAccent: Boolean = false,
     val panel: KeyboardPanel = KeyboardPanel.NONE,
     val isEmailField: Boolean = false,
+    val panelQuery: String = "",
+    val panelSearchActive: Boolean = false,
 ) {
     /** True while a word is being composed (Bangla transliteration or English correction). */
     val isComposing: Boolean

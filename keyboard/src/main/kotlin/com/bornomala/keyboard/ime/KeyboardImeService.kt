@@ -108,6 +108,17 @@ class KeyboardImeService : InputMethodService() {
             currentInputConnection?.commitText(glyph, 1)
         },
         onHideKeyboard = { requestHideSelf(0) },
+        onSearchKey = { action ->
+            when (action) {
+                is KeyAction.Character -> stateHolder.appendPanelQuery(action.char.toString())
+                KeyAction.Space -> stateHolder.appendPanelQuery(" ")
+                KeyAction.Backspace -> stateHolder.backspacePanelQuery()
+                KeyAction.Enter -> stateHolder.setPanelSearch(false)
+                else -> Unit
+            }
+        },
+        onOpenSearch = { stateHolder.setPanelSearch(true) },
+        onCloseSearch = { stateHolder.setPanelSearch(false) },
     )
 
     private val interactorCallbacks = object : InputInteractor.Callbacks {

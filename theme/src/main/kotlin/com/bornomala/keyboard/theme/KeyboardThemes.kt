@@ -21,6 +21,7 @@ enum class KeyboardTheme(val displayName: String) {
     SUNSET("Sunset"),
     GRAPE("Grape"),
     ROSE("Rose"),
+    SOLARIZED("Solarized"),
     ;
 
     companion object {
@@ -47,6 +48,8 @@ fun keyboardColorsFor(theme: KeyboardTheme, systemInDark: Boolean): KeyboardColo
     KeyboardTheme.SUNSET -> colored(0xFF2A1512, 0xFF3C211B, 0xFF4D2C23, 0xFF331A15, 0xFF4D2C23, 0xFFF0743A)
     KeyboardTheme.GRAPE -> colored(0xFF1C1430, 0xFF2A1E45, 0xFF362858, 0xFF221839, 0xFF362858, 0xFFA277F0)
     KeyboardTheme.ROSE -> colored(0xFF2A1320, 0xFF3C1D2C, 0xFF4D2738, 0xFF331826, 0xFF4D2738, 0xFFF06B9E)
+    // Solarized Dark: base03 tray, base02 keys, cyan accent.
+    KeyboardTheme.SOLARIZED -> colored(0xFF002B36, 0xFF073642, 0xFF0A4B5A, 0xFF01303B, 0xFF0A4B5A, 0xFF2AA198)
 }
 
 /** Builds a full [KeyboardColors] from a few seed colors (all colored themes are dark). */

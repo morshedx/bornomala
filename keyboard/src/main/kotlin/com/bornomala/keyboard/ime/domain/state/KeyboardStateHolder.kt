@@ -65,36 +65,51 @@ class KeyboardStateHolder(
 
     /** Moves to the symbols page (page one). */
     fun showSymbols() = _state.update {
-        it.copy(page = KeyboardPage.SYMBOLS, composingText = "", suggestions = emptyList(), panel = KeyboardPanel.NONE)
+        it.copy(page = KeyboardPage.SYMBOLS, composingText = "", suggestions = emptyList(), panel = KeyboardPanel.NONE, panelSearchActive = false, panelQuery = "")
     }
 
     /** Returns to the alphabetic page for the active language (and closes any panel). */
     fun showAlpha() = _state.update {
         if (it.page == KeyboardPage.ALPHA && it.panel == KeyboardPanel.NONE) it
-        else it.copy(page = KeyboardPage.ALPHA, panel = KeyboardPanel.NONE)
+        else it.copy(page = KeyboardPage.ALPHA, panel = KeyboardPanel.NONE, panelSearchActive = false, panelQuery = "")
     }
 
     /** Opens the calculator-style numeric pad. */
     fun showNumpad() = _state.update {
         if (it.page == KeyboardPage.NUMPAD) it
-        else it.copy(page = KeyboardPage.NUMPAD, composingText = "", suggestions = emptyList(), panel = KeyboardPanel.NONE)
+        else it.copy(page = KeyboardPage.NUMPAD, composingText = "", suggestions = emptyList(), panel = KeyboardPanel.NONE, panelSearchActive = false, panelQuery = "")
     }
 
     /** Toggles the clipboard panel overlay (tab-like: closes any other panel). */
     fun toggleClipboard() = _state.update {
         val next = if (it.panel == KeyboardPanel.CLIPBOARD) KeyboardPanel.NONE else KeyboardPanel.CLIPBOARD
-        it.copy(panel = next, page = KeyboardPage.ALPHA)
+        it.copy(panel = next, page = KeyboardPage.ALPHA, panelSearchActive = false, panelQuery = "")
     }
 
     /** Toggles the emoji panel overlay (tab-like: closes any other panel). */
     fun toggleEmoji() = _state.update {
         val next = if (it.panel == KeyboardPanel.EMOJI) KeyboardPanel.NONE else KeyboardPanel.EMOJI
-        it.copy(panel = next, page = KeyboardPage.ALPHA)
+        it.copy(panel = next, page = KeyboardPage.ALPHA, panelSearchActive = false, panelQuery = "")
     }
 
     /** Closes any open panel, returning to the key grid. */
     fun hidePanel() = _state.update {
-        if (it.panel == KeyboardPanel.NONE) it else it.copy(panel = KeyboardPanel.NONE)
+        if (it.panel == KeyboardPanel.NONE) it
+        else it.copy(panel = KeyboardPanel.NONE, panelSearchActive = false, panelQuery = "")
+    }
+
+    /** Activates/deactivates the in-panel search keyboard; deactivating clears the query. */
+    fun setPanelSearch(active: Boolean) = _state.update {
+        if (it.panelSearchActive == active) it
+        else it.copy(panelSearchActive = active, panelQuery = if (active) it.panelQuery else "")
+    }
+
+    /** Appends typed text to the in-panel search query. */
+    fun appendPanelQuery(text: String) = _state.update { it.copy(panelQuery = it.panelQuery + text) }
+
+    /** Removes the last character from the in-panel search query. */
+    fun backspacePanelQuery() = _state.update {
+        if (it.panelQuery.isEmpty()) it else it.copy(panelQuery = it.panelQuery.dropLast(1))
     }
 
     /** Toggles between the two symbol pages; only meaningful while on a symbol page. */

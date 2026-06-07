@@ -349,22 +349,27 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp),
         )
         val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
-        androidx.compose.foundation.layout.FlowRow(
+        Column(
             modifier = Modifier.padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            KeyboardTheme.entries.forEach { theme ->
-                val preview = keyboardColorsFor(theme, systemDark)
-                ThemeSwatch(
-                    name = theme.displayName,
-                    tray = preview.keyboardBackground,
-                    key = preview.keyBackground,
-                    accent = preview.accentKeyBackground,
-                    spacebarBar = preview.keyContent.copy(alpha = 0.35f),
-                    selected = theme == settings.keyboardTheme,
-                    onClick = { callbacks.onKeyboardTheme(theme) },
-                )
+            KeyboardTheme.entries.chunked(3).forEach { rowThemes ->
+                Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                    rowThemes.forEach { theme ->
+                        val preview = keyboardColorsFor(theme, systemDark)
+                        ThemeSwatch(
+                            name = theme.displayName,
+                            tray = preview.keyboardBackground,
+                            key = preview.keyBackground,
+                            accent = preview.accentKeyBackground,
+                            spacebarBar = preview.keyContent.copy(alpha = 0.35f),
+                            selected = theme == settings.keyboardTheme,
+                            onClick = { callbacks.onKeyboardTheme(theme) },
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                    repeat(3 - rowThemes.size) { Spacer(Modifier.weight(1f)) }
+                }
             }
         }
         Spacer(Modifier.height(12.dp))
@@ -521,11 +526,13 @@ private fun ThemeSwatch(
     spacebarBar: Color,
     selected: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         androidx.compose.foundation.layout.Box(
             modifier = Modifier
-                .size(width = 98.dp, height = 70.dp)
+                .fillMaxWidth()
+                .height(70.dp)
                 .clip(RoundedCornerShape(14.dp))
                 .background(tray)
                 .border(
