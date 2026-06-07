@@ -8,8 +8,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.activity.compose.BackHandler
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,25 +69,11 @@ fun SettingsScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    SettingsScaffold(modifier = modifier) { innerModifier ->
-        when (val current = state) {
-            is Resource.Loading -> LoadingState(innerModifier)
-            is Resource.Success -> SettingsContent(
-                settings = current.data,
-                callbacks = rememberCallbacks(viewModel),
-                modifier = innerModifier,
-            )
-
-            is Resource.Error -> {
-                // The repository recovers read errors to defaults, so an Error state is not
-                // expected on the read flow; render defaults defensively rather than blanking.
-                SettingsContent(
-                    settings = Settings.DEFAULTS,
-                    callbacks = rememberCallbacks(viewModel),
-                    modifier = innerModifier,
-                )
-            }
-        }
+    when (val current = state) {
+        is Resource.Loading -> SettingsScaffold(modifier) { LoadingState(it) }
+        is Resource.Success -> SettingsContent(current.data, rememberCallbacks(viewModel), modifier)
+        // The repository recovers read errors to defaults, so render defaults defensively.
+        is Resource.Error -> SettingsContent(Settings.DEFAULTS, rememberCallbacks(viewModel), modifier)
     }
 }
 
@@ -151,21 +145,127 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
         )
     }
 
+/** Top-level settings categories, each opening its own sub-screen. */
+private enum class SettingsRoute(val titleRes: Int) {
+    HOME(R.string.settings_title),
+    APPEARANCE(R.string.settings_section_appearance),
+    FEEDBACK(R.string.settings_section_feedback),
+    TYPING(R.string.settings_section_typing),
+    FEATURES(R.string.settings_section_features),
+    BANGLA(R.string.settings_section_bangla),
+    ABOUT(R.string.settings_section_about),
+}
+
+/**
+ * Settings host: a category list (HOME) that drills into a focused sub-screen per group,
+ * instead of one long scroll. The top bar shows the active category with a back arrow; the
+ * system back / arrow returns to HOME. Stateless (driven by [settings] + [callbacks]) so it
+ * previews and tests without a ViewModel.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsContent(
     settings: Settings,
     callbacks: SettingsCallbacks,
     modifier: Modifier = Modifier,
 ) {
+    var route by rememberSaveable { mutableStateOf(SettingsRoute.HOME) }
     var showResetDialog by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = modifier
+    if (route != SettingsRoute.HOME) BackHandler { route = SettingsRoute.HOME }
+
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(route.titleRes)) },
+                navigationIcon = {
+                    if (route != SettingsRoute.HOME) {
+                        IconButton(onClick = { route = SettingsRoute.HOME }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(R.string.settings_back),
+                            )
+                        }
+                    }
+                },
+            )
+        },
+    ) { padding ->
+        val content = Modifier
+            .padding(padding)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+        when (route) {
+            SettingsRoute.HOME -> SettingsHome(
+                modifier = content,
+                onOpen = { route = it },
+                onReset = { showResetDialog = true },
+            )
+            SettingsRoute.APPEARANCE -> AppearanceSettings(settings, callbacks, content)
+            SettingsRoute.FEEDBACK -> FeedbackSettings(settings, callbacks, content)
+            SettingsRoute.TYPING -> TypingSettings(settings, callbacks, content)
+            SettingsRoute.FEATURES -> FeaturesSettings(settings, callbacks, content)
+            SettingsRoute.BANGLA -> BanglaSettings(settings, callbacks, content)
+            SettingsRoute.ABOUT -> Column(content) { AboutSection() }
+        }
+    }
+
+    if (showResetDialog) {
+        ResetConfirmationDialog(
+            onConfirm = {
+                showResetDialog = false
+                callbacks.onResetToDefaults()
+            },
+            onDismiss = { showResetDialog = false },
+        )
+    }
+}
+
+@Composable
+private fun SettingsHome(
+    modifier: Modifier,
+    onOpen: (SettingsRoute) -> Unit,
+    onReset: () -> Unit,
+) {
+    Column(modifier) {
+        CategoryRow(stringResource(R.string.settings_section_appearance)) { onOpen(SettingsRoute.APPEARANCE) }
+        CategoryRow(stringResource(R.string.settings_section_feedback)) { onOpen(SettingsRoute.FEEDBACK) }
+        CategoryRow(stringResource(R.string.settings_section_typing)) { onOpen(SettingsRoute.TYPING) }
+        CategoryRow(stringResource(R.string.settings_section_features)) { onOpen(SettingsRoute.FEATURES) }
+        CategoryRow(stringResource(R.string.settings_section_bangla)) { onOpen(SettingsRoute.BANGLA) }
+        CategoryRow(stringResource(R.string.settings_section_about)) { onOpen(SettingsRoute.ABOUT) }
+        SettingsDivider()
+        ResetRow(onClick = onReset)
+    }
+}
+
+@Composable
+private fun CategoryRow(title: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp)
+            .clickable(role = Role.Button, onClick = onClick)
+            .padding(horizontal = 20.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Appearance
-        SettingsSectionHeader(stringResource(R.string.settings_section_appearance))
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.weight(1f),
+        )
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+    Column(modifier) {
         RadioSettingGroup(
             title = stringResource(R.string.settings_theme),
             description = stringResource(R.string.settings_theme_desc),
@@ -187,10 +287,12 @@ internal fun SettingsContent(
             scale = settings.keyboardHeightScale,
             onScaleChange = callbacks.onKeyboardHeightScale,
         )
-        SettingsDivider()
+    }
+}
 
-        // Feedback
-        SettingsSectionHeader(stringResource(R.string.settings_section_feedback))
+@Composable
+private fun FeedbackSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+    Column(modifier) {
         SwitchSettingRow(
             title = stringResource(R.string.settings_vibration),
             description = stringResource(R.string.settings_vibration_desc),
@@ -203,10 +305,12 @@ internal fun SettingsContent(
             checked = settings.keyPressSound,
             onCheckedChange = callbacks.onSound,
         )
-        SettingsDivider()
+    }
+}
 
-        // Typing
-        SettingsSectionHeader(stringResource(R.string.settings_section_typing))
+@Composable
+private fun TypingSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+    Column(modifier) {
         SwitchSettingRow(
             title = stringResource(R.string.settings_auto_cap),
             description = stringResource(R.string.settings_auto_cap_desc),
@@ -225,10 +329,12 @@ internal fun SettingsContent(
             checked = settings.numberRowEnabled,
             onCheckedChange = callbacks.onNumberRow,
         )
-        SettingsDivider()
+    }
+}
 
-        // Features
-        SettingsSectionHeader(stringResource(R.string.settings_section_features))
+@Composable
+private fun FeaturesSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+    Column(modifier) {
         SwitchSettingRow(
             title = stringResource(R.string.settings_suggestions),
             description = stringResource(R.string.settings_suggestions_desc),
@@ -248,10 +354,12 @@ internal fun SettingsContent(
             checked = settings.clipboardEnabled,
             onCheckedChange = callbacks.onClipboard,
         )
-        SettingsDivider()
+    }
+}
 
-        // Bangla
-        SettingsSectionHeader(stringResource(R.string.settings_section_bangla))
+@Composable
+private fun BanglaSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+    Column(modifier) {
         SwitchSettingRow(
             title = stringResource(R.string.settings_bangla_auto_commit),
             description = stringResource(R.string.settings_bangla_auto_commit_desc),
@@ -264,26 +372,6 @@ internal fun SettingsContent(
             checked = settings.banglaPhoneticSuggestions,
             enabled = settings.suggestionsEnabled,
             onCheckedChange = callbacks.onBanglaPhoneticSuggestions,
-        )
-        SettingsDivider()
-
-        // Reset
-        SettingsSectionHeader(stringResource(R.string.settings_section_accessibility))
-        ResetRow(onClick = { showResetDialog = true })
-        SettingsDivider()
-
-        // About
-        SettingsSectionHeader(stringResource(R.string.settings_section_about))
-        AboutSection()
-    }
-
-    if (showResetDialog) {
-        ResetConfirmationDialog(
-            onConfirm = {
-                showResetDialog = false
-                callbacks.onResetToDefaults()
-            },
-            onDismiss = { showResetDialog = false },
         )
     }
 }
