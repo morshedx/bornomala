@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,7 +74,10 @@ internal fun KeyboardScreen(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.keyboardBackground),
+            .background(colors.keyboardBackground)
+            // Reserve the gesture/navigation-bar inset: the tray background paints to the
+            // bottom edge while the keys sit above the gesture pill (no black gap, no overlap).
+            .navigationBarsPadding(),
     ) {
         Column(
             modifier = Modifier
