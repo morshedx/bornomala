@@ -240,7 +240,7 @@ internal fun SettingsContent(
             SettingsRoute.TYPING -> TypingSettings(settings, callbacks, content)
             SettingsRoute.FEATURES -> FeaturesSettings(settings, callbacks, content)
             SettingsRoute.BANGLA -> BanglaSettings(settings, callbacks, content)
-            SettingsRoute.ABOUT -> Column(content) { AboutSection() }
+            SettingsRoute.ABOUT -> Column(content) { SettingsCard { AboutSection() } }
         }
     }
 
@@ -349,70 +349,59 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp),
         )
         val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
-        Column(
-            modifier = Modifier.padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-        ) {
-            KeyboardTheme.entries.chunked(3).forEach { rowThemes ->
-                Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                    rowThemes.forEach { theme ->
-                        val preview = keyboardColorsFor(theme, systemDark)
-                        ThemeSwatch(
-                            name = theme.displayName,
-                            tray = preview.keyboardBackground,
-                            key = preview.keyBackground,
-                            accent = preview.accentKeyBackground,
-                            spacebarBar = preview.keyContent.copy(alpha = 0.35f),
-                            selected = theme == settings.keyboardTheme,
-                            onClick = { callbacks.onKeyboardTheme(theme) },
-                            modifier = Modifier.weight(1f),
-                        )
+        SettingsCard {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp),
+            ) {
+                KeyboardTheme.entries.chunked(3).forEach { rowThemes ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                        rowThemes.forEach { theme ->
+                            val preview = keyboardColorsFor(theme, systemDark)
+                            ThemeSwatch(
+                                name = theme.displayName,
+                                tray = preview.keyboardBackground,
+                                key = preview.keyBackground,
+                                accent = preview.accentKeyBackground,
+                                spacebarBar = preview.keyContent.copy(alpha = 0.35f),
+                                selected = theme == settings.keyboardTheme,
+                                onClick = {
+                                    callbacks.onKeyboardTheme(theme)
+                                    showConfigurator = true
+                                },
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
+                        repeat(3 - rowThemes.size) { Spacer(Modifier.weight(1f)) }
                     }
-                    repeat(3 - rowThemes.size) { Spacer(Modifier.weight(1f)) }
                 }
             }
         }
-        Spacer(Modifier.height(12.dp))
         Text(
             text = "Font",
             style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 4.dp),
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 8.dp),
         )
-        RadioSettingGroup(
-            title = stringResource(R.string.settings_font),
-            description = stringResource(R.string.settings_font_desc),
-            options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
-            selected = settings.keyboardFont,
-            onSelected = callbacks.onKeyboardFont,
-        )
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_high_contrast),
-            description = stringResource(R.string.settings_high_contrast_desc),
-            checked = settings.highContrast,
-            onCheckedChange = callbacks.onHighContrast,
-        )
-        HeightSlider(
-            scale = settings.keyboardHeightScale,
-            onScaleChange = callbacks.onKeyboardHeightScale,
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 56.dp)
-                .clickable(role = Role.Button) { showConfigurator = true }
-                .padding(horizontal = 20.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(Modifier.weight(1f)) {
-                Text("Key gaps & sizes", style = MaterialTheme.typography.bodyLarge)
-                Text(
-                    "Border, gaps, label and bar sizes",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            Icon(LucideIcons.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        SettingsCard {
+            RadioSettingGroup(
+                title = stringResource(R.string.settings_font),
+                description = stringResource(R.string.settings_font_desc),
+                options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
+                selected = settings.keyboardFont,
+                onSelected = callbacks.onKeyboardFont,
+            )
+        }
+        SettingsCard {
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_high_contrast),
+                description = stringResource(R.string.settings_high_contrast_desc),
+                checked = settings.highContrast,
+                onCheckedChange = callbacks.onHighContrast,
+            )
+            HeightSlider(
+                scale = settings.keyboardHeightScale,
+                onScaleChange = callbacks.onKeyboardHeightScale,
+            )
         }
     }
 
@@ -441,6 +430,11 @@ private fun ConfiguratorSheet(
                 description = "Draw a hairline around each key.",
                 checked = settings.keyBorder,
                 onCheckedChange = callbacks.onKeyBorder,
+            )
+            Text(
+                text = "Key gaps & font sizes",
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 4.dp),
             )
             ScaleSlider("Vertical gap", "Space between key rows.", settings.verticalGapScale, callbacks.onVerticalGapScale)
             ScaleSlider("Horizontal gap", "Space between keys in a row.", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
@@ -498,6 +492,18 @@ private fun KeyboardPreview(settings: Settings, modifier: Modifier = Modifier) {
                 }
             }
         }
+    }
+}
+
+/** Wraps a group of setting rows in a rounded card, matching the home menu's grouping. */
+@Composable
+private fun SettingsCard(content: @Composable androidx.compose.foundation.layout.ColumnScope.() -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+    ) {
+        Column(content = content)
     }
 }
 
@@ -569,86 +575,94 @@ private fun ThemeSwatch(
 @Composable
 private fun FeedbackSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
     Column(modifier) {
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_vibration),
-            description = stringResource(R.string.settings_vibration_desc),
-            checked = settings.keyPressVibration,
-            onCheckedChange = callbacks.onVibration,
-        )
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_sound),
-            description = stringResource(R.string.settings_sound_desc),
-            checked = settings.keyPressSound,
-            onCheckedChange = callbacks.onSound,
-        )
+        SettingsCard {
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_vibration),
+                description = stringResource(R.string.settings_vibration_desc),
+                checked = settings.keyPressVibration,
+                onCheckedChange = callbacks.onVibration,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_sound),
+                description = stringResource(R.string.settings_sound_desc),
+                checked = settings.keyPressSound,
+                onCheckedChange = callbacks.onSound,
+            )
+        }
     }
 }
 
 @Composable
 private fun TypingSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
     Column(modifier) {
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_auto_cap),
-            description = stringResource(R.string.settings_auto_cap_desc),
-            checked = settings.autoCapitalization,
-            onCheckedChange = callbacks.onAutoCap,
-        )
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_double_space),
-            description = stringResource(R.string.settings_double_space_desc),
-            checked = settings.doubleSpacePeriod,
-            onCheckedChange = callbacks.onDoubleSpace,
-        )
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_number_row),
-            description = stringResource(R.string.settings_number_row_desc),
-            checked = settings.numberRowEnabled,
-            onCheckedChange = callbacks.onNumberRow,
-        )
+        SettingsCard {
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_auto_cap),
+                description = stringResource(R.string.settings_auto_cap_desc),
+                checked = settings.autoCapitalization,
+                onCheckedChange = callbacks.onAutoCap,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_double_space),
+                description = stringResource(R.string.settings_double_space_desc),
+                checked = settings.doubleSpacePeriod,
+                onCheckedChange = callbacks.onDoubleSpace,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_number_row),
+                description = stringResource(R.string.settings_number_row_desc),
+                checked = settings.numberRowEnabled,
+                onCheckedChange = callbacks.onNumberRow,
+            )
+        }
     }
 }
 
 @Composable
 private fun FeaturesSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
     Column(modifier) {
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_suggestions),
-            description = stringResource(R.string.settings_suggestions_desc),
-            checked = settings.suggestionsEnabled,
-            onCheckedChange = callbacks.onSuggestions,
-        )
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_learn_typing),
-            description = stringResource(R.string.settings_learn_typing_desc),
-            checked = settings.learnFromTyping,
-            enabled = settings.suggestionsEnabled,
-            onCheckedChange = callbacks.onLearnFromTyping,
-        )
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_clipboard),
-            description = stringResource(R.string.settings_clipboard_desc),
-            checked = settings.clipboardEnabled,
-            onCheckedChange = callbacks.onClipboard,
-        )
+        SettingsCard {
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_suggestions),
+                description = stringResource(R.string.settings_suggestions_desc),
+                checked = settings.suggestionsEnabled,
+                onCheckedChange = callbacks.onSuggestions,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_learn_typing),
+                description = stringResource(R.string.settings_learn_typing_desc),
+                checked = settings.learnFromTyping,
+                enabled = settings.suggestionsEnabled,
+                onCheckedChange = callbacks.onLearnFromTyping,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_clipboard),
+                description = stringResource(R.string.settings_clipboard_desc),
+                checked = settings.clipboardEnabled,
+                onCheckedChange = callbacks.onClipboard,
+            )
+        }
     }
 }
 
 @Composable
 private fun BanglaSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
     Column(modifier) {
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_bangla_auto_commit),
-            description = stringResource(R.string.settings_bangla_auto_commit_desc),
-            checked = settings.banglaAutoCommit,
-            onCheckedChange = callbacks.onBanglaAutoCommit,
-        )
-        SwitchSettingRow(
-            title = stringResource(R.string.settings_bangla_phonetic_suggestions),
-            description = stringResource(R.string.settings_bangla_phonetic_suggestions_desc),
-            checked = settings.banglaPhoneticSuggestions,
-            enabled = settings.suggestionsEnabled,
-            onCheckedChange = callbacks.onBanglaPhoneticSuggestions,
-        )
+        SettingsCard {
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_bangla_auto_commit),
+                description = stringResource(R.string.settings_bangla_auto_commit_desc),
+                checked = settings.banglaAutoCommit,
+                onCheckedChange = callbacks.onBanglaAutoCommit,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_bangla_phonetic_suggestions),
+                description = stringResource(R.string.settings_bangla_phonetic_suggestions_desc),
+                checked = settings.banglaPhoneticSuggestions,
+                enabled = settings.suggestionsEnabled,
+                onCheckedChange = callbacks.onBanglaPhoneticSuggestions,
+            )
+        }
     }
 }
 
