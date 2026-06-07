@@ -60,6 +60,12 @@ object BornomalaTheme {
 
     val dimens: KeyboardDimens
         get() = KeyboardDimens
+
+    /** Key-label font family for the active theme scope; null = system default. */
+    val keyFontFamily: androidx.compose.ui.text.font.FontFamily?
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalKeyboardFontFamily.current
 }
 
 /**

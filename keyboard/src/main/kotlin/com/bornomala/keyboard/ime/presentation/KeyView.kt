@@ -168,11 +168,13 @@ private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color) {
         label.length > 1 -> 15.sp
         else -> 20.sp
     }
+    val fontFamily = BornomalaTheme.keyFontFamily
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(
             text = label,
             color = contentColor,
             fontSize = labelSize,
+            fontFamily = fontFamily,
             fontWeight = if (isSpacebar) FontWeight.Medium else FontWeight.Normal,
             textAlign = TextAlign.Center,
         )
@@ -182,6 +184,7 @@ private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color) {
                 text = hint,
                 color = contentColor.copy(alpha = 0.5f),
                 fontSize = 10.sp,
+                fontFamily = fontFamily,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 3.dp, end = 6.dp),

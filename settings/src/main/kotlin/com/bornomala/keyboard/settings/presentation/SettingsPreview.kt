@@ -36,6 +36,7 @@ private fun PreviewHost(themeMode: ThemeMode) {
         SettingsCallbacks(
             onThemeMode = { settings = settings.copy(themeMode = it) },
             onKeyboardTheme = { settings = settings.copy(keyboardTheme = it) },
+            onKeyboardFont = { settings = settings.copy(keyboardFont = it) },
             onHighContrast = { settings = settings.copy(highContrast = it) },
             onKeyboardHeightScale = { settings = settings.copy(keyboardHeightScale = it) },
             onVibration = { settings = settings.copy(keyPressVibration = it) },

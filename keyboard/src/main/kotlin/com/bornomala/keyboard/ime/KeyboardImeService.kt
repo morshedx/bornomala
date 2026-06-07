@@ -159,6 +159,7 @@ class KeyboardImeService : InputMethodService() {
                 BornomalaTheme(
                     theme = settings.keyboardTheme,
                     highContrast = settings.highContrast,
+                    font = settings.keyboardFont,
                 ) {
                     KeyboardScreen(
                         state = state,

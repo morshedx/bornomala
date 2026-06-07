@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.bornomala.keyboard.core.result.Resource
 import com.bornomala.keyboard.settings.domain.SettingsRepository
 import com.bornomala.keyboard.settings.domain.model.Settings
+import com.bornomala.keyboard.theme.KeyboardFont
 import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,6 +45,10 @@ class SettingsViewModel @Inject constructor(
 
     fun onKeyboardThemeChange(theme: KeyboardTheme) = launchEdit {
         repository.setKeyboardTheme(theme)
+    }
+
+    fun onKeyboardFontChange(font: KeyboardFont) = launchEdit {
+        repository.setKeyboardFont(font)
     }
 
     fun onHighContrastChange(enabled: Boolean) = launchEdit {

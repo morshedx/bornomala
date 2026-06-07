@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 internal object SettingsPreferenceKeys {
     val THEME_MODE = stringPreferencesKey("theme_mode")
     val KEYBOARD_THEME = stringPreferencesKey("keyboard_theme")
+    val KEYBOARD_FONT = stringPreferencesKey("keyboard_font")
     val HIGH_CONTRAST = booleanPreferencesKey("high_contrast")
     val KEYBOARD_HEIGHT_SCALE = floatPreferencesKey("keyboard_height_scale")
     val KEY_PRESS_VIBRATION = booleanPreferencesKey("key_press_vibration")

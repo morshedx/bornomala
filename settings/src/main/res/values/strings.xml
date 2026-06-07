@@ -67,6 +67,8 @@
     <string name="settings_state_off">Off</string>
     <string name="settings_loading">Loading settings</string>
     <string name="settings_back">Back</string>
+    <string name="settings_font">Font</string>
+    <string name="settings_font_desc">Choose the font used for key labels.</string>
     <string name="settings_load_error">Couldn\'t load settings. Showing defaults.</string>
     <string name="settings_height_slider_cd">Keyboard height, %1$d percent</string>
 

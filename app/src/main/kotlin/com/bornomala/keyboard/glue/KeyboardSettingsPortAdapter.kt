@@ -34,6 +34,7 @@ class KeyboardSettingsPortAdapter @Inject constructor(
             KeyboardSettings(
                 themeMode = s.themeMode,
                 keyboardTheme = s.keyboardTheme,
+                keyboardFont = s.keyboardFont,
                 highContrast = s.highContrast,
                 keyHeightFraction = heightScaleToFraction(s.keyboardHeightScale),
                 hapticsEnabled = s.keyPressVibration,

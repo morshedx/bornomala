@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import com.bornomala.keyboard.theme.KeyboardFont
 import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.keyboardColorsFor
 import androidx.compose.foundation.layout.Box
@@ -125,6 +126,7 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 internal data class SettingsCallbacks(
     val onThemeMode: (ThemeMode) -> Unit,
     val onKeyboardTheme: (KeyboardTheme) -> Unit,
+    val onKeyboardFont: (KeyboardFont) -> Unit,
     val onHighContrast: (Boolean) -> Unit,
     val onKeyboardHeightScale: (Float) -> Unit,
     val onVibration: (Boolean) -> Unit,
@@ -146,6 +148,7 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
         SettingsCallbacks(
             onThemeMode = viewModel::onThemeModeChange,
             onKeyboardTheme = viewModel::onKeyboardThemeChange,
+            onKeyboardFont = viewModel::onKeyboardFontChange,
             onHighContrast = viewModel::onHighContrastChange,
             onKeyboardHeightScale = viewModel::onKeyboardHeightScaleChange,
             onVibration = viewModel::onKeyPressVibrationChange,
@@ -344,12 +347,25 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
                     tray = preview.keyboardBackground,
                     key = preview.keyBackground,
                     accent = preview.accentKeyBackground,
+                    spacebarBar = preview.keyContent.copy(alpha = 0.35f),
                     selected = theme == settings.keyboardTheme,
                     onClick = { callbacks.onKeyboardTheme(theme) },
                 )
             }
         }
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(12.dp))
+        Text(
+            text = "Font",
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 4.dp),
+        )
+        RadioSettingGroup(
+            title = stringResource(R.string.settings_font),
+            description = stringResource(R.string.settings_font_desc),
+            options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
+            selected = settings.keyboardFont,
+            onSelected = callbacks.onKeyboardFont,
+        )
         SwitchSettingRow(
             title = stringResource(R.string.settings_high_contrast),
             description = stringResource(R.string.settings_high_contrast_desc),
@@ -363,36 +379,42 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
     }
 }
 
+/** Gboard-style theme tile: a mini keyboard preview (tray + spacebar bar + accent enter dot). */
 @Composable
 private fun ThemeSwatch(
     name: String,
     tray: Color,
     key: Color,
     accent: Color,
+    spacebarBar: Color,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         androidx.compose.foundation.layout.Box(
             modifier = Modifier
-                .size(width = 66.dp, height = 54.dp)
-                .clip(RoundedCornerShape(12.dp))
+                .size(width = 98.dp, height = 70.dp)
+                .clip(RoundedCornerShape(14.dp))
                 .background(tray)
                 .border(
                     width = if (selected) 2.dp else 1.dp,
                     color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(14.dp),
                 )
                 .clickable(role = Role.Button, onClick = onClick)
-                .padding(8.dp),
-            contentAlignment = Alignment.Center,
+                .padding(12.dp),
+            contentAlignment = Alignment.BottomStart,
         ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
                 androidx.compose.foundation.layout.Box(
-                    Modifier.size(width = 16.dp, height = 22.dp).clip(RoundedCornerShape(4.dp)).background(key),
+                    Modifier.weight(1f).height(8.dp).clip(RoundedCornerShape(4.dp)).background(spacebarBar),
                 )
                 androidx.compose.foundation.layout.Box(
-                    Modifier.size(width = 16.dp, height = 22.dp).clip(RoundedCornerShape(4.dp)).background(accent),
+                    Modifier.size(12.dp).clip(CircleShape).background(accent),
                 )
             }
         }
@@ -400,7 +422,7 @@ private fun ThemeSwatch(
         Text(
             text = name,
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

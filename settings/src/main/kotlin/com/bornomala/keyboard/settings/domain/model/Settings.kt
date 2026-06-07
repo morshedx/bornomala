@@ -1,6 +1,7 @@
 package com.bornomala.keyboard.settings.domain.model
 
 import androidx.compose.runtime.Immutable
+import com.bornomala.keyboard.theme.KeyboardFont
 import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.ThemeMode
 
@@ -34,6 +35,7 @@ import com.bornomala.keyboard.theme.ThemeMode
 data class Settings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val keyboardTheme: KeyboardTheme = KeyboardTheme.SYSTEM,
+    val keyboardFont: KeyboardFont = KeyboardFont.SYSTEM,
     val highContrast: Boolean = false,
     val keyboardHeightScale: Float = DEFAULT_KEYBOARD_HEIGHT_SCALE,
     val keyPressVibration: Boolean = false,
