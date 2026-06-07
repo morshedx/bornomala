@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Backup is restricted to local DataStore preferences and the on-device user
+  dictionary / clipboard databases. No data ever leaves the device via network in V1;
+  these rules only govern the Android local/transfer backup framework.
+-->
+<full-backup-content>
+    <include domain="sharedpref" path="." />
+    <include domain="database" path="." />
+</full-backup-content>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  IME subtype declaration. Two subtypes are exposed so the system language switcher and
+  the keyboard's own language key can move between English (QWERTY) and Bangla (Avro
+  phonetic). imeSubtypeMode="keyboard" marks these as soft-keyboard subtypes.
+-->
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="com.bornomala.keyboard.settings.SettingsActivity"
+    android:supportsSwitchingToNextInputMethod="true">
+
+    <subtype
+        android:name="@string/subtype_english"
+        android:imeSubtypeLocale="en_US"
+        android:languageTag="en-US"
+        android:imeSubtypeMode="keyboard"
+        android:isAsciiCapable="true"
+        android:imeSubtypeExtraValue="layout=qwerty" />
+
+    <subtype
+        android:name="@string/subtype_bangla"
+        android:imeSubtypeLocale="bn_BD"
+        android:languageTag="bn-BD"
+        android:imeSubtypeMode="keyboard"
+        android:isAsciiCapable="true"
+        android:imeSubtypeExtraValue="layout=avro_phonetic" />
+
+</input-method>

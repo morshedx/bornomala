@@ -1,0 +1,434 @@
+package com.bornomala.keyboard.ime
+
+import android.content.ClipboardManager
+import android.inputmethodservice.InputMethodService
+import android.media.AudioManager
+import android.os.Build
+import android.view.HapticFeedbackConstants
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import com.bornomala.keyboard.core.dispatchers.DispatcherProvider
+import com.bornomala.keyboard.ime.data.editor.InputConnectionEditorPort
+import com.bornomala.keyboard.ime.data.layout.LayoutProvider
+import com.bornomala.keyboard.ime.domain.input.InputConfig
+import com.bornomala.keyboard.ime.domain.input.InputInteractor
+import com.bornomala.keyboard.clipboard.domain.repository.ClipboardRepository
+import com.bornomala.keyboard.ime.domain.model.KeyAction
+import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
+import com.bornomala.keyboard.ime.domain.model.KeyboardPage
+import com.bornomala.keyboard.ime.domain.model.Suggestion
+import com.bornomala.keyboard.ime.domain.port.KeyboardSettings
+import com.bornomala.keyboard.ime.domain.port.KeyboardSettingsPort
+import com.bornomala.keyboard.ime.domain.port.SuggestionPort
+import com.bornomala.keyboard.ime.domain.port.TransliterationPort
+import com.bornomala.keyboard.ime.domain.state.KeyboardStateHolder
+import com.bornomala.keyboard.ime.presentation.KeyboardCallbacks
+import com.bornomala.keyboard.ime.presentation.KeyboardScreen
+import com.bornomala.keyboard.theme.BornomalaTheme
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+/**
+ * The input method (keyboard) service — the app's true entry point, registered in the
+ * manifest and bound by the system. It owns the input lifecycle and bridges the framework's
+ * [android.view.inputmethod.InputConnection] to the framework-free [InputInteractor].
+ *
+ * Responsibilities:
+ *  - build and host the Compose keyboard view inside the IME window (via [ImeComposeHost]);
+ *  - keep the live [InputConnection] on the [InputConnectionEditorPort];
+ *  - snapshot user settings into the interactor and the renderer (theme, height, toggles);
+ *  - run suggestion lookups off the main thread and learning fire-and-forget;
+ *  - provide cheap key-press feedback (haptics/sound) only when enabled.
+ *
+ * Performance: the per-key path is synchronous and allocation-light (handled by the
+ * interactor). Suggestion queries and learning never block input — they run on the service
+ * scope using the injected dispatchers. No wakelocks, timers, or background services.
+ */
+@AndroidEntryPoint
+class KeyboardImeService : InputMethodService() {
+
+    @Inject lateinit var layoutProvider: LayoutProvider
+    @Inject lateinit var transliterationPort: TransliterationPort
+    @Inject lateinit var suggestionPort: SuggestionPort
+    @Inject lateinit var settingsPort: KeyboardSettingsPort
+    @Inject lateinit var dispatchers: DispatcherProvider
+    @Inject lateinit var clipboardRepository: ClipboardRepository
+
+    private val clipboardManager: ClipboardManager by lazy {
+        getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+    }
+    private val clipChangedListener = ClipboardManager.OnPrimaryClipChangedListener { captureClipboard() }
+
+    private val editorPort = InputConnectionEditorPort()
+    private val stateHolder = KeyboardStateHolder()
+    private val composeHost = ImeComposeHost()
+
+    /** Settings snapshot driving the renderer (theme/height/suggestion toggle). */
+    private val settingsState = MutableStateFlow(KeyboardSettings())
+
+    /** Hot-path-readable feedback flags, updated whenever settings change. */
+    @Volatile private var hapticsEnabled = false
+    @Volatile private var soundEnabled = false
+    @Volatile private var learnFromTyping = true
+
+    private lateinit var serviceScope: CoroutineScope
+    private lateinit var interactor: InputInteractor
+    private var suggestionJob: Job? = null
+    private var keyboardView: ComposeView? = null
+
+    private val callbacks = KeyboardCallbacks(
+        onKey = { action -> interactor.onKey(action) },
+        onLongPressChar = { ch -> interactor.onKey(KeyAction.Character(ch)) },
+        onSuggestion = { word -> interactor.commitSuggestion(word) },
+        onOpenSettings = { openSettings() },
+        onToggleEmoji = { stateHolder.toggleEmoji() },
+        onToggleNumbers = {
+            if (stateHolder.current.page == KeyboardPage.NUMPAD) stateHolder.showAlpha()
+            else stateHolder.showNumpad()
+        },
+        onToggleClipboard = { stateHolder.toggleClipboard() },
+        onPaste = { text -> pasteText(text) },
+        onEmoji = { glyph ->
+            interactor.resetComposing()
+            currentInputConnection?.commitText(glyph, 1)
+        },
+        onHideKeyboard = { requestHideSelf(0) },
+    )
+
+    private val interactorCallbacks = object : InputInteractor.Callbacks {
+        override fun onWordCommitted(language: KeyboardLanguage, word: String) {
+            if (learnFromTyping) suggestionPort.recordCommitted(language, word)
+        }
+
+        override fun onComposingChanged(language: KeyboardLanguage, currentWord: String) {
+            refreshSuggestions(language, currentWord)
+        }
+
+        override fun onEmojiRequested() {
+            // V1: the emoji panel (the :emoji module) can be hosted here in a later wiring
+            // step. Left intentionally inert so the keyboard never blocks on it.
+        }
+
+        override fun onFeedback(action: KeyAction) {
+            performKeyFeedback()
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        serviceScope = CoroutineScope(SupervisorJob() + dispatchers.mainImmediate)
+        interactor = InputInteractor(
+            editor = editorPort,
+            transliteration = transliterationPort,
+            stateHolder = stateHolder,
+            callbacks = interactorCallbacks,
+        )
+        composeHost.onCreate()
+        observeSettings()
+        restoreLastLanguage()
+        clipboardManager.addPrimaryClipChangedListener(clipChangedListener)
+    }
+
+    override fun onCreateInputView(): View {
+        // The Compose window-recomposer searches UP from the IME window root for the
+        // ViewTree owners, so they must live on an ancestor of the input view — the IME
+        // window's decor view — not only on the ComposeView itself.
+        attachComposeOwnersToWindow()
+        val view = ComposeView(this).apply {
+            setViewTreeLifecycleOwner(composeHost)
+            setViewTreeViewModelStoreOwner(composeHost)
+            setViewTreeSavedStateRegistryOwner(composeHost)
+            setContent {
+                val settings by settingsState.collectAsStateWithLifecycle()
+                val state by stateHolder.state.collectAsStateWithLifecycle()
+                BornomalaTheme(
+                    themeMode = settings.themeMode,
+                    highContrast = settings.highContrast,
+                ) {
+                    KeyboardScreen(
+                        state = state,
+                        layoutProvider = layoutProvider,
+                        callbacks = callbacks,
+                        keyHeightFraction = settings.keyHeightFraction,
+                    )
+                }
+            }
+        }
+        keyboardView = view
+        composeHost.onResume()
+        return view
+    }
+
+    override fun onStartInput(info: EditorInfo?, restarting: Boolean) {
+        super.onStartInput(info, restarting)
+        editorPort.connection = currentInputConnection
+        interactor.resetComposing()
+        stateHolder.setEnterIsAccent(isAccentAction(info))
+        stateHolder.setEmailField(isEmailField(info))
+    }
+
+    override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
+        super.onStartInputView(info, restarting)
+        editorPort.connection = currentInputConnection
+        composeHost.onResume()
+        // Each new field starts on the alphabetic page (don't carry over numpad/symbols).
+        stateHolder.showAlpha()
+        // Offer next-word predictions for the empty field immediately.
+        refreshSuggestions(stateHolder.current.language, currentWord = "")
+    }
+
+    override fun onUpdateSelection(
+        oldSelStart: Int,
+        oldSelEnd: Int,
+        newSelStart: Int,
+        newSelEnd: Int,
+        candidatesStart: Int,
+        candidatesEnd: Int,
+    ) {
+        super.onUpdateSelection(
+            oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd,
+        )
+        if (!stateHolder.current.isComposing) return
+        // While composing, the framework reports the composing region via candidatesStart/End.
+        // If a selection appears, or the cursor lands outside that region, the user moved the
+        // caret or edited elsewhere — drop the in-progress word so it is never committed at the
+        // wrong place.
+        val hasSelection = newSelStart != newSelEnd
+        val cursorOutsideComposing = candidatesStart == -1 ||
+            newSelStart < candidatesStart || newSelStart > candidatesEnd
+        if (hasSelection || cursorOutsideComposing) {
+            interactor.resetComposing()
+        }
+    }
+
+    override fun onFinishInputView(finishingInput: Boolean) {
+        interactor.resetComposing()
+        composeHost.onPause()
+        super.onFinishInputView(finishingInput)
+    }
+
+    override fun onFinishInput() {
+        editorPort.connection = null
+        super.onFinishInput()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        // Volume keys nudge the cursor while the keyboard is visible (a common power-user
+        // accessibility aid). Consumed only when the input view is shown so volume control
+        // works normally otherwise.
+        if (isInputViewShown) {
+            when (keyCode) {
+                KeyEvent.KEYCODE_VOLUME_UP -> { moveCursor(1); return true }
+                KeyEvent.KEYCODE_VOLUME_DOWN -> { moveCursor(-1); return true }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+        if (isInputViewShown &&
+            (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+        ) {
+            return true
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        clipboardManager.removePrimaryClipChangedListener(clipChangedListener)
+        suggestionJob?.cancel()
+        if (::serviceScope.isInitialized) serviceScope.cancel()
+        composeHost.onDestroy()
+        keyboardView = null
+        super.onDestroy()
+    }
+
+    // --- settings ----------------------------------------------------------------------
+
+    /**
+     * Installs the Compose [composeHost] as the ViewTree lifecycle / view-model-store /
+     * saved-state owner on the IME window's decor view, so the input [ComposeView] resolves
+     * a window recomposer when it attaches. Without this, Compose throws
+     * "ViewTreeLifecycleOwner not found" because the IME window root has no owners.
+     */
+    /** Commits a clipboard item's text into the field and closes the clipboard panel. */
+    private fun pasteText(text: String) {
+        interactor.resetComposing()
+        currentInputConnection?.commitText(text, 1)
+        stateHolder.hidePanel()
+    }
+
+    /** Records the latest system clipboard text into history (offline, on-device only). */
+    private fun captureClipboard() {
+        val clip = clipboardManager.primaryClip ?: return
+        if (clip.itemCount == 0) return
+        val text = clip.getItemAt(0).coerceToText(this)?.toString()?.trim().orEmpty()
+        if (text.isEmpty()) return
+        serviceScope.launch(dispatchers.io) { clipboardRepository.addItem(text) }
+    }
+
+    /**
+     * Moves the text cursor by [delta] characters (negative = left). Commits any in-progress
+     * word first so the caret never lands inside a composing region. Used by the toolbar
+     * arrows and the volume keys.
+     */
+    private fun moveCursor(delta: Int) {
+        val ic = currentInputConnection ?: return
+        interactor.resetComposing()
+        val extracted = ic.getExtractedText(android.view.inputmethod.ExtractedTextRequest(), 0)
+        val current = extracted?.let { it.startOffset + it.selectionStart } ?: return
+        if (current < 0) return
+        val target = (current + delta).coerceAtLeast(0)
+        val max = extracted.text?.let { extracted.startOffset + it.length } ?: target
+        ic.setSelection(target.coerceAtMost(max), target.coerceAtMost(max))
+    }
+
+    /**
+     * Opens the keyboard settings screen. Referenced by class name (not a compile-time type)
+     * so :keyboard stays decoupled from :settings; the activity lives in the app package.
+     */
+    private fun openSettings() {
+        runCatching {
+            val intent = android.content.Intent().apply {
+                setClassName(applicationContext.packageName, SETTINGS_ACTIVITY)
+                addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(intent)
+        }
+    }
+
+    private fun attachComposeOwnersToWindow() {
+        val decor = window?.window?.decorView ?: return
+        decor.setViewTreeLifecycleOwner(composeHost)
+        decor.setViewTreeViewModelStoreOwner(composeHost)
+        decor.setViewTreeSavedStateRegistryOwner(composeHost)
+    }
+
+    private fun observeSettings() {
+        serviceScope.launch {
+            settingsPort.settings.collect { s ->
+                settingsState.value = s
+                hapticsEnabled = s.hapticsEnabled
+                soundEnabled = s.soundEnabled
+                learnFromTyping = s.learnFromTyping
+                interactor.updateConfig(
+                    InputConfig(
+                        autoCapitalization = s.autoCapitalization,
+                        doubleSpacePeriod = s.doubleSpacePeriod,
+                        banglaTransliteration = s.banglaTransliterationEnabled,
+                        suggestionsEnabled = s.suggestionsEnabled,
+                    ),
+                )
+                stateHolder.applySettings(
+                    showNumberRow = s.showNumberRow,
+                    suggestionsEnabled = s.suggestionsEnabled,
+                )
+            }
+        }
+    }
+
+    private fun restoreLastLanguage() {
+        serviceScope.launch {
+            val last = settingsPort.settings.first().lastLanguage
+            stateHolder.setLanguage(last)
+        }
+    }
+
+    // --- suggestions -------------------------------------------------------------------
+
+    private fun refreshSuggestions(language: KeyboardLanguage, currentWord: String) {
+        if (!settingsState.value.suggestionsEnabled) {
+            stateHolder.setSuggestions(emptyList())
+            return
+        }
+        suggestionJob?.cancel()
+        val previous = previousWord()
+        suggestionJob = serviceScope.launch {
+            val results: List<Suggestion> = withContext(dispatchers.default) {
+                suggestionPort.query(
+                    language = language,
+                    currentWord = currentWord,
+                    previousWord = previous,
+                    limit = SUGGESTION_LIMIT,
+                )
+            }
+            stateHolder.setSuggestions(results)
+        }
+    }
+
+    /** The last committed token before the cursor, used for next-word prediction. */
+    private fun previousWord(): String {
+        val before = editorPort.textBeforeCursor(PREVIOUS_WORD_LOOKBACK)
+        if (before.isEmpty()) return ""
+        val trimmed = before.trimEnd()
+        if (trimmed.isEmpty()) return ""
+        var i = trimmed.length - 1
+        while (i >= 0 && !trimmed[i].isWhitespace()) i--
+        return trimmed.substring(i + 1)
+    }
+
+    // --- feedback ----------------------------------------------------------------------
+
+    private fun performKeyFeedback() {
+        if (hapticsEnabled) {
+            val flags = HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
+            keyboardView?.performHapticFeedback(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    HapticFeedbackConstants.KEYBOARD_PRESS
+                } else {
+                    HapticFeedbackConstants.KEYBOARD_TAP
+                },
+                flags,
+            )
+        }
+        if (soundEnabled) {
+            (getSystemService(AUDIO_SERVICE) as? AudioManager)
+                ?.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
+        }
+    }
+
+    private fun isEmailField(info: EditorInfo?): Boolean {
+        val type = info?.inputType ?: return false
+        if (type and android.text.InputType.TYPE_MASK_CLASS != android.text.InputType.TYPE_CLASS_TEXT) return false
+        return when (type and android.text.InputType.TYPE_MASK_VARIATION) {
+            android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
+            android.text.InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS,
+            -> true
+            else -> false
+        }
+    }
+
+    private fun isAccentAction(info: EditorInfo?): Boolean {
+        val action = (info?.imeOptions ?: 0) and EditorInfo.IME_MASK_ACTION
+        return when (action) {
+            EditorInfo.IME_ACTION_GO,
+            EditorInfo.IME_ACTION_SEARCH,
+            EditorInfo.IME_ACTION_SEND,
+            EditorInfo.IME_ACTION_DONE,
+            EditorInfo.IME_ACTION_NEXT,
+            -> true
+            else -> false
+        }
+    }
+
+    private companion object {
+        const val SUGGESTION_LIMIT = 3
+        const val PREVIOUS_WORD_LOOKBACK = 48
+        const val SETTINGS_ACTIVITY = "com.bornomala.keyboard.settings.SettingsActivity"
+    }
+}

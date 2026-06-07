@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The :keyboard module is a library. The IME <service> declaration itself lives in the
+  :app manifest (which owns BIND_INPUT_METHOD and the @xml/method subtype resource);
+  this manifest only carries the library's package identity. No permissions are declared
+  here: optional haptics use the app-level VIBRATE permission.
+-->
+<manifest />

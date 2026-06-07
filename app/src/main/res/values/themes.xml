@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Host theme for the Settings activity shell before Compose takes over. The actual
+      in-app appearance is driven by the Compose BornomalaTheme (:theme module); this
+      Material 3 DayNight base only styles the system window during launch.
+    -->
+    <style name="Theme.Bornomala" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+</resources>

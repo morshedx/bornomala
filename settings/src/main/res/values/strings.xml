@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Bornomala Keyboard</string>
+
+    <!-- Section headers -->
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_typing">Typing</string>
+    <string name="settings_section_feedback">Key feedback</string>
+    <string name="settings_section_features">Features</string>
+    <string name="settings_section_bangla">Bangla (Avro phonetic)</string>
+    <string name="settings_section_accessibility">Accessibility</string>
+
+    <!-- Theme -->
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System default</string>
+    <string name="settings_theme_desc">Choose how the keyboard and settings appear.</string>
+
+    <!-- High contrast -->
+    <string name="settings_high_contrast">High contrast keys</string>
+    <string name="settings_high_contrast_desc">Stronger key borders for better visibility.</string>
+
+    <!-- Keyboard height -->
+    <string name="settings_keyboard_height">Keyboard height</string>
+    <string name="settings_keyboard_height_desc">Adjust how tall the keyboard appears.</string>
+    <string name="settings_keyboard_height_value">%1$d%%</string>
+
+    <!-- Feedback -->
+    <string name="settings_vibration">Vibrate on key press</string>
+    <string name="settings_vibration_desc">Short haptic pulse when a key is pressed.</string>
+    <string name="settings_sound">Sound on key press</string>
+    <string name="settings_sound_desc">Play the system key click sound.</string>
+
+    <!-- Features -->
+    <string name="settings_number_row">Number row</string>
+    <string name="settings_number_row_desc">Always show a dedicated row of digits.</string>
+    <string name="settings_suggestions">Word suggestions</string>
+    <string name="settings_suggestions_desc">Show the suggestion bar while typing.</string>
+    <string name="settings_clipboard">Clipboard history</string>
+    <string name="settings_clipboard_desc">Save recently copied text for quick reuse.</string>
+    <string name="settings_learn_typing">Learn from my typing</string>
+    <string name="settings_learn_typing_desc">Improve suggestions from words you type. Stays on device.</string>
+
+    <!-- Typing -->
+    <string name="settings_auto_cap">Auto-capitalization</string>
+    <string name="settings_auto_cap_desc">Capitalize the first letter of each sentence.</string>
+    <string name="settings_double_space">Double-space period</string>
+    <string name="settings_double_space_desc">Insert a full stop when you tap space twice.</string>
+
+    <!-- Bangla -->
+    <string name="settings_bangla_auto_commit">Auto-commit words</string>
+    <string name="settings_bangla_auto_commit_desc">Commit the Bangla word automatically on space or punctuation.</string>
+    <string name="settings_bangla_phonetic_suggestions">Phonetic alternatives</string>
+    <string name="settings_bangla_phonetic_suggestions_desc">Show alternative spellings while typing Bangla.</string>
+
+    <!-- Reset -->
+    <string name="settings_reset">Reset to defaults</string>
+    <string name="settings_reset_desc">Restore every option to its original value.</string>
+    <string name="settings_reset_confirm_title">Reset all settings?</string>
+    <string name="settings_reset_confirm_message">This restores every keyboard option to its default value. This cannot be undone.</string>
+    <string name="settings_reset_confirm">Reset</string>
+    <string name="settings_cancel">Cancel</string>
+
+    <!-- Accessibility / state descriptions -->
+    <string name="settings_state_on">On</string>
+    <string name="settings_state_off">Off</string>
+    <string name="settings_loading">Loading settings</string>
+    <string name="settings_load_error">Couldn\'t load settings. Showing defaults.</string>
+    <string name="settings_height_slider_cd">Keyboard height, %1$d percent</string>
+
+    <!-- About -->
+    <string name="settings_section_about">About</string>
+    <string name="settings_about_app">Bornomala Keyboard</string>
+    <string name="settings_about_version">Version %1$s</string>
+    <string name="settings_about_privacy">Privacy-first and fully offline. No internet permission, no tracking, no analytics, no data collection — everything stays on your device.</string>
+    <string name="settings_about_avro">Bangla typing uses the Avro Phonetic scheme. Rule data © OmicronLab.</string>
+    <string name="settings_about_warranty">This software is provided \"as is\", without warranty of any kind, express or implied. The developer accepts no liability for any damages, data loss, or other harm arising from its use.</string>
+</resources>

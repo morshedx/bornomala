@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bornomala</string>
+    <string name="ime_service_label">Bornomala Keyboard</string>
+    <string name="subtype_english">English</string>
+    <string name="subtype_bangla">Bangla (Avro)</string>
+</resources>

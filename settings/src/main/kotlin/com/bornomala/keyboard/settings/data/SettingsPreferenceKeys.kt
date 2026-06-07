@@ -1,0 +1,25 @@
+package com.bornomala.keyboard.settings.data
+
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+
+/**
+ * Centralized DataStore Preferences keys for keyboard settings. Kept in one place so the
+ * key names are stable across releases (renaming a key silently drops the stored value).
+ */
+internal object SettingsPreferenceKeys {
+    val THEME_MODE = stringPreferencesKey("theme_mode")
+    val HIGH_CONTRAST = booleanPreferencesKey("high_contrast")
+    val KEYBOARD_HEIGHT_SCALE = floatPreferencesKey("keyboard_height_scale")
+    val KEY_PRESS_VIBRATION = booleanPreferencesKey("key_press_vibration")
+    val KEY_PRESS_SOUND = booleanPreferencesKey("key_press_sound")
+    val NUMBER_ROW_ENABLED = booleanPreferencesKey("number_row_enabled")
+    val SUGGESTIONS_ENABLED = booleanPreferencesKey("suggestions_enabled")
+    val CLIPBOARD_ENABLED = booleanPreferencesKey("clipboard_enabled")
+    val AUTO_CAPITALIZATION = booleanPreferencesKey("auto_capitalization")
+    val DOUBLE_SPACE_PERIOD = booleanPreferencesKey("double_space_period")
+    val BANGLA_AUTO_COMMIT = booleanPreferencesKey("bangla_auto_commit")
+    val BANGLA_PHONETIC_SUGGESTIONS = booleanPreferencesKey("bangla_phonetic_suggestions")
+    val LEARN_FROM_TYPING = booleanPreferencesKey("learn_from_typing")
+}
