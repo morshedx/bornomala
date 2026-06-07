@@ -38,6 +38,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -55,6 +56,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.bornomala.keyboard.theme.BornomalaTheme
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bornomala.keyboard.core.result.Resource
@@ -338,6 +341,7 @@ private fun CategoryRow(item: CategoryItem, onClick: () -> Unit) {
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+    var showConfigurator by remember { mutableStateOf(false) }
     Column(modifier) {
         Text(
             text = stringResource(R.string.settings_theme),
@@ -387,22 +391,108 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
             onScaleChange = callbacks.onKeyboardHeightScale,
         )
 
-        Spacer(Modifier.height(8.dp))
-        Text(
-            text = "Key gaps & sizes",
-            style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 4.dp),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 56.dp)
+                .clickable(role = Role.Button) { showConfigurator = true }
+                .padding(horizontal = 20.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text("Key gaps & sizes", style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    "Border, gaps, label and bar sizes",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Icon(LucideIcons.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+    }
+
+    if (showConfigurator) {
+        ConfiguratorSheet(settings, callbacks, onDismiss = { showConfigurator = false })
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ConfiguratorSheet(
+    settings: Settings,
+    callbacks: SettingsCallbacks,
+    onDismiss: () -> Unit,
+) {
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 24.dp),
+        ) {
+            KeyboardPreview(settings, modifier = Modifier.padding(16.dp))
+            SwitchSettingRow(
+                title = "Key border",
+                description = "Draw a hairline around each key.",
+                checked = settings.keyBorder,
+                onCheckedChange = callbacks.onKeyBorder,
+            )
+            ScaleSlider("Vertical gap", "Space between key rows.", settings.verticalGapScale, callbacks.onVerticalGapScale)
+            ScaleSlider("Horizontal gap", "Space between keys in a row.", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
+            ScaleSlider("Key label size", "Size of the text on each key.", settings.keyLabelScale, callbacks.onKeyLabelScale)
+            ScaleSlider("Suggestion bar size", "Height of the top action strip.", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
+        }
+    }
+}
+
+/** Lightweight, non-interactive keyboard mock reflecting the live theme + configurator values. */
+@Composable
+private fun KeyboardPreview(settings: Settings, modifier: Modifier = Modifier) {
+    val colors = BornomalaTheme.keyboardColors
+    val hGap = 4.dp * settings.horizontalGapScale
+    val vGap = 6.dp * settings.verticalGapScale
+    val labelSize = 16.sp * settings.keyLabelScale
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(colors.keyboardBackground)
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(vGap),
+    ) {
+        androidx.compose.foundation.layout.Box(
+            Modifier
+                .fillMaxWidth()
+                .height(26.dp * settings.suggestionBarScale)
+                .clip(RoundedCornerShape(6.dp))
+                .background(colors.suggestionBarBackground),
         )
-        SwitchSettingRow(
-            title = "Key border",
-            description = "Draw a hairline around each key.",
-            checked = settings.keyBorder,
-            onCheckedChange = callbacks.onKeyBorder,
-        )
-        ScaleSlider("Vertical gap", "Space between key rows.", settings.verticalGapScale, callbacks.onVerticalGapScale)
-        ScaleSlider("Horizontal gap", "Space between keys in a row.", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
-        ScaleSlider("Key label size", "Size of the text on each key.", settings.keyLabelScale, callbacks.onKeyLabelScale)
-        ScaleSlider("Suggestion bar size", "Height of the top action strip.", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
+        listOf("QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM").forEach { row ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(hGap),
+            ) {
+                row.forEach { c ->
+                    androidx.compose.foundation.layout.Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(34.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(colors.keyBackground)
+                            .then(
+                                if (settings.keyBorder) {
+                                    Modifier.border(1.dp, colors.keyStroke, RoundedCornerShape(6.dp))
+                                } else {
+                                    Modifier
+                                },
+                            ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(c.toString(), color = colors.keyContent, fontSize = labelSize)
+                    }
+                }
+            }
+        }
     }
 }
 

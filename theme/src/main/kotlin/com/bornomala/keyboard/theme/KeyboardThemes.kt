@@ -108,7 +108,7 @@ fun BornomalaTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             shapes = BornomalaShapes,
-            typography = BornomalaTypography,
+            typography = BornomalaTypography.withFontFamily(keyboardFontFamily(font)),
             content = content,
         )
     }
