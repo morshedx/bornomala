@@ -234,15 +234,17 @@ private fun TitleAndDescription(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodyMedium,
-            color = if (enabled) {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-            },
-        )
+        if (description.isNotBlank()) {
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (enabled) {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                },
+            )
+        }
     }
 }
 

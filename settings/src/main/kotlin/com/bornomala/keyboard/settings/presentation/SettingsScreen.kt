@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.activity.compose.BackHandler
@@ -424,7 +425,12 @@ private fun ConfiguratorSheet(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 24.dp),
         ) {
-            KeyboardPreview(settings, modifier = Modifier.padding(16.dp))
+            // Fixed-height frame so dragging the size sliders never resizes the sheet.
+            androidx.compose.foundation.layout.Box(
+                modifier = Modifier.fillMaxWidth().height(252.dp).padding(16.dp),
+            ) {
+                KeyboardPreview(settings)
+            }
             SwitchSettingRow(
                 title = "Key border",
                 description = "Draw a hairline around each key.",
@@ -436,10 +442,10 @@ private fun ConfiguratorSheet(
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 4.dp),
             )
-            ScaleSlider("Vertical gap", "Space between key rows.", settings.verticalGapScale, callbacks.onVerticalGapScale)
-            ScaleSlider("Horizontal gap", "Space between keys in a row.", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
-            ScaleSlider("Key label size", "Size of the text on each key.", settings.keyLabelScale, callbacks.onKeyLabelScale)
-            ScaleSlider("Suggestion bar size", "Height of the top action strip.", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
+            ScaleSlider("Vertical gap", "", settings.verticalGapScale, callbacks.onVerticalGapScale)
+            ScaleSlider("Horizontal gap", "", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
+            ScaleSlider("Key label size", "", settings.keyLabelScale, callbacks.onKeyLabelScale)
+            ScaleSlider("Suggestion bar size", "", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
         }
     }
 }
@@ -450,7 +456,34 @@ private fun KeyboardPreview(settings: Settings, modifier: Modifier = Modifier) {
     val colors = BornomalaTheme.keyboardColors
     val hGap = 4.dp * settings.horizontalGapScale
     val vGap = 6.dp * settings.verticalGapScale
-    val labelSize = 16.sp * settings.keyLabelScale
+    val labelSize = 15.sp * settings.keyLabelScale
+    val rowH = 30.dp
+    val shape = RoundedCornerShape(6.dp)
+
+    @Composable
+    fun RowScope.cell(
+        label: String? = null,
+        icon: ImageVector? = null,
+        weight: Float = 1f,
+        bg: Color = colors.keyBackground,
+        fg: Color = colors.keyContent,
+    ) {
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier
+                .weight(weight)
+                .height(rowH)
+                .clip(shape)
+                .background(bg)
+                .then(if (settings.keyBorder) Modifier.border(1.dp, colors.keyStroke, shape) else Modifier),
+            contentAlignment = Alignment.Center,
+        ) {
+            when {
+                icon != null -> Icon(icon, null, tint = fg, modifier = Modifier.size(16.dp))
+                label != null -> Text(label, color = fg, fontSize = if (label.length > 1) 11.sp else labelSize)
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -459,38 +492,43 @@ private fun KeyboardPreview(settings: Settings, modifier: Modifier = Modifier) {
             .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(vGap),
     ) {
-        androidx.compose.foundation.layout.Box(
-            Modifier
-                .fillMaxWidth()
-                .height(26.dp * settings.suggestionBarScale)
-                .clip(RoundedCornerShape(6.dp))
-                .background(colors.suggestionBarBackground),
-        )
-        listOf("QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM").forEach { row ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(hGap),
-            ) {
-                row.forEach { c ->
+        // Suggestion strip.
+        Row(
+            modifier = Modifier.fillMaxWidth().height(26.dp * settings.suggestionBarScale),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            listOf("I", "Love", "Borno").forEachIndexed { i, s ->
+                if (i > 0) {
                     androidx.compose.foundation.layout.Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(34.dp)
-                            .clip(RoundedCornerShape(6.dp))
-                            .background(colors.keyBackground)
-                            .then(
-                                if (settings.keyBorder) {
-                                    Modifier.border(1.dp, colors.keyStroke, RoundedCornerShape(6.dp))
-                                } else {
-                                    Modifier
-                                },
-                            ),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(c.toString(), color = colors.keyContent, fontSize = labelSize)
-                    }
+                        Modifier.width(1.dp).height(14.dp).background(colors.suggestionDivider),
+                    )
                 }
+                Text(
+                    s,
+                    color = colors.suggestionText,
+                    fontSize = 12.sp,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    modifier = Modifier.weight(1f),
+                )
             }
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
+            "QWERTYUIOP".forEach { cell(label = it.toString()) }
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
+            "ASDFGHJKL".forEach { cell(label = it.toString()) }
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
+            cell(icon = LucideIcons.ArrowBigUp, weight = 1.5f, bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
+            "ZXCVBNM".forEach { cell(label = it.toString()) }
+            cell(icon = LucideIcons.Delete, weight = 1.5f, bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(hGap)) {
+            cell(label = "?123", weight = 1.5f, bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
+            cell(label = ",", bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
+            cell(weight = 4f, bg = colors.spacebarBackground)
+            cell(label = ".", bg = colors.functionalKeyBackground, fg = colors.functionalKeyContent)
+            cell(icon = LucideIcons.CornerDownLeft, weight = 1.5f, bg = colors.accentKeyBackground, fg = colors.accentKeyContent)
         }
     }
 }
