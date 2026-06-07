@@ -66,7 +66,7 @@ object BornomalaTheme {
  * Strengthens key separation for the high-contrast accessibility mode by darkening /
  * lightening the stroke and dividers relative to the base scheme.
  */
-private fun KeyboardColors.toHighContrast(useDark: Boolean): KeyboardColors {
+internal fun KeyboardColors.toHighContrast(useDark: Boolean): KeyboardColors {
     val emphasizedStroke = if (useDark) BornomalaPalette.OnDarkVariant else BornomalaPalette.OnLight
     return copy(
         keyStroke = emphasizedStroke,

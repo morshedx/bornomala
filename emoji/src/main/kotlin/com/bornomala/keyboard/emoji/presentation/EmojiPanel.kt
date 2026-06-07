@@ -1,5 +1,7 @@
 package com.bornomala.keyboard.emoji.presentation
 
+import com.bornomala.keyboard.theme.LucideIcons
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,19 +21,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DirectionsCar
-import androidx.compose.material.icons.filled.EmojiEmotions
-import androidx.compose.material.icons.filled.EmojiEvents
-import androidx.compose.material.icons.filled.EmojiSymbols
-import androidx.compose.material.icons.filled.Fastfood
-import androidx.compose.material.icons.filled.Flag
-import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Pets
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.SentimentSatisfiedAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -167,14 +156,14 @@ private fun EmojiSearchField(
         singleLine = true,
         leadingIcon = {
             Icon(
-                imageVector = Icons.Filled.Search,
+                imageVector = LucideIcons.Search,
                 contentDescription = null,
             )
         },
         trailingIcon = {
             if (query.isNotEmpty()) {
                 Icon(
-                    imageVector = Icons.Filled.Close,
+                    imageVector = LucideIcons.X,
                     contentDescription = "Clear search",
                     modifier = Modifier
                         .size(20.dp)
@@ -361,16 +350,16 @@ private fun EmptyState(message: String) {
 
 /** Icon shown on the category tab strip. */
 private fun EmojiCategory.icon(): ImageVector = when (this) {
-    EmojiCategory.RECENT -> Icons.Filled.AccessTime
-    EmojiCategory.SMILEYS -> Icons.Filled.EmojiEmotions
-    EmojiCategory.PEOPLE -> Icons.Filled.SentimentSatisfiedAlt
-    EmojiCategory.ANIMALS -> Icons.Filled.Pets
-    EmojiCategory.FOOD -> Icons.Filled.Fastfood
-    EmojiCategory.ACTIVITY -> Icons.Filled.EmojiEvents
-    EmojiCategory.TRAVEL -> Icons.Filled.DirectionsCar
-    EmojiCategory.OBJECTS -> Icons.Filled.Lightbulb
-    EmojiCategory.SYMBOLS -> Icons.Filled.EmojiSymbols
-    EmojiCategory.FLAGS -> Icons.Filled.Flag
+    EmojiCategory.RECENT -> LucideIcons.Clock
+    EmojiCategory.SMILEYS -> LucideIcons.Smile
+    EmojiCategory.PEOPLE -> LucideIcons.User
+    EmojiCategory.ANIMALS -> LucideIcons.PawPrint
+    EmojiCategory.FOOD -> LucideIcons.Utensils
+    EmojiCategory.ACTIVITY -> LucideIcons.Trophy
+    EmojiCategory.TRAVEL -> LucideIcons.Car
+    EmojiCategory.OBJECTS -> LucideIcons.Lightbulb
+    EmojiCategory.SYMBOLS -> LucideIcons.Shapes
+    EmojiCategory.FLAGS -> LucideIcons.Flag
 }
 
 /** Spoken label for the category tab (TalkBack). */

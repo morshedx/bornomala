@@ -35,6 +35,7 @@ private fun PreviewHost(themeMode: ThemeMode) {
     val callbacks = remember {
         SettingsCallbacks(
             onThemeMode = { settings = settings.copy(themeMode = it) },
+            onKeyboardTheme = { settings = settings.copy(keyboardTheme = it) },
             onHighContrast = { settings = settings.copy(highContrast = it) },
             onKeyboardHeightScale = { settings = settings.copy(keyboardHeightScale = it) },
             onVibration = { settings = settings.copy(keyPressVibration = it) },

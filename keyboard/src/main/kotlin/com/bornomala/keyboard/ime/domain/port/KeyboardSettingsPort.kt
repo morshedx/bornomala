@@ -1,6 +1,7 @@
 package com.bornomala.keyboard.ime.domain.port
 
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
+import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.ThemeMode
 import kotlinx.coroutines.flow.Flow
 
@@ -37,6 +38,7 @@ interface KeyboardSettingsPort {
  */
 data class KeyboardSettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val keyboardTheme: KeyboardTheme = KeyboardTheme.SYSTEM,
     val highContrast: Boolean = false,
     val keyHeightFraction: Float = 0.5f,
     val hapticsEnabled: Boolean = true,

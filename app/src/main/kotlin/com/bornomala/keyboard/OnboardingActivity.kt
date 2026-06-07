@@ -9,16 +9,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,6 +86,7 @@ private fun OnboardingScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     var enabled by remember { mutableStateOf(isImeEnabled(context)) }
     var selected by remember { mutableStateOf(isImeSelected(context)) }
+    var agreed by rememberSaveable { mutableStateOf(false) }
 
     // Re-read activation state whenever we come back to the foreground.
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -118,6 +126,8 @@ private fun OnboardingScreen(
                     description = "Turn on Bornomala in your input settings.",
                     button = "Enable in settings",
                     onClick = onEnableInSettings,
+                    buttonEnabled = agreed,
+                    extra = { AgreementCheckbox(checked = agreed, onCheckedChange = { agreed = it }) },
                 )
 
                 !selected -> Step(
@@ -144,6 +154,8 @@ private fun Step(
     description: String,
     button: String,
     onClick: () -> Unit,
+    buttonEnabled: Boolean = true,
+    extra: @Composable () -> Unit = {},
 ) {
     Text(text = title, style = MaterialTheme.typography.headlineMedium)
     Spacer(Modifier.height(12.dp))
@@ -153,9 +165,59 @@ private fun Step(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = TextAlign.Center,
     )
-    Spacer(Modifier.height(28.dp))
-    Button(onClick = onClick, modifier = Modifier.width(260.dp)) {
+    Spacer(Modifier.height(24.dp))
+    extra()
+    Spacer(Modifier.height(24.dp))
+    Button(onClick = onClick, enabled = buttonEnabled, modifier = Modifier.width(260.dp)) {
         Text(button)
+    }
+}
+
+@Composable
+private fun AgreementCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    var showDetails by remember { mutableStateOf(false) }
+    Row(
+        modifier = Modifier.widthIn(max = 320.dp).padding(horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(checked = checked, onCheckedChange = onCheckedChange)
+        Spacer(Modifier.width(8.dp))
+        Column {
+            Text(
+                text = "I agree to the terms of use.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.clickable { onCheckedChange(!checked) },
+            )
+            Text(
+                text = "Read more",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable { showDetails = true },
+            )
+        }
+    }
+
+    if (showDetails) {
+        AlertDialog(
+            onDismissRequest = { showDetails = false },
+            title = { Text("Terms of use") },
+            text = {
+                Text(
+                    "Bornomala is a privacy-first keyboard. It works fully offline — it requests no " +
+                        "internet permission and performs no tracking, analytics, or data collection; " +
+                        "everything you type and save stays on this device.\n\n" +
+                        "The software is provided \"as is\", without warranty of any kind, express or " +
+                        "implied. The author accepts no liability for any damages, data loss, or other " +
+                        "harm arising from its use.\n\n" +
+                        "By continuing you acknowledge and accept these terms.",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { showDetails = false }) { Text("Got it") }
+            },
+        )
     }
 }
 

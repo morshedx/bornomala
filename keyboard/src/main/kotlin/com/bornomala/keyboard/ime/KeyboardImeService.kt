@@ -157,7 +157,7 @@ class KeyboardImeService : InputMethodService() {
                 val settings by settingsState.collectAsStateWithLifecycle()
                 val state by stateHolder.state.collectAsStateWithLifecycle()
                 BornomalaTheme(
-                    themeMode = settings.themeMode,
+                    theme = settings.keyboardTheme,
                     highContrast = settings.highContrast,
                 ) {
                     KeyboardScreen(

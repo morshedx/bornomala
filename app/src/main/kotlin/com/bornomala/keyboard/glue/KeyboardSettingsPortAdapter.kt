@@ -33,6 +33,7 @@ class KeyboardSettingsPortAdapter @Inject constructor(
         combine(repository.settings, lastLanguage) { s, language ->
             KeyboardSettings(
                 themeMode = s.themeMode,
+                keyboardTheme = s.keyboardTheme,
                 highContrast = s.highContrast,
                 keyHeightFraction = heightScaleToFraction(s.keyboardHeightScale),
                 hapticsEnabled = s.keyPressVibration,

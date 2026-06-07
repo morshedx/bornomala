@@ -1,5 +1,7 @@
 package com.bornomala.keyboard.clipboard.presentation
 
+import com.bornomala.keyboard.theme.LucideIcons
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,12 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.PushPin
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.ContentPaste
-import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -144,7 +140,7 @@ private fun ClipboardSearchBar(
         placeholder = { Text("Search clipboard") },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Filled.Search,
+                imageVector = LucideIcons.Search,
                 contentDescription = null,
             )
         },
@@ -157,7 +153,7 @@ private fun ClipboardSearchBar(
                     },
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Delete,
+                        imageVector = LucideIcons.Trash,
                         contentDescription = null,
                     )
                 }
@@ -214,7 +210,7 @@ private fun ClipboardRow(
             Spacer(Modifier.width(4.dp))
             RowAction(
                 onClick = { onTogglePin(item.id, item.pinned) },
-                icon = if (item.pinned) Icons.Filled.PushPin else Icons.Outlined.PushPin,
+                icon = if (item.pinned) LucideIcons.Pin else LucideIcons.Pin,
                 contentDescription = if (item.pinned) {
                     "Unpin clipboard item"
                 } else {
@@ -224,7 +220,7 @@ private fun ClipboardRow(
             )
             RowAction(
                 onClick = { onDelete(item.id) },
-                icon = Icons.Filled.Delete,
+                icon = LucideIcons.Trash,
                 contentDescription = "Delete clipboard item",
                 tint = colors.functionalKeyContent,
             )
@@ -265,7 +261,7 @@ private fun EmptyState(isSearchMiss: Boolean) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Icon(
-                imageVector = Icons.Outlined.ContentPaste,
+                imageVector = LucideIcons.Clipboard,
                 contentDescription = null,
                 modifier = Modifier
                     .size(40.dp)

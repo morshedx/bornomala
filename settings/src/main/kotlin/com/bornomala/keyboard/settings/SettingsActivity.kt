@@ -34,7 +34,7 @@ class SettingsActivity : ComponentActivity() {
             val settings = (state as? Resource.Success)?.data ?: Settings.DEFAULTS
 
             BornomalaTheme(
-                themeMode = settings.themeMode,
+                theme = settings.keyboardTheme,
                 highContrast = settings.highContrast,
             ) {
                 SettingsScreen(viewModel = viewModel)

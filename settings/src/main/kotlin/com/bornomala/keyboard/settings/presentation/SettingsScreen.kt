@@ -1,7 +1,23 @@
 package com.bornomala.keyboard.settings.presentation
 
+import com.bornomala.keyboard.theme.LucideIcons
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import com.bornomala.keyboard.theme.KeyboardTheme
+import com.bornomala.keyboard.theme.keyboardColorsFor
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,9 +28,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -109,6 +124,7 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 /** Immutable bundle of every settings mutation, hoisted so [SettingsContent] is stateless. */
 internal data class SettingsCallbacks(
     val onThemeMode: (ThemeMode) -> Unit,
+    val onKeyboardTheme: (KeyboardTheme) -> Unit,
     val onHighContrast: (Boolean) -> Unit,
     val onKeyboardHeightScale: (Float) -> Unit,
     val onVibration: (Boolean) -> Unit,
@@ -129,6 +145,7 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
     remember(viewModel) {
         SettingsCallbacks(
             onThemeMode = viewModel::onThemeModeChange,
+            onKeyboardTheme = viewModel::onKeyboardThemeChange,
             onHighContrast = viewModel::onHighContrastChange,
             onKeyboardHeightScale = viewModel::onKeyboardHeightScaleChange,
             onVibration = viewModel::onKeyPressVibrationChange,
@@ -183,7 +200,7 @@ internal fun SettingsContent(
                     if (route != SettingsRoute.HOME) {
                         IconButton(onClick = { route = SettingsRoute.HOME }) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = LucideIcons.ArrowLeft,
                                 contentDescription = stringResource(R.string.settings_back),
                             )
                         }
@@ -228,55 +245,111 @@ private fun SettingsHome(
     onOpen: (SettingsRoute) -> Unit,
     onReset: () -> Unit,
 ) {
-    Column(modifier) {
-        CategoryRow(stringResource(R.string.settings_section_appearance)) { onOpen(SettingsRoute.APPEARANCE) }
-        CategoryRow(stringResource(R.string.settings_section_feedback)) { onOpen(SettingsRoute.FEEDBACK) }
-        CategoryRow(stringResource(R.string.settings_section_typing)) { onOpen(SettingsRoute.TYPING) }
-        CategoryRow(stringResource(R.string.settings_section_features)) { onOpen(SettingsRoute.FEATURES) }
-        CategoryRow(stringResource(R.string.settings_section_bangla)) { onOpen(SettingsRoute.BANGLA) }
-        CategoryRow(stringResource(R.string.settings_section_about)) { onOpen(SettingsRoute.ABOUT) }
-        SettingsDivider()
-        ResetRow(onClick = onReset)
+    val items = listOf(
+        CategoryItem(LucideIcons.Palette, Color(0xFF4C8DF6), stringResource(R.string.settings_section_appearance), "Theme, contrast, keyboard height", SettingsRoute.APPEARANCE),
+        CategoryItem(LucideIcons.Vibrate, Color(0xFF2BC0D6), stringResource(R.string.settings_section_feedback), "Vibration and sound", SettingsRoute.FEEDBACK),
+        CategoryItem(LucideIcons.Keyboard, Color(0xFF49C07A), stringResource(R.string.settings_section_typing), "Auto-capitalization, shortcuts, number row", SettingsRoute.TYPING),
+        CategoryItem(LucideIcons.Lightbulb, Color(0xFFE0A33A), stringResource(R.string.settings_section_features), "Suggestions, learning, clipboard", SettingsRoute.FEATURES),
+        CategoryItem(LucideIcons.Languages, Color(0xFFA277F0), stringResource(R.string.settings_section_bangla), "Auto-commit and phonetic alternatives", SettingsRoute.BANGLA),
+        CategoryItem(LucideIcons.Info, Color(0xFF9AA0A6), stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
+    )
+    Column(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Card(modifier = Modifier.fillMaxWidth()) {
+            items.forEachIndexed { index, item ->
+                CategoryRow(item) { onOpen(item.route) }
+                if (index < items.lastIndex) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(start = 72.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                    )
+                }
+            }
+        }
+        Card(modifier = Modifier.fillMaxWidth()) {
+            ResetRow(onClick = onReset)
+        }
     }
 }
 
+private data class CategoryItem(
+    val icon: ImageVector,
+    val badge: Color,
+    val title: String,
+    val subtitle: String,
+    val route: SettingsRoute,
+)
+
 @Composable
-private fun CategoryRow(title: String, onClick: () -> Unit) {
+private fun CategoryRow(item: CategoryItem, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 56.dp)
             .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.weight(1f),
-        )
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(item.badge.copy(alpha = 0.18f)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = item.icon,
+                contentDescription = null,
+                tint = item.badge,
+                modifier = Modifier.size(22.dp),
+            )
+        }
+        Spacer(Modifier.width(16.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text = item.title, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = item.subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
         Icon(
-            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            imageVector = LucideIcons.ChevronRight,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
     Column(modifier) {
-        RadioSettingGroup(
-            title = stringResource(R.string.settings_theme),
-            description = stringResource(R.string.settings_theme_desc),
-            options = listOf(
-                RadioOption(ThemeMode.LIGHT, stringResource(R.string.settings_theme_light)),
-                RadioOption(ThemeMode.DARK, stringResource(R.string.settings_theme_dark)),
-                RadioOption(ThemeMode.SYSTEM, stringResource(R.string.settings_theme_system)),
-            ),
-            selected = settings.themeMode,
-            onSelected = callbacks.onThemeMode,
+        Text(
+            text = stringResource(R.string.settings_theme),
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp),
         )
+        val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
+        androidx.compose.foundation.layout.FlowRow(
+            modifier = Modifier.padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            KeyboardTheme.entries.forEach { theme ->
+                val preview = keyboardColorsFor(theme, systemDark)
+                ThemeSwatch(
+                    name = theme.displayName,
+                    tray = preview.keyboardBackground,
+                    key = preview.keyBackground,
+                    accent = preview.accentKeyBackground,
+                    selected = theme == settings.keyboardTheme,
+                    onClick = { callbacks.onKeyboardTheme(theme) },
+                )
+            }
+        }
+        Spacer(Modifier.height(8.dp))
         SwitchSettingRow(
             title = stringResource(R.string.settings_high_contrast),
             description = stringResource(R.string.settings_high_contrast_desc),
@@ -286,6 +359,48 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
         HeightSlider(
             scale = settings.keyboardHeightScale,
             onScaleChange = callbacks.onKeyboardHeightScale,
+        )
+    }
+}
+
+@Composable
+private fun ThemeSwatch(
+    name: String,
+    tray: Color,
+    key: Color,
+    accent: Color,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier
+                .size(width = 66.dp, height = 54.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(tray)
+                .border(
+                    width = if (selected) 2.dp else 1.dp,
+                    color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
+                    shape = RoundedCornerShape(12.dp),
+                )
+                .clickable(role = Role.Button, onClick = onClick)
+                .padding(8.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                androidx.compose.foundation.layout.Box(
+                    Modifier.size(width = 16.dp, height = 22.dp).clip(RoundedCornerShape(4.dp)).background(key),
+                )
+                androidx.compose.foundation.layout.Box(
+                    Modifier.size(width = 16.dp, height = 22.dp).clip(RoundedCornerShape(4.dp)).background(accent),
+                )
+            }
+        }
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = name,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

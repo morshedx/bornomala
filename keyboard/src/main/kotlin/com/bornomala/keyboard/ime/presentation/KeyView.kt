@@ -1,5 +1,7 @@
 package com.bornomala.keyboard.ime.presentation
 
+import com.bornomala.keyboard.theme.LucideIcons
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -8,13 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Backspace
-import androidx.compose.material.icons.automirrored.filled.KeyboardReturn
-import androidx.compose.material.icons.filled.EmojiEmotions
-import androidx.compose.material.icons.filled.KeyboardCapslock
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -207,13 +202,13 @@ private fun labelFor(key: Key, shift: ShiftState): String {
 }
 
 private fun iconFor(key: Key, shift: ShiftState): ImageVector? = when (key.action) {
-    KeyAction.Backspace -> Icons.AutoMirrored.Filled.Backspace
-    KeyAction.Enter -> Icons.AutoMirrored.Filled.KeyboardReturn
-    KeyAction.SwitchLanguage -> Icons.Filled.Language
-    KeyAction.Emoji -> Icons.Filled.EmojiEmotions
+    KeyAction.Backspace -> LucideIcons.Delete
+    KeyAction.Enter -> LucideIcons.CornerDownLeft
+    KeyAction.SwitchLanguage -> LucideIcons.Globe
+    KeyAction.Emoji -> LucideIcons.Smile
     KeyAction.Shift -> when (shift) {
-        ShiftState.CAPS_LOCK -> Icons.Filled.KeyboardCapslock
-        else -> Icons.Outlined.KeyboardArrowUp
+        ShiftState.CAPS_LOCK -> LucideIcons.ArrowBigUpDash
+        else -> LucideIcons.ArrowBigUp
     }
     else -> null
 }

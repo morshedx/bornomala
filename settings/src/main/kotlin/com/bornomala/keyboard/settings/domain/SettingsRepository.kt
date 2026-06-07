@@ -2,6 +2,7 @@ package com.bornomala.keyboard.settings.domain
 
 import com.bornomala.keyboard.core.result.AppResult
 import com.bornomala.keyboard.settings.domain.model.Settings
+import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.ThemeMode
 import kotlinx.coroutines.flow.Flow
 
@@ -27,6 +28,8 @@ interface SettingsRepository {
     val settings: Flow<Settings>
 
     suspend fun setThemeMode(themeMode: ThemeMode): AppResult<Unit>
+
+    suspend fun setKeyboardTheme(theme: KeyboardTheme): AppResult<Unit>
 
     suspend fun setHighContrast(enabled: Boolean): AppResult<Unit>
 

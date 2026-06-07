@@ -2,6 +2,7 @@ package com.bornomala.keyboard.settings.data
 
 import androidx.datastore.preferences.core.Preferences
 import com.bornomala.keyboard.settings.domain.model.Settings
+import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.ThemeMode
 
 /**
@@ -19,6 +20,9 @@ internal object SettingsMapper {
             themeMode = prefs[SettingsPreferenceKeys.THEME_MODE]
                 ?.let(::parseThemeMode)
                 ?: defaults.themeMode,
+            keyboardTheme = prefs[SettingsPreferenceKeys.KEYBOARD_THEME]
+                ?.let(KeyboardTheme::fromName)
+                ?: defaults.keyboardTheme,
             highContrast = prefs[SettingsPreferenceKeys.HIGH_CONTRAST]
                 ?: defaults.highContrast,
             keyboardHeightScale = prefs[SettingsPreferenceKeys.KEYBOARD_HEIGHT_SCALE]

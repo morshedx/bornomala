@@ -1,5 +1,7 @@
 package com.bornomala.keyboard.ime.presentation
 
+import com.bornomala.keyboard.theme.LucideIcons
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,12 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Mood
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -74,7 +70,7 @@ internal fun ActionStrip(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         StripIconButton(
-            icon = if (showTools) Icons.Filled.KeyboardArrowRight else Icons.Filled.KeyboardArrowLeft,
+            icon = if (showTools) LucideIcons.ChevronRight else LucideIcons.ChevronLeft,
             description = if (showTools) "Show suggestions" else "Show tools",
             onClick = { toolsExpanded = !showTools },
         )
@@ -110,11 +106,11 @@ private fun ToolsRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        StripIconButton(Icons.Filled.Mood, "Emoji", callbacks.onToggleEmoji, active = emojiActive)
+        StripIconButton(LucideIcons.Smile, "Emoji", callbacks.onToggleEmoji, active = emojiActive)
         NumbersButton(active = numpadActive, onClick = callbacks.onToggleNumbers)
         StripIconButton(LucideIcons.ClipboardList, "Clipboard", callbacks.onToggleClipboard, active = clipboardActive)
-        StripIconButton(Icons.Filled.Settings, "Keyboard settings", callbacks.onOpenSettings)
-        StripIconButton(Icons.Filled.KeyboardArrowDown, "Hide keyboard", callbacks.onHideKeyboard)
+        StripIconButton(LucideIcons.Settings, "Keyboard settings", callbacks.onOpenSettings)
+        StripIconButton(LucideIcons.ChevronDown, "Hide keyboard", callbacks.onHideKeyboard)
     }
 }
 

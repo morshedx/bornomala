@@ -9,6 +9,7 @@ import com.bornomala.keyboard.core.result.AppError
 import com.bornomala.keyboard.core.result.AppResult
 import com.bornomala.keyboard.settings.domain.SettingsRepository
 import com.bornomala.keyboard.settings.domain.model.Settings
+import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.ThemeMode
 import java.io.IOException
 import kotlinx.coroutines.CancellationException
@@ -50,6 +51,9 @@ internal class DataStoreSettingsRepository(
 
     override suspend fun setThemeMode(themeMode: ThemeMode): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.THEME_MODE] = themeMode.name }
+
+    override suspend fun setKeyboardTheme(theme: KeyboardTheme): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.KEYBOARD_THEME] = theme.name }
 
     override suspend fun setHighContrast(enabled: Boolean): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.HIGH_CONTRAST] = enabled }
