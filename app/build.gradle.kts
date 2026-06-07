@@ -62,6 +62,14 @@ android {
                 signingConfig = signingConfigs.getByName("release")
             }
         }
+        // Release-like build used by :macrobenchmark for trustworthy cold-start numbers.
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+            proguardFiles("benchmark-rules.pro")
+        }
     }
 
     compileOptions {
@@ -114,6 +122,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     implementation(libs.kotlinx.coroutines.android)
+
+    // Enables ProfileInstaller so macrobenchmark can measure/compile startup profiles.
+    implementation(libs.androidx.profileinstaller)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

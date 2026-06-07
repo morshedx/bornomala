@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bornomala">
 
+        <!-- Allows performance profiling (macrobenchmark). No effect on normal use. -->
+        <profileable android:shell="true" tools:targetApi="q" />
+
         <!--
           The Input Method (keyboard) service. The implementation lives in the
           :keyboard module (com.bornomala.keyboard.ime.KeyboardImeService) and is
@@ -38,18 +41,26 @@
                 android:resource="@xml/method" />
         </service>
 
-        <!-- Settings launcher: entry point in the app drawer. -->
+        <!-- Launcher entry point: the step-by-step activation flow (Gboard-style). It routes
+             to settings once the keyboard is enabled and selected. -->
         <activity
-            android:name="com.bornomala.keyboard.settings.SettingsActivity"
+            android:name=".OnboardingActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Bornomala"
-            tools:replace="android:exported">
+            android:theme="@style/Theme.Bornomala">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Settings screen: opened from onboarding and from the keyboard (long-press comma). -->
+        <activity
+            android:name="com.bornomala.keyboard.settings.SettingsActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Bornomala"
+            tools:replace="android:exported" />
     </application>
 
 </manifest>
