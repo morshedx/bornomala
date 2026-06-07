@@ -83,8 +83,12 @@ internal fun KeyboardScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    horizontal = dimens.keyboardHorizontalPadding,
-                    vertical = dimens.keyboardVerticalPadding,
+                    start = dimens.keyboardHorizontalPadding,
+                    end = dimens.keyboardHorizontalPadding,
+                    top = dimens.keyboardVerticalPadding,
+                    // Extra bottom margin (above the gesture inset) so the last row clears the
+                    // gesture handle comfortably, matching Gboard's spacing.
+                    bottom = dimens.keyboardVerticalPadding + 18.dp,
                 ),
         ) {
             ActionStrip(
