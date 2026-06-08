@@ -4,6 +4,14 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.5.18
+
+• Smarter suggestions: next-word prediction — the bar now suggests what to type next.
+• Predictions improve as you type (learned on-device, fully offline).
+• Roomier bottom spacing so the keyboard clears the gesture bar.
+
+---
+
 ## v0.5.17 — First release
 
 First release of Bornomala 🎉
