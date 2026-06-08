@@ -37,6 +37,8 @@ internal object SettingsMapper {
                 ?.let(::clampScale) ?: defaults.keyLabelScale,
             suggestionBarScale = prefs[SettingsPreferenceKeys.SUGGESTION_BAR_SCALE]
                 ?.let(::clampScale) ?: defaults.suggestionBarScale,
+            bottomGapScale = prefs[SettingsPreferenceKeys.BOTTOM_GAP_SCALE]
+                ?: defaults.bottomGapScale,
             keyboardHeightScale = prefs[SettingsPreferenceKeys.KEYBOARD_HEIGHT_SCALE]
                 ?.let(::clampHeightScale)
                 ?: defaults.keyboardHeightScale,

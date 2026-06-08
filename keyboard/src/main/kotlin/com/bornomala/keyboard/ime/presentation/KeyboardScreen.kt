@@ -116,8 +116,8 @@ internal fun KeyboardScreen(
                     // would make the toolbar look top-heavy.
                     top = 0.dp,
                     // Extra bottom margin (above the gesture inset) so the last row clears the
-                    // gesture handle comfortably, matching Gboard's ~54px bottom gap.
-                    bottom = dimens.keyboardVerticalPadding + 24.dp,
+                    // gesture handle comfortably. User-tunable via the configurator.
+                    bottom = dimens.keyboardVerticalPadding + BornomalaTheme.metrics.bottomGap,
                 ),
         ) {
             ActionStrip(

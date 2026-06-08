@@ -42,6 +42,7 @@ private fun PreviewHost(themeMode: ThemeMode) {
             onVerticalGapScale = { settings = settings.copy(verticalGapScale = it) },
             onKeyLabelScale = { settings = settings.copy(keyLabelScale = it) },
             onSuggestionBarScale = { settings = settings.copy(suggestionBarScale = it) },
+            onBottomGapScale = { settings = settings.copy(bottomGapScale = it) },
             onKeyboardHeightScale = { settings = settings.copy(keyboardHeightScale = it) },
             onVibration = { settings = settings.copy(keyPressVibration = it) },
             onSound = { settings = settings.copy(keyPressSound = it) },

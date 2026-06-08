@@ -182,6 +182,7 @@ class KeyboardImeService : InputMethodService() {
                         verticalGapScale = settings.verticalGapScale,
                         keyLabelScale = settings.keyLabelScale,
                         suggestionBarScale = settings.suggestionBarScale,
+                        bottomGapScale = settings.bottomGapScale,
                         keyBorder = settings.keyBorder,
                     ),
                 ) {
@@ -389,6 +390,30 @@ class KeyboardImeService : InputMethodService() {
         }
         suggestionJob?.cancel()
         val previous = previousWord()
+
+        // Bangla (Avro) special case: `currentWord` is the raw latin the user typed. Gboard-style,
+        // the strip leads with that literal latin so it can be committed as-is, followed by the
+        // transliterated Bangla word + its commit candidate, then Bangla-dictionary completions.
+        // The transliteration engine is single-threaded, so it is run here on the input thread
+        // (not the background dispatcher) and only the dictionary lookup is offloaded.
+        if (language == KeyboardLanguage.BANGLA && currentWord.isNotEmpty()) {
+            val rendered = transliterationPort.transliterate(currentWord)
+            val engineCandidates = transliterationPort.candidates(currentWord)
+            suggestionJob = serviceScope.launch {
+                val dict = withContext(dispatchers.default) {
+                    if (rendered.isNotEmpty()) {
+                        suggestionPort.query(KeyboardLanguage.BANGLA, rendered, previous, SUGGESTION_LIMIT)
+                    } else {
+                        emptyList()
+                    }
+                }
+                stateHolder.setSuggestions(
+                    buildBanglaSuggestions(currentWord, rendered, engineCandidates, dict),
+                )
+            }
+            return
+        }
+
         suggestionJob = serviceScope.launch {
             val results: List<Suggestion> = withContext(dispatchers.default) {
                 suggestionPort.query(
@@ -400,6 +425,30 @@ class KeyboardImeService : InputMethodService() {
             }
             stateHolder.setSuggestions(results)
         }
+    }
+
+    /**
+     * Assembles the Bangla suggestion strip: the raw latin first, the transliterated word
+     * (highlighted), any engine commit candidate, then dictionary completions — de-duplicated
+     * by text and capped at [SUGGESTION_LIMIT].
+     */
+    private fun buildBanglaSuggestions(
+        roman: String,
+        rendered: String,
+        engineCandidates: List<String>,
+        dictionary: List<Suggestion>,
+    ): List<Suggestion> {
+        val out = ArrayList<Suggestion>(SUGGESTION_LIMIT)
+        val seen = HashSet<String>()
+        fun add(text: String, transliteration: Boolean, highlight: Boolean) {
+            if (text.isEmpty() || !seen.add(text) || out.size >= SUGGESTION_LIMIT) return
+            out.add(Suggestion(text = text, isAutoCorrect = highlight, isTransliteration = transliteration))
+        }
+        add(roman, transliteration = false, highlight = false)
+        add(rendered, transliteration = true, highlight = true)
+        engineCandidates.forEach { add(it, transliteration = true, highlight = false) }
+        dictionary.forEach { add(it.text, transliteration = true, highlight = false) }
+        return out
     }
 
     /** The last committed token before the cursor, used for next-word prediction. */
@@ -458,7 +507,7 @@ class KeyboardImeService : InputMethodService() {
     }
 
     private companion object {
-        const val SUGGESTION_LIMIT = 3
+        const val SUGGESTION_LIMIT = 6
         const val PREVIOUS_WORD_LOOKBACK = 48
         const val SETTINGS_ACTIVITY = "com.bornomala.keyboard.settings.SettingsActivity"
     }

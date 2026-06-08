@@ -29,6 +29,6 @@ data class SuggestionRequest(
     val isNextWordOnly: Boolean get() = currentWord.isEmpty()
 
     companion object {
-        const val DEFAULT_LIMIT: Int = 3
+        const val DEFAULT_LIMIT: Int = 6
     }
 }

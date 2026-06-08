@@ -17,6 +17,7 @@ internal object SettingsPreferenceKeys {
     val VERTICAL_GAP_SCALE = floatPreferencesKey("vertical_gap_scale")
     val KEY_LABEL_SCALE = floatPreferencesKey("key_label_scale")
     val SUGGESTION_BAR_SCALE = floatPreferencesKey("suggestion_bar_scale")
+    val BOTTOM_GAP_SCALE = floatPreferencesKey("bottom_gap_scale")
     val KEYBOARD_HEIGHT_SCALE = floatPreferencesKey("keyboard_height_scale")
     val KEY_PRESS_VIBRATION = booleanPreferencesKey("key_press_vibration")
     val KEY_PRESS_SOUND = booleanPreferencesKey("key_press_sound")

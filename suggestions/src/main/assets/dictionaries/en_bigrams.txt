@@ -1,72 +1,207 @@
 # prev<TAB>next1 next2 ... (curated seed; on-device learning extends this)
-i	am have will can do think want need really know don't
-i'm	not going so just a really
-you	are can have will know don't should can't
-we	are have will can should can't
-he	is was has will
-she	is was has will
-they	are have will were
-it	is was will has
-to	be the do go get make see have a know
-the	best same first only most other way one time next
-a	lot little few good new bit
-want	to a it you the
-need	to a the help some
-have	a to been the you
-will	be have not get make
-can	you i be do get not help
-do	you not the it that
-how	are to do much many is's
-what	is are do you the time about
-where	are is do you can
-when	you i is are will
-why	are is do you not
+i	am have will can think want need really don't know was would
+i'm	not going so just really sorry here
+i'll	be have get see call take try let
+i've	been got had never always seen
+i'd	like love rather be
+you	are can have will know don't should can't want need re
+you're	not so going right welcome a
+you'll	be have get find see need
+we	are have will can should can't need want were
+we're	not going so all here a
+we'll	be have get see talk
+they	are have will were can don't want need
+he	is was has will can would had said
+she	is was has will can would had said
+it	is was will has would can does won't
+it's	a not the just so really my
+am	i not going so a really
+is	a the not it this that there going very
+are	you the not we they going there
+was	a the not it just very going
+were	you not the just going there
+be	a the able to there back fine
+been	a to the so very trying looking
+being	a the so very
+will	be have not get make you take do come
+would	you like be love have rather
+can	you i be do get not help make see
+could	you i be have not get
+should	i you be we not have
+shall	we i
+may	i be have
+might	be have get not
+must	be have not
+have	a to been the you not no some any
+has	a been the not no
+had	a been to the no
+do	you not the it that i this
+does	not it the this anyone
+did	you not the it that
+go	to the back home there for out
+goes	to the
+went	to the back home out
+going	to be on out home back
+get	the a you it to back some
+gets	the a
+got	to a it the back
+getting	the a to ready
+make	sure a the it
+makes	me it sense
+made	a the it me
+making	sure a it
+want	to a it you the some
+wants	to a it the
+wanted	to a it you the
+wanting	to a more
+need	to a the help some more it
+needs	to a the
+needed	to a the
+needing	a more
+think	i you it that about so
+thinks	that i
+thought	i it that about of
+know	i you that it what about how if
+knows	the that
+knew	it that i
+see	you the a it what if how
+sees	the
+saw	the a it him her
+seeing	the a
+take	a the it care your
+takes	a the
+took	the a it me
+taking	a the it
+come	to back on here over in
+comes	to the
+came	to back from in
+coming	to back home up
+give	me you it a the up
+gives	me the
+gave	me it the
+giving	me you a
+tell	me you him her the
+told	me you him her the
+ask	me you him her for
+asked	me him her for
+work	on the for out hard
+works	for the
+worked	on for hard
+call	me you him her back
+called	me him her the
+try	to a it again
+tried	to it
+trying	to a get
+feel	like the so good
+felt	like so good
+feeling	a like good
+keep	the it up going your
+kept	the it
+keeping	the it up
+let	me us it go
+lets	me us
+start	the a to over
+started	to the a
+starting	to a the
+help	me you with the out
+helped	me him her
+talk	to you about
+talking	to about
+talked	to about
+look	at the for like
+looking	for the at forward
+looked	at the like
+play	the a with
+played	the a
+playing	the a with
+like	to a the it this
+liked	the it
+likes	to the
+remember	to the that when
+remembered	the that
+learn	to the more how
+learning	the to how
+change	the it your my
+changed	the my
+changing	the it
+read	the a it book
+reading	the a book
+write	a the it down
+writing	a the
+buy	a the it some
+bought	a the it
+send	me you it the
+sent	me you it the
+open	the a it your
+opened	the
+stop	the it now
+stopped	the it
+meet	you the up at
+met	you the her him
+the	best same first only most other way one time next whole
+a	lot little few good new bit great couple
+an	hour old idea important
+to	be the do go get make see have know take a
+of	the a course it my them
+in	the a my this fact front order
+on	the a my your it top
+at	the a home work least all least
+for	the a you me your us it
+with	the a you me my it
+about	the it you a how that
+from	the a you me my
+by	the a you my
+as	a the well i soon long
+into	the a it
+after	the a all that
+over	the a there here
+out	of the a there
+off	the a to
+up	the a to and
+down	the a to
+because	i it the you of
+but	i it the not you
+and	the i a then you it
+or	the a not i
+so	i you the much that we
+if	you i it the not
+when	you i the will
+while	i you the
+what	is are do you the time about i kind
+where	are is do you can the i
+why	are is do you not i
+how	are to do much many is i long about
+who	is are you the
+which	one is
+hello	there everyone
+hi	there everyone
+hey	there i
 thank	you
-thanks	for
-please	let do
-let	me us
-let's	go do
-going	to be
-this	is a the one
-that	is was the you a
-is	a the not it this
-are	you the not we
-my	name friend self
-your	name self welcome
-for	the a you me your
-of	the a course
-in	the a my this
-on	the a my your
-at	the a home work
-good	morning night luck idea
-see	you the
-talk	to you
-look	at the
-get	the a you it
-make	sure a the
-take	a care the
-i'll	be call get see
-we'll	be see
-don't	know worry have think
-would	you like be love
-could	you i be
-should	i you be we
-because	i it the you
-about	the it you a
-not	sure a the going
-right	now there here
-just	a got wanted want
-got	to a it the
-been	a to the
-much	better more for
-more	than to
-one	of the more
-time	to for is
-day	off and
+thanks	for so a
+please	let do help
+sorry	for i about
+yes	i please of
+no	i not problem thanks worries
+ok	i so
+okay	i so
+sure	i thing
+maybe	i we you next
+just	a got wanted want now to
+really	good like want need a
+very	good much well nice
+too	much many
+good	morning night luck idea job
+great	i thanks
+nice	to one
 well	i done that
-yes	i please
-no	i not problem
-ok	i
-okay	i
-hello	there
-hi	there
+now	i we that you
+then	i we you
+here	is are i we
+there	is are you we
+today	i is
+tomorrow	i is
+this	is a the one week
+that	is was the you a one
+my	name friend self mom dad
+your	name self welcome time
+our	team house

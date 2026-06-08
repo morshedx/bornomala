@@ -44,6 +44,8 @@ interface SettingsRepository {
 
     suspend fun setSuggestionBarScale(scale: Float): AppResult<Unit>
 
+    suspend fun setBottomGapScale(scale: Float): AppResult<Unit>
+
     /**
      * Sets the keyboard height multiplier. The value is clamped to
      * [Settings.MIN_KEYBOARD_HEIGHT_SCALE]..[Settings.MAX_KEYBOARD_HEIGHT_SCALE] before

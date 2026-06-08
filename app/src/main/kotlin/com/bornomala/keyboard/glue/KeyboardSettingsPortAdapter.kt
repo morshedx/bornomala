@@ -40,6 +40,7 @@ class KeyboardSettingsPortAdapter @Inject constructor(
                 verticalGapScale = s.verticalGapScale,
                 keyLabelScale = s.keyLabelScale,
                 suggestionBarScale = s.suggestionBarScale,
+                bottomGapScale = s.bottomGapScale,
                 keyHeightFraction = heightScaleToFraction(s.keyboardHeightScale),
                 hapticsEnabled = s.keyPressVibration,
                 soundEnabled = s.keyPressSound,

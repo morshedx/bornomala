@@ -144,6 +144,7 @@ internal data class SettingsCallbacks(
     val onVerticalGapScale: (Float) -> Unit,
     val onKeyLabelScale: (Float) -> Unit,
     val onSuggestionBarScale: (Float) -> Unit,
+    val onBottomGapScale: (Float) -> Unit,
     val onKeyboardHeightScale: (Float) -> Unit,
     val onVibration: (Boolean) -> Unit,
     val onSound: (Boolean) -> Unit,
@@ -171,6 +172,7 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
             onVerticalGapScale = viewModel::onVerticalGapScaleChange,
             onKeyLabelScale = viewModel::onKeyLabelScaleChange,
             onSuggestionBarScale = viewModel::onSuggestionBarScaleChange,
+            onBottomGapScale = viewModel::onBottomGapScaleChange,
             onKeyboardHeightScale = viewModel::onKeyboardHeightScaleChange,
             onVibration = viewModel::onKeyPressVibrationChange,
             onSound = viewModel::onKeyPressSoundChange,
@@ -514,6 +516,7 @@ private fun ConfiguratorSheet(
                         verticalGapScale = settings.verticalGapScale,
                         keyLabelScale = settings.keyLabelScale,
                         suggestionBarScale = settings.suggestionBarScale,
+                        bottomGapScale = settings.bottomGapScale,
                         keyBorder = settings.keyBorder,
                     ),
                 ) {
@@ -535,6 +538,7 @@ private fun ConfiguratorSheet(
             ScaleSlider("Horizontal gap", "", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
             ScaleSlider("Key label size", "", settings.keyLabelScale, callbacks.onKeyLabelScale)
             ScaleSlider("Suggestion bar size", "", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
+            ScaleSlider("Bottom gap", "", settings.bottomGapScale, callbacks.onBottomGapScale)
         }
     }
 }

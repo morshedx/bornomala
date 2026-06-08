@@ -74,6 +74,9 @@ internal class DataStoreSettingsRepository(
     override suspend fun setSuggestionBarScale(scale: Float): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.SUGGESTION_BAR_SCALE] = SettingsMapper.clampScale(scale) }
 
+    override suspend fun setBottomGapScale(scale: Float): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.BOTTOM_GAP_SCALE] = scale }
+
     override suspend fun setKeyboardHeightScale(scale: Float): AppResult<Unit> =
         edit { prefs ->
             prefs[SettingsPreferenceKeys.KEYBOARD_HEIGHT_SCALE] =

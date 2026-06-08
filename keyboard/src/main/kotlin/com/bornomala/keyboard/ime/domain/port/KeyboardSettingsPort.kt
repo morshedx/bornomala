@@ -46,6 +46,7 @@ data class KeyboardSettings(
     val verticalGapScale: Float = 1f,
     val keyLabelScale: Float = 1f,
     val suggestionBarScale: Float = 1f,
+    val bottomGapScale: Float = 1f,
     val keyHeightFraction: Float = 0.5f,
     val hapticsEnabled: Boolean = true,
     val soundEnabled: Boolean = false,

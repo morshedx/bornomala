@@ -56,6 +56,7 @@ class SettingsViewModel @Inject constructor(
     fun onVerticalGapScaleChange(scale: Float) = launchEdit { repository.setVerticalGapScale(scale) }
     fun onKeyLabelScaleChange(scale: Float) = launchEdit { repository.setKeyLabelScale(scale) }
     fun onSuggestionBarScaleChange(scale: Float) = launchEdit { repository.setSuggestionBarScale(scale) }
+    fun onBottomGapScaleChange(scale: Float) = launchEdit { repository.setBottomGapScale(scale) }
 
     fun onKeyboardHeightScaleChange(scale: Float) = launchEdit {
         repository.setKeyboardHeightScale(scale)

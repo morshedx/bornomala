@@ -36,6 +36,9 @@ object KeyboardDimens {
     val keyboardHorizontalPadding: Dp = 4.dp
     val keyboardVerticalPadding: Dp = 6.dp
 
+    /** Baseline extra margin below the last key row (Gboard-like); user-scalable. */
+    val keyboardBottomGap: Dp = 24.dp
+
     /** Minimum interactive size for accessibility (TalkBack / large targets). */
     val minTouchTarget: Dp = 48.dp
 
