@@ -115,6 +115,20 @@ class OfflineProvider @Inject constructor(
             }
         }
 
+        // 4) Apostrophe contraction: "wont" -> "won't", "im" -> "i'm", etc. Offered with a high
+        //    score so it leads (the adapter highlights the top non-exact suggestion), while the
+        //    verbatim form remains available. Only for English and only on a complete-word match.
+        if (lang == SuggestionLanguage.ENGLISH) {
+            CONTRACTIONS[prefix]?.let { contraction ->
+                putBest(merged, Suggestion(
+                    word = contraction,
+                    language = lang,
+                    source = SuggestionSource.OFFLINE_DICTIONARY,
+                    score = CONTRACTION_SCORE,
+                ))
+            }
+        }
+
         return merged.values
             .sortedWith(RANK_COMPARATOR)
             .take(limit)
@@ -228,6 +242,45 @@ class OfflineProvider @Inject constructor(
         private const val SEED_STEP = 0.02
         private const val GENERIC_BASE = 0.20
         private const val GENERIC_STEP = 0.005
+
+        /** Score for an apostrophe contraction — above any plain dictionary word (<= 1.0). */
+        private const val CONTRACTION_SCORE = 1.5
+
+        /**
+         * No-apostrophe -> apostrophe contractions, keyed by the lower-cased typed word.
+         * Offered as a tap-only suggestion (space never auto-applies it), so even forms that
+         * are also ordinary words ("its", "were", "ill") are safe to include — they only take
+         * effect if the user taps the chip. First-person forms are capitalised (I'm, I'll, …).
+         */
+        private val CONTRACTIONS: Map<String, String> = mapOf(
+            // be / will / would / have / had  (am/are/is)
+            "im" to "I'm", "youre" to "you're", "hes" to "he's", "shes" to "she's",
+            "its" to "it's", "were" to "we're", "theyre" to "they're", "thats" to "that's",
+            "whats" to "what's", "whos" to "who's", "wheres" to "where's", "whens" to "when's",
+            "whys" to "why's", "hows" to "how's", "heres" to "here's", "theres" to "there's",
+            "lets" to "let's",
+            // 'll (will)
+            "ill" to "I'll", "youll" to "you'll", "hell" to "he'll", "shell" to "she'll",
+            "well" to "we'll", "theyll" to "they'll", "itll" to "it'll", "thatll" to "that'll",
+            "thisll" to "this'll", "wholl" to "who'll", "whatll" to "what'll", "therell" to "there'll",
+            // 'd (would / had)
+            "id" to "I'd", "youd" to "you'd", "hed" to "he'd", "shed" to "she'd",
+            "wed" to "we'd", "theyd" to "they'd", "itd" to "it'd", "thatd" to "that'd",
+            "whod" to "who'd", "howd" to "how'd", "whered" to "where'd",
+            // 've (have)
+            "ive" to "I've", "youve" to "you've", "weve" to "we've", "theyve" to "they've",
+            "couldve" to "could've", "wouldve" to "would've", "shouldve" to "should've",
+            "mightve" to "might've", "mustve" to "must've",
+            // n't (not)
+            "wont" to "won't", "dont" to "don't", "cant" to "can't", "didnt" to "didn't",
+            "doesnt" to "doesn't", "isnt" to "isn't", "arent" to "aren't", "wasnt" to "wasn't",
+            "werent" to "weren't", "hasnt" to "hasn't", "havent" to "haven't", "hadnt" to "hadn't",
+            "wouldnt" to "wouldn't", "couldnt" to "couldn't", "shouldnt" to "shouldn't",
+            "mustnt" to "mustn't", "neednt" to "needn't", "mightnt" to "mightn't",
+            "shant" to "shan't", "oughtnt" to "oughtn't", "aint" to "ain't",
+            // misc
+            "yall" to "y'all", "oclock" to "o'clock", "maam" to "ma'am", "cmon" to "c'mon",
+        )
 
         /**
          * Ranking: higher score first; on ties prefer user dictionary, then offline
