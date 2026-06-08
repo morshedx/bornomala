@@ -1,0 +1,6 @@
+First release of Bornomala 🎉
+• Bangla typing with Avro phonetic — spell it the way it sounds.
+• Clean English QWERTY with long-press symbols & accents.
+• Fully offline. No internet, no tracking, no data collected.
+• Emoji & clipboard panels, word suggestions, language switch.
+• Themes, adjustable size, fonts, and a live "Try now" preview.

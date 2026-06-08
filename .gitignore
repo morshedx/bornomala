@@ -17,3 +17,6 @@ local.properties
 
 # Kotlin compiler junk
 .kotlin/
+
+# Google Play service account (never commit)
+play-service-account.json

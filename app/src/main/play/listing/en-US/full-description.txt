@@ -1,0 +1,35 @@
+Bornomala is a fast, private keyboard for Bangla and English — built for people who care about how they type and who has their data. The answer: nobody. Everything stays on your phone.
+
+Type Bangla the natural way with Avro phonetic transliteration. Spell words the way they sound in English letters and Bornomala renders proper Bangla — conjuncts, vowel signs, and all.
+
+ami → আমি
+bangladesh → বাংলাদেশ
+kemon → কেমন
+
+PRIVACY FIRST
+• No internet permission — the app cannot send your data anywhere.
+• No analytics, no tracking, no ads, no accounts.
+• Everything you type is processed on your device.
+• The only permission used is optional vibration.
+
+BANGLA, DONE RIGHT
+• Avro phonetic typing with a real rule-based engine.
+• Bengali digits and dari punctuation.
+• Word suggestions, learned on-device.
+
+ENGLISH TOO
+• Clean QWERTY with shift, caps lock, number row, symbols.
+• Long-press for symbols and accents, Gboard-style.
+• Auto-capitalization and double-space-period.
+
+MADE YOURS
+• Light, dark, system, and rich color themes.
+• Adjustable keyboard height, key gaps, and label size.
+• Optional key borders and font choice.
+
+EVERYDAY TOOLS
+• Emoji keyboard with search, recents and frequents.
+• Clipboard manager with history, pin and search — on-device.
+• Instant English ⇄ Bangla switching.
+
+Light, fast, and completely private.

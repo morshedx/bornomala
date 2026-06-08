@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.play.publisher)
 }
 
 // App version, reused for the build config and the output APK file name.
@@ -95,6 +96,27 @@ android {
 // Name the output APKs with the version, e.g. bornomala-1.0.0-release.apk.
 base {
     archivesName.set("bornomala-$appVersionName")
+}
+
+// Gradle Play Publisher — CLI publishing to Google Play.
+// Auth: a service-account JSON at the repo root (play-service-account.json, gitignored).
+// Create it in Play Console → Users and permissions / API access, grant release perms.
+//
+// Common tasks:
+//   ./gradlew :app:publishReleaseBundle      # upload AAB to the configured track
+//   ./gradlew :app:publishReleaseListing     # push store listing text + graphics
+//   ./gradlew :app:promoteReleaseArtifact --from-track internal --promote-track production
+//
+// Metadata (release notes, listing text, graphics) lives in app/src/main/play/.
+play {
+    val credFile = rootProject.file("play-service-account.json")
+    if (credFile.exists()) {
+        serviceAccountCredentials.set(credFile)
+    }
+    defaultToAppBundles.set(true)
+    // Safe default: upload to internal testing as a draft so nothing goes live by accident.
+    track.set("internal")
+    releaseStatus.set(com.github.triplet.gradle.androidpublisher.ReleaseStatus.DRAFT)
 }
 
 dependencies {
