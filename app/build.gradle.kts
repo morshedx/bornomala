@@ -10,8 +10,8 @@ plugins {
 }
 
 // App version, reused for the build config and the output APK file name.
-val appVersionName = "0.5.20"
-val appVersionCode = 27
+val appVersionName = "0.5.21"
+val appVersionCode = 28
 
 // Optional release signing config, loaded from a gitignored keystore.properties.
 val keystorePropertiesFile = rootProject.file("keystore.properties")

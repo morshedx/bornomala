@@ -62,6 +62,25 @@ class UserDictionaryRepository @Inject constructor(
         appRunCatching { dao.learnWord(word, language.code, previousWord, now) }
     }
 
+    /** Records a learned next-word association: [context] (preceding word(s)) -> [word]. */
+    suspend fun learnNgram(
+        language: SuggestionLanguage,
+        context: String,
+        word: String,
+        now: Long = System.currentTimeMillis(),
+    ): AppResult<Unit> = withContext(dispatchers.io) {
+        appRunCatching { dao.learnNgram(context, word, language.code, now) }
+    }
+
+    /** Next-word candidates learned to follow [context] (a bigram or trigram context). */
+    suspend fun queryNgram(
+        language: SuggestionLanguage,
+        context: String,
+        limit: Int,
+    ): AppResult<List<LearnedNgramEntity>> = withContext(dispatchers.io) {
+        appRunCatching { dao.queryNgram(language.code, context, limit) }
+    }
+
     /** Exact lookup; null when the word has never been learned in [language]. */
     suspend fun findExact(
         word: String,

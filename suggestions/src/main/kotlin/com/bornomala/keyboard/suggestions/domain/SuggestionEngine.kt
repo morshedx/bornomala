@@ -34,6 +34,7 @@ interface SuggestionEngine {
     suspend fun onWordCommitted(
         word: String,
         previousWord: String,
+        secondPreviousWord: String,
         language: SuggestionLanguage,
     )
 }

@@ -15,8 +15,8 @@ import androidx.room.RoomDatabase
  * tradeoff (a few extra small SQLite files) is negligible for this workload.
  */
 @Database(
-    entities = [UserDictionaryEntity::class],
-    version = 1,
+    entities = [UserDictionaryEntity::class, LearnedNgramEntity::class],
+    version = 2,
     exportSchema = false,
 )
 abstract class SuggestionsDatabase : RoomDatabase() {
@@ -35,6 +35,10 @@ abstract class SuggestionsDatabase : RoomDatabase() {
                 context.applicationContext,
                 SuggestionsDatabase::class.java,
                 DATABASE_NAME,
-            ).build()
+            )
+                // Learned data is a cache rebuilt by on-device learning; a schema bump can
+                // safely drop it rather than ship a migration for a regenerable table.
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }

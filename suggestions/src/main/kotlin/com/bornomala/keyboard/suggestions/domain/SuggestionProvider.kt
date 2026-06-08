@@ -61,6 +61,7 @@ interface SuggestionProvider {
     suspend fun learn(
         word: String,
         previousWord: String,
+        secondPreviousWord: String,
         language: SuggestionLanguage,
     ): AppResult<Unit>
 

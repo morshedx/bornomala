@@ -43,7 +43,7 @@ class OfflineProviderTest {
     }
 
     private fun request(current: String, previous: String = "", limit: Int = 3) =
-        SuggestionRequest(current, previous, SuggestionLanguage.ENGLISH, limit)
+        SuggestionRequest(currentWord = current, previousWord = previous, language = SuggestionLanguage.ENGLISH, limit = limit)
 
     @Test
     fun `is always available offline`() {
@@ -73,7 +73,7 @@ class OfflineProviderTest {
     @Test
     fun `learned word outranks dictionary words of same prefix`() = runTest {
         // Learn "thermos" several times; it is not in the bundled dictionary.
-        repeat(5) { provider.learn("thermos", previousWord = "", language = SuggestionLanguage.ENGLISH) }
+        repeat(5) { provider.learn("thermos", previousWord = "", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH) }
         val result = (provider.suggest(request("the", limit = 5)) as com.bornomala.keyboard.core.result.AppResult.Success).data
         assertThat(result.first().word).isEqualTo("thermos")
         assertThat(result.first().source).isEqualTo(SuggestionSource.USER_DICTIONARY)
@@ -81,8 +81,8 @@ class OfflineProviderTest {
 
     @Test
     fun `learning increments frequency`() = runTest {
-        provider.learn("hello", previousWord = "", language = SuggestionLanguage.ENGLISH)
-        provider.learn("hello", previousWord = "", language = SuggestionLanguage.ENGLISH)
+        provider.learn("hello", previousWord = "", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
+        provider.learn("hello", previousWord = "", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
         val entry = dao.findExact("hello", SuggestionLanguage.ENGLISH.code)
         assertThat(entry).isNotNull()
         assertThat(entry!!.frequency).isEqualTo(2)
@@ -90,27 +90,44 @@ class OfflineProviderTest {
 
     @Test
     fun `learning lowercases english words`() = runTest {
-        provider.learn("Hello", previousWord = "", language = SuggestionLanguage.ENGLISH)
+        provider.learn("Hello", previousWord = "", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
         assertThat(dao.findExact("hello", SuggestionLanguage.ENGLISH.code)).isNotNull()
         assertThat(dao.findExact("Hello", SuggestionLanguage.ENGLISH.code)).isNull()
     }
 
     @Test
     fun `empty word cannot be learned`() = runTest {
-        val result = provider.learn("   ", previousWord = "", language = SuggestionLanguage.ENGLISH)
+        val result = provider.learn("   ", previousWord = "", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
         assertThat(result).isInstanceOf(com.bornomala.keyboard.core.result.AppResult.Failure::class.java)
     }
 
     @Test
     fun `next word prediction uses learned bigrams`() = runTest {
-        provider.learn("morning", previousWord = "good", language = SuggestionLanguage.ENGLISH)
-        provider.learn("morning", previousWord = "good", language = SuggestionLanguage.ENGLISH)
-        provider.learn("night", previousWord = "good", language = SuggestionLanguage.ENGLISH)
+        provider.learn("morning", previousWord = "good", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
+        provider.learn("morning", previousWord = "good", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
+        provider.learn("night", previousWord = "good", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
 
         val result = (provider.suggest(request(current = "", previous = "good")) as com.bornomala.keyboard.core.result.AppResult.Success).data
         assertThat(result).isNotEmpty()
         assertThat(result.first().word).isEqualTo("morning")
         assertThat(result.map { it.word }).contains("night")
+    }
+
+    @Test
+    fun `trigram context outranks bigram for the same previous word`() = runTest {
+        provider.learn("to", previousWord = "want", secondPreviousWord = "i", language = SuggestionLanguage.ENGLISH)
+        provider.learn("to", previousWord = "want", secondPreviousWord = "i", language = SuggestionLanguage.ENGLISH)
+        provider.learn("go", previousWord = "want", secondPreviousWord = "", language = SuggestionLanguage.ENGLISH)
+        val req = SuggestionRequest(
+            currentWord = "",
+            previousWord = "want",
+            secondPreviousWord = "i",
+            language = SuggestionLanguage.ENGLISH,
+            limit = 5,
+        )
+        val result = (provider.suggest(req) as com.bornomala.keyboard.core.result.AppResult.Success).data
+        assertThat(result.first().word).isEqualTo("to")
+        assertThat(result.map { it.word }).contains("go")
     }
 
     @Test

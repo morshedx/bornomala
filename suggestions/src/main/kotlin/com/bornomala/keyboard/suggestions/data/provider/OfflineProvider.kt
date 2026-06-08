@@ -141,9 +141,25 @@ class OfflineProvider @Inject constructor(
         val fetch = limit + EXTRA_FETCH
         val merged = LinkedHashMap<String, Suggestion>(fetch * 2)
 
+        val prev2 = normalize(request.secondPreviousWord, lang)
+
         if (prev.isNotEmpty()) {
-            // 1) Learned bigrams — what THIS user typed after `prev`. Strongest.
-            val learned = userDictionary.queryNextWord(lang, prev, fetch).getOrDefault(emptyList())
+            // 1) Learned TRIGRAM — what THIS user typed after `prev2 prev`. Strongest (most
+            //    specific context), boosted above the bigram tier.
+            if (prev2.isNotEmpty()) {
+                val tri = userDictionary.queryNgram(lang, "$prev2 $prev", fetch).getOrDefault(emptyList())
+                for (entry in tri) {
+                    putBest(merged, Suggestion(
+                        word = entry.word,
+                        language = lang,
+                        source = SuggestionSource.USER_DICTIONARY,
+                        score = (normalizeUserFrequency(entry.frequency) + USER_BOOST + TRIGRAM_BONUS)
+                            .coerceAtMost(MAX_SCORE),
+                    ))
+                }
+            }
+            // 2) Learned BIGRAM — words the user typed after `prev`.
+            val learned = userDictionary.queryNgram(lang, prev, fetch).getOrDefault(emptyList())
             for (entry in learned) {
                 putBest(merged, Suggestion(
                     word = entry.word,
@@ -152,7 +168,7 @@ class OfflineProvider @Inject constructor(
                     score = (normalizeUserFrequency(entry.frequency) + USER_BOOST).coerceAtMost(MAX_SCORE),
                 ))
             }
-            // 2) Bundled bigram seed — common continuations of `prev`.
+            // 3) Bundled bigram seed — common continuations of `prev`.
             bigrams.get(lang).nextWords(prev, fetch).forEachIndexed { i, w ->
                 if (w != prev) {
                     putBest(merged, Suggestion(
@@ -186,6 +202,7 @@ class OfflineProvider @Inject constructor(
     override suspend fun learn(
         word: String,
         previousWord: String,
+        secondPreviousWord: String,
         language: SuggestionLanguage,
     ): AppResult<Unit> {
         val normalized = normalize(word, language)
@@ -194,11 +211,18 @@ class OfflineProvider @Inject constructor(
                 com.bornomala.keyboard.core.result.AppError.Validation("Cannot learn empty word"),
             )
         }
-        return userDictionary.learn(
-            word = normalized,
-            previousWord = normalize(previousWord, language),
-            language = language,
-        )
+        val prev = normalize(previousWord, language)
+        val prev2 = normalize(secondPreviousWord, language)
+        // The word row backs prefix-completion + recency.
+        val result = userDictionary.learn(word = normalized, previousWord = prev, language = language)
+        // Learned n-grams back next-word prediction: bigram (prev) and trigram (prev2 prev).
+        if (prev.isNotEmpty()) {
+            userDictionary.learnNgram(language, prev, normalized)
+            if (prev2.isNotEmpty()) {
+                userDictionary.learnNgram(language, "$prev2 $prev", normalized)
+            }
+        }
+        return result
     }
 
     /** Keeps the higher-scored suggestion when the same word arrives from two sources. */
@@ -231,6 +255,9 @@ class OfflineProvider @Inject constructor(
 
         /** Additive boost so any user-learned word outranks generic dictionary words. */
         private const val USER_BOOST = 1.0
+
+        /** Extra boost for a trigram match so it leads its bigram counterpart. */
+        private const val TRIGRAM_BONUS = 0.1
         private const val MAX_SCORE = 2.0
         private const val VERBATIM_SCORE = 0.001
         private const val EXTRA_FETCH = 2

@@ -15,6 +15,7 @@ class EmptySuggestionPort @Inject constructor() : SuggestionPort {
         language: KeyboardLanguage,
         currentWord: String,
         previousWord: String,
+        secondPreviousWord: String,
         limit: Int,
     ): List<Suggestion> = emptyList()
 

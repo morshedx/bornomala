@@ -50,6 +50,7 @@ class FutureCloudProvider @Inject constructor() : SuggestionProvider {
     override suspend fun learn(
         word: String,
         previousWord: String,
+        secondPreviousWord: String,
         language: SuggestionLanguage,
     ): AppResult<Unit> = AppResult.Success(Unit)
 

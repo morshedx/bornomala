@@ -29,18 +29,21 @@ class SuggestionPortAdapter @Inject constructor(
 
     private val learningScope = AppCoroutineScope(dispatchers)
 
-    /** Last committed word per language, so learning records the bigram (previous -> word). */
+    /** Last two committed words per language, so learning records bigram + trigram contexts. */
     private val lastCommitted = HashMap<SuggestionLanguage, String>()
+    private val secondLastCommitted = HashMap<SuggestionLanguage, String>()
 
     override suspend fun query(
         language: KeyboardLanguage,
         currentWord: String,
         previousWord: String,
+        secondPreviousWord: String,
         limit: Int,
     ): List<KeyboardSuggestion> {
         val request = SuggestionRequest(
             currentWord = currentWord,
             previousWord = previousWord,
+            secondPreviousWord = secondPreviousWord,
             language = language.toSuggestionLanguage(),
             limit = limit,
         )
@@ -59,9 +62,17 @@ class SuggestionPortAdapter @Inject constructor(
     override fun recordCommitted(language: KeyboardLanguage, word: String) {
         if (word.isBlank()) return
         val lang = language.toSuggestionLanguage()
-        val previous = lastCommitted.put(lang, word).orEmpty()
+        val previous = lastCommitted[lang].orEmpty()
+        val secondPrevious = secondLastCommitted[lang].orEmpty()
+        secondLastCommitted[lang] = previous
+        lastCommitted[lang] = word
         learningScope.launch {
-            engine.onWordCommitted(word = word, previousWord = previous, language = lang)
+            engine.onWordCommitted(
+                word = word,
+                previousWord = previous,
+                secondPreviousWord = secondPrevious,
+                language = lang,
+            )
         }
     }
 

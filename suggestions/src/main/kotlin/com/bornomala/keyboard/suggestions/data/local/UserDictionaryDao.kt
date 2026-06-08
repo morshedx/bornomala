@@ -59,6 +59,36 @@ interface UserDictionaryDao {
     )
     suspend fun queryNextWord(lang: String, previousWord: String, limit: Int): List<UserDictionaryEntity>
 
+    /**
+     * Records that [word] followed [context] (preceding word(s) joined by a space): inserts
+     * with frequency 1 or atomically increments. Powers learned bigram/trigram prediction.
+     */
+    @Query(
+        """
+        INSERT INTO learned_ngram (context, word, lang, frequency, last_used)
+        VALUES (:context, :word, :lang, 1, :now)
+        ON CONFLICT(context, word, lang) DO UPDATE SET
+            frequency = frequency + 1,
+            last_used = :now
+        """,
+    )
+    suspend fun learnNgram(context: String, word: String, lang: String, now: Long)
+
+    /** Next-word candidates learned to follow [context], ranked by frequency then recency. */
+    @Query(
+        """
+        SELECT * FROM learned_ngram
+        WHERE lang = :lang AND context = :context
+        ORDER BY frequency DESC, last_used DESC
+        LIMIT :limit
+        """,
+    )
+    suspend fun queryNgram(lang: String, context: String, limit: Int): List<LearnedNgramEntity>
+
+    /** Clears all learned n-grams (paired with [clear] for "reset learned words"). */
+    @Query("DELETE FROM learned_ngram")
+    suspend fun clearNgrams()
+
     /** Exact lookup, used by tests and for confidence checks. Null when absent. */
     @Query("SELECT * FROM user_dictionary WHERE word = :word AND lang = :lang LIMIT 1")
     suspend fun findExact(word: String, lang: String): UserDictionaryEntity?

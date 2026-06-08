@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -99,6 +100,14 @@ internal fun SwitchSettingRow(
             checked = checked,
             onCheckedChange = null,
             enabled = enabled,
+            // The default off-state track is surfaceVariant, which is the same colour as the
+            // settings card — making the switch nearly invisible. Give the off state a visible
+            // light thumb + outline so it reads clearly on the dark card.
+            colors = SwitchDefaults.colors(
+                uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                uncheckedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            ),
             modifier = Modifier.clearAndSetSemantics {},
         )
     }

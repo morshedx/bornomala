@@ -19,7 +19,7 @@ class DefaultSuggestionEngineTest {
     private val dispatchers = TestDispatcherProvider()
 
     private fun request(current: String = "a", limit: Int = 3) =
-        SuggestionRequest(current, "", SuggestionLanguage.ENGLISH, limit)
+        SuggestionRequest(currentWord = current, previousWord = "", language = SuggestionLanguage.ENGLISH, limit = limit)
 
     /** Configurable fake provider for selection/merge tests. */
     private class FakeProvider(
@@ -34,7 +34,7 @@ class DefaultSuggestionEngineTest {
         override suspend fun suggest(request: SuggestionRequest): AppResult<List<Suggestion>> =
             if (fail) AppResult.Failure(com.bornomala.keyboard.core.result.AppError.Unknown("boom"))
             else AppResult.Success(results)
-        override suspend fun learn(word: String, previousWord: String, language: SuggestionLanguage): AppResult<Unit> {
+        override suspend fun learn(word: String, previousWord: String, secondPreviousWord: String, language: SuggestionLanguage): AppResult<Unit> {
             learnCount.incrementAndGet()
             return AppResult.Success(Unit)
         }
@@ -106,7 +106,7 @@ class DefaultSuggestionEngineTest {
         val unavailable = FakeProvider("b", 90, available = false, results = emptyList())
         val engine = DefaultSuggestionEngine(setOf(available, unavailable), dispatchers)
 
-        engine.onWordCommitted("hello", "", SuggestionLanguage.ENGLISH)
+        engine.onWordCommitted("hello", "", "", SuggestionLanguage.ENGLISH)
         assertThat(available.learnCount.get()).isEqualTo(1)
         assertThat(unavailable.learnCount.get()).isEqualTo(0)
     }
@@ -115,7 +115,7 @@ class DefaultSuggestionEngineTest {
     fun `blank committed word is not learned`() = runTest {
         val p = FakeProvider("a", 100, true, emptyList())
         val engine = DefaultSuggestionEngine(setOf(p), dispatchers)
-        engine.onWordCommitted("   ", "", SuggestionLanguage.ENGLISH)
+        engine.onWordCommitted("   ", "", "", SuggestionLanguage.ENGLISH)
         assertThat(p.learnCount.get()).isEqualTo(0)
     }
 

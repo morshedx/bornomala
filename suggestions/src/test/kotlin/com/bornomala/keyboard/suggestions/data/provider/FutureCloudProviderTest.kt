@@ -32,7 +32,7 @@ class FutureCloudProviderTest {
     @Test
     fun `suggest is a no-op returning empty success`() = runTest {
         val result = provider.suggest(
-            SuggestionRequest("any", "", SuggestionLanguage.ENGLISH),
+            SuggestionRequest(currentWord = "any", previousWord = "", language = SuggestionLanguage.ENGLISH),
         )
         assertThat(result).isInstanceOf(AppResult.Success::class.java)
         assertThat((result as AppResult.Success).data).isEmpty()
@@ -40,7 +40,7 @@ class FutureCloudProviderTest {
 
     @Test
     fun `learn is a no-op returning success`() = runTest {
-        val result = provider.learn("word", "", SuggestionLanguage.ENGLISH)
+        val result = provider.learn("word", "", "", SuggestionLanguage.ENGLISH)
         assertThat(result).isInstanceOf(AppResult.Success::class.java)
     }
 }

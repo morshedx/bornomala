@@ -18,6 +18,7 @@ package com.bornomala.keyboard.suggestions.domain.model
 data class SuggestionRequest(
     val currentWord: String,
     val previousWord: String,
+    val secondPreviousWord: String = "",
     val language: SuggestionLanguage,
     val limit: Int = DEFAULT_LIMIT,
 ) {

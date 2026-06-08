@@ -389,7 +389,7 @@ class KeyboardImeService : InputMethodService() {
             return
         }
         suggestionJob?.cancel()
-        val previous = previousWord()
+        val (previous, secondPrevious) = previousWords()
 
         // Bangla (Avro) special case: `currentWord` is the raw latin the user typed. Gboard-style,
         // the strip leads with that literal latin so it can be committed as-is, followed by the
@@ -402,7 +402,7 @@ class KeyboardImeService : InputMethodService() {
             suggestionJob = serviceScope.launch {
                 val dict = withContext(dispatchers.default) {
                     if (rendered.isNotEmpty()) {
-                        suggestionPort.query(KeyboardLanguage.BANGLA, rendered, previous, SUGGESTION_LIMIT)
+                        suggestionPort.query(KeyboardLanguage.BANGLA, rendered, previous, secondPrevious, SUGGESTION_LIMIT)
                     } else {
                         emptyList()
                     }
@@ -420,6 +420,7 @@ class KeyboardImeService : InputMethodService() {
                     language = language,
                     currentWord = currentWord,
                     previousWord = previous,
+                    secondPreviousWord = secondPrevious,
                     limit = SUGGESTION_LIMIT,
                 )
             }
@@ -451,15 +452,27 @@ class KeyboardImeService : InputMethodService() {
         return out
     }
 
-    /** The last committed token before the cursor, used for next-word prediction. */
-    private fun previousWord(): String {
+    /**
+     * The last two committed tokens before the cursor (previous, secondPrevious), used for
+     * bigram + trigram next-word prediction. Manual scan (no Regex) to stay allocation-light
+     * on the input path. Either is empty when there aren't enough preceding words.
+     */
+    private fun previousWords(): Pair<String, String> {
         val before = editorPort.textBeforeCursor(PREVIOUS_WORD_LOOKBACK)
-        if (before.isEmpty()) return ""
         val trimmed = before.trimEnd()
-        if (trimmed.isEmpty()) return ""
-        var i = trimmed.length - 1
+        if (trimmed.isEmpty()) return "" to ""
+        // last token
+        var end = trimmed.length
+        var i = end - 1
         while (i >= 0 && !trimmed[i].isWhitespace()) i--
-        return trimmed.substring(i + 1)
+        val prev1 = trimmed.substring(i + 1, end)
+        // skip whitespace, then the second-last token
+        while (i >= 0 && trimmed[i].isWhitespace()) i--
+        if (i < 0) return prev1 to ""
+        end = i + 1
+        while (i >= 0 && !trimmed[i].isWhitespace()) i--
+        val prev2 = trimmed.substring(i + 1, end)
+        return prev1 to prev2
     }
 
     // --- feedback ----------------------------------------------------------------------

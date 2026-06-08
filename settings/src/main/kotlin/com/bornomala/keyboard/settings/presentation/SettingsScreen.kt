@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
@@ -361,7 +362,10 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
     if (tryNow) BackHandler { tryNow = false }
 
     Box(Modifier.fillMaxSize()) {
-        Column(modifier) {
+        // imePadding so the scroll content (incl. the height / bottom-gap sliders) can scroll
+        // above the keyboard when "Try now" is open — the activity is edge-to-edge, so the
+        // keyboard is an inset, not a window resize.
+        Column(modifier.imePadding()) {
             Text(
                 text = stringResource(R.string.settings_theme),
                 style = MaterialTheme.typography.titleSmall,
@@ -415,6 +419,10 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
                     scale = settings.keyboardHeightScale,
                     onScaleChange = callbacks.onKeyboardHeightScale,
                 )
+                BottomGapSlider(
+                    scale = settings.bottomGapScale,
+                    onScaleChange = callbacks.onBottomGapScale,
+                )
             }
             // Breathing room so the floating button never hides the last card.
             Spacer(Modifier.height(88.dp))
@@ -455,10 +463,9 @@ private fun TryNowField(onClose: () -> Unit, modifier: Modifier = Modifier) {
     var text by rememberSaveable { mutableStateOf("") }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
-    // No imePadding / navigationBarsPadding here: the activity uses adjustResize, so the
-    // window already shrinks to sit directly on top of the keyboard. Adding insets would
-    // double-count the keyboard height and leave a large empty band above it.
-    Surface(modifier = modifier.fillMaxWidth(), tonalElevation = 3.dp) {
+    // The activity is edge-to-edge, so the keyboard is reported as an inset rather than a
+    // window resize: imePadding lifts the field to sit directly above the keyboard.
+    Surface(modifier = modifier.fillMaxWidth().imePadding(), tonalElevation = 3.dp) {
         Column {
             HorizontalDivider()
             Row(
@@ -538,7 +545,6 @@ private fun ConfiguratorSheet(
             ScaleSlider("Horizontal gap", "", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
             ScaleSlider("Key label size", "", settings.keyLabelScale, callbacks.onKeyLabelScale)
             ScaleSlider("Suggestion bar size", "", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
-            ScaleSlider("Bottom gap", "", settings.bottomGapScale, callbacks.onBottomGapScale)
         }
     }
 }
@@ -735,6 +741,25 @@ private fun HeightSlider(
         valueRange = Settings.MIN_KEYBOARD_HEIGHT_SCALE..Settings.MAX_KEYBOARD_HEIGHT_SCALE,
         // 5% increments across the 75%..140% range.
         steps = 12,
+        onValueChange = onScaleChange,
+    )
+}
+
+/** Adjusts the gap below the last key row (above the gesture/navigation bar). */
+@Composable
+private fun BottomGapSlider(
+    scale: Float,
+    onScaleChange: (Float) -> Unit,
+) {
+    val percent = (scale * 100f).roundToInt()
+    SliderSettingRow(
+        title = "Bottom gap",
+        description = "Space below the keyboard, above the navigation bar.",
+        valueLabel = "$percent%",
+        sliderContentDescription = "Bottom gap, $percent percent",
+        value = scale,
+        valueRange = 0.5f..1.5f,
+        steps = 9,
         onValueChange = onScaleChange,
     )
 }

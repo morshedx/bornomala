@@ -65,6 +65,7 @@ class DefaultSuggestionEngine @Inject constructor(
     override suspend fun onWordCommitted(
         word: String,
         previousWord: String,
+        secondPreviousWord: String,
         language: SuggestionLanguage,
     ) {
         if (word.isBlank()) return
@@ -72,7 +73,7 @@ class DefaultSuggestionEngine @Inject constructor(
         // hiccup never interrupts typing.
         for (provider in providers) {
             if (!provider.isAvailable(language)) continue
-            provider.learn(word, previousWord, language)
+            provider.learn(word, previousWord, secondPreviousWord, language)
         }
     }
 
