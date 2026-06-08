@@ -2,6 +2,7 @@ package com.bornomala.keyboard.suggestions.data.provider
 
 import com.bornomala.keyboard.core.result.AppResult
 import com.bornomala.keyboard.core.result.getOrDefault
+import com.bornomala.keyboard.suggestions.data.dictionary.BigramDictionaryRepository
 import com.bornomala.keyboard.suggestions.data.dictionary.DictionaryHit
 import com.bornomala.keyboard.suggestions.data.dictionary.FrequencyDictionaryRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
@@ -33,6 +34,7 @@ import javax.inject.Singleton
 @Singleton
 class OfflineProvider @Inject constructor(
     private val dictionaries: FrequencyDictionaryRepository,
+    private val bigrams: BigramDictionaryRepository,
     private val userDictionary: UserDictionaryRepository,
 ) : SuggestionProvider {
 
@@ -121,20 +123,50 @@ class OfflineProvider @Inject constructor(
     private suspend fun nextWordSuggestions(request: SuggestionRequest): List<Suggestion> {
         val lang = request.language
         val prev = normalize(request.previousWord, lang)
-        if (prev.isEmpty()) return emptyList()
+        val limit = request.limit
+        val fetch = limit + EXTRA_FETCH
+        val merged = LinkedHashMap<String, Suggestion>(fetch * 2)
 
-        val userHits = userDictionary
-            .queryNextWord(lang, prev, request.limit)
-            .getOrDefault(emptyList())
+        if (prev.isNotEmpty()) {
+            // 1) Learned bigrams — what THIS user typed after `prev`. Strongest.
+            val learned = userDictionary.queryNextWord(lang, prev, fetch).getOrDefault(emptyList())
+            for (entry in learned) {
+                putBest(merged, Suggestion(
+                    word = entry.word,
+                    language = lang,
+                    source = SuggestionSource.USER_DICTIONARY,
+                    score = (normalizeUserFrequency(entry.frequency) + USER_BOOST).coerceAtMost(MAX_SCORE),
+                ))
+            }
+            // 2) Bundled bigram seed — common continuations of `prev`.
+            bigrams.get(lang).nextWords(prev, fetch).forEachIndexed { i, w ->
+                if (w != prev) {
+                    putBest(merged, Suggestion(
+                        word = w,
+                        language = lang,
+                        source = SuggestionSource.NEXT_WORD,
+                        score = SEED_BASE - i * SEED_STEP,
+                    ))
+                }
+            }
+        }
 
-        return userHits.map { entry ->
-            Suggestion(
-                word = entry.word,
-                language = lang,
-                source = SuggestionSource.USER_DICTIONARY,
-                score = (normalizeUserFrequency(entry.frequency) + USER_BOOST).coerceAtMost(MAX_SCORE),
-            )
-        }.sortedWith(RANK_COMPARATOR).take(request.limit)
+        // 3) Generic fallback: the most frequent words overall, so the strip is never empty
+        //    (e.g. right after a space with no learned/seed context). Lowest priority.
+        if (merged.size < limit) {
+            dictionaries.get(lang).topWords(fetch).forEachIndexed { i, hit ->
+                if (hit.word != prev && !merged.containsKey(hit.word)) {
+                    putBest(merged, Suggestion(
+                        word = hit.word,
+                        language = lang,
+                        source = SuggestionSource.NEXT_WORD,
+                        score = GENERIC_BASE - i * GENERIC_STEP,
+                    ))
+                }
+            }
+        }
+
+        return merged.values.sortedWith(RANK_COMPARATOR).take(limit)
     }
 
     override suspend fun learn(
@@ -190,6 +222,12 @@ class OfflineProvider @Inject constructor(
         private const val EXTRA_FETCH = 2
         private const val FREQ_SATURATION = 50.0
         private val FREQ_SATURATION_LOG = Math.log(FREQ_SATURATION + 1)
+
+        // Next-word scoring tiers (learned bigrams already outrank these via USER_BOOST).
+        private const val SEED_BASE = 0.70
+        private const val SEED_STEP = 0.02
+        private const val GENERIC_BASE = 0.20
+        private const val GENERIC_STEP = 0.005
 
         /**
          * Ranking: higher score first; on ties prefer user dictionary, then offline

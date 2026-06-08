@@ -34,6 +34,9 @@ enum class SuggestionSource {
     /** Verbatim copy of the user's current input. */
     VERBATIM,
 
+    /** Predicted next word (bundled bigram seed or generic top-word fallback). */
+    NEXT_WORD,
+
     /** Reserved for a future cloud provider. Never produced in V1. */
     CLOUD,
 }

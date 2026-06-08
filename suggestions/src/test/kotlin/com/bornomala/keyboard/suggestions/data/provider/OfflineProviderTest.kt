@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.suggestions.data.provider
 
+import com.bornomala.keyboard.suggestions.data.dictionary.BigramDictionaryRepository
 import com.bornomala.keyboard.suggestions.data.dictionary.FrequencyDictionaryRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import com.bornomala.keyboard.suggestions.domain.SuggestionProvider
@@ -37,7 +38,8 @@ class OfflineProviderTest {
         userRepo = UserDictionaryRepository(lazyOf(dao), dispatchers)
         val dictSource = InMemoryDictionarySource(mapOf(SuggestionLanguage.ENGLISH to englishLines))
         val dictRepo = FrequencyDictionaryRepository(dictSource, dispatchers)
-        provider = OfflineProvider(dictRepo, userRepo)
+        val bigramRepo = BigramDictionaryRepository(dictSource, dispatchers)
+        provider = OfflineProvider(dictRepo, bigramRepo, userRepo)
     }
 
     private fun request(current: String, previous: String = "", limit: Int = 3) =
@@ -112,9 +114,12 @@ class OfflineProviderTest {
     }
 
     @Test
-    fun `next word with no previous word returns empty`() = runTest {
+    fun `next word with no previous word falls back to frequent words`() = runTest {
+        // With no context the strip should still offer something useful (generic top words),
+        // never go blank — drawn from the most frequent dictionary entries.
         val result = (provider.suggest(request(current = "", previous = "")) as com.bornomala.keyboard.core.result.AppResult.Success).data
-        assertThat(result).isEmpty()
+        assertThat(result).isNotEmpty()
+        assertThat(result.first().word).isEqualTo("the") // highest frequency in the fixture
     }
 
     @Test

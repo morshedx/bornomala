@@ -9,7 +9,11 @@ import com.bornomala.keyboard.suggestions.domain.model.SuggestionLanguage
  */
 class InMemoryDictionarySource(
     private val data: Map<SuggestionLanguage, List<String>>,
+    private val bigrams: Map<SuggestionLanguage, List<String>> = emptyMap(),
 ) : DictionarySource {
     override fun linesFor(language: SuggestionLanguage): Sequence<String> =
         (data[language] ?: emptyList()).asSequence()
+
+    override fun bigramLinesFor(language: SuggestionLanguage): Sequence<String> =
+        (bigrams[language] ?: emptyList()).asSequence()
 }

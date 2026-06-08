@@ -24,15 +24,25 @@ class AssetDictionarySource @Inject constructor(
             SuggestionLanguage.ENGLISH -> ASSET_ENGLISH
             SuggestionLanguage.BANGLA -> ASSET_BANGLA
         }
-        return sequence {
-            context.applicationContext.assets.open("$ASSET_DIR/$assetName").use { stream ->
-                val reader: BufferedReader = stream.bufferedReader(Charsets.UTF_8)
-                reader.use { r ->
-                    var line = r.readLine()
-                    while (line != null) {
-                        yield(line)
-                        line = r.readLine()
-                    }
+        return readLines(assetName)
+    }
+
+    override fun bigramLinesFor(language: SuggestionLanguage): Sequence<String> {
+        val assetName = when (language) {
+            SuggestionLanguage.ENGLISH -> ASSET_ENGLISH_BIGRAMS
+            SuggestionLanguage.BANGLA -> ASSET_BANGLA_BIGRAMS
+        }
+        return readLines(assetName)
+    }
+
+    private fun readLines(assetName: String): Sequence<String> = sequence {
+        context.applicationContext.assets.open("$ASSET_DIR/$assetName").use { stream ->
+            val reader: BufferedReader = stream.bufferedReader(Charsets.UTF_8)
+            reader.use { r ->
+                var line = r.readLine()
+                while (line != null) {
+                    yield(line)
+                    line = r.readLine()
                 }
             }
         }
@@ -42,5 +52,7 @@ class AssetDictionarySource @Inject constructor(
         const val ASSET_DIR = "dictionaries"
         const val ASSET_ENGLISH = "en_frequency.txt"
         const val ASSET_BANGLA = "bn_frequency.txt"
+        const val ASSET_ENGLISH_BIGRAMS = "en_bigrams.txt"
+        const val ASSET_BANGLA_BIGRAMS = "bn_bigrams.txt"
     }
 }

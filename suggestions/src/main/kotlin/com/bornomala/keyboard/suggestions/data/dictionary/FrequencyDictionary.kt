@@ -17,10 +17,18 @@ class FrequencyDictionary private constructor(
     private val words: Array<String>,
     private val frequencies: IntArray,
     private val maxFrequency: Int,
+    private val topEntries: List<DictionaryHit>,
 ) {
 
     /** Number of entries; primarily for tests and diagnostics. */
     val size: Int get() = words.size
+
+    /**
+     * The most frequent words overall (precomputed), used as a generic next-word fallback
+     * when there is no bigram context. Returns up to [limit], best-first.
+     */
+    fun topWords(limit: Int): List<DictionaryHit> =
+        if (topEntries.size <= limit) topEntries else topEntries.subList(0, limit)
 
     /** Exact frequency for [word], or 0 if not present. */
     fun frequencyOf(word: String): Int {
@@ -94,6 +102,9 @@ class FrequencyDictionary private constructor(
     }
 
     companion object {
+        /** How many of the most-frequent words to keep for the generic next-word fallback. */
+        private const val TOP_WORDS = 24
+
         /**
          * Builds a dictionary from raw `word<TAB>frequency` lines (blank lines and
          * lines starting with `#` ignored). Words are lowercased only when
@@ -129,7 +140,12 @@ class FrequencyDictionary private constructor(
                 freqs[i] = f
                 if (f > max) max = f
             }
-            return FrequencyDictionary(sortedWords, freqs, max)
+            // Precompute the globally most-frequent words for the generic next-word fallback.
+            val top = map.entries
+                .sortedByDescending { it.value }
+                .take(TOP_WORDS)
+                .map { DictionaryHit(it.key, it.value) }
+            return FrequencyDictionary(sortedWords, freqs, max, top)
         }
     }
 }

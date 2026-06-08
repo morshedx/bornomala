@@ -15,4 +15,11 @@ interface DictionarySource {
      * The returned sequence is consumed exactly once.
      */
     fun linesFor(language: SuggestionLanguage): Sequence<String>
+
+    /**
+     * Returns the bundled bigram seed lines for [language] (`prev<TAB>next1 next2 …`),
+     * used to seed next-word prediction before on-device learning kicks in. May yield
+     * nothing if no seed ships for the language.
+     */
+    fun bigramLinesFor(language: SuggestionLanguage): Sequence<String>
 }
