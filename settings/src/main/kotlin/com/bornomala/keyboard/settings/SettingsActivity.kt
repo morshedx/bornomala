@@ -28,6 +28,8 @@ class SettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // When launched from the in-keyboard settings menu, open directly on the chosen section.
+        val initialSection = intent?.getStringExtra(EXTRA_SECTION)
         setContent {
             val viewModel: SettingsViewModel = viewModel()
             val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -37,8 +39,13 @@ class SettingsActivity : ComponentActivity() {
                 theme = settings.keyboardTheme,
                 font = settings.keyboardFont,
             ) {
-                SettingsScreen(viewModel = viewModel)
+                SettingsScreen(viewModel = viewModel, initialSection = initialSection)
             }
         }
+    }
+
+    companion object {
+        /** Intent extra naming the settings section to open directly. Must match the IME's key. */
+        const val EXTRA_SECTION = "com.bornomala.keyboard.SETTINGS_SECTION"
     }
 }

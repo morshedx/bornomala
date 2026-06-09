@@ -96,6 +96,8 @@ class KeyboardImeService : InputMethodService() {
         onLongPressChar = { ch -> interactor.onKey(KeyAction.Character(ch)) },
         onSuggestion = { word -> interactor.commitSuggestion(word) },
         onOpenSettings = { openSettings() },
+        onToggleSettingsMenu = { stateHolder.toggleSettingsMenu() },
+        onOpenSettingsSection = { section -> openSettings(section) },
         onToggleEmoji = { stateHolder.toggleEmoji() },
         onToggleNumbers = {
             if (stateHolder.current.page == KeyboardPage.NUMPAD) stateHolder.showAlpha()
@@ -334,11 +336,12 @@ class KeyboardImeService : InputMethodService() {
      * Opens the keyboard settings screen. Referenced by class name (not a compile-time type)
      * so :keyboard stays decoupled from :settings; the activity lives in the app package.
      */
-    private fun openSettings() {
+    private fun openSettings(section: String? = null) {
         runCatching {
             val intent = android.content.Intent().apply {
                 setClassName(applicationContext.packageName, SETTINGS_ACTIVITY)
                 addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                if (section != null) putExtra(SETTINGS_SECTION_EXTRA, section)
             }
             startActivity(intent)
         }
@@ -523,5 +526,8 @@ class KeyboardImeService : InputMethodService() {
         const val SUGGESTION_LIMIT = 6
         const val PREVIOUS_WORD_LOOKBACK = 48
         const val SETTINGS_ACTIVITY = "com.bornomala.keyboard.settings.SettingsActivity"
+
+        /** Intent extra naming the settings section to open directly (see [SettingsSections]). */
+        const val SETTINGS_SECTION_EXTRA = "com.bornomala.keyboard.SETTINGS_SECTION"
     }
 }

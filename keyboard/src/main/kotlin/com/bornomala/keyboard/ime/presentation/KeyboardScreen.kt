@@ -85,6 +85,17 @@ internal fun KeyboardScreen(
     val rowHeight = remember(keyHeightFraction) {
         lerpDp(dimens.minKeyRowHeight, dimens.maxKeyRowHeight, keyHeightFraction.coerceIn(0f, 1f))
     }
+    // Every page stretches its rows to the alphabetic page's row count so the IME window stays
+    // the same height across pages. The numpad has 4 rows while the alpha page can have 5 (with
+    // the number row on); without this its key area would be a row shorter and the window would
+    // visibly jump when toggling the numpad.
+    val referenceRows = remember(state.language, state.showNumberRow) {
+        layoutProvider.layoutFor(state.language, KeyboardPage.ALPHA, state.showNumberRow).rows.size
+    }
+    val gridRowHeight = remember(rowHeight, referenceRows, layout) {
+        val rows = layout.rows.size
+        if (rows > 0) rowHeight * referenceRows / rows else rowHeight
+    }
 
     // The active long-press: the key plus its on-screen bounds, so the popup can sit above it.
     var popupKey by remember { mutableStateOf<Key?>(null) }
@@ -128,6 +139,7 @@ internal fun KeyboardScreen(
                     emojiActive = state.panel == KeyboardPanel.EMOJI,
                     clipboardActive = state.panel == KeyboardPanel.CLIPBOARD,
                     numpadActive = state.page == KeyboardPage.NUMPAD,
+                    settingsActive = state.panel == KeyboardPanel.SETTINGS,
                     callbacks = callbacks,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,7 +156,15 @@ internal fun KeyboardScreen(
                 rowHeight * rows
             }
 
-            if (state.panel != KeyboardPanel.NONE) {
+            if (state.panel == KeyboardPanel.SETTINGS) {
+                // In-keyboard settings menu: a category grid that opens the full app per section.
+                // No search; sized to the alpha key area so the window stays keyboard-height.
+                SettingsMenuPanel(
+                    onBack = callbacks.onToggleSettingsMenu,
+                    onOpenSection = callbacks.onOpenSettingsSection,
+                    modifier = Modifier.fillMaxWidth().height(panelHeight),
+                )
+            } else if (state.panel != KeyboardPanel.NONE) {
                 // Search bar; tapping it reveals the keyboard below (Gboard-style) whose
                 // keystrokes feed the panel query rather than the text field. For emoji it sits
                 // inside the panel (below the back+tabs bar); for clipboard it sits above the host.
@@ -202,7 +222,7 @@ internal fun KeyboardScreen(
                     layout = layout,
                     shift = state.shift,
                     enterIsAccent = state.enterIsAccent,
-                    rowHeight = rowHeight,
+                    rowHeight = gridRowHeight,
                     onKey = callbacks.onKey,
                     onLongPressChar = callbacks.onLongPressChar,
                     onLongPressRequested = { pressedKey, coords ->
@@ -283,6 +303,8 @@ private val PreviewCallbacks = KeyboardCallbacks(
     onLongPressChar = {},
     onSuggestion = {},
     onOpenSettings = {},
+    onToggleSettingsMenu = {},
+    onOpenSettingsSection = {},
     onToggleEmoji = {},
     onToggleNumbers = {},
     onToggleClipboard = {},
@@ -320,6 +342,7 @@ fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
                 emojiActive = false,
                 clipboardActive = false,
                 numpadActive = false,
+                settingsActive = false,
                 callbacks = PreviewCallbacks,
                 modifier = Modifier
                     .fillMaxWidth()

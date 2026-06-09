@@ -50,6 +50,7 @@ internal fun ActionStrip(
     emojiActive: Boolean,
     clipboardActive: Boolean,
     numpadActive: Boolean,
+    settingsActive: Boolean,
     callbacks: KeyboardCallbacks,
     modifier: Modifier = Modifier,
 ) {
@@ -82,6 +83,7 @@ internal fun ActionStrip(
                 emojiActive = emojiActive,
                 numpadActive = numpadActive,
                 clipboardActive = clipboardActive,
+                settingsActive = settingsActive,
                 callbacks = callbacks,
                 modifier = Modifier.weight(1f).fillMaxHeight(),
             )
@@ -100,6 +102,7 @@ private fun ToolsRow(
     emojiActive: Boolean,
     numpadActive: Boolean,
     clipboardActive: Boolean,
+    settingsActive: Boolean,
     callbacks: KeyboardCallbacks,
     modifier: Modifier = Modifier,
 ) {
@@ -111,7 +114,7 @@ private fun ToolsRow(
         StripIconButton(LucideIcons.Smile, "Emoji", callbacks.onToggleEmoji, active = emojiActive)
         NumbersButton(active = numpadActive, onClick = callbacks.onToggleNumbers)
         StripIconButton(LucideIcons.ClipboardList, "Clipboard", callbacks.onToggleClipboard, active = clipboardActive)
-        StripIconButton(LucideIcons.Settings, "Keyboard settings", callbacks.onOpenSettings)
+        StripIconButton(LucideIcons.Settings, "Keyboard settings", callbacks.onToggleSettingsMenu, active = settingsActive)
         StripIconButton(LucideIcons.ChevronDown, "Hide keyboard", callbacks.onHideKeyboard)
     }
 }

@@ -92,6 +92,12 @@ class KeyboardStateHolder(
         it.copy(panel = next, page = KeyboardPage.ALPHA, panelSearchActive = false, panelQuery = "")
     }
 
+    /** Toggles the in-keyboard settings menu overlay (tab-like: closes any other panel). */
+    fun toggleSettingsMenu() = _state.update {
+        val next = if (it.panel == KeyboardPanel.SETTINGS) KeyboardPanel.NONE else KeyboardPanel.SETTINGS
+        it.copy(panel = next, page = KeyboardPage.ALPHA, panelSearchActive = false, panelQuery = "")
+    }
+
     /** Closes any open panel, returning to the key grid. */
     fun hidePanel() = _state.update {
         if (it.panel == KeyboardPanel.NONE) it

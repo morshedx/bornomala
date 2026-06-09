@@ -95,14 +95,15 @@ import kotlin.math.roundToInt
 fun SettingsScreen(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = viewModel(),
+    initialSection: String? = null,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val current = state) {
         is Resource.Loading -> SettingsScaffold(modifier) { LoadingState(it) }
-        is Resource.Success -> SettingsContent(current.data, rememberCallbacks(viewModel), modifier)
+        is Resource.Success -> SettingsContent(current.data, rememberCallbacks(viewModel), modifier, initialSection)
         // The repository recovers read errors to defaults, so render defaults defensively.
-        is Resource.Error -> SettingsContent(Settings.DEFAULTS, rememberCallbacks(viewModel), modifier)
+        is Resource.Error -> SettingsContent(Settings.DEFAULTS, rememberCallbacks(viewModel), modifier, initialSection)
     }
 }
 
@@ -191,14 +192,20 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
     }
 
 /** Top-level settings categories, each opening its own sub-screen. */
-private enum class SettingsRoute(val titleRes: Int) {
-    HOME(R.string.settings_title),
-    APPEARANCE(R.string.settings_section_appearance),
-    FEEDBACK(R.string.settings_section_feedback),
-    TYPING(R.string.settings_section_typing),
-    FEATURES(R.string.settings_section_features),
-    BANGLA(R.string.settings_section_bangla),
-    ABOUT(R.string.settings_section_about),
+private enum class SettingsRoute(val titleRes: Int, val key: String?) {
+    HOME(R.string.settings_title, null),
+    APPEARANCE(R.string.settings_section_appearance, "appearance"),
+    FEEDBACK(R.string.settings_section_feedback, "feedback"),
+    TYPING(R.string.settings_section_typing, "typing"),
+    FEATURES(R.string.settings_section_features, "features"),
+    BANGLA(R.string.settings_section_bangla, "bangla"),
+    ABOUT(R.string.settings_section_about, "about");
+
+    companion object {
+        /** Maps an in-keyboard menu section key (see the IME's `SettingsSections`) to a route. */
+        fun fromKey(key: String?): SettingsRoute? =
+            key?.let { k -> entries.firstOrNull { it.key == k } }
+    }
 }
 
 /**
@@ -213,8 +220,11 @@ internal fun SettingsContent(
     settings: Settings,
     callbacks: SettingsCallbacks,
     modifier: Modifier = Modifier,
+    initialSection: String? = null,
 ) {
-    var route by rememberSaveable { mutableStateOf(SettingsRoute.HOME) }
+    var route by rememberSaveable {
+        mutableStateOf(SettingsRoute.fromKey(initialSection) ?: SettingsRoute.HOME)
+    }
     var showResetDialog by remember { mutableStateOf(false) }
 
     if (route != SettingsRoute.HOME) BackHandler { route = SettingsRoute.HOME }
