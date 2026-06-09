@@ -752,7 +752,7 @@ private fun BottomGapSlider(
     onScaleChange: (Float) -> Unit,
 ) {
     // The gap is stored as a multiplier of the 24dp base; show it as an absolute dp value
-    // (0–72dp, default 24dp) since that reads more clearly than a percentage. Stops every 6dp.
+    // (0–72dp, default 24dp) since that reads more clearly than a percentage. Stops every 2dp.
     val dp = (scale * BOTTOM_GAP_BASE_DP).roundToInt()
     SliderSettingRow(
         title = "Bottom gap",
@@ -761,7 +761,7 @@ private fun BottomGapSlider(
         sliderContentDescription = "Bottom gap, $dp dp",
         value = scale,
         valueRange = 0f..3f,
-        steps = 11,
+        steps = 35,
         onValueChange = onScaleChange,
     )
 }

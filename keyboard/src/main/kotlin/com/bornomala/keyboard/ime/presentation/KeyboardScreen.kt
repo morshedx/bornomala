@@ -157,7 +157,16 @@ internal fun KeyboardScreen(
                         onClose = callbacks.onCloseSearch,
                     )
                 }
-                val hostHeight = if (state.panelSearchActive) panelHeight * 0.5f else panelHeight
+                // The emoji panel suppresses the tools/suggestion strip, so its host reclaims
+                // that strip's height — keeping the whole IME window the exact same height as the
+                // keyboard (strip + key area) instead of shrinking when emoji opens.
+                val stripHeight = 48.dp * BornomalaTheme.metrics.suggestionBarScale
+                val baseHeight = if (state.panel == KeyboardPanel.EMOJI) {
+                    panelHeight + stripHeight
+                } else {
+                    panelHeight
+                }
+                val hostHeight = if (state.panelSearchActive) baseHeight * 0.5f else baseHeight
                 val hostModifier = Modifier.fillMaxWidth().height(hostHeight)
                 if (state.panel == KeyboardPanel.EMOJI) {
                     EmojiHost(
