@@ -96,11 +96,25 @@ fun BornomalaTheme(
     theme: KeyboardTheme,
     font: KeyboardFont = KeyboardFont.SYSTEM,
     metrics: KeyboardMetrics = keyboardMetrics(),
+    // Material You (dynamic wallpaper-derived colors) for the app's Activity surfaces only.
+    // It recolors the MaterialTheme scheme (settings/onboarding UI), never the keyboard, which
+    // always renders from the fixed [keyboardColors] below to stay consistent across host apps.
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val systemDark = isSystemInDarkTheme()
     val dark = theme.isDark(systemDark)
-    val colorScheme = if (dark) BornomalaDarkColorScheme else BornomalaLightColorScheme
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val colorScheme = when {
+        dynamicColor && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S ->
+            if (dark) {
+                androidx.compose.material3.dynamicDarkColorScheme(context)
+            } else {
+                androidx.compose.material3.dynamicLightColorScheme(context)
+            }
+        dark -> BornomalaDarkColorScheme
+        else -> BornomalaLightColorScheme
+    }
     val keyboardColors = keyboardColorsFor(theme, systemDark)
 
     CompositionLocalProvider(

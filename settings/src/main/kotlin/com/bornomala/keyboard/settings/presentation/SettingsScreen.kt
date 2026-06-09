@@ -47,6 +47,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -232,19 +233,23 @@ internal fun SettingsContent(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(route.titleRes)) },
-                navigationIcon = {
-                    if (route != SettingsRoute.HOME) {
+            // HOME shows a large title (matching the grouped-card design); sub-screens use a
+            // compact bar with a back arrow.
+            if (route == SettingsRoute.HOME) {
+                LargeTopAppBar(title = { Text(stringResource(route.titleRes)) })
+            } else {
+                TopAppBar(
+                    title = { Text(stringResource(route.titleRes)) },
+                    navigationIcon = {
                         IconButton(onClick = { route = SettingsRoute.HOME }) {
                             Icon(
                                 imageVector = LucideIcons.ArrowLeft,
                                 contentDescription = stringResource(R.string.settings_back),
                             )
                         }
-                    }
-                },
-            )
+                    },
+                )
+            }
         },
     ) { padding ->
         val content = Modifier
@@ -283,30 +288,46 @@ private fun SettingsHome(
     onOpen: (SettingsRoute) -> Unit,
     onReset: () -> Unit,
 ) {
-    val items = listOf(
-        CategoryItem(LucideIcons.Palette, Color(0xFF4C8DF6), stringResource(R.string.settings_section_appearance), "Theme, contrast, keyboard height", SettingsRoute.APPEARANCE),
-        CategoryItem(LucideIcons.Vibrate, Color(0xFF2BC0D6), stringResource(R.string.settings_section_feedback), "Vibration and sound", SettingsRoute.FEEDBACK),
-        CategoryItem(LucideIcons.Keyboard, Color(0xFF49C07A), stringResource(R.string.settings_section_typing), "Auto-capitalization, shortcuts, number row", SettingsRoute.TYPING),
-        CategoryItem(LucideIcons.Lightbulb, Color(0xFFE0A33A), stringResource(R.string.settings_section_features), "Suggestions, learning, clipboard", SettingsRoute.FEATURES),
-        CategoryItem(LucideIcons.Languages, Color(0xFFA277F0), stringResource(R.string.settings_section_bangla), "Auto-commit and phonetic alternatives", SettingsRoute.BANGLA),
-        CategoryItem(LucideIcons.Info, Color(0xFF9AA0A6), stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
+    // Categories grouped into rounded cards (two per card), each row a muted icon + title +
+    // subtitle with a hairline divider between rows in a card. Destructive Reset sits alone.
+    val groups = listOf(
+        listOf(
+            CategoryItem(LucideIcons.Palette, stringResource(R.string.settings_section_appearance), "Theme, font, keyboard height", SettingsRoute.APPEARANCE),
+            CategoryItem(LucideIcons.Vibrate, stringResource(R.string.settings_section_feedback), "Vibration and sound", SettingsRoute.FEEDBACK),
+        ),
+        listOf(
+            CategoryItem(LucideIcons.Keyboard, stringResource(R.string.settings_section_typing), "Auto-capitalization, shortcuts, number row", SettingsRoute.TYPING),
+            CategoryItem(LucideIcons.Lightbulb, stringResource(R.string.settings_section_features), "Suggestions, learning, clipboard", SettingsRoute.FEATURES),
+        ),
+        listOf(
+            CategoryItem(LucideIcons.Languages, stringResource(R.string.settings_section_bangla), "Auto-commit and phonetic alternatives", SettingsRoute.BANGLA),
+            CategoryItem(LucideIcons.Info, stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
+        ),
     )
     Column(
-        modifier = modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        Card(modifier = Modifier.fillMaxWidth()) {
-            items.forEachIndexed { index, item ->
-                CategoryRow(item) { onOpen(item.route) }
-                if (index < items.lastIndex) {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(start = 72.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant,
-                    )
+        groups.forEach { group ->
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(24.dp),
+            ) {
+                group.forEachIndexed { index, item ->
+                    CategoryRow(item) { onOpen(item.route) }
+                    if (index < group.lastIndex) {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(start = 64.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
+                        )
+                    }
                 }
             }
         }
-        Card(modifier = Modifier.fillMaxWidth()) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(24.dp),
+        ) {
             ResetRow(onClick = onReset)
         }
     }
@@ -314,7 +335,6 @@ private fun SettingsHome(
 
 private data class CategoryItem(
     val icon: ImageVector,
-    val badge: Color,
     val title: String,
     val subtitle: String,
     val route: SettingsRoute,
@@ -326,37 +346,28 @@ private fun CategoryRow(item: CategoryItem, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 14.dp),
+            .padding(horizontal = 18.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        androidx.compose.foundation.layout.Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(item.badge.copy(alpha = 0.18f)),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = item.icon,
-                contentDescription = null,
-                tint = item.badge,
-                modifier = Modifier.size(22.dp),
-            )
-        }
-        Spacer(Modifier.width(16.dp))
+        Icon(
+            imageVector = item.icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(24.dp),
+        )
+        Spacer(Modifier.width(22.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = item.title, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
             Text(
                 text = item.subtitle,
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
-        Icon(
-            imageVector = LucideIcons.ChevronRight,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
     }
 }
 

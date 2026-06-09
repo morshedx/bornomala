@@ -19,6 +19,8 @@ import androidx.compose.runtime.ReadOnlyComposable
 @Composable
 fun BornomalaTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
+    // Material You for app Activity surfaces only; the keyboard keeps its fixed palette.
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val useDark = when (themeMode) {
@@ -27,7 +29,17 @@ fun BornomalaTheme(
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
     }
 
-    val colorScheme = if (useDark) BornomalaDarkColorScheme else BornomalaLightColorScheme
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val colorScheme = when {
+        dynamicColor && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S ->
+            if (useDark) {
+                androidx.compose.material3.dynamicDarkColorScheme(context)
+            } else {
+                androidx.compose.material3.dynamicLightColorScheme(context)
+            }
+        useDark -> BornomalaDarkColorScheme
+        else -> BornomalaLightColorScheme
+    }
     val keyboardColors = if (useDark) DarkKeyboardColors else LightKeyboardColors
 
     CompositionLocalProvider(LocalKeyboardColors provides keyboardColors) {

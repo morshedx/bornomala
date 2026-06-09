@@ -56,7 +56,8 @@ class OnboardingActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BornomalaTheme {
+            // Material You for the onboarding app UI (Android 12+); keyboard palette unchanged.
+            BornomalaTheme(dynamicColor = true) {
                 OnboardingScreen(
                     onEnableInSettings = {
                         startActivity(

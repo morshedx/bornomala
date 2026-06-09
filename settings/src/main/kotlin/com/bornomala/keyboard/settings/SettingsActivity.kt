@@ -38,6 +38,8 @@ class SettingsActivity : ComponentActivity() {
             BornomalaTheme(
                 theme = settings.keyboardTheme,
                 font = settings.keyboardFont,
+                // Material You for the settings app UI (Android 12+); keyboard palette unchanged.
+                dynamicColor = true,
             ) {
                 SettingsScreen(viewModel = viewModel, initialSection = initialSection)
             }
