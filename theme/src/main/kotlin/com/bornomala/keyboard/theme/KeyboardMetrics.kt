@@ -40,7 +40,7 @@ fun keyboardMetrics(
     keyLabelScale = keyLabelScale.coerceIn(0.7f, 1.5f),
     suggestionBarScale = suggestionBarScale.coerceIn(0.7f, 1.5f),
     keyBorder = keyBorder,
-    bottomGap = KeyboardDimens.keyboardBottomGap * bottomGapScale.coerceIn(0f, 2.5f),
+    bottomGap = KeyboardDimens.keyboardBottomGap * bottomGapScale.coerceIn(0f, 3f),
 )
 
 val LocalKeyboardMetrics = staticCompositionLocalOf { keyboardMetrics() }

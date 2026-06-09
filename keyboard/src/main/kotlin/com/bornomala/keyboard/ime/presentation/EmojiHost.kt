@@ -31,7 +31,9 @@ internal interface EmojiHostEntryPoint {
 internal fun EmojiHost(
     onEmoji: (String) -> Unit,
     query: String,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier,
+    searchBar: @Composable () -> Unit = {},
 ) {
     val context = LocalContext.current
     val viewModel = remember {
@@ -53,6 +55,8 @@ internal fun EmojiHost(
             viewModel.onEmojiUsed(emoji)
             onEmoji(emoji.glyph)
         },
+        onBack = onBack,
+        searchBar = searchBar,
         modifier = modifier,
     )
 }

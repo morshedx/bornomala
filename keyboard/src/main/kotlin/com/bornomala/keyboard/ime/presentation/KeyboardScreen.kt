@@ -120,16 +120,20 @@ internal fun KeyboardScreen(
                     bottom = dimens.keyboardVerticalPadding + BornomalaTheme.metrics.bottomGap,
                 ),
         ) {
-            ActionStrip(
-                suggestions = if (state.suggestionsEnabled) state.suggestions else emptyList(),
-                emojiActive = state.panel == KeyboardPanel.EMOJI,
-                clipboardActive = state.panel == KeyboardPanel.CLIPBOARD,
-                numpadActive = state.page == KeyboardPage.NUMPAD,
-                callbacks = callbacks,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp * BornomalaTheme.metrics.suggestionBarScale),
-            )
+            // The emoji panel hides the tools/suggestion strip (Gboard-style): its own top bar
+            // carries a back arrow + category tabs, so the strip would be redundant.
+            if (state.panel != KeyboardPanel.EMOJI) {
+                ActionStrip(
+                    suggestions = if (state.suggestionsEnabled) state.suggestions else emptyList(),
+                    emojiActive = state.panel == KeyboardPanel.EMOJI,
+                    clipboardActive = state.panel == KeyboardPanel.CLIPBOARD,
+                    numpadActive = state.page == KeyboardPage.NUMPAD,
+                    callbacks = callbacks,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp * BornomalaTheme.metrics.suggestionBarScale),
+                )
+            }
 
             // Panels are sized to the alphabetic keyboard's key area so the IME window stays
             // keyboard-height instead of expanding to fill the screen.
@@ -141,20 +145,30 @@ internal fun KeyboardScreen(
             }
 
             if (state.panel != KeyboardPanel.NONE) {
-                // Search bar above the panel; tapping it reveals the keyboard below (Gboard-
-                // style) whose keystrokes feed the panel query rather than the text field.
-                PanelSearchBar(
-                    query = state.panelQuery,
-                    active = state.panelSearchActive,
-                    isEmoji = state.panel == KeyboardPanel.EMOJI,
-                    onActivate = callbacks.onOpenSearch,
-                    onClose = callbacks.onCloseSearch,
-                )
+                // Search bar; tapping it reveals the keyboard below (Gboard-style) whose
+                // keystrokes feed the panel query rather than the text field. For emoji it sits
+                // inside the panel (below the back+tabs bar); for clipboard it sits above the host.
+                val searchBar: @Composable () -> Unit = {
+                    PanelSearchBar(
+                        query = state.panelQuery,
+                        active = state.panelSearchActive,
+                        isEmoji = state.panel == KeyboardPanel.EMOJI,
+                        onActivate = callbacks.onOpenSearch,
+                        onClose = callbacks.onCloseSearch,
+                    )
+                }
                 val hostHeight = if (state.panelSearchActive) panelHeight * 0.5f else panelHeight
                 val hostModifier = Modifier.fillMaxWidth().height(hostHeight)
                 if (state.panel == KeyboardPanel.EMOJI) {
-                    EmojiHost(onEmoji = callbacks.onEmoji, query = state.panelQuery, modifier = hostModifier)
+                    EmojiHost(
+                        onEmoji = callbacks.onEmoji,
+                        query = state.panelQuery,
+                        onBack = callbacks.onToggleEmoji,
+                        searchBar = searchBar,
+                        modifier = hostModifier,
+                    )
                 } else {
+                    searchBar()
                     ClipboardHost(onPaste = callbacks.onPaste, query = state.panelQuery, modifier = hostModifier)
                 }
                 if (state.panelSearchActive) {
@@ -350,6 +364,9 @@ private fun KeyGrid(
                 .fillMaxWidth()
                 .height(rowHeight),
         ) {
+            // Half-key gutter (Gboard/Samsung home-row indent). Empty so the keys stay aligned
+            // under the row above without stretching edge-to-edge.
+            if (row.edgeWeight > 0f) Spacer(Modifier.weight(row.edgeWeight))
             row.keys.forEach { key ->
                 KeyView(
                     key = key,
@@ -366,6 +383,7 @@ private fun KeyGrid(
                         .fillMaxHeight(),
                 )
             }
+            if (row.edgeWeight > 0f) Spacer(Modifier.weight(row.edgeWeight))
         }
     }
 }

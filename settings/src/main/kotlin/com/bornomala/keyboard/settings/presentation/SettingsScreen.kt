@@ -751,18 +751,23 @@ private fun BottomGapSlider(
     scale: Float,
     onScaleChange: (Float) -> Unit,
 ) {
-    val percent = (scale * 100f).roundToInt()
+    // The gap is stored as a multiplier of the 24dp base; show it as an absolute dp value
+    // (0–72dp, default 24dp) since that reads more clearly than a percentage. Stops every 6dp.
+    val dp = (scale * BOTTOM_GAP_BASE_DP).roundToInt()
     SliderSettingRow(
         title = "Bottom gap",
         description = "Space below the keyboard, above the navigation bar.",
-        valueLabel = "$percent%",
-        sliderContentDescription = "Bottom gap, $percent percent",
+        valueLabel = "${dp}dp",
+        sliderContentDescription = "Bottom gap, $dp dp",
         value = scale,
-        valueRange = 0.5f..1.5f,
-        steps = 9,
+        valueRange = 0f..3f,
+        steps = 11,
         onValueChange = onScaleChange,
     )
 }
+
+/** Base bottom-gap height in dp at 100% (mirrors KeyboardDimens.keyboardBottomGap). */
+private const val BOTTOM_GAP_BASE_DP = 24
 
 /** A clickable (non-toggle) destructive action row matching the settings row look. */
 @Composable

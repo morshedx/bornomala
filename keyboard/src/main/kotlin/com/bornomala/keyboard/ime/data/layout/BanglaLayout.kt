@@ -47,6 +47,7 @@ internal object BanglaLayout {
                     SharedKeys.letter('k'),
                     SharedKeys.letter('l'),
                 ),
+                edgeWeight = 0.5f,
             ),
             KeyRow(
                 listOf(

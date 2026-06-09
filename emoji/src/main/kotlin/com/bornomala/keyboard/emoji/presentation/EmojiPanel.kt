@@ -69,7 +69,9 @@ object EmojiPanelTestTags {
 @Composable
 fun EmojiPanel(
     onEmojiSelected: (Emoji) -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier,
+    searchBar: @Composable () -> Unit = {},
     viewModel: EmojiPanelViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -82,6 +84,8 @@ fun EmojiPanel(
             viewModel.onEmojiUsed(emoji)
             onEmojiSelected(emoji)
         },
+        onBack = onBack,
+        searchBar = searchBar,
         modifier = modifier,
     )
 }
@@ -97,7 +101,9 @@ fun EmojiPanel(
     onQueryChanged: (String) -> Unit,
     onClearQuery: () -> Unit,
     onEmojiSelected: (Emoji) -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier,
+    searchBar: @Composable () -> Unit = {},
 ) {
     val colors = BornomalaTheme.keyboardColors
 
@@ -106,14 +112,41 @@ fun EmojiPanel(
             .fillMaxSize()
             .background(colors.keyboardBackground),
     ) {
-        // No in-panel search field: an IME cannot type into its own UI without a sub-keyboard.
-        // Navigation is via the category tabs below; `onQueryChanged`/`onClearQuery` are unused.
+        // Gboard-style top bar: a back arrow (returns to the keyboard) on the far left, then the
+        // category tabs inline. Hidden while searching so the results grid gets the full height.
+        // No in-panel text field: an IME cannot type into its own UI; the `searchBar` slot below
+        // reveals the keyboard whose keystrokes feed the query (`onQueryChanged`/`onClearQuery`
+        // are driven by that flow, not by this panel directly).
         if (!state.isSearching) {
-            EmojiCategoryTabs(
-                selected = state.selectedCategory,
-                onCategorySelected = onCategorySelected,
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(BornomalaTheme.dimens.panelTabStripHeight),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable(onClick = onBack)
+                        .clearAndSetSemantics { contentDescription = "Back to keyboard" },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = LucideIcons.ArrowLeft,
+                        contentDescription = null,
+                        tint = colors.functionalKeyContent,
+                        modifier = Modifier.size(22.dp),
+                    )
+                }
+                EmojiCategoryTabs(
+                    selected = state.selectedCategory,
+                    onCategorySelected = onCategorySelected,
+                    modifier = Modifier.weight(1f),
+                )
+            }
         }
+
+        searchBar()
 
         Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             when {
@@ -189,13 +222,12 @@ private fun EmojiSearchField(
 private fun EmojiCategoryTabs(
     selected: EmojiCategory,
     onCategorySelected: (EmojiCategory) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val colors = BornomalaTheme.keyboardColors
     LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .height(BornomalaTheme.dimens.panelTabStripHeight)
-            .background(colors.suggestionBarBackground)
             .testTag(EmojiPanelTestTags.CATEGORY_TABS),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,

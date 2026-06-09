@@ -20,8 +20,15 @@ data class KeyboardLayout(
 
 /**
  * One horizontal row of keys.
+ *
+ * @param keys the keys, distributed left-to-right by [Key.weight].
+ * @param edgeWeight blank gutter on each side of the row, expressed in key-widths (same unit as
+ *   [Key.weight]). The home row (a–l) uses 0.5 so it sits half a key in from both edges —
+ *   the standard Gboard/Samsung indent that keeps the 9 home keys aligned under the 10 top-row
+ *   keys instead of stretching edge-to-edge. 0 (default) means flush, used by every other row.
  */
 @Immutable
 data class KeyRow(
     val keys: List<Key>,
+    val edgeWeight: Float = 0f,
 )
