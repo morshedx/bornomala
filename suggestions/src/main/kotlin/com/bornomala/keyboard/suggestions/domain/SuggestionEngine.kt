@@ -37,4 +37,11 @@ interface SuggestionEngine {
         secondPreviousWord: String,
         language: SuggestionLanguage,
     )
+
+    /**
+     * Resolves a roman (Avro-style) Bangla input to real Bangla words via the bundled phonetic
+     * index — e.g. `chara` -> [ছাড়া, ছাড়াও]. Ambiguity-collapsed so spelling variants match,
+     * ranked by frequency. Returns up to [limit], best-first; empty when nothing matches.
+     */
+    suspend fun banglaPhoneticCandidates(roman: String, limit: Int): List<String>
 }

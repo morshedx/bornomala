@@ -64,11 +64,33 @@ class RealAssetCorrectionTest {
         assertThat(result.map { it.word }).contains("receive")
     }
 
+    private fun phoneticRepoFromAssets(): com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository {
+        val lines = File("src/main/assets/dictionaries/bn_phonetic.txt").readLines()
+        val source = InMemoryDictionarySource(
+            data = emptyMap(),
+            phonetic = mapOf(SuggestionLanguage.BANGLA to lines),
+        )
+        return com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository(source, dispatchers)
+    }
+
+    @Test
+    fun `chara resolves to ছাড়া via the real bangla phonetic index`() = runTest {
+        val engine = com.bornomala.keyboard.suggestions.data.DefaultSuggestionEngine(
+            providers = setOf(providerFromAssets()),
+            dispatchers = dispatchers,
+            banglaPhonetic = phoneticRepoFromAssets(),
+        )
+        val result = engine.banglaPhoneticCandidates("chara", 5)
+        assertThat(result).isNotEmpty()
+        assertThat(result.first()).isEqualTo("ছাড়া")
+    }
+
     @Test
     fun `engine path preserves the auto-correct flag`() = runTest {
         val engine = com.bornomala.keyboard.suggestions.data.DefaultSuggestionEngine(
             providers = setOf(providerFromAssets()),
             dispatchers = dispatchers,
+            banglaPhonetic = phoneticRepoFromAssets(),
         )
         val result = engine.getSuggestions(req("teh"))
         assertThat(result.first().word).isEqualTo("the")

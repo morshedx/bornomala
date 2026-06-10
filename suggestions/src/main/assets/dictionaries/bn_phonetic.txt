@@ -1,0 +1,9855 @@
+# Bornomala Bangla phonetic-key index: ambiguity-collapsed roman key -> Bangla words.
+# Built from bn_frequency.txt. Phonetic input (e.g. 'chara') resolves to real words
+# (ছাড়া, চারা ...) ranked by frequency. Format: key<TAB>w1 w2 ... (best-first).
+a	আ আঃ
+aba	আব্বা আভা
+abajan	আব্বাজান
+abal	আবাল
+abar	আবার আবারো আবারও আব্বার
+abas	আভাস
+abasik	আবাসিক
+abd	আবদ্ধ
+abdi	আবদি
+abdulah	আবদুল্লাহ
+abedn	আবেদন
+abeg	আবেগ
+abeger	আবেগের
+abhaya	আবহাওয়া
+abhayar	আবহাওয়ার
+abiskar	আবিষ্কার আবিস্কার
+abiskarer	আবিষ্কারের
+abiskrit	আবিষ্কৃত
+abraham	আব্রাহাম
+abrit	আবৃত
+abrjna	আবর্জনা
+abrjnar	আবর্জনার
+abrn	আবরণ
+absjk	আবশ্যক
+abu	আব্বু আবু
+abuke	আব্বুকে
+abur	আব্বুর
+ac	আছো আছ আঁচ
+aca	আচ্ছা
+acar	আচার
+ace	আছে অাছে
+acei	আছেই
+acen	আছেন
+aci	আছি
+acil	আছিলো
+acis	আছিস
+acmka	আচমকা
+acr	আঁচড়
+acrn	আচরণ আচরন
+acrner	আচরণের
+ad	আধ
+ada	আড্ডা আধা
+adalt	আদালত
+adalte	আদালতে
+adalter	আদালতের
+aday	আদায়
+ades	আদেশ
+adese	আদেশে
+adeser	আদেশের
+adim	আদিম
+adjatmik	আধ্যাত্মিক
+adm	আদম
+adr	আদর
+adrer	আদরের
+adrs	আদর্শ
+adu	আদৌ
+adunik	আধুনিক
+adure	আদুরে
+ag	আগ
+aga	আগাও
+agam	আগাম
+agami	আগামী আগামি
+agamikal	আগামীকাল
+agamikaler	আগামীকালের
+agamite	আগামীতে
+agat	আঘাত
+agate	আঘাতে আগাতে
+agater	আঘাতের
+age	আগে আগেও অাগে
+agei	আগেই
+agekar	আগেকার
+ager	আগের
+agerbar	আগেরবার
+agle	আগলে
+agmn	আগমন
+agmner	আগমনের
+agneyastr	আগ্নেয়াস্ত্র
+agrh	আগ্রহ
+agrhi	আগ্রহী
+agst	আগস্ট
+agt	আগত
+agun	আগুন
+agune	আগুনে
+aguner	আগুনের
+ah	আহ আহ্ আঁহ
+aha	আহা
+ahamk	আহাম্মক
+ahare	আহারে
+ahban	আহ্বান
+ahh	আহহ
+ahmed	আহমেদ
+ahsan	আহসান
+aht	আহত
+ahtder	আহতদের
+ai	আই
+aice	আইছে
+aidi	আইডি
+aidiya	আইডিয়া
+aidiyar	আইডিয়ার
+aidiyata	আইডিয়াটা
+aiemep	আইএমএফ
+aijak	আইজ্যাক
+aijka	আইজকা
+aila	আইলা
+ailin	আইলিন
+ailjand	আইল্যান্ড
+ailjande	আইল্যান্ডে
+ain	আইন
+ainer	আইনের
+ainjibi	আইনজীবী
+ainstain	আইনস্টাইন
+aipies	আইপিএস
+airin	আইরিন
+airis	আইরিস আইরিশ
+ais	আইস
+aiskrim	আইসক্রিম
+aitem	আইটেম
+aj	আজ আজও
+ajaira	আজাইরা
+ajb	আজব
+ajebaje	আজেবাজে
+ajgubi	আজগুবি
+aji	আজই
+ajib	আজিব
+ajibn	আজীবন
+ajij	আজিজ
+ajkabane	আজকাবানে
+ajkal	আজকাল
+ajke	আজকে
+ajkei	আজকেই
+ajker	আজকের
+ajmn	আ্যমন
+ajrate	আজরাতে
+aju	আজু
+aka	আঁকা
+akan	আঁকানো
+akar	আকার
+akare	আকারে
+akarer	আকারের
+akas	আকাশ
+akase	আকাশে
+akaser	আকাশের
+akrant	আক্রান্ত
+akre	আঁকড়ে
+akrist	আকৃষ্ট
+akriti	আকৃতি
+akrmn	আক্রমণ আক্রমন
+akrmner	আক্রমণের আক্রমনের
+akrsn	আকর্ষণ আকর্ষন
+akrsniy	আকর্ষণীয়
+aksmik	আকস্মিক
+aksrik	আক্ষরিক
+akte	আঁকতে
+al	আলো আল
+alada	আলাদা
+aladababe	আলাদাভাবে
+alah	আল্লাহ আল্লাহ্
+alahke	আল্লাহকে
+alahr	আল্লাহর
+alaikum	আলাইকুম
+alamt	আলামত
+alap	আলাপ
+alar	আল্লার
+albart	আলবার্ট
+alcna	আলোচনা
+alcnar	আলোচনার
+alekjandar	আলেকজান্ডার
+alga	আলগা
+ali	আলী
+alingn	আলিঙ্গন
+alkala	আলখাল্লা
+alkit	আলোকিত
+alpa	আলফা
+alpred	আলফ্রেড
+alr	আলোর
+alte	আলোতে
+alu	আলু
+am	আম আমম
+ama	আম্মা
+amader	আমাদের অামাদের আমাদেরও
+amaderi	আমাদেরই
+amaderke	আমাদেরকে
+amaderta	আমাদেরটা
+amag	আমাগো
+amake	আমাকে আমাকেও অামাকে
+amakei	আমাকেই
+amanda	আমান্ডা
+amar	আমার আমারও অামার আমারো
+amara	আমারা
+amare	আমারে
+amari	আমারই
+amarta	আমারটা
+amay	আমায়
+amded	আমদেদ
+amder	আমদের
+amen	আমেন
+amerika	আমেরিকা
+amerikan	আমেরিকান
+amerikander	আমেরিকানদের
+amerikanra	আমেরিকানরা
+amerikar	আমেরিকার
+amerikate	আমেরিকাতে
+amerikay	আমেরিকায়
+amg	আমগো
+ami	আমি আমিও অামি
+amii	আমিই
+amin	আমিন আমীন
+amit	আমিতো
+amke	আমকে
+amler	আমলের
+amntrn	আমন্ত্রণ আমন্ত্রন
+amra	আমরা আমরাও অামরা
+amrai	আমরাই
+amrat	আমরাতো
+amstardam	আমস্টারডাম
+amu	আম্মু
+amuke	আম্মুকে
+amur	আম্মুর
+an	আনো আন
+ana	আনা আন্না
+anand	আনান্দ
+anar	আনার
+anb	আনবো আনব
+anbe	আনবে
+ance	আনছে
+anci	আনছি
+anclik	আঞ্চলিক
+and	আনন্দ
+andaj	আন্দাজ
+andargraund	আন্ডারগ্রাউন্ড
+ande	আনন্দে
+ander	আনন্দের
+andit	আনন্দিত
+andln	আন্দোলন
+ane	আনে
+angkel	আঙ্কেল আংকেল
+angkeler	আঙ্কেলের
+angkl	আঙ্কল
+angti	আংটি
+angtir	আংটির
+angtita	আংটিটা
+angul	আঙ্গুল আঙুল
+anguler	আঙ্গুলের আঙুলের
+angulgul	আঙ্গুলগুলো
+ani	আনি
+anlam	আনলাম
+anle	আনলে
+ant	আন্ট
+ante	আনতে
+anti	আন্টি
+antir	আন্টির
+antrik	আন্তরিক
+antrjatik	আন্তর্জাতিক
+anu	আনু
+anugtj	আনুগত্য
+anuke	আনুকে
+anumanik	আনুমানিক
+anun	আনুন
+anustanikbabe	আনুষ্ঠানিকভাবে
+ap	আপ
+apa	আপা
+apanar	আপানার
+apat	আপাতত
+apd	আপদ
+apdet	আপডেট
+apeksikta	আপেক্ষিকতা
+apel	আপেল
+apganistan	আফগানিস্তান
+apganistane	আফগানিস্তানে
+apld	আপলোড
+apn	আপন
+apnader	আপনাদের
+apnaderke	আপনাদেরকে
+apnake	আপনাকে আপনাকেও
+apnakei	আপনাকেই
+apnar	আপনার অাপনার
+apnara	আপনারা
+apnari	আপনারই
+apnarta	আপনারটা
+apne	আপনে আপ্নে
+apner	আপনের
+apni	আপনি আপনিও অাপনি
+apnii	আপনিই
+aprad	আফ্রাদ
+aprika	আফ্রিকা
+aprikan	আফ্রিকান
+aprikar	আফ্রিকার
+aprikay	আফ্রিকায়
+aps	আফসোস
+apti	আপত্তি
+apu	আপু
+ar	আর আরো আরও অার
+arai	আড়াই
+aral	আড়াল
+arale	আড়ালে
+aram	আরাম
+aramdayk	আরামদায়ক
+arame	আরামে
+aramse	আরামসে
+arb	আরব
+arbing	আরভিং
+arcar	আর্চার
+are	আরে
+areh	আরেহ
+arek	আরেক
+arekbar	আরেকবার
+arekjn	আরেকজন
+arekjner	আরেকজনের
+arekjnke	আরেকজনকে
+arekta	আরেকটা
+arekti	আরেকটি
+arektu	আরেকটু
+arhn	আরোহণ
+ari	আড়ি
+ariya	আরিয়া
+ariyan	আরিয়ান
+arjent	আর্জেন্ট
+ark	আর্ক
+arkaib	আর্কাইভ
+arki	আরকি
+arkta	আর্কটা
+arl	আরলো
+armb	আরম্ভ
+armi	আর্মি
+armider	আর্মিদের
+armir	আর্মির
+armite	আর্মিতে
+armsbi	আর্মসবি
+arp	আরোপ
+art	আর্ট আর্থ
+artar	আর্থার
+artik	আর্থিক
+artikel	আর্টিকেল
+artnad	আর্তনাদ
+as	আসো আস অাসো
+asa	আশা আসা
+asakri	আশাকরি
+asalamu	আসসালামু
+asami	আসামী আসামি
+asamike	আসামীকে
+asar	আসার আশার
+asata	আসাটা
+asay	আশায় আসায়
+asb	আসবো আসব
+asbas	আশ্বাস
+asbe	আসবে
+asbei	আসবেই
+asben	আসবেন
+asbena	আসবেনা
+asbi	আসবি
+asc	আসছ আসছো
+asce	আসছে
+ascen	আসছেন
+ascena	আসছেনা
+asci	আসছি
+ascil	আসছিল আসছিলো
+ascilam	আসছিলাম
+ascis	আসছিস
+ascrj	আশ্চর্য
+ascrjer	আশ্চর্যের
+ascrjnk	আশ্চর্যজনক
+ase	আসে আশে
+asen	আসেন
+asena	আসেনা
+aseni	আসেনি
+asepase	আশেপাশে
+asepasei	আশেপাশেই
+asepaser	আশেপাশের
+asi	আসি
+asini	আসিনি
+asirbad	আশীর্বাদ
+asis	আসিস
+askt	আসক্ত
+asl	আসল আসলো
+aslam	আসলাম
+aslan	আসলান
+aslaner	আসলানের
+asle	আসলে অাসলে
+aslei	আসলেই
+aslen	আসলেন
+asli	আসলি
+asn	আসন আসন্ন
+asne	আসনে
+asngka	আশঙ্কা আশংকা
+asni	আসোনি
+asry	আশ্রয়
+ast	আস্ত আসতো আসত
+asta	আস্থা
+astam	আসতাম
+astana	আস্তানা
+aste	আসতে আস্তে
+astece	আসতেছে
+asteci	আসতেছি
+astei	আসতেই
+asuk	আসুক
+asun	আসুন
+at	আট
+ata	আত্তা আটটা আঠা
+atay	আওতায়
+atayi	আততায়ী
+atk	আটক
+atka	আটকা আটকাও
+atkan	আটকানো
+atkate	আটকাতে
+atke	আটকে আঁটকে
+atkece	আটকেছে
+atkiye	আটকিয়ে
+atma	আত্মা
+atmader	আত্মাদের
+atmake	আত্মাকে
+atmar	আত্মার
+atmbisbas	আত্মবিশ্বাস
+atmbisbasi	আত্মবিশ্বাসী
+atmhtja	আত্মহত্যা
+atmhtjar	আত্মহত্যার
+atmiy	আত্মীয়
+atmrksa	আত্মরক্ষা
+atmsmrpn	আত্মসমর্পণ
+atna	আত্না
+atnar	আত্নার
+atngk	আতঙ্ক আতংক
+atngkit	আতঙ্কিত
+atnsmrpn	আত্নসমর্পণ
+atsbaji	আতশবাজি
+au	আউ
+auc	আউচ
+aut	আউট
+ay	আয় অায়
+ayaj	আওয়াজ
+ayajer	আওয়াজের
+ayasti	আওয়াস্তি
+ayat	আয়াত
+ayes	আয়েশ
+ayjn	আয়োজন
+ayla	আয়লা
+ayna	আয়না
+aynar	আয়নার
+aynay	আয়নায়
+ayrn	আয়রন
+ayte	আয়ত্তে
+ayu	আয়ু
+b	বব অব বো
+ba	বা বাঁ বোবা ভা
+bab	ভাব ভাবো অভাব ভাববো
+baba	বাবা ভাবা বাবাও বাব্বা
+babai	বাবাই
+babaji	বাবাজি
+babake	বাবাকে
+babar	বাবার ভাবার
+babc	ভাবছ ভাবছো
+babce	ভাবছে
+babcen	ভাবছেন
+babci	ভাবছি
+babcilam	ভাবছিলাম
+babcile	ভাবছিলে
+babcis	ভাবছিস
+babe	ভাবে ওভাবে ভাববে অভাবে
+babei	ভাবেই ওভাবেই
+baben	ভাববেন ভাবেন
+babi	ভাবি ভাবী
+babini	ভাবিনি
+babis	ভাবিস
+babl	বাবল ভাবলো
+bablam	ভাবলাম
+bable	ভাবলে
+babna	ভাবনা
+babnar	ভাবনার
+babt	ভাবত ভাবতো
+babtam	ভাবতাম
+babte	ভাবতে ভাবতেও
+babtei	ভাবতেই
+babu	বাবু
+babun	ভাবুন
+baburci	বাবুর্চি
+bac	বাঁচো
+baca	বাচ্চা বাঁচাও বাছা বাচাও বাঁচা
+bacab	বাঁচাব
+bacabe	বাঁচাবে
+bacader	বাচ্চাদের
+bacaderke	বাচ্চাদেরকে
+bacadn	বাছাধন
+bacagul	বাচ্চাগুলো
+bacai	বাছাই
+bacakaca	বাচ্চাকাচ্চা
+bacake	বাচ্চাকে
+bacan	বাঁচান বাঁচানো
+bacanr	বাঁচানোর বাচানোর
+bacar	বাচ্চার বাঁচার বাচার
+bacara	বাচ্চারা বাছারা
+bacata	বাচ্চাটা
+bacatake	বাচ্চাটাকে
+bacatar	বাচ্চাটার
+bacate	বাঁচাতে বাচাতে বাচাঁতে
+bacati	বাচ্চাটি
+bacb	বাঁচবো
+bacbe	বাঁচবে
+baci	বাঁচি
+baciye	বাঁচিয়ে বাচিয়ে
+baciyec	বাঁচিয়েছ
+baciyece	বাঁচিয়েছে
+baciyecen	বাঁচিয়েছেন
+baciyeci	বাঁচিয়েছি
+baciyecil	বাঁচিয়েছিল
+bacs	বাচস
+bacte	বাঁচতে বাচতে
+bad	বাদ বাঁধ বাঁধো
+bada	বাধা বাঁধা
+badam	বাদাম
+badamer	বাদামের
+badami	বাদামী
+bade	বাদে
+badi	বাডি
+badike	বাঁদিকে
+badj	বাধ্য অবাধ্য
+badn	বাঁধন
+badr	বাঁদর
+badte	বাঁধতে
+badur	বাদুর বাদুড়
+bag	ভাগ ভাগো বাঘ
+baga	অভাগা
+bagabagi	ভাগাভাগি
+bagan	বাগান
+bagane	বাগানে
+baganer	বাগানের
+bage	ভাগে
+bager	বাঘের ভাগের
+bagins	বাগিন্স
+bagj	ভাগ্য
+bagjban	ভাগ্যবান
+bagjbti	ভাগ্যবতী
+bagje	ভাগ্যে
+bagjer	ভাগ্যের
+bagjke	ভাগ্যকে
+bah	বাহ বাহ্
+bahana	বাহানা
+bahini	বাহিনী
+bahinike	বাহিনীকে
+bahinir	বাহিনীর
+bahir	বাহির
+bahire	বাহিরে
+bahirer	বাহিরের
+bahu	বাহু
+bai	ভাই বাই
+baibel	বাইবেল
+baibele	বাইবেলে
+baibeler	বাইবেলের
+baider	ভাইদের
+baijan	ভাইজান
+baik	বাইক
+baike	ভাইকে বাইকে
+baiker	বাইকের
+baikta	বাইকটা
+bair	বাইর
+bairas	ভাইরাস
+bairase	ভাইরাসে
+bairaser	ভাইরাসের
+baire	বাইরে
+bairei	বাইরেই
+bairer	বাইরের
+bais	ভাইস
+baisb	ভাইসব
+baiya	ভাইয়া
+baiyer	ভাইয়ের
+baiyera	ভাইয়েরা
+baj	বায ভাঁজ বাজ
+baja	বাজাও ভাজা
+bajabe	বাজাবে
+bajai	বাজাই
+bajan	বাজানো
+bajanr	বাজানোর
+bajar	বাজার
+bajare	বাজারে
+bajarer	বাজারের
+bajate	বাজাতে
+bajbe	বাজবে
+bajce	বাজছে
+baje	বাজে
+bajeyapt	বাজেয়াপ্ত
+baji	বাজি বাজী
+bajite	বাজিতে
+bajiye	বাজিয়ে
+bajte	বাজতে
+bak	অবাক বাক
+baka	বাঁকা
+bakbik	বাকবিক
+baki	বাকি বাকী
+bakider	বাকিদের
+bakira	বাকিরা
+bakita	বাকিটা
+bakituku	বাকিটুকু
+bakj	বাক্য
+bakpik	বাকপিক
+baks	বাক্স
+bakse	বাক্সে
+bakser	বাক্সের
+baksta	বাক্সটা
+bal	ভালো ভাল বাল
+bala	ভালা বালা
+balage	ভাল্লাগে
+balan	বালান
+balbabe	ভালোভাবে ভালভাবে
+balbabei	ভালোভাবেই ভালভাবেই
+balbas	ভালোবাসো ভালবাসো ভালবাস
+balbasa	ভালোবাসা ভালবাসা
+balbasake	ভালোবাসাকে
+balbasar	ভালোবাসার ভালবাসার
+balbasay	ভালোবাসায়
+balbasbe	ভালোবাসবে ভালবাসবে
+balbase	ভালোবাসে ভালবাসে
+balbasen	ভালবাসেন
+balbasi	ভালোবাসি ভালবাসি
+balbasis	ভালোবাসিস
+balbast	ভালোবাসতো ভালবাসত
+balbastam	ভালোবাসতাম ভালবাসতাম
+balbaste	ভালোবাসতে ভালবাসতে
+balbese	ভালোবেসে ভালবেসে
+balcal	বালছাল
+baler	বালের
+bali	ভালোই ভালই বালি
+balika	বালিকা
+balin	বালিন
+balk	বালক
+balmt	ভালোমতো
+balr	ভালোর
+balta	বালটা
+balti	বালতি
+baluk	ভালুক ভাল্লুক
+baly	ভালোয়
+bam	বাম
+bamdike	বামদিকে
+bame	বামে
+bamer	বামের
+bamn	বামন
+bamnder	বামনদের
+ban	ভান বান
+bana	বানাও
+banab	বানাবো বানাব
+banabe	বানাবে
+banac	বানাচ্ছ
+banace	বানাচ্ছে
+banaci	বানাচ্ছি
+banai	বানাই
+banaice	বানাইছে
+banalam	বানালাম
+banan	বানানো বানান
+bananr	বানানোর
+banate	বানাতে
+banay	বানায়
+banda	বান্দা
+bandbi	বান্ধবী
+bandr	বান্দর
+banga	ভাঙ্গা ভাঙা
+bangar	ভাঙ্গার ভাঙার
+bangla	বাংলা
+bangladeser	বাংলাদেশের
+banglay	বাংলায়
+bangte	ভাঙতে ভাংতে ভাঙ্গতে
+bangti	ভাংতি
+bani	বাণী ভবানী বানী
+banij	বাণিজ্য
+baniye	বানিয়ে
+baniyec	বানিয়েছ
+baniyece	বানিয়েছে
+baniyecen	বানিয়েছেন
+baniyeci	বানিয়েছি
+baniyecil	বানিয়েছিল
+baniyecilam	বানিয়েছিলাম
+banr	বানর
+banrer	বানরের
+banu	ভানু
+banuke	ভানুকে
+banur	ভানুর
+bap	বাপ
+bapal	বাফালো
+baper	বাপের
+bapke	বাপকে
+bapre	বাপরে বাপ্রে
+bar	বার ওভার ভার বারো বাড়ো
+bara	ভাড়া বাড়াও
+barabari	বাড়াবাড়ি
+baran	বাড়ানো
+baranda	বারান্দা
+baranday	বারান্দায়
+baranr	বাড়ানোর
+barate	ভাড়াটে বাড়াতে
+barbar	বারবার
+barbe	বাড়বে
+barbsa	বারবোসা
+barce	বাড়ছে
+bard	বার্ড
+bare	বারে বাড়ে
+barer	বারের
+bargar	বার্গার
+bari	বাড়ি ভারী ভারি বাড়ী
+barir	বাড়ির
+barita	বাড়িটা
+barite	বাড়িতে বাড়ীতে
+baritei	বাড়িতেই
+bariye	বাড়িয়ে
+barjin	ভার্জিন
+barjiniya	ভার্জিনিয়া
+barlin	বার্লিন
+barline	বার্লিনে
+barn	ভার্ন বার্ন ভার্নন
+barni	বার্নি
+barns	বার্ন্স
+barsamj	ভারসাম্য
+barsik	বার্ষিক
+barsiki	বার্ষিকী
+bart	ভারত বার্ট
+barta	বার্তা বারোটা
+bartabahk	বার্তাবাহক
+bartde	বার্থডে
+barte	বাড়তে ভারতে
+barter	ভারতের
+barti	বাড়তি
+bartiy	ভারতীয়
+barud	বারুদ
+bas	বাস বাঁশ বাসো
+basa	ভাষা বাসা ভাসাও
+basar	বাসার ভাষার
+basay	বাসায় ভাষায়
+base	বাসে
+baser	বাসের
+basi	ভাষী বাঁশি বাসি
+basinda	বাসিন্দা
+basiye	ভাসিয়ে
+basketbl	বাস্কেটবল
+baskrj	ভাস্কর্য
+basman	ভাসমান
+basn	ভাষণ
+bastb	বাস্তব
+bastbe	বাস্তবে
+bastbik	বাস্তবিক
+bastbta	বাস্তবতা
+bat	ভাত
+batas	বাতাস
+batase	বাতাসে
+bataser	বাতাসের
+bataske	বাতাসকে
+bati	বাতি
+batija	ভাতিজা
+batil	বাতিল
+batn	বাটন
+batrum	বাথরুম
+batrume	বাথরুমে
+batrumer	বাথরুমের
+baya	ভায়া
+baye	বাঁয়ে বায়ে
+bayu	বায়ু
+bcetn	অবচেতন
+bcr	বছর
+bcre	বছরে বছরেও
+bcrer	বছরের বছরেরও
+bcrkanek	বছরখানেক
+bd	বোধ বদ্ধ বদ বড্ড বধ
+bdan	অবদান
+bdhy	বোধহয়
+bdi	বডি বোধি
+bdir	বধির
+bdka	ভদকা
+bdl	বদল
+bdla	বদলা বদলাও
+bdlabe	বদলাবে
+bdlan	বদলানো
+bdlanr	বদলানোর
+bdlate	বদলাতে
+bdlay	বদলায়
+bdle	বদলে
+bdlece	বদলেছে
+bdli	বদলি
+bdmais	বদমাইশ
+bdmas	বদমাশ
+bdmaser	বদমাশের
+bdnam	বদনাম
+bdr	ভদ্র অভদ্র
+bdrbabe	ভদ্রভাবে
+bdrlk	ভদ্রলোক
+bdrlker	ভদ্রলোকের
+bdrmhdygn	ভদ্রমহোদয়গণ
+bdrmhila	ভদ্রমহিলা
+bdrta	ভদ্রতা
+be	বে
+beaini	বেআইনি
+beb	ভেবো
+bebe	ভেবে
+bebec	ভেবেছ ভেবেছো
+bebece	ভেবেছে
+bebecen	ভেবেছেন
+bebeci	ভেবেছি
+bebecil	ভেবেছিল ভেবেছিলো
+bebecilam	ভেবেছিলাম
+bebecile	ভেবেছিলে
+bebecilen	ভেবেছিলেন
+bebecis	ভেবেছিস
+bebei	ভেবেই
+bebi	বেবি বেবী
+bebna	ভেবোনা
+becara	বেচারা
+becari	বেচারি
+bece	বেঁচে বেছে বেচে বেচেঁ বেঁছে
+becte	বেচতে
+bed	ভেদ
+bedalam	ভেদালাম
+bede	বেঁধে বেধে
+bedna	বেদনা
+bedprd	বেডফোর্ড
+bedrume	বেডরুমে
+bedrumer	বেডরুমের
+begas	ভেগাস
+begase	ভেগাসে
+bege	ভেগে বেগে
+begm	বেগম
+beguni	বেগুনী
+behala	বেহালা
+behuda	বেহুদা
+behus	বেহুঁশ
+beili	বেইলী
+beiman	বেঈমান
+beimani	বেঈমানি
+beimjaks	বেইম্যাক্স
+beja	ভেজা
+bejal	ভেজাল
+beje	বেজে
+bejnma	বেজন্মা
+bek	বেক
+bekar	বেকার
+beki	বেকি
+bekub	বেকুব
+bel	বেল
+bela	বেলা বেলাঃ
+belar	বেলার
+belay	বেলায়
+belikp	বেলিকফ
+belr	বেলর
+belt	বেল্ট
+belun	বেলুন
+ben	বেন ভেন
+benas	ভেনাস
+benedikt	বেনেডিক্ট
+benge	ভেঙ্গে ভেঙে
+bengece	ভেঙ্গেছে ভেঙেছে
+bengeci	ভেঙ্গেছি
+bengl	বেঙ্গল
+beni	বেনি
+benin	বেনিন
+benjamin	বেঞ্জামিন
+benji	বেঞ্জি বেনজি
+beprya	বেপরোয়া
+ber	বের বেরোও
+bera	বেড়া ভেড়া
+berabe	বেড়াবে
+berace	বেড়াচ্ছে
+beraci	বেড়াচ্ছি
+berai	বেড়াই
+berar	ভেড়ার
+berate	বেড়াতে
+beray	বেড়ায়
+bere	বেড়ে
+berece	বেড়েছে
+berei	বেড়েই
+beri	বেরি
+beriye	বেরিয়ে বেড়িয়ে
+beriyece	বেরিয়েছে
+berte	বেরোতে
+berute	বেরুতে
+bes	বেশ বেস
+besamrik	বেসামরিক
+besbl	বেসবল
+bese	ভেসে বেসে
+besi	বেশি বেশী
+besidin	বেশিদিন
+besii	বেশিই
+besikicu	বেশিকিছু
+besiksn	বেশিক্ষণ
+besir	বেশির
+besirbag	বেশিরভাগ বেশীরভাগ
+besirbagi	বেশিরভাগই
+besja	বেশ্যা
+besjar	বেশ্যার
+best	বেস্ট
+beste	ভেস্তে
+bestni	বেষ্টনী
+beta	বেটা
+betn	বেতন
+betner	বেতনের
+betr	ভেতর
+betre	ভেতরে
+betrei	ভেতরেই
+betrer	ভেতরের
+betrta	ভেতরটা
+beyadb	বেয়াদব
+beyadbi	বেয়াদবি
+beyar	বেয়ার
+beye	বেয়ে
+bg	ভোগ
+bgart	বোগার্ট
+bgban	ভগবান
+bgbaner	ভগবানের
+bgbanke	ভগবানকে
+bge	ভোগে
+bgi	বগি
+bgite	বগিতে
+bgt	অবগত
+bhal	বহাল
+bhela	অবহেলা
+bhiskar	বহিষ্কার বহিস্কার
+bhit	অবহিত
+bhn	বহন
+bhner	বহনের
+bhr	বহর
+bhu	বহু
+bhudin	বহুদিন
+bhut	বহুত
+bi	বই বি ববি ভি ভী
+bibabk	অভিভাবক
+bibadi	বিবাদী
+bibadn	অভিবাদন
+bibag	বিভাগ
+bibage	বিভাগে
+bibager	বিভাগের
+bibah	বিবাহ
+bibaher	বিবাহের
+bibahit	বিবাহিত অবিবাহিত
+bibecna	বিবেচনা
+bibek	বিবেক
+bibi	বিবি
+bibin	বিভিন্ন
+bibkt	বিভক্ত
+bibp	বিবপ
+bibrant	বিভ্রান্ত
+bibriti	বিবৃতি
+bibrm	বিভ্রম
+bibrn	বিবরণ
+bibrt	বিব্রত
+bibrtn	বিবর্তন
+bibrtner	বিবর্তনের
+bibut	অভিভূত
+bic	বিচ
+bicana	বিছানা
+bicanar	বিছানার
+bicanay	বিছানায়
+bicar	বিচার অবিচার
+bicarer	বিচারের
+bicark	বিচারক
+bicarker	বিচারকের
+bicarpti	বিচারপতি
+bice	বইছে
+biced	বিচ্ছেদ
+bici	বিচি
+bicin	বিচ্ছিন্ন
+biclit	বিচলিত
+bid	অবৈধ বৈধ
+biday	বিদায়
+bidba	বিধবা
+bidbngsi	বিধ্বংসী
+bidbst	বিধ্বস্ত
+bidese	বিদেশে
+bidesi	বিদেশী বিদেশি
+bidi	ভিডিও
+bidita	ভিডিওটা
+bidite	ভিডিওতে
+bidjman	বিদ্যমান
+bidjut	বিদ্যুৎ
+bidjuter	বিদ্যুতের
+bidjutik	বৈদ্যুতিক
+bidrh	বিদ্রোহ
+bidrhi	বিদ্রোহী
+bidrhider	বিদ্রোহীদের
+big	বিগ ভিগো
+bigt	বিগত
+bigul	বইগুলো
+bihin	বিহীন
+bij	বীজ
+bijan	অভিযান
+bijane	অভিযানে
+bijaner	অভিযানের
+bijat	অভিজাত
+bijatri	অভিযাত্রী
+bije	ভিজে
+bijg	অভিযোগ
+bijge	অভিযোগে
+bijn	অভিজ্ঞ
+bijnan	বিজ্ঞান
+bijnaner	বিজ্ঞানের
+bijnani	বিজ্ঞানী
+bijnanik	বৈজ্ঞানিক
+bijnanira	বিজ্ঞানীরা
+bijnapn	বিজ্ঞাপন
+bijnes	বিজনেস
+bijneser	বিজনেসের
+bijnta	অভিজ্ঞতা
+bijukt	অভিযুক্ত
+bijy	ভিজয় বিজয়
+bijyer	বিজয়ের
+bijyi	বিজয়ী
+bikal	বিকাল
+bikale	বিকালে
+bikari	ভিখারি
+bikel	বিকেল
+bikele	বিকেলে
+biki	ভিকি
+bikirn	বিকিরণ
+bikjat	বিখ্যাত
+biklp	বিকল্প
+bikreta	বিক্রেতা
+bikri	বিক্রি
+bikrir	বিক্রির
+bikrit	বিকৃত
+bikrm	বিক্রম
+bikry	বিক্রয়
+biksa	ভিক্ষা
+biksipt	বিক্ষিপ্ত
+biktr	ভিক্টর
+biktrer	ভিক্টরের
+bil	বিল
+bila	বইলা
+bilal	বিলাল
+bilb	বিল্বো বিলবো
+bilding	বিল্ডিং
+bildingye	বিল্ডিংয়ে
+bildingyer	বিল্ডিংয়ের
+bilen	ভিলেন
+bilener	ভিলেনের
+biler	বিলের
+bili	বিলি
+biliyn	বিলিয়ন
+bilmbe	অবিলম্বে
+bilupt	বিলুপ্ত
+bima	বীমা
+biman	বিমান
+bimane	বিমানে
+bimaner	বিমানের
+bimt	অভিমত
+bin	ভিন্ন বিন
+bina	বিনা
+binamulje	বিনামূল্যে
+bindn	অভিনন্দন বিনোদন
+bindner	বিনোদনের
+bindu	বিন্দু
+bindumatr	বিন্দুমাত্র
+bineta	অভিনেতা
+binetri	অভিনেত্রী
+binimy	বিনিময়
+binimye	বিনিময়ে
+biniyg	বিনিয়োগ
+bins	বিন্স
+binsbr	অবিনশ্বর
+binsent	ভিনসেন্ট
+binu	ভিনু
+binur	ভিনুর
+biny	অভিনয়
+bip	বিপ
+bipd	বিপদ
+bipde	বিপদে
+bipder	বিপদের
+bipdjnk	বিপদজনক
+bipdmukt	বিপদমুক্ত
+biping	বীপিং
+bipjnk	বিপজ্জনক
+bipkse	বিপক্ষে
+biplb	বিপ্লব
+biplber	বিপ্লবের
+biprit	বিপরীত
+biprite	বিপরীতে
+biprjst	বিপর্যস্ত
+biprjy	বিপর্যয়
+bir	বীর ভিড়
+biraj	বিরাজ
+biral	বিড়াল
+biraler	বিড়ালের
+birat	বিরাট
+birdi	বিরোধী
+birdita	বিরোধিতা
+birer	ভিড়ের
+biri	বিড়ি
+biriyani	বিরিয়ানি
+birj	বীর্য
+birkt	বিরক্ত
+birkti	বিরক্তি
+birktikr	বিরক্তিকর
+birl	বিরল
+birt	বিরত অবিরত
+birtber	বীরত্বের
+birti	বিরতি
+birtir	বিরতির
+birude	বিরুদ্ধে
+bis	বিষ বিশ
+bisa	ভিসা
+bisakt	বিষাক্ত
+bisal	বিশাল
+bisap	অভিশাপ
+bisb	বিশ্ব
+bisbas	বিশ্বাস অবিশ্বাস
+bisbase	বিশ্বাসে
+bisbaser	বিশ্বাসের
+bisbasgatk	বিশ্বাসঘাতক
+bisbasgatkta	বিশ্বাসঘাতকতা
+bisbasi	বিশ্বাসই বিশ্বাসী
+bisbasj	অবিশ্বাস্য
+bisbasjgj	বিশ্বাসযোগ্য
+bisbe	বিশ্বে
+bisber	বিশ্বের
+bisbidjaly	বিশ্ববিদ্যালয়
+bisbjud	বিশ্বযুদ্ধ
+bisbke	বিশ্বকে
+bisbst	বিশ্বস্ত
+bisek	অভিষেক
+biser	বিষের
+bises	বিশেষ
+bisesbabe	বিশেষভাবে
+bisesjn	বিশেষজ্ঞ
+bisest	বিশেষত
+bisestb	বিশেষত্ব
+bisist	বিশিষ্ট
+bisistj	বৈশিষ্ট্য
+bisjdbani	ভবিষ্যদ্বাণী
+bisjt	ভবিষ্যৎ ভবিষ্যত
+bisjte	ভবিষ্যতে
+bisjter	ভবিষ্যতের
+biskit	বিস্কিট
+biskut	বিস্কুট
+bislesn	বিশ্লেষণ
+bismit	বিস্মিত
+bismy	বিস্ময়
+bismykr	বিস্ময়কর
+bisn	ভীষণ বিষণ্ণ ভীষন
+bisp	বিশপ
+bisprit	বিস্ফোরিত
+bisprk	বিস্ফোরক
+bisprn	বিস্ফোরণ
+bisprne	বিস্ফোরণে
+bisprner	বিস্ফোরণের
+bispt	অভিশপ্ত
+bisram	বিশ্রাম
+bisramer	বিশ্রামের
+bisri	বিশ্রী
+bisringkla	বিশৃঙ্খলা
+bisrjn	বিসর্জন
+bist	বিস্ট
+bista	বিষ্ঠা ভিস্তা
+bistar	বিস্তার
+bistarit	বিস্তারিত
+bistrit	বিস্তৃত
+bisud	বিশুদ্ধ
+bisy	বিষয়
+bisye	বিষয়ে
+bisyei	বিষয়েই
+bisyer	বিষয়ের
+bisygul	বিষয়গুলো
+bisyk	বিষয়ক
+bisyta	বিষয়টা
+bisyti	বিষয়টি
+bit	ভীত বিট বীট
+bita	বইটা বৈঠা
+bitali	ভিতালি
+bitamin	ভিটামিন
+bite	বইতে
+biti	ভিত্তি ভীতি
+bitikr	ভীতিকর
+bitite	ভিত্তিতে
+bitk	বৈঠক
+bitr	ভিতর
+bitre	ভিতরে
+bitrei	ভিতরেই
+bitrer	ভিতরের
+bitrisna	বিতৃষ্ণা
+bitrn	বিতরণ
+bitu	ভীতু
+bitur	ভীতুর
+biu	ভিউ
+biuti	বিউটি
+biya	বিয়া
+biyar	বিয়ার
+biye	বিয়ে বইয়ে বিয়েও
+biyer	বিয়ের বইয়ের
+biyeta	বিয়েটা
+biyete	বিয়েতে
+biyetnamer	ভিয়েতনামের
+bj	বোঝো বোঝ ভোজ
+bja	বোঝা বোঝাও
+bjabhar	ব্যাবহার
+bjabsa	ব্যাবসা
+bjabsar	ব্যাবসার
+bjabsay	ব্যাবসায়
+bjabsta	ব্যাবস্থা
+bjaci	বোঝাচ্ছি
+bjag	ব্যাগ
+bjagat	ব্যাঘাত
+bjage	ব্যাগে
+bjager	ব্যাগের
+bjagins	ব্যাগিন্স
+bjagta	ব্যাগটা
+bjaht	অব্যাহত
+bjahti	অব্যাহতি
+bjai	বোঝাই
+bjaj	ব্যাজ
+bjak	ব্যাক
+bjaka	ব্যাখা
+bjakap	ব্যাকআপ
+bjakja	ব্যাখ্যা
+bjakti	ব্যাক্তি
+bjaktider	ব্যাক্তিদের
+bjaktigt	ব্যাক্তিগত
+bjaktigtbabe	ব্যাক্তিগতভাবে
+bjaktir	ব্যাক্তির
+bjalens	ব্যালেন্স
+bjalentain	ভ্যালেন্টাইন
+bjalentainer	ভ্যালেন্টাইনের
+bjaliyan	ব্যালিয়ান
+bjalkiri	ভ্যাল্কিরি
+bjaltajar	ব্যালথাজার
+bjampayar	ভ্যাম্পায়ার
+bjan	ভ্যান বোঝানো
+bjanar	ব্যানার
+bjanarji	ব্যানার্জী
+bjand	ব্যান্ড
+bjandej	ব্যান্ডেজ
+bjander	ব্যান্ডের
+bjandi	ভ্যান্ডি
+bjane	ভ্যানে
+bjang	ব্যাঙ
+bjangalre	ব্যাঙ্গালোরে
+bjangk	ব্যাংক ব্যাঙ্ক
+bjangke	ব্যাংকে
+bjangker	ব্যাংকের ব্যাঙ্কের
+bjanr	বোঝানোর
+bjapar	ব্যাপার
+bjapare	ব্যাপারে ব্যাপারেও
+bjaparei	ব্যাপারেই
+bjapargul	ব্যাপারগুলো
+bjapari	ব্যাপারই
+bjaparta	ব্যাপারটা
+bjapartai	ব্যাপারটাই
+bjapartake	ব্যাপারটাকে
+bjapartar	ব্যাপারটার
+bjapartay	ব্যাপারটায়
+bjaparti	ব্যাপারটি
+bjapk	ব্যাপক
+bjapra	বোঝাপড়া
+bjar	বোঝার ব্যারো
+bjarel	ব্যারেল
+bjari	ব্যারি
+bjart	ব্যার্থ
+bjas	অভ্যাস ব্যাস
+bjast	ব্যাস্ত
+bjat	ব্যাট বজ্জাত বজ্জাৎ
+bjata	ব্যাথা ব্যাটা
+bjatake	ব্যাটাকে
+bjatar	ব্যাটার
+bjatari	ব্যাটারি ব্যাটারী
+bjate	বোঝাতে
+bjatikjan	ভ্যাটিক্যান
+bjatikjaner	ভ্যাটিক্যানের
+bjatikrm	ব্যাতিক্রম
+bjatmjan	ব্যাটম্যান
+bjatmjaner	ব্যাটম্যানের
+bjatmjanke	ব্যাটম্যানকে
+bjay	বজায় বোঝায়
+bjayam	ব্যায়াম
+bjbhar	ব্যবহার
+bjbharer	ব্যবহারের
+bjbhrit	ব্যবহৃত
+bjbsa	ব্যবসা
+bjbsar	ব্যবসার
+bjbsay	ব্যবসায়
+bjbsayi	ব্যবসায়ী
+bjbsayik	ব্যবসায়িক
+bjbsta	ব্যবস্থা
+bjbstapna	ব্যবস্থাপনা
+bjbstar	ব্যবস্থার
+bje	বোঝে
+bjen	বোঝেন
+bjkti	ব্যক্তি
+bjktider	ব্যক্তিদের
+bjktigt	ব্যক্তিগত
+bjktigtbabe	ব্যক্তিগতভাবে
+bjktike	ব্যক্তিকে
+bjktir	ব্যক্তির
+bjktitb	ব্যক্তিত্ব
+bjktiti	ব্যক্তিটি
+bjna	অবজ্ঞা
+bjntrin	অভ্যন্তরীণ
+bjpare	ব্যপারে
+bjr	বজ্র
+bjrpat	বজ্রপাত
+bjrt	ব্যর্থ
+bjrta	ব্যর্থতা
+bjrtar	ব্যর্থতার
+bjrtna	অভ্যর্থনা
+bjs	ব্যস
+bjst	ব্যস্ত অভ্যস্ত
+bjta	ব্যথা
+bjtar	ব্যথার
+bjtikrm	ব্যতিক্রম
+bjutan	অভ্যুত্থান
+bjy	ব্যয়
+bka	বোকা
+bkacndr	বোকাচন্দ্র
+bkami	বোকামি
+bkar	বোকার
+bkbk	বকবক
+bks	বক্স
+bksar	বক্সার
+bkse	বক্সে
+bkser	বক্সের
+bksing	বক্সিং
+bkt	ভক্ত
+bktbj	বক্তব্য
+bktrita	বক্তৃতা
+bl	বলো বল বললো বলল বোলো
+bla	বলা ব্লা
+blabli	বলাবলি
+blad	ব্লাড
+blai	বলাই
+blak	ব্লাক
+blakud	ব্লাকউড
+blam	বললাম
+blar	বলার
+blast	ব্লাস্ট
+blata	বলাটা
+blate	বলাতে
+blay	বলায়
+blb	বলবো বলব
+blba	বলবা
+blbe	বলবে
+blben	বলবেন
+blbena	বলবেনা
+blbi	বলবি
+blbna	বলবনা বলবোনা
+blc	বলছ বলছো
+blce	বলছে
+blcen	বলছেন
+blci	বলছি
+blcil	বলছিল বলছিলো
+blcilam	বলছিলাম
+blcile	বলছিলে
+blcilen	বলছিলেন
+blcina	বলছিনা
+blcis	বলছিস
+bld	বলদ
+bldemrt	ভলডেমর্ট
+bldemrter	ভলডেমর্টের
+blder	বলদের
+ble	বলে বললে বললেও
+blec	বলেছ বলেছো
+blece	বলেছে
+blecen	বলেছেন
+bleci	বলেছি
+blecil	বলেছিল বলেছিলো
+blecilam	বলেছিলাম
+blecile	বলেছিলে
+blecilen	বলেছিলেন
+blecili	বলেছিলি
+blecis	বলেছিস
+bled	ব্লেড
+blei	বলেই বললেই
+blek	ব্লেক
+blen	বলেন বললেন
+blena	বলেনা বললেনা
+bleni	বলেনি বলেননি
+blens	বোলেন্স
+bler	বলের
+blg	ব্লগ
+bli	বলি বললি বলিও
+blidan	বলিদান
+blina	বলিনা
+blini	বলিনি
+blir	বলির
+blis	বলিস
+bljak	ব্ল্যাক
+bljakbeyard	ব্ল্যাকবেয়ার্ড
+bljakbiyard	ব্ল্যাকবিয়ার্ড
+bljakmeil	ব্ল্যাকমেইল
+blk	ব্লক
+blke	ব্লকে
+blker	ব্লকের
+blmbn	অবলম্বন
+blna	বলনা বলোনা
+blni	বলোনি বলনি
+blt	বলতো বলত ভল্ট
+blta	বলটা
+bltam	বলতাম
+blte	বলতে ভল্টে
+bltec	বলতেছো
+blteci	বলতেছি
+bltei	বলতেই
+blten	বলতেন
+blter	ভল্টের
+blu	ব্লু
+bluk	বলুক
+blun	বলুন
+bluprint	ব্লুপ্রিন্ট
+bm	বোম
+bma	বোমা
+bmar	বোমার
+bmata	বোমাটা
+bmbl	ভোম্বল
+bmi	বমি
+bn	বোন বন ভবন
+bnam	বনাম
+bnd	বন্ধ বন্ড ভন্ড
+bndbst	বন্দোবস্ত
+bndi	বন্দী বন্দি
+bndider	বন্দীদের
+bndn	বন্ধন
+bndr	বন্দর
+bndre	বন্দরে
+bndu	বন্ধু
+bndubandb	বন্ধুবান্ধব
+bnduder	বন্ধুদের
+bndugn	বন্ধুগণ
+bnduk	বন্দুক
+bnduke	বন্ধুকে
+bnduker	বন্দুকের
+bndukta	বন্দুকটা
+bndur	বন্ধুর
+bndura	বন্ধুরা
+bndutb	বন্ধুত্ব
+bndutber	বন্ধুত্বের
+bne	বনে ভবনে
+bner	বোনের বনের ভবনের
+bnera	বোনেরা
+bng	ভঙ্গ
+bnganubade	বঙ্গানুবাদে
+bngi	ভঙ্গি
+bngs	বংশ
+bngser	বংশের
+bnj	বন্য
+bnja	বন্যা
+bnke	বোনকে
+bnrksk	বনরক্ষক
+bpur	বফুর
+br	বড় ভর ব্রো বর বড়ো ভোর বোর
+bra	ভরা ব্রা
+brab	ব্রাভো
+brabr	বরাবর
+brabrer	বরাবরের
+brad	বরাদ্দ
+bradar	ব্রাদার
+brant	ব্রান্ট
+bras	ব্রাশ
+braun	ব্রাউন
+brayan	ব্রায়ান
+brbad	বরবাদ
+brbr	বর্বর
+brd	বোর্ড অবরোধ
+brdar	বর্ডার
+brdare	বর্ডারে
+brdast	বরদাশত
+brde	বোর্ডে
+brden	বর্ডেন
+brder	বড়দের বোর্ডের
+brdin	বড়দিন
+brding	বোর্ডিং
+bre	ভরে ভোরে
+brein	ব্রেইন
+brek	ব্রেক
+breking	ব্রেকিং
+brekpast	ব্রেকফাস্ট
+bren	ব্রেন
+brenda	ব্রেন্ডা
+brer	ভোরের
+brhmand	ব্রহ্মাণ্ড
+bri	বড়ই বড়ি
+brid	বৃদ্ধ
+bridi	বৃদ্ধি
+brihsptibar	বৃহস্পতিবার
+briht	বৃহৎ
+brihtm	বৃহত্তম
+brij	ব্রিজ
+brije	ব্রিজে
+brijer	ব্রিজের
+briks	বৃক্ষ
+bring	বোরিং
+bripkes	ব্রিফকেস
+bristi	বৃষ্টি
+bristir	বৃষ্টির
+bristite	বৃষ্টিতে
+brit	বৃত্ত ব্রিট
+brita	বৃথা ব্রিটা
+britener	ব্রিটেনের
+briter	বৃত্তের
+britis	ব্রিটিশ
+britj	ভৃত্য
+brj	বর্জ্য
+brjand	ব্র্যান্ড
+brkast	বরখাস্ত
+brlk	বড়লোক
+brm	বর্ম
+brmn	ভ্রমণ ভ্রমন
+brmne	ভ্রমণে ভ্রমনে
+brmner	ভ্রমণের
+brn	বর্ণ
+brna	বর্ণনা
+brnc	বরঞ্চ
+brng	বরং
+brp	বরফ
+brpe	বরফে
+brper	বরফের
+brpur	ভরপুর
+brsa	ভরসা বর্শা
+brse	বর্ষে
+brsi	বঁড়শি
+brsit	বর্ষিত
+brsn	বর্ষণ
+brsr	বড়সড়
+brteks	ভরটেক্স
+brti	ভর্তি
+brtman	বর্তমান
+brtmane	বর্তমানে
+bru	ব্রু
+bruks	ব্রুকস
+brun	ব্রুণো ভরুন
+brus	ব্রুস
+bs	বস বসো বোস বশ
+bsa	বসা
+bsan	অবসান
+bsanr	বসানোর
+bsar	বসার
+bsb	বসবো
+bsbas	বসবাস
+bsbe	বসবে
+bse	বসে বশে
+bsece	বসেছে
+bsecil	বসেছিল
+bsecilam	বসেছিলাম
+bsei	বসেই
+bsen	বসেন
+bser	বসের
+bsese	অবশেষে
+bsi	বসি
+bsist	অবশিষ্ট
+bsiye	বসিয়ে
+bsj	অবশ্য
+bsji	অবশ্যই
+bsjmbabi	অবশ্যম্ভাবী
+bske	বসকে
+bsnt	বসন্ত
+bsnter	বসন্তের
+bsr	অবসর
+bsre	অবসরে
+bsrer	অবসরের
+bsrprapt	অবসরপ্রাপ্ত
+bsta	অবস্থা বস্তা
+bstan	অবস্থান
+bstane	অবস্থানে
+bstaner	অবস্থানের
+bstar	অবস্থার
+bstata	অবস্থাটা
+bstatei	অবস্থাতেই
+bstay	অবস্থায়
+bste	বসতে
+bsti	বসতি
+bstit	অবস্থিত
+bstne	বোস্টনে
+bstu	বস্তু
+bstur	বস্তুর
+bstut	বস্তুত
+bsun	বসুন
+bt	ভোট বোট বোথ
+bta	ভোঁতা
+btam	বোতাম
+btamta	বোতামটা
+bte	বটে বোটে
+btei	বটেই
+btl	বোতল
+btler	বোতলের
+btlta	বোতলটা
+btrn	অবতরণ
+bts	বৎস
+btsr	বৎসর
+bu	বউ ভৌ বু বৌ
+bub	বুভ
+bubder	বুভদের
+bubra	বুভরা
+buda	বুদ্ধা
+budbar	বুধবার
+buder	বুদ্ধের
+budi	বুদ্ধি
+budiman	বুদ্ধিমান
+budimaner	বুদ্ধিমানের
+budimta	বুদ্ধিমত্তা
+budimtar	বুদ্ধিমত্তার
+budimti	বুদ্ধিমতী
+budir	বুদ্ধির
+budita	বুদ্ধিটা
+budu	বুদ্ধু
+bugce	ভুগছে
+bugrbst	ভূগর্ভস্থ
+bugte	ভুগতে
+buira	বুইড়া
+buj	বুঝো বুঝ
+buja	বুঝা
+bujaci	বুঝাচ্ছি
+bujanr	বুঝানোর
+bujar	বুঝার
+bujate	বুঝাতে
+bujay	বুঝায়
+bujb	বুঝবো বুঝব
+bujbe	বুঝবে
+bujben	বুঝবেন
+bujbena	বুঝবেনা
+bujc	বুঝছ বুঝছো
+bujci	বুঝছি
+bujcis	বুঝছিস
+buje	বুঝে
+bujec	বুঝেছ বুঝেছো
+bujece	বুঝেছে
+bujecen	বুঝেছেন
+bujeci	বুঝেছি
+bujecilam	বুঝেছিলাম
+bujecis	বুঝেছিস
+buji	বুঝি
+bujina	বুঝিনা
+bujini	বুঝিনি
+bujis	বুঝিস
+bujiye	বুঝিয়ে
+bujiyeci	বুঝিয়েছি
+bujlam	বুঝলাম
+bujle	বুঝলে
+bujlen	বুঝলেন
+bujli	বুঝলি
+bujni	বুঝনি
+bujte	বুঝতে বুজতে
+bujtei	বুঝতেই
+buk	বুক
+buke	বুকে বউকে
+buker	বুকের
+buking	বুকিং
+bukta	বুকটা
+bul	ভুল ভুলো ভূল
+bulb	ভুলবো
+bulben	ভুলবেন
+bule	ভুলে ভুলেও ভূলে
+bulei	ভুলেই
+buler	ভুলের
+bulet	বুলেট
+buletprup	বুলেটপ্রুফ
+bulgul	ভুলগুলো
+buli	ভুলি
+buls	বুলস্
+bulta	ভুলটা
+bulte	ভুলতে
+bum	বুম
+bumi	ভূমি
+bumika	ভূমিকা
+bumikmp	ভূমিকম্প
+bumikmper	ভূমিকম্পের
+bumite	ভূমিতে
+bun	বুনো
+bungdng	বুংডং
+bupatit	ভূপাতিত
+bur	বুড়ো
+bura	বুড়া
+buri	বুড়ি
+burir	বুড়ির
+busane	বুসানে
+but	ভূত ভুত বুট
+buta	ভুট্টা ভূট্টা
+buter	ভূতের ভুতের
+buya	ভুয়া
+buyens	বুয়েন্স
+buyer	বউয়ের
+by	ভয় বয়
+byabh	ভয়াবহ
+byan	বয়ান
+byank	ভয়ানক
+bye	ভয়ে বয়ে
+byed	বয়েড
+byej	বয়েজ
+byer	ভয়ের
+byes	ভয়েস
+byka	বয়কা
+byke	ভয়কে
+byngkr	ভয়ংকর ভয়ঙ্কর
+byprend	বয়ফ্রেন্ড
+bys	বয়স
+byse	বয়সে
+bysei	বয়সেই
+byser	বয়সের
+bysi	বয়সী
+bysk	বয়স্ক
+c	ছ
+ca	চাও চা
+cabay	চাবায়
+cabi	চাবি চাঁবি
+cabikati	চাবিকাঠি
+cabir	চাবির
+cabita	চাবিটা
+cabuk	চাবুক
+cac	চাচ্ছ চাচ্ছো
+caca	চাচা
+cacake	চাচাকে
+cacar	চাচার
+cacat	চাচাতো
+cace	চাচ্ছে
+cacen	চাচ্ছেন
+caci	চাচ্ছি
+cacil	চাচ্ছিল চাচ্ছিলো
+cacilam	চাচ্ছিলাম
+cacina	চাচ্ছিনা
+cacis	চাচ্ছিস
+cad	চাঁদ ছাদ
+cade	ছাদে
+cader	ছাদের চাঁদের চাদের
+cadr	চাদর
+cagl	ছাগল
+caglcana	ছাগলছানা
+cagler	ছাগলের
+cahida	চাহিদা
+cai	চাই ছাই
+caib	চাইব চাইবো
+caibe	চাইবে
+caiben	চাইবেন
+caic	চাইছ চাইছো
+caice	চাইছে
+caicen	চাইছেন
+caici	চাইছি
+caicil	চাইছিল
+caicilam	চাইছিলাম
+cail	চাইলো
+cailam	চাইলাম
+caile	চাইলে চাইলেও
+cailei	চাইলেই
+cailen	চাইলেন
+caina	চাইনা
+caini	চাইনি
+cainij	চাইনিজ
+caira	ছাইড়া
+cait	চাইতো চাইত
+caitam	চাইতাম
+caite	চাইতে চাইতেও
+caiten	চাইতেন
+caiya	চাইয়া
+cak	চাক
+caka	চাকা
+cakar	চাকার
+cakr	চাকর
+cakri	চাকরি চাকরী
+cakrir	চাকরির
+cakrita	চাকরিটা
+caksus	চাক্ষুষ
+caku	চাকু
+cakuri	চাকুরি চাকুরী
+cakurir	চাকুরীর
+cal	চাল
+cala	চালাও চালা
+calab	চালাবো চালাব
+calabe	চালাবে
+calace	চালাচ্ছে
+calaci	চালাচ্ছি
+calai	চালাই
+calak	চালাক
+calaki	চালাকি
+calale	চালালে
+calan	চালানো চালান
+calanr	চালানোর
+calate	চালাতে
+calay	চালায়
+calit	চালিত
+caliye	চালিয়ে
+caliyece	চালিয়েছে
+calk	চালক
+calu	চালু
+camc	চামচ
+camra	চামড়া
+camrar	চামড়ার
+camray	চামড়ায়
+can	চান
+cana	চাওনা ছানা
+candu	চান্দু
+cani	চাওনি চাননি
+cans	চান্স
+cap	চাপ ছাপ
+capa	চাপা ছাপা
+cape	চাপে
+caper	চাপের
+capiye	চাপিয়ে
+capun	চাপুন
+car	চার ছাড় ছাড়ো
+cara	ছাড়া ছাড়াও
+carai	ছাড়াই
+carar	ছাড়ার
+carate	ছাড়াতে
+carb	ছাড়বো ছাড়ব
+carbe	ছাড়বে
+carbena	ছাড়বেনা
+carc	চার্চ
+carce	চার্চে
+carcer	চার্চের
+carci	ছাড়ছি
+cardik	চারদিক
+cardike	চারদিকে
+care	ছাড়ে
+caren	ছাড়েন
+caridik	চারিদিক
+caridike	চারিদিকে
+cariye	ছাড়িয়ে
+carj	চার্জ
+carjn	চারজন
+carle	ছাড়লে
+carli	চার্লি
+carlir	চার্লির
+carls	চার্লস
+carlser	চার্লসের
+carpas	চারপাশ
+carpase	চারপাশে
+carpaser	চারপাশের
+cart	চার্ট
+carta	চারটা
+carte	ছাড়তে
+carti	চারটি
+carun	ছাড়ুন
+cas	চাস চাষ
+cata	ছাতা
+catr	ছাত্র
+catrder	ছাত্রদের
+catri	ছাত্রী
+cay	চায়
+caya	চাওয়া ছায়া
+cayacbi	ছায়াছবিঃ
+cayar	ছায়ার চাওয়ার
+cayay	ছায়ায়
+cayer	চায়ের
+cayna	চায়না
+caynar	চায়নার
+caynate	চায়নাতে
+cayni	চায়নি
+cbi	ছবি
+cbigul	ছবিগুলো
+cbir	ছবির
+cbita	ছবিটা
+cbite	ছবিতে
+cdmbes	ছদ্মবেশ
+cehara	চেহারা
+ceharar	চেহারার
+ceharata	চেহারাটা
+ceharay	চেহারায়
+cein	চেইন
+cej	চেজ
+cek	চেক
+ceke	চেখে
+ceker	চেকের
+cekta	চেকটা
+cele	ছেলে ছেলেও
+celeder	ছেলেদের
+celei	ছেলেই
+celeke	ছেলেকে
+celemeye	ছেলেমেয়ে
+celer	ছেলের
+celera	ছেলেরা
+celeta	ছেলেটা
+celetake	ছেলেটাকে
+celetar	ছেলেটার
+celeti	ছেলেটি
+celetike	ছেলেটিকে
+celetir	ছেলেটির
+cembar	চেম্বার
+cembare	চেম্বারে
+cemil	চেমিল
+cen	চেনো চেন
+cena	চেনা অচেনা
+cenai	চেন্নাই
+cenar	চেনার
+cene	চেনে
+cenen	চেনেন
+cenj	চেঞ্জ
+cepe	চেপে
+cer	ছেড়ো
+cere	ছেড়ে ছেঁড়ে
+cerece	ছেড়েছে
+ceri	চেরি
+cesta	চেষ্টা চেস্টা চেষ্টাও
+cestai	চেষ্টাই
+cestar	চেষ্টার
+cestay	চেষ্টায়
+cetna	চেতনা
+ceyar	চেয়ার
+ceyare	চেয়ারে
+ceyarmjan	চেয়ারম্যান
+ceye	চেয়ে চেয়েও ছেয়ে
+ceyec	চেয়েছ চেয়েছো
+ceyece	চেয়েছে
+ceyecen	চেয়েছেন
+ceyeci	চেয়েছি
+ceyecil	চেয়েছিল চেয়েছিলো
+ceyecilam	চেয়েছিলাম
+ceyecile	চেয়েছিলে
+ceyecilen	চেয়েছিলেন
+ci	ছি চোই ছিঃ
+cidr	ছিদ্র
+cihn	চিহ্ন
+cihnit	চিহ্নিত
+cij	চিজ
+ciken	চিকেন
+cikitsa	চিকিৎসা চিকিত্সা
+cikitsar	চিকিৎসার
+cikitsk	চিকিৎসক
+cikn	চিকন
+cil	ছিল ছিলো চিওল
+cila	চইলা ছিলা
+cilacili	চিল্লাচিল্লি
+cilam	ছিলাম
+cile	ছিলে
+cilen	ছিলেন
+cilena	ছিলেনা
+ciler	চিওলের
+cili	ছিলি
+cilke	চিওলকে
+cilna	ছিলনা ছিলোনা
+cin	চিনো চীন ছিন্ন চিন
+cina	চীনা
+cinbe	চিনবে
+cine	চিনে চীনে
+cinen	চিনেন
+ciner	চীনের
+cingri	চিংড়ি
+cini	চিনি
+cinina	চিনিনা
+cinis	চিনিস
+ciniye	ছিনিয়ে
+cint	চিনতো
+cinta	চিন্তা চিন্তাও
+cintababna	চিন্তাভাবনা
+cintai	ছিনতাই
+cintam	চিনতাম
+cintar	চিন্তার
+cintay	চিন্তায়
+cinte	চিনতে
+cintit	চিন্তিত
+cip	চীফ চিফ চিপ
+cipay	চিপায়
+cips	চিপস
+cipta	চীপটা
+cirdin	চিরদিন
+cirdiner	চিরদিনের
+cire	ছিঁড়ে ছিড়ে
+ciriyakana	চিড়িয়াখানা
+ciriyakanar	চিড়িয়াখানার
+ciriyakanay	চিড়িয়াখানায়
+cirjibn	চিরজীবন
+cirjibner	চিরজীবনের
+cirkal	চিরকাল
+cirkaler	চিরকালের
+cirte	ছিঁড়তে
+cirtre	চিরতরে
+cit	চিট
+citakrsk	চিত্তাকর্ষক
+citi	চিঠি
+citigul	চিঠিগুলো
+citing	চিটিং
+citir	চিঠির
+citita	চিঠিটা
+citite	চিঠিতে
+citiye	ছিটিয়ে
+citkar	চিৎকার চিত্কার
+citke	ছিটকে
+citr	চিত্র
+ciyars	চিয়ার্স
+cjalenj	চ্যালেঞ্জ
+cjampiyn	চ্যাম্পিয়ন
+cjan	চ্যান
+cjandlar	চ্যান্ডলার
+cjanel	চ্যানেল
+cjanele	চ্যানেলে
+cjanselr	চ্যান্সেলর
+cjapel	চ্যাপেল
+cjaptar	চ্যাপ্টার
+ck	চোখ
+ckcke	চকচকে
+cke	চোখে চোখকে
+ckei	চোখেই
+cker	চোখের
+ckgul	চোখগুলো
+cklet	চকলেট চকোলেট
+ckleter	চকলেটের
+ckr	চক্কর চক্র
+ckra	ছোকরা
+ckta	চোখটা
+cl	চলো চল অচল
+cla	চলা চোলা
+clacl	চলাচল
+clam	চললাম
+clapera	চলাফেরা
+clar	চলার
+clb	চলবো
+clbe	চলবে
+clbena	চলবেনা
+clce	চলছে
+clci	চলছি
+clcil	চলছিল চলছিলো
+cle	চলে চললে
+clece	চলেছে
+clecen	চলেছেন
+cleci	চলেছি
+clei	চলেই
+clen	চলেন
+cli	চলি
+clis	চল্লিশ
+clman	চলমান
+clnt	চলন্ত
+clte	চলতে
+cltei	চলতেই
+clun	চলুন
+cmk	চমক
+cmke	চমকে
+cmkprd	চমকপ্রদ
+cmtkar	চমৎকার চমত্কার
+cnd	ছন্দ
+cndr	চন্দ্র
+cpar	চপার
+cr	চোর চড়
+cra	চওড়া চড়া ছোড়া
+cray	ছড়ায়
+crbi	চর্বি
+crca	চর্চা
+cre	চড়ে
+crer	চোরের
+cri	ছড়ি
+critr	চরিত্র
+critrer	চরিত্রের
+criye	ছড়িয়ে
+criyece	ছড়িয়েছে
+crke	চোরকে
+crm	চরম
+crte	চড়তে
+cse	চষে
+csma	চশমা
+ct	ছোট ছোট্ট ছোটো ছোট্টো
+ctbela	ছোটবেলা
+ctbelar	ছোটবেলার
+ctbelay	ছোটবেলায়
+ctkat	ছোটখাটো ছোটখাট
+ctur	চতুর
+cturt	চতুর্থ
+cu	ছু
+cubena	ছুবেনা
+cud	চৌদ্দ
+cudi	চুদি
+cudte	চুদতে
+cuduri	চৌধুরী
+cuingam	চুইংগাম
+cukti	চুক্তি
+cuktir	চুক্তির
+cuktita	চুক্তিটা
+cuktite	চুক্তিতে
+cul	চুল
+cule	চুলে
+culer	চুলের
+cum	চুমো
+cumu	চুমু
+cumuk	চুমুক
+cup	চুপ
+cupcap	চুপচাপ
+curant	চূড়ান্ত
+curay	চূড়ায়
+cure	ছুড়ে ছুঁড়ে
+curi	চুরি ছুরি ছুড়ি
+curikagat	ছুরিকাঘাত
+curir	চুরির ছুরির
+curita	ছুরিটা
+curmar	চুরমার
+cute	ছুটে ছুঁতে
+cuti	ছুটি
+cutir	ছুটির
+cutite	ছুটিতে
+cuye	ছুঁয়ে
+cy	ছয়
+cya	ছোঁয়া
+cyal	চোয়াল
+cyjn	ছয়জন
+cyta	ছয়টা
+d	ডঃ ড দ
+da	দাও দা ডা ডাঃ
+daba	দাবা
+dabar	দাবার
+dabi	দাবি দাবী
+dabl	ডাবল
+dablin	ডাবলিন
+dada	দাদা ধাঁধা
+dadabai	দাদাভাই
+dadake	দাদাকে
+dadar	দাদার
+dadi	দাদী
+dadima	দাদীমা
+dadimar	দাদীমার
+dadir	দাদীর
+dadu	দাদু
+dag	দাগ
+daha	ডাহা
+daini	ডাইনি ডাইনী
+daining	ডাইনিং
+dainir	ডাইনীর
+dainsr	ডাইনোসর
+dainsrer	ডাইনোসরের
+dairektr	ডাইরেক্টর
+dak	ডাক ডাকো
+daka	ধাক্কা ডাকা ঢাকা
+dakar	ডাকার
+dakat	ডাকাত
+dakati	ডাকাতি
+dakatir	ডাকাতির
+dakb	ডাকবো ডাকব
+dakbe	ডাকবে
+dakce	ডাকছে
+dakci	ডাকছি
+dake	ডাকে
+daki	ডাকি
+dakle	ডাকলে
+dakt	ডাকতো
+daktam	ডাকতাম
+daktar	ডাক্তার
+daktara	ডাক্তাররা
+daktarer	ডাক্তারের
+daktari	ডাক্তারি
+daktarke	ডাক্তারকে
+dakte	ডাকতে
+dakun	ডাকুন
+dal	ঢাল ডাল
+dalal	দালাল
+daltn	ডাল্টন
+dalu	ঢালু
+dam	দাম
+dambldr	ডাম্বলডোর
+dambldrer	ডাম্বলডোরের
+dame	দামে
+dami	দামী দামি
+dan	ডান দান
+dana	ডানা
+danb	দানব
+danber	দানবের
+danda	ধান্দা
+danday	ধান্দায়
+dandike	ডানদিকে
+dane	ডানে
+danga	দাঙ্গা
+dangka	ডাঙ্কা
+dani	দাওনি
+daniyel	দানিয়েল
+dap	ধাপ
+dape	ধাপে
+dapn	দাফন
+dar	ধার দাঁড় দাড়
+dara	দাঁড়াও দাড়াও দাঁড়া দাড়া ধারা দারাও দাড়াঁও
+darabe	দাঁড়াবে
+daral	ধারালো
+daran	দাঁড়ান দাড়ান দাঁড়ানো
+darate	দাঁড়াতে দাড়াতে
+daray	দাঁড়ায় দাড়ায়
+dardn	ডার্ডন
+dare	ধারে
+dari	দাড়ি
+dariye	দাঁড়িয়ে দাড়িয়ে
+dariyece	দাঁড়িয়েছে
+dark	ডার্ক
+darling	ডার্লিং
+darmik	ধার্মিক
+darn	ধারণ ধারন
+darna	ধারণা ধারনা
+darnai	ধারণাই ধারনাই
+darnar	ধারনার ধারণার
+darun	দারুণ দারুন
+daryan	দারোয়ান
+das	দাস
+dat	দাঁত দাত
+data	ডাটা
+datb	ধাতব
+dater	দাঁতের
+datu	ধাতু
+datur	ধাতুর
+daun	ডাউন
+daunld	ডাউনলোড
+day	দায়
+daya	ধাওয়া দাওয়া
+dayal	ডায়াল
+dayana	ডায়ানা
+dayat	দাওয়াত
+daybar	দায়ভার
+daye	দায়ে
+dayer	দায়ের
+dayeri	ডায়েরি
+dayi	দায়ী
+dayitb	দায়িত্ব দায়ীত্ব
+dayitbe	দায়িত্বে
+dayitber	দায়িত্বের
+daymnd	ডায়মন্ড
+dayna	ডায়না
+dbar	দ্বার
+dbara	দ্বারা
+dbarai	দ্বারাই
+dbayitb	দ্বায়িত্ব
+dbi	ডবি
+dbida	দ্বিধা
+dbidagrst	দ্বিধাগ্রস্ত
+dbigun	দ্বিগুণ
+dbip	দ্বীপ
+dbipe	দ্বীপে
+dbiper	দ্বীপের
+dbitiy	দ্বিতীয় অদ্বিতীয়
+dbitiybar	দ্বিতীয়বার
+dbitiyt	দ্বিতীয়ত
+dbndb	দ্বন্দ্ব
+dbngs	ধ্বংস
+dbngsabses	ধ্বংসাবশেষ
+dbngser	ধ্বংসের
+dbni	ধ্বনি
+dbud	অদ্ভুদ
+dbut	অদ্ভুত অদ্ভূত
+de	দে ডে দেও
+deb	দেবো দেব ডেভ
+debar	দেবার
+debdut	দেবদূত
+debe	দেবে
+deben	দেবেন
+debena	দেবেনা
+debi	দেবী
+debid	ডেভিড
+debider	ডেভিডের
+debidke	ডেভিডকে
+debis	ডেভিস
+debta	দেবতা
+debtader	দেবতাদের
+debtar	দেবতার
+debtara	দেবতারা
+dedst	ডেডশট
+deh	দেহ
+dehe	দেহে
+deher	দেহের
+dei	দেই
+deika	দেইখা
+deini	দেইনি
+dek	দেখো দেখ ডেক ডেকো
+deka	দেখা দেখাও
+dekab	দেখাবো দেখাব
+dekabe	দেখাবে
+dekaben	দেখাবেন
+dekac	দেখাচ্ছ দেখাচ্ছো
+dekace	দেখাচ্ছে
+dekaci	দেখাচ্ছি
+dekacil	দেখাচ্ছিল
+dekai	দেখাই
+dekale	দেখালে
+dekan	দেখানো দেখান
+dekanr	দেখানোর
+dekar	দেখার
+dekasna	দেখাশোনা
+dekasnar	দেখাশোনার
+dekasuna	দেখাশুনা
+dekat	দেখাত
+dekate	দেখাতে
+dekatei	দেখাতেই
+dekay	দেখায়
+dekb	দেখবো দেখব
+dekbal	দেখভাল
+dekbe	দেখবে
+dekben	দেখবেন
+dekbi	দেখবি
+dekc	দেখছো দেখছ
+dekce	দেখছে
+dekcen	দেখছেন
+dekci	দেখছি
+dekcilam	দেখছিলাম
+dekcile	দেখছিলে
+dekcina	দেখছিনা
+dekcis	দেখছিস
+deke	দেখে ডেকে ঢেকে দেখেও
+dekec	দেখেছ দেখেছো
+dekece	দেখেছে ডেকেছে
+dekecen	দেখেছেন ডেকেছেন
+dekeci	দেখেছি ডেকেছি
+dekecil	দেখেছিল দেখেছিলো
+dekecilam	দেখেছিলাম
+dekecile	দেখেছিলে
+dekecilen	দেখেছিলেন
+dekecis	দেখেছিস
+dekei	দেখেই
+deken	দেখেন
+dekeni	দেখেনি দেখেননি
+deker	ডেকের
+dekesune	দেখেশুনে
+deki	দেখি
+dekina	দেখিনা
+dekini	দেখিনি
+dekis	দেখিস
+dekiye	দেখিয়ে
+dekiyec	দেখিয়েছ দেখিয়েছো
+dekiyece	দেখিয়েছে
+dekiyecen	দেখিয়েছেন
+dekiyeci	দেখিয়েছি
+dekl	দেখলো
+deklam	দেখলাম
+dekle	দেখলে
+deklei	দেখলেই
+deklen	দেখলেন
+dekli	দেখলি
+dekljan	ডেক্ল্যান
+dekni	দেখনি দেখোনি
+dekt	দেখত দেখতো
+dektam	দেখতাম
+dekte	দেখতে দেখতেও
+dektei	দেখতেই
+dekuk	দেখুক
+dekun	দেখুন
+del	ডেল
+dele	ঢেলে
+delibari	ডেলিভারি
+delta	ডেল্টা
+den	দেন
+denhjam	ডেনহ্যাম
+deni	দেননি
+denij	ডেনিজ
+denis	ডেনিস
+deniyels	ডেনিয়েলস
+dent	ডেন্ট
+denter	ডেন্টের
+deputi	ডেপুটি
+der	ওদের দের দেড়
+derek	ডেরেক
+deri	দেরি দেরী
+derite	দেরিতে
+derke	ওদেরকে
+des	দেশ
+dese	দেশে
+deser	দেশের
+desk	ডেস্ক
+deske	দেশকে ডেস্কে
+desker	ডেস্কের
+desmnd	ডেসমন্ড
+det	ডেট ধেৎ ডেথ
+deta	ডেটা
+dete	ডেটে
+deteri	ধেত্তেরি
+deting	ডেটিং
+detnetr	ডেটোনেটর
+deu	ঢেউ
+deuliya	দেউলিয়া
+deuyer	ঢেউয়ের
+dey	দেয়
+deya	দেয়া দেওয়া
+deyal	দেয়াল
+deyale	দেয়ালে
+deyaler	দেয়ালের
+deyar	দেওয়ার দেয়ার
+deyata	দেওয়াটা
+deyna	দেয়না
+deyni	দেয়নি
+dg	ডগ
+dhai	দোহাই
+di	দিও ডি দি ওডি
+dib	দিব দিবো
+diba	দিবা
+dibais	ডিভাইস
+dibasi	অধিবাসী
+dibe	দিবে
+diben	দিবেন
+dibena	দিবেনা
+dibi	দিবি
+dibidi	ডিভিডি
+dibiya	দিভিয়া
+dibji	দিব্যি
+dibna	দিবনা
+dibrs	ডিভোর্স
+dibs	দিবস
+dic	দিচ্ছ দিচ্ছো
+dice	দিচ্ছে দিছে
+dicen	দিচ্ছেন
+dicena	দিচ্ছেনা
+dici	দিচ্ছি দিছি
+dicil	দিচ্ছিল দিচ্ছিলো
+dicilam	দিচ্ছিলাম
+dicina	দিচ্ছিনা
+dicis	দিচ্ছিস
+didi	দিদি
+didra	ডিডরা
+diene	ডিএনএ
+dignt	দিগন্ত
+digri	ডিগ্রী ডিগ্রি ডিগরি
+dii	দিই
+diini	দিইনি
+dijain	ডিজাইন
+dijital	ডিজিটাল
+dik	দিক অধিক ওদিক ডিক
+dikangs	অধিকাংশ
+dikangsi	অধিকাংশই
+dikar	অধিকার
+dikarer	অধিকারের
+dikari	অধিকারী
+dike	দিকে ওদিকে
+dikei	দিকেই
+diker	দিকের
+dikta	দিকটা
+dil	দিল দিলো ডিল ঢিল
+dila	ঢিলা
+dilam	দিলাম
+dilan	ডিলান
+dile	দিলে দিলেও
+dilei	দিলেই
+dilek	দিলেক
+dilen	দিলেন
+dili	দিলি দিল্লি
+dilit	ডিলিট
+dim	ডিম
+dimentr	ডিমেন্টর
+dimentra	ডিমেন্টররা
+dimentrder	ডিমেন্টরদের
+dimer	ডিমের
+dimu	দিমু
+din	দিন ডিনো দিনও ডিন ডীন
+dina	দিওনা ডিনা
+dinar	ডিনার দিনার
+dinare	ডিনারে
+dinarer	ডিনারের
+dindin	দৈনন্দিন
+dine	দিনে অধীনে
+dinei	দিনেই
+diner	দিনের
+dingul	দিনগুলো
+dini	দিনই
+dinik	দৈনিক
+dinkal	দিনকাল
+dinke	দিনকে
+dinta	দিনটা
+dintar	দিনটার
+dinti	দিনটি
+dintike	দিনটিকে
+dipartment	ডিপার্টমেন্ট
+dipartmente	ডিপার্টমেন্টে
+dipartmenter	ডিপার্টমেন্টের
+dipens	ডিফেন্স
+dipjit	ডিপোজিট
+dir	ধীর অধীর
+dira	ধইরা
+dire	ধীরে
+direktr	ডিরেক্টর
+dirg	দীর্ঘ
+dirgsbas	দীর্ঘশ্বাস
+dirj	ধৈর্য ধৈর্য্য
+dis	দিস
+dise	দিসে
+disembr	ডিসেম্বর
+disk	ডিস্ক
+distarb	ডিস্টার্ব
+distrikt	ডিস্ট্রিক্ট
+dit	দিত দিতো
+ditam	দিতাম
+dite	দিতে দিতেও
+ditei	দিতেই
+ditektib	ডিটেকটিভ
+diten	দিতেন
+ditj	দৈত্য
+ditjder	দৈত্যদের
+ditjra	দৈত্যরা
+diuk	ডিউক
+diuti	ডিউটি
+diy	দিয়ো
+diya	দিয়া
+diyar	ডিয়ার
+diye	দিয়ে দিয়েও
+diyec	দিয়েছ দিয়েছো
+diyece	দিয়েছে
+diyecen	দিয়েছেন
+diyeci	দিয়েছি
+diyecil	দিয়েছিল দিয়েছিলো
+diyecilam	দিয়েছিলাম
+diyecile	দিয়েছিলে
+diyecilen	দিয়েছিলেন
+diyecili	দিয়েছিলি
+diyecis	দিয়েছিস
+diyei	দিয়েই
+diyen	দিয়েন
+diyetar	ডিয়েটার
+dj	দ্য ডোজ
+dja	দ্যা
+djabid	ড্যাভিড
+djad	ড্যাড
+djadi	ড্যাডি
+djak	দ্যাখো দ্যাখ
+djan	ড্যান ধ্যান
+djanglar	ড্যাংলার
+djani	ড্যানি
+djaniyel	ড্যানিয়েল
+djans	ড্যান্স
+djantn	ড্যান্টন
+djapk	অধ্যাপক
+djar	ড্যারো
+djaren	ড্যারেন
+djas	ড্যাশ
+djat	ধ্যাত দ্যাট ধ্যাৎ
+djateri	ধ্যাত্তেরি
+djay	অধ্যায়
+djn	ডজন
+djud	ড্যুড
+djunan	ড্যুনান
+dk	ডক ঢোকো ঢোক
+dka	ধোঁকা ধোকা ঢোকা
+dkabaj	ধোঁকাবাজ
+dkabaji	ধোঁকাবাজি
+dkan	দোকান
+dkane	দোকানে
+dkaner	দোকানের
+dkanta	দোকানটা
+dkar	ঢোকার
+dke	ঢোকে
+dking	ডকিং
+dkl	দখল ধকল
+dkle	দখলে
+dks	দক্ষ
+dksin	দক্ষিণ দক্ষিন
+dksine	দক্ষিণে দক্ষিনে
+dksiner	দক্ষিণের
+dksta	দক্ষতা
+dkstar	দক্ষতার
+dktr	ডক্টর
+dkument	ডকুমেন্ট
+dl	দল ডল
+dlar	ডলার
+dlare	ডলারে
+dlarer	ডলারের
+dle	দলে
+dler	দলের
+dli	ডলি
+dlil	দলিল
+dlke	দলকে
+dlneta	দলনেতা
+dm	দম ডম
+dminent	ডমিনেন্ট
+dminenter	ডমিনেন্টের
+dmki	ধমকি
+dmn	দমন
+dmpti	দম্পতি
+dn	ডন ধন ধোন
+dnald	ডোনাল্ড
+dng	ডং ঢং
+dngs	ধংস
+dni	ধনী ডোনি ডনি
+dnj	ধন্য
+dnjbad	ধন্যবাদ
+dnuk	ধনুক
+dptr	দপ্তর
+dr	ধরো ধর ডোর দর
+dra	ধরা
+drag	ড্রাগ
+dragan	ড্রাগান
+dragn	ড্রাগন
+dragner	ড্রাগনের
+dragnke	ড্রাগনকে
+drags	ড্রাগস
+draib	ড্রাইভ
+draibar	ড্রাইভার
+draibarer	ড্রাইভারের
+draibarke	ড্রাইভারকে
+draibing	ড্রাইভিং
+draiskl	ড্রাইসকোল
+drak	ড্রাক
+draks	ড্রাক্স
+drakula	ড্রাকুলা
+dram	ড্রাম
+drar	ধরার
+drb	ধরবো ধরব
+drbe	ধরবে
+drben	ধরবেন
+drbena	ধরবেনা
+drbi	ধরবি
+drce	ধরছে
+drci	ধরছি
+dre	ধরে
+drec	ধরেছ ধরেছো
+drece	ধরেছে
+drecen	ধরেছেন
+dreci	ধরেছি
+drecil	ধরেছিল ধরেছিলো
+drecilam	ধরেছিলাম
+drecile	ধরেছিলে
+drei	ধরেই
+dremjan	ড্রেম্যান
+dres	ড্রেস
+dri	দড়ি ধরি ডরি
+dridr	দরিদ্র
+dril	ড্রিল
+dringk	ড্রিংক ড্রিঙ্ক
+dringks	ড্রিঙ্কস
+drir	দৃঢ়
+drisj	অদৃশ্য দৃশ্য
+drisjt	দৃশ্যত
+dristant	দৃষ্টান্ত
+dristi	দৃষ্টি
+dristibngi	দৃষ্টিভঙ্গি
+dristikn	দৃষ্টিকোণ
+dristir	দৃষ্টির
+dristite	দৃষ্টিতে
+driya	ডোরিয়া
+driye	ধরিয়ে
+drja	দরজা
+drjagul	দরজাগুলো
+drjar	দরজার
+drjata	দরজাটা
+drjay	দরজায়
+drkar	দরকার
+drkari	দরকারি
+drl	ধরল
+drlam	ধরলাম
+drle	ধরলে
+drm	ধর্ম
+drme	ধর্মে
+drmer	ধর্মের
+drmguru	ধর্মগুরু
+drmguruder	ধর্মগুরুদের
+drmiy	ধর্মীয়
+drn	ড্রোন ধরন ধরণ
+drner	ধরনের ধরণের
+drp	ড্রপ
+drsk	দর্শক
+drskder	দর্শকদের
+drskra	দর্শকরা
+drsn	দর্শন ধর্ষণ ধর্ষন
+drsner	ধর্ষণের
+drte	ধরতে
+drun	ধরুন
+drut	দ্রুত
+drutgami	দ্রুতগামী
+druti	দ্রুতই
+ds	দোষ দশ ডস
+dsa	দশা
+dsarp	দোষারোপ
+dsi	দোষী
+dsju	দস্যু
+dsk	দশক
+dske	দশকে
+dsn	ডওসন
+dst	দোস্ত দোস্তো
+dsta	দশটা দোষটা
+dstra	দোস্তরা
+dt	ডট
+dtk	দত্তক
+du	দু ডু
+dubar	দুবার
+dube	ডুবে
+dubiye	ডুবিয়ে
+dud	দুধ ডুড
+duder	দুধের
+dudin	দুদিন
+dudiner	দুদিনের
+dui	দুই
+duibar	দুইবার
+duidin	দুইদিন
+duijn	দুইজন
+duijnei	দুইজনেই
+duijner	দুইজনের
+duijnke	দুইজনকে
+duita	দুইটা
+duitai	দুইটাই
+duiti	দুইটি
+dujn	দুজন
+dujne	দুজনে
+dujnei	দুজনেই
+dujner	দুজনের
+dujneri	দুজনেরই
+dujni	দুজনই
+dujnke	দুজনকে
+dujnkei	দুজনকেই
+duk	দুঃখ ঢুকো
+duka	ঢুকাও
+dukate	ঢুকাতে
+dukb	ঢুকবো
+dukbe	ঢুকবে
+dukce	ঢুকছে
+dukci	ঢুকছি
+duke	ঢুকে দুঃখে
+dukece	ঢুকেছে
+dukeci	ঢুকেছি
+duker	দুঃখের
+duki	দুঃখী
+dukit	দুঃখিত
+dukiye	ঢুকিয়ে
+dukiyece	ঢুকিয়েছে
+dukjnk	দুঃখজনক
+dukl	ঢুকলো
+dukle	ঢুকলে
+dukte	ঢুকতে
+dul	ধুলো
+dula	ধুলা
+dulabai	দুলাভাই
+dumpan	ধূমপান ধুমপান
+duniya	দুনিয়া
+duniyake	দুনিয়াকে
+duniyar	দুনিয়ার
+duniyata	দুনিয়াটা
+duniyate	দুনিয়াতে
+duniyay	দুনিয়ায়
+dupur	দুপুর
+dupure	দুপুরে
+dupurer	দুপুরের
+dur	দূর ধুর দৌড় দুর ধুরো
+dura	দৌড়াও দৌড়া দৌঁড়াও
+durabe	দৌড়াবে
+duran	দৌড়ানো
+duranr	দৌড়ানোর
+durate	দৌড়াতে
+durbagj	দুর্ভাগ্য
+durbagjbst	দুর্ভাগ্যবশত
+durbl	দুর্বল দূর্বল
+durblta	দুর্বলতা
+durbrit	দুর্বৃত্ত
+durdant	দুর্দান্ত
+durdsa	দুর্দশা
+dure	দূরে দুরে দৌড়ে
+durer	দূরের দুরের
+durg	দুর্গ
+durge	দুর্গে
+durger	দুর্গের
+durgnd	দুর্গন্ধ
+durgtna	দুর্ঘটনা দূর্ঘটনা
+durgtnar	দুর্ঘটনার
+durgtnastle	দুর্ঘটনাস্থলে
+durgtnay	দুর্ঘটনায়
+durjg	দুর্যোগ
+durlb	দুর্লভ
+durmulj	দুর্মূল্য
+durniti	দুর্নীতি
+durt	ধূর্ত
+durtb	দূরত্ব
+durtbe	দূরত্বে
+dus	ধুস
+dusahsi	দুঃসাহসী
+dusbpn	দুঃস্বপ্ন
+duscinta	দুশ্চিন্তা
+dusit	দূষিত
+dusmn	দুশমন
+dusmnder	দুশমনদের
+dusn	দূষণ
+dusngbad	দুঃসংবাদ
+dust	দুষ্ট
+dustami	দুষ্টামি
+dustu	দুষ্টু
+dustumi	দুষ্টুমি
+dut	দুটো
+duta	দুটা
+dutabas	দূতাবাস
+dute	ধুতে
+duti	দুটি দুটোই
+dutke	দুটোকে
+dutr	দুটোর
+duyarp	ডুয়ার্ফ
+duye	ধুয়ে
+duyek	দুয়েক
+duyen	ডুয়েন
+duyet	ডুয়েট
+dya	দয়া দোয়া ধোঁয়া ধোয়া
+dyakre	দয়াকরে
+dyalin	ডোয়ালিন
+dyalu	দয়ালু
+dyar	দয়ার ধোঁয়ার
+dyay	দয়ায়
+e	এ এও
+ebabe	এভাবে
+ebabei	এভাবেই
+ebanra	এভানোরা
+ebar	এবার
+ebardin	এভারডিন
+ebare	এবারে
+ebarer	এবারের
+ebari	এবারই
+ebiniu	এভিনিউ
+ebng	এবং
+ecara	এছাড়া এছাড়াও
+ed	এড
+eder	এদের
+ederke	এদেরকে
+edi	এডি
+edik	এদিক
+edike	এদিকে
+edikei	এদিকেই
+edmand	এডমান্ড
+edmnd	এডমন্ড
+edrner	এধরনের
+edyard	এডওয়ার্ড
+edyards	এডওয়ার্ডস
+edyardser	এডওয়ার্ডসের
+eg	এগোও
+egiye	এগিয়ে
+egsi	এগসি
+egte	এগোতে
+egul	এগুলো
+egula	এগুলা
+eguli	এগুলি এগুলোই
+egulke	এগুলোকে
+egulr	এগুলোর
+egulte	এগুলোতে
+eh	এহ
+ehn	এহন
+ei	এই
+eibabe	এইভাবে
+eibar	এইবার
+eic	এইচ
+eida	এইডা
+eidai	এইডাই
+eidike	এইদিকে
+eigul	এইগুলো
+eigula	এইগুলা
+eiguli	এইগুলি
+eihane	এইহানে
+eije	এইযে
+eijnj	এইজন্য
+eijnji	এইজন্যই
+eikane	এইখানে
+eimatr	এইমাত্র
+eirkm	এইরকম
+eis	এইস
+eisb	এইসব
+eit	এইতো এইত
+eita	এইটা
+eitai	এইটাই
+eitar	এইটার
+eitukui	এইটুকুই
+eja	এ্যা
+ejaleks	এ্যালেক্স
+ejali	এ্যালি
+ejenr	এজেনর
+ejent	এজেন্ট
+ejenter	এজেন্টের
+ejentra	এজেন্টরা
+ejnj	এজন্য
+ejnjei	এজন্যেই
+ejnji	এজন্যই
+ek	এক একক
+eka	একা
+ekadik	একাধিক
+ekai	একাই
+ekaki	একাকী
+ekan	এখান একখান একান
+ekane	এখানে এখানেও
+ekanei	এখানেই
+ekaner	এখানের
+ekankar	এখানকার
+ekanta	এখানটা
+ekantay	এখানটায়
+ekante	একান্তে
+ekar	একার
+ekaunt	একাউন্ট
+ekaunte	একাউন্টে
+ekbabe	একভাবে
+ekbar	একবার একবারও
+ekbare	একবারে
+ekbarer	একবারের
+ekbari	একবারই
+ekda	একদা
+ekdike	একদিকে
+ekdin	একদিন
+ekdine	একদিনে
+ekdiner	একদিনের
+ekdl	একদল
+ekdm	একদম
+ekdmi	একদমই
+ekdrner	একধরণের একধরনের
+eke	একে
+ekebare	একেবারে এক্কেবারে
+ekebarei	একেবারেই
+ekei	একেই
+ekekta	একেকটা
+eker	একের
+ekere	এক্কেরে
+ekgada	একগাদা
+ekgeye	একঘেয়ে
+eki	একই একি
+ekibabe	একইভাবে
+ekirkm	একইরকম
+ekjn	একজন একজনও
+ekjner	একজনের
+ekjni	একজনই
+ekjnke	একজনকে
+ekla	একলা
+ekmatr	একমাত্র
+ekmt	একমত
+ekn	এখন এখনো এখনও
+ekne	এখনে
+ekni	এখনই এখনি
+eknkar	এখনকার
+eknt	এখনতো
+ekpase	একপাশে
+ekr	একর
+ekrkm	একরকম
+eks	এক্স একশ একশো এক্সও
+eksate	একসাথে
+eksatei	একসাথেই
+eksel	এক্সেল
+ekses	এক্সেস
+eksetre	এক্ষেত্রে
+eksident	এক্সিডেন্ট
+ekskiuj	এক্সকিউজ
+eksmy	একসময়
+eksn	এক্ষণ
+eksnge	একসঙ্গে
+ekspart	এক্সপার্ট
+ekspekt	এক্সপেক্টো
+ekspeliarms	এক্সপেলিআর্মস
+eksperiment	এক্সপেরিমেন্ট
+eksplrar	এক্সপ্লোরার
+ekspres	এক্সপ্রেস
+ekstra	এক্সট্রা
+eksuni	এক্ষুনি এক্ষুণি
+ekta	একটা একটাও একথা একতা
+ektai	একটাই
+ektake	একটাকে
+ektar	একটার
+ekti	একটি
+ektr	একত্র
+ektre	একত্রে
+ektrit	একত্রিত
+ektu	একটু একটুও
+ektukani	একটুখানি
+ektur	একটুর
+ekuni	এখুনি
+el	এলো এল
+ela	এলা
+elaka	এলাকা
+elakar	এলাকার
+elakay	এলাকায়
+elam	এলাম
+elan	এলান
+elarm	এলার্ম
+elbis	এলভিশ
+ele	এলে
+eleks	এলেক্স
+elen	এলেন
+eli	এলি
+elija	এলিজা
+elijabet	এলিজাবেথ
+elinr	এলিনর
+elis	এলিস
+eliyen	এলিয়েন
+elmel	এলোমেলো
+elp	এলফ
+elsa	এলসা
+elsi	এলসি
+em	এম
+ema	এমা
+embrj	এমব্রোজ
+emele	এমএলএ
+emil	এমিল
+emili	এমিলি
+emiliya	এমিলিয়া
+emn	এমন
+emnbabe	এমনভাবে
+emne	এমনে
+emni	এমনি এমনই
+emnii	এমনিই
+emnite	এমনিতেও এমনিতে
+emnitei	এমনিতেই
+emnki	এমনকি
+emnta	এমনটা
+emntai	এমনটাই
+emnti	এমনটি
+empudi	এম্পুডি
+en	এন এনো
+ena	এনা
+enarji	এনার্জি
+enastasiya	এনাসতাসিয়া
+end	এন্ড
+endarsn	এন্ডারসন
+ene	এনে
+enec	এনেছ এনেছো
+enece	এনেছে
+enecen	এনেছেন
+eneci	এনেছি
+enecil	এনেছিল
+enecilam	এনেছিলাম
+enecis	এনেছিস
+engejment	এনগেজমেন্ট
+engel	এঙ্গেল
+eni	এনি
+enigma	এনিগমা
+enjel	এঞ্জেলো
+enjels	এঞ্জেলস
+enjelse	এঞ্জেলসে
+entena	এন্টেনা
+entibdi	এন্টিবডি
+entri	এন্ট্রি
+ep	এফ
+epartment	এপার্টমেন্ট
+epartmente	এপার্টমেন্টে
+epbiai	এফবিআই
+epril	এপ্রিল
+eps	এপস
+er	এর
+era	এরা
+eragrn	এরাগর্ন
+erai	এরাই
+erate	এড়াতে
+erceye	এরচেয়ে
+erest	এরেস্ট
+erik	এরিক
+erika	এরিকা
+eriker	এরিকের
+eris	এরিস
+eriya	এরিয়া
+eriye	এড়িয়ে
+erjnj	এরজন্য
+erkm	এরকম
+erkmi	এরকমই
+erkmta	এরকমটা
+ermdje	এরমধ্যে
+erpr	এরপর
+erpre	এরপরে এরপরেও
+es	এসো এস
+esb	এসব
+esbe	এসবে
+esber	এসবের
+esbi	এসবই
+esbkicu	এসবকিছু
+ese	এসে
+esec	এসেছ এসেছো
+esece	এসেছে
+esecen	এসেছেন
+eseci	এসেছি
+esecil	এসেছিল এসেছিলো
+esecilam	এসেছিলাম
+esecile	এসেছিলে
+esecilen	এসেছিলেন
+esecis	এসেছিস
+esei	এসেই
+esi	এসি
+esna	এসোনা
+espsit	এসপোসিতো
+estas	এস্টাস
+et	এত এতো এত্ত
+eta	এটা এটাও এতটা এতোটা
+etai	এটাই এতটাই
+etak	এটাক
+etake	এটাকে
+etakei	এটাকেই
+etar	এটার
+etat	এটাতো
+etate	এটাতে
+etay	এটায়
+etdin	এতদিন এতোদিন
+etdine	এতদিনে
+etdur	এতদূর
+ete	এতে
+etei	এতেই
+etgul	এতগুলো এতোগুলো
+eti	এটি এতই এতোই
+etiem	এটিএম
+etii	এটিই
+etike	এটিকে
+etim	এতিম
+etir	এটির
+etkicu	এতকিছু
+etksn	এতক্ষণ এতক্ষন
+etksne	এতক্ষণে এতক্ষনে
+etm	এটম
+etsb	এতসব
+etuku	এটুকু এতটুকু
+etukui	এটুকুই এতটুকুই
+eyar	এয়ার
+eyarlain	এয়ারলাইন
+eyarprt	এয়ারপোর্ট
+eyarprte	এয়ারপোর্টে
+g	গো ওগো
+ga	গা গাও ঘা
+gac	গাছ
+gace	গাছে
+gacer	গাছের
+gacpala	গাছপালা
+gacta	গাছটা
+gada	গাধা গাদা
+gadar	গাধার
+gai	গাই
+gaice	গাইছে
+gaid	গাইড
+gaite	গাইতে
+gaja	গাঁজা
+gajr	গাজর
+gal	গাল
+gale	গালে
+gali	গালি
+gam	ঘাম গাম
+gamp	গাম্প
+gamra	গামোরা
+gan	গান গানও গানঃ
+gane	গানে
+ganer	গানের
+ganitik	গাণিতিক
+ganta	গানটা
+gapla	ঘাপলা
+gar	ঘাড়
+gard	গার্ড গার্ডো
+garder	গার্ডের গার্ডদের
+gardiyan	গার্ডিয়ান
+gardnar	গার্ডনার
+gare	ঘাড়ে
+garer	ঘাড়ের
+gari	গাড়ি গাড়ী
+garigul	গাড়িগুলো
+garike	গাড়িকে
+garir	গাড়ির
+garita	গাড়িটা
+garitake	গাড়িটাকে
+garitar	গাড়িটার
+garite	গাড়িতে গাড়ীতে
+gariti	গাড়িটি
+garl	গার্ল
+garlprend	গার্লফ্রেন্ড
+garlprender	গার্লফ্রেন্ডের
+garls	গার্লস
+gas	গাস ঘাস
+gaser	ঘাসের
+gastas	অগাস্টাস
+gati	ঘাটতি
+gatite	ঘাঁটিতে
+gay	গায়
+gaya	গাওয়া
+gayar	গাওয়ার
+gaye	গায়ে
+gayeb	গায়েব
+gayer	গায়ের
+gayetri	গায়েত্রী
+gbesk	গবেষক
+gbesna	গবেষণা
+gbesnar	গবেষণার
+gbir	গভীর
+gbirbabe	গভীরভাবে
+gbire	গভীরে
+gbirta	গভীরতা
+gbrnr	গভর্নর
+gcan	গোছানো
+gcgac	গোছগাছ
+gd	গড
+gdpadar	গডফাদার
+ge	গে
+gec	গেছো গেছ
+gece	গেছে
+gecen	গেছেন
+geci	গেছি
+gecil	গেছিল গেছিলো
+gecilam	গেছিলাম
+gecis	গেছিস
+geim	গেইম
+geit	গেইট
+gel	গেল গেলো
+gelam	গেলাম
+gele	গেলে গেলেও
+gelei	গেলেই
+gelen	গেলেন
+geli	গেলি
+gem	গেম
+gendalp	গেন্ডালফ
+gera	ঘেরাও
+gere	গেড়ে
+gese	গেসে
+gest	গেস্ট
+get	গেট গেটো
+geu	ঘেউ
+geye	গেয়ে
+ghbr	গহ্বর
+gibs	গিবস
+gile	গিলে
+gilu	ঘিলু
+ginipig	গিনিপিগ
+gipt	গিফট
+gire	ঘিরে
+girgiti	গিরগিটি
+girja	গির্জা
+girjay	গির্জায়
+git	গিঁট
+gita	গীতা
+gitake	গীতাকে
+gitar	গীতার
+giya	গিয়া
+giyar	গিয়ার
+giye	গিয়ে
+giyec	গিয়েছ গিয়েছো
+giyece	গিয়েছে
+giyecen	গিয়েছেন
+giyeci	গিয়েছি
+giyecil	গিয়েছিল গিয়েছিলো
+giyecilam	গিয়েছিলাম
+giyecile	গিয়েছিলে
+giyecilen	গিয়েছিলেন
+giyecis	গিয়েছিস
+giyei	গিয়েই
+gj	গজ
+gjali	গ্যালি
+gjandalp	গ্যান্ডালফ
+gjang	গ্যাং
+gjangstar	গ্যাংস্টার
+gjangyer	গ্যাংয়ের
+gjaranti	গ্যারান্টি
+gjarej	গ্যারেজ
+gjareje	গ্যারেজে
+gjarejer	গ্যারেজের
+gjarid	গ্যারিডো
+gjas	গ্যাস
+gjb	গজব
+gjrani	গজরানি
+gl	গোল
+gla	গলা গোলা
+glabarud	গোলাবারুদ
+glabs	গ্লাভস
+glaguli	গোলাগুলি
+glam	গোলাম
+glap	গোলাপ
+glaper	গোলাপের
+glapi	গোলাপি গোলাপী
+glar	গলার
+glas	গ্লাস
+glaser	গ্লাসের
+glasta	গ্লাসটা
+glate	গলাতে
+glay	গলায় গোল্লায়
+gld	গোল্ড
+gldbarg	গোল্ডবার্গ
+glden	গোল্ডেন
+gle	গলে
+glenbruk	গ্লেনব্রুক
+gli	গলি
+glin	গ্লইন
+glinda	গ্লিন্ডা
+glite	গলিতে
+gljas	গ্ল্যাস
+glk	গোলক
+glkdada	গোলকধাঁধা
+glkdadar	গোলকধাঁধার
+glkdaday	গোলকধাঁধায়
+glmal	গোলমাল
+glp	গল্প গলফ
+glpe	গল্পে
+glper	গল্পের
+glpgul	গল্পগুলো
+glpta	গল্পটা
+glpti	গল্পটি
+glriya	গ্লোরিয়া
+glubar	গ্লুভার
+glum	গল্লুম
+gm	গম
+gmbir	গম্ভীর
+gmej	গোমেজ
+gn	ঘন গণ
+gna	গণনা
+gnd	গন্ধ
+gndar	গণ্ডার
+gndgl	গণ্ডগোল
+gndta	গন্ধটা
+gnes	গণেশ
+gni	অগ্নি
+gnist	ঘনিষ্ঠ
+gnit	অগণিত গণিত
+gniye	ঘনিয়ে
+gnj	গণ্য
+gnta	ঘন্টা ঘণ্টা
+gntadbni	ঘন্টাধ্বনি
+gntar	ঘন্টার ঘণ্টার
+gntay	ঘণ্টায় ঘন্টায়
+gntbj	গন্তব্য
+gntbje	গন্তব্যে
+gntntr	গণতন্ত্র
+gpn	গোপন
+gpne	গোপনে
+gpniy	গোপনীয়
+gpniyta	গোপনীয়তা
+gr	ঘর ঘোর গড়
+gra	ঘোড়া ঘোরাও ঘোরা
+gradikar	অগ্রাধিকার
+grag	গ্রাগ
+gragri	গড়াগড়ি
+graguri	ঘোরাঘুরি
+grahj	অগ্রাহ্য
+grahk	গ্রাহক
+gram	গ্রাম
+grambasi	গ্রামবাসী
+grame	গ্রামে
+gramer	গ্রামের
+gramj	গ্রাম্য
+grams	গ্রামস
+gran	ঘ্রাণ
+grand	গ্রান্ড
+grapera	ঘোরাফেরা
+grar	ঘোড়ার
+gras	গ্রাস
+graund	গ্রাউন্ড
+gray	ঘোড়ায়
+grb	গর্ব
+grber	গর্বের
+grbit	গর্বিত
+grbr	গড়বড়
+grbti	গর্ভবতী
+grd	গরডো
+grdb	গর্দভ গর্ধব
+grdi	গর্ডি
+grdn	গর্ডন
+grdner	গর্ডনের
+gre	ঘরে গড়ে গ্রে ঘোরে
+gred	গ্রেড
+gregri	গ্রেগরি
+grei	ঘরেই
+greil	গ্রেইল
+greis	গ্রেইস
+grened	গ্রেনেড
+grenjar	গ্রেঞ্জার
+grenli	গ্রেনোলি
+greptar	গ্রেফতার গ্রেপ্তার
+grer	ঘরের
+gres	গ্রেস
+gret	গ্রেট
+grg	গর্গ
+grgti	অগ্রগতি
+grh	গ্রহ
+grhe	গ্রহে
+grher	গ্রহের
+grhn	গ্রহণ গ্রহন
+gri	ঘড়ি
+grib	গরীব গরিব
+gribar	গ্রিভার
+grid	গ্রিড
+grihit	গৃহীত
+grik	গ্রিক গ্রীক
+grim	গ্রিম
+grimhldta	গ্রীমহোল্ডটা
+grin	গ্রিন গ্রীন
+grina	ঘৃণা ঘৃনা
+grini	গ্রিনি
+grinj	ঘৃণ্য
+gripindr	গ্রিফিন্ডর
+gripindrer	গ্রিফিন্ডরের
+grir	ঘড়ির
+grismer	গ্রীষ্মের
+grita	ঘড়িটা
+gritar	ঘড়িটার
+grite	ঘড়িতে
+griye	গড়িয়ে
+grjadi	গ্র্যাডি
+grjand	গ্র্যান্ড
+grjant	গ্র্যান্ট
+grjn	গর্জন
+grm	গরম
+grnt	গ্রন্থ
+grsr	অগ্রসর
+grt	গর্ত
+grta	ঘরটা
+grte	গর্তে গড়তে
+gru	গরু গ্রূ
+grup	গ্রুপ
+grupe	গ্রুপে
+gruper	গ্রুপের
+grur	গরুর
+grut	গ্রুট গ্রূট
+gsl	গোসল
+gsler	গোসলের
+gsna	ঘোষণা ঘোষনা
+gsti	গোষ্ঠী
+gt	গত ঘোঁৎ
+gta	গোটা ঘটা
+gtam	গোথাম
+gtame	গোথামে
+gtamer	গোথামের
+gtar	ঘটার
+gtate	ঘটাতে
+gtbar	গতবার
+gtbe	ঘটবে
+gtce	ঘটছে
+gte	ঘটে ঘটতে
+gtece	ঘটেছে
+gtecil	ঘটেছিল ঘটেছিলো
+gteni	ঘটেনি
+gtgt	ঘোঁতঘোঁত
+gti	গতি
+gtibidi	গতিবিধি
+gtipt	গতিপথ
+gtir	গতির
+gtite	গতিতে
+gtkal	গতকাল
+gtkaler	গতকালের
+gtkali	গতকালই
+gtl	ঘটলো ঘটল
+gtn	গঠন
+gtna	ঘটনা
+gtnagul	ঘটনাগুলো
+gtnar	ঘটনার
+gtnastl	ঘটনাস্থল
+gtnastle	ঘটনাস্থলে
+gtnata	ঘটনাটা
+gtnati	ঘটনাটি
+gtnay	ঘটনায়
+gtr	গোত্র
+gtrate	গতরাতে
+gtrer	গোত্রের
+gtuk	ঘটুক
+gu	গু
+guciye	গুছিয়ে
+gud	গুড
+gudbai	গুডবাই
+guduin	গুডউইন
+guha	গুহা
+guhamanb	গুহামানব
+guhar	গুহার
+guhay	গুহায়
+gujb	গুজব
+gul	গুলো ওগুলো গুল
+gula	গুলা ওগুলা
+guli	গুলি ওগুলি গুলিও
+gulibrsn	গুলিবর্ষণ
+gulir	গুলির
+gulita	গুলিটা
+gulite	গুলিতে
+guliye	গুলিয়ে
+gulke	গুলোকে ওগুলোকে
+gulr	গুলোর ওগুলোর
+gum	ঘুম গুম ঘুমোও
+guma	ঘুমাও
+gumab	ঘুমাবো
+gumabe	ঘুমাবে
+gumace	ঘুমাচ্ছে
+gumai	ঘুমাই
+guman	ঘুমানো ঘুমান
+gumanr	ঘুমানোর
+gumate	ঘুমাতে
+gumay	ঘুমায়
+gumer	ঘুমের
+gumiye	ঘুমিয়ে
+gumiyeci	ঘুমিয়েছি
+gumnt	ঘুমন্ত
+gumte	ঘুমোতে
+gun	গুণ গুন
+gunb	গুনবো
+gunda	গুন্ডা গুণ্ডা
+gune	গুনে
+gunter	গুনথের
+gupt	গুপ্ত
+guptcr	গুপ্তচর
+guptdn	গুপ্তধন
+gur	ঘুরো ঘুর
+gura	ঘুরাও গুড়া
+guraguri	ঘুরাঘুরি
+guran	ঘুরান
+gurate	ঘুরাতে
+gurbe	ঘুরবে
+gurce	ঘুরছে
+gure	ঘুরে
+gurgur	ঘুরঘুর
+guriye	ঘুরিয়ে গুড়িয়ে
+gurte	ঘুরতে
+guru	গুরু
+guruji	গুরুজি
+gurutb	গুরুত্ব
+gurutbpurn	গুরুত্বপূর্ণ গুরুত্বপূর্ন গুরুত্বপুর্ন
+gurutr	গুরুতর
+gus	ঘুষ
+gusi	ঘুষি
+gust	গুস্তো
+gusti	গুষ্টি
+gustr	গুস্তোর
+guta	গুঁতা
+gutiye	গুটিয়ে
+gutm	গৌতম
+guyang	গুয়াং
+guyen	গুয়েন
+gya	গোয়া
+gyenda	গোয়েন্দা
+gyendagiri	গোয়েন্দাগিরি
+h	ওহ হও ওহ্ হ অহ ওহো হো
+ha	হা হাঁ হাঃ
+habijabi	হাবিজাবি
+hadaram	হাঁদারাম
+hadi	হাড্ডি
+hadsn	হাডসন
+hagu	হাগু
+hah	হাহ হাহ্
+hai	হাই
+haiber	হাইভের
+hajar	হাজার হাজারো
+hajarer	হাজারের
+hajir	হাজির
+hakan	হাকান
+hakuna	হাকুনা
+hal	হাল
+halay	হালায়
+halka	হালকা হাল্কা
+ham	হাম
+hamaguri	হামাগুড়ি
+hamla	হামলা
+hamlar	হামলার
+hamlay	হামলায়
+hampti	হাম্পটি
+han	হান
+hana	হানা
+hang	হাং
+hangama	হাঙ্গামা
+hangeriyan	হাঙ্গেরিয়ান
+hangr	হাঙ্গর
+hani	হানি
+hant	হান্ট
+hante	হানতে
+hap	হাফ
+hapej	হাফেয
+har	হার হাড়
+harab	হারাবো হারাব
+harabe	হারাবে
+haraci	হারাচ্ছি
+harai	হারাই
+haralam	হারালাম
+harale	হারালে
+haram	হারাম
+harami	হারামি হারামী
+haramir	হারামির
+haramjada	হারামজাদা
+haran	হারানো হারান
+haranr	হারানোর
+harate	হারাতে
+haray	হারায়
+harb	হার্ব
+harbe	হারবে
+harbi	হার্ভি
+hard	হার্ড
+hare	হারে
+harer	হাড়ের
+haris	হারিস
+hariye	হারিয়ে
+hariyec	হারিয়েছো হারিয়েছ
+hariyece	হারিয়েছে
+hariyecen	হারিয়েছেন
+hariyeci	হারিয়েছি
+harli	হারলি
+harmayni	হারমায়োনি
+harmin	হারমিওন
+harprd	হারফোর্ড
+hart	হার্ট
+harte	হারতে
+harter	হার্টের
+harun	হারুন
+has	হাসো হাঁস
+hasa	হাসা
+hasahasi	হাসাহাসি
+hasan	হাসান
+hasbe	হাসবে
+hasc	হাসছ
+hasce	হাসছে
+hasi	হাসি
+hasib	হাসিব
+hasibujaman	হাসিবুজ্জামান
+hasikusi	হাসিখুশি
+hasil	হাসিল
+hasir	হাসির
+hasita	হাসিটা
+hasjkr	হাস্যকর
+haspatal	হাসপাতাল
+haspatale	হাসপাতালে
+haspataler	হাসপাতালের
+haste	হাসতে
+hasun	হাসুন
+hat	হাত হাট হাঁটো
+hata	হাতটা হাঁটা হাটা
+hatahati	হাতাহাতি
+hatali	হাততালি
+hatar	হাঁটার
+hatcara	হাতছাড়া
+hate	হাতে হাঁটতে হাটতে
+hatei	হাতেই
+hater	হাতের
+hati	হাতি হাঁটি
+hatir	হাতির
+hatiyar	হাতিয়ার
+hatkra	হাতকড়া
+hatu	হাঁটু হাটু
+hatur	হাঁটুর
+haturi	হাতুড়ি
+hauj	হাউজ
+hauje	হাউজে
+haujer	হাউজের
+haus	হাউস
+hauten	হাউটেন
+hay	হায়
+haya	হাওয়া
+hayard	হাওয়ার্ড
+hayay	হাওয়ায়
+haydra	হায়ড্রা
+haydrabad	হায়দ্রাবাদ
+haydrabade	হায়দ্রাবাদে
+hayre	হায়রে
+hayti	হায়তি
+hb	হব হবো হব্
+hbar	হবার
+hbart	হোভার্ট
+hbe	হবে
+hbei	হবেই
+hben	হবেন
+hbena	হবেনা
+hbi	হবি
+hbit	হবিট
+hbu	হবু
+hc	হচ্ছ হচ্ছো
+hce	হচ্ছে
+hcen	হচ্ছেন
+hcena	হচ্ছেনা
+hceta	হচ্ছেটা
+hci	হচ্ছি
+hcil	হচ্ছিল হচ্ছিলো
+hcis	হচ্ছিস
+hct	হোঁচট
+hdis	হদিস
+he	হে ওহে
+hed	হেড
+hedis	হেডিস
+hedmastar	হেডমাস্টার
+hei	হেই
+heida	হেইডা
+heijel	হেইজেল
+heiya	হেইয়া
+hektr	হেক্টর
+hel	হেল হেলো
+helen	হেলেন
+helena	হেলেনা
+helikptar	হেলিকপ্টার
+helikptare	হেলিকপ্টারে
+helikptarer	হেলিকপ্টারের
+helmet	হেলমেট
+help	হেল্প
+hels	হেলস
+hema	হেমা
+henri	হেনরি
+hepajte	হেফাজতে
+her	হের
+here	হেরে
+hese	হেসে
+hete	হেঁটে হেটে
+hey	হেয়
+heyar	হেয়ার
+hgyarts	হগওয়ার্টস
+hgyartse	হগওয়ার্টসে
+hgyartser	হগওয়ার্টসের
+hh	ওহহ
+hi	হই হি
+hib	হইবো
+hibe	হইবে
+hibru	হিব্রু
+hice	হইছে
+hici	হৈচৈ
+hil	হইলো হিল হইল
+hile	হইলে
+hiliyas	হিলিয়াস
+hindi	হিন্দি
+hindu	হিন্দু
+hingsa	হিংসা
+hingsr	হিংস্র
+hini	হইনি
+hir	হিরো হিরোর
+hira	হিরা হীরা
+hisab	হিসাব
+hisabe	হিসাবে
+hise	হইসে
+hiseb	হিসেব
+hisebe	হিসেবে
+hisebei	হিসেবেই
+hit	হিট হইতো
+hitace	হইতাছে
+hite	হইতে
+hitece	হইতেছে
+hitlar	হিটলার
+hitlarer	হিটলারের
+hiu	হিউ
+hiuj	হিউজ
+hiustn	হিউস্টন
+hiya	হইয়া
+hja	হ্যাঁ হ্যা
+hjac	হ্যাচ
+hjagrid	হ্যাগ্রিড
+hjagrider	হ্যাগ্রিডের
+hjais	হ্যাইস
+hjak	হ্যাক
+hjakar	হ্যাকার
+hjal	হ্যালো হ্যাল
+hjam	হ্যাম
+hjamiltn	হ্যামিল্টন
+hjamnd	হ্যামন্ড
+hjanah	হ্যানাহ্
+hjand	হ্যান্ড
+hjandel	হ্যান্ডেল
+hjandriks	হ্যানড্রিক্স
+hjandsam	হ্যান্ডসাম
+hjandsek	হ্যান্ডশেক
+hjangk	হ্যাঙ্ক
+hjanr	হ্যানর
+hjans	হ্যান্স
+hjapi	হ্যাপি
+hjara	হ্যারা
+hjari	হ্যারি
+hjarike	হ্যারিকে
+hjarir	হ্যারির
+hjat	হ্যাট
+hjay	হ্যায়
+hk	হোক হক
+hl	হল হলো হোল
+hlam	হলাম
+hld	হোল্ড
+hle	হলে হলেও
+hlei	হলেই
+hlen	হলেন
+hler	হলের
+hli	হলি
+hlud	হলুদ
+hm	হমম হোম
+hms	হোমস
+hmser	হোমসের
+hmyark	হোমওয়ার্ক
+hn	হোন হন
+hngkar	অহংকার
+hngkari	অহংকারী
+hngkng	হংকং
+hni	হওনি
+hp	হোপ
+hpar	হোপার
+hras	হোরাস
+hrdy	হ্রদয়
+hridpind	হৃদপিণ্ড
+hridspndn	হৃদস্পন্দন
+hridy	হৃদয়
+hridye	হৃদয়ে
+hridyer	হৃদয়ের
+hridyta	হৃদয়টা
+hrin	হরিণ
+hrn	হর্ন
+hsen	হোসেন
+hspital	হসপিটাল
+hspitale	হসপিটালে
+hstantr	হস্তান্তর
+hstksep	হস্তক্ষেপ
+ht	হতো হত হট
+htam	হতাম
+htas	হতাশ
+htasa	হতাশা
+htasar	হতাশার
+htat	হঠাৎ হঠাত
+htbaga	হতভাগা
+htbudi	হতবুদ্ধি
+htcara	হতচ্ছাড়া
+hte	হতে হতেও
+htei	হতেই
+htel	হোটেল
+htele	হোটেলে
+hteler	হোটেলের
+htja	হত্যা
+htjakander	হত্যাকাণ্ডের
+htjakari	হত্যাকারী
+htjar	হত্যার
+htna	হতোনা
+hu	হু হূ হউ হুঁ
+hubhu	হুবহু
+huh	হুহ
+huil	হুইল
+huisel	হুইসেল
+huiski	হুইস্কি
+hujur	হুজুর
+huk	হউক হুক
+hukum	হুকুম
+hum	হুম হুমম হুমমম
+humki	হুমকি
+humkir	হুমকির
+hun	হউন
+hure	হুররে
+hus	হুশ
+husein	হুসেইন
+hut	হুট
+huyan	হুয়ান
+hy	হয় হয়ো
+hya	হওয়া হোয়া হয়া
+hyait	হোয়াইট
+hyar	হওয়ার হয়ার
+hyat	হোয়াট
+hyata	হওয়াটা
+hyay	হওয়ায়
+hyce	হয়ছে
+hye	হয়ে হয়েও
+hyec	হয়েছ হয়েছো
+hyece	হয়েছে
+hyecen	হয়েছেন
+hyeceta	হয়েছেটা
+hyeci	হয়েছি
+hyecil	হয়েছিল হয়েছিলো
+hyecilam	হয়েছিলাম
+hyecile	হয়েছিলে
+hyecilen	হয়েছিলেন
+hyecis	হয়েছিস
+hyei	হয়েই
+hyna	হয়না
+hyni	হয়নি
+hyrani	হয়রানি
+hyt	হয়তো হয়ত
+hytba	হয়তোবা
+i	ঐ ওই ই অই ১০ই
+ib	ইভ
+iba	ইভা
+iban	ইভান
+ibi	ইবি ইভি
+ibne	ইবনে
+ibru	ইব্রু
+ica	ইচ্ছা
+icakritbabe	ইচ্ছাকৃতভাবে
+icamt	ইচ্ছামত
+icar	ইচ্ছার
+icata	ইচ্ছাটা
+icay	ইচ্ছায়
+ice	ইচ্ছে
+icemt	ইচ্ছেমত
+icuk	ইচ্ছুক
+idaning	ইদানীং ইদানিং
+idike	ঐদিকে ওইদিকে
+idin	ঐদিন ওইদিন
+idiyt	ইডিয়ট
+idur	ইঁদুর ইদুর
+idurer	ইঁদুরের
+idurta	ইঁদুরটা
+ig	ইগো
+igl	ঈগল
+igler	ঈগলের
+igr	ইগোর
+iha	ইহা
+ihudi	ইহুদী ইহুদি
+ihudider	ইহুদীদের
+ihudir	ইহুদীর
+ihudira	ইহুদীরা
+ij	ইজ
+ijabel	ইজাবেল
+ije	ঐযে
+iji	ইজি
+ikane	ঐখানে ওইখানে
+ikjbd	ঐক্যবদ্ধ
+ila	ইলা
+ilektrik	ইলেকট্রিক
+iliyas	ইলিয়াস
+imarjensi	ইমারজেন্সি ইমার্জেন্সি
+imeil	ইমেইল
+imej	ইমেজ
+imran	ইমরান
+in	ইন
+inci	ইঞ্চি
+indi	ইন্ডি
+indiya	ইন্ডিয়া
+indiyan	ইন্ডিয়ান
+indiyar	ইন্ডিয়ার
+ing	ইং
+ingit	ইঙ্গিত
+inglis	ইংলিশ ইংলিশঃ
+inglise	ইংলিশে
+ingljand	ইংল্যান্ড
+ingljande	ইংল্যান্ডে
+ingljander	ইংল্যান্ডের
+ingrej	ইংরেজ
+ingreji	ইংরেজি ইংরেজী
+ini	ইনি
+injeksn	ইনজেকশন ইঞ্জেকশন
+injin	ইঞ্জিন
+injiner	ইঞ্জিনের
+injiniyar	ইঞ্জিনিয়ার
+injiniyaring	ইঞ্জিনিয়ারিং
+inkaming	ইনকামিং
+inprmesn	ইনফরমেশন
+insjurens	ইনস্যুরেন্স
+inspektr	ইন্সপেক্টর ইনস্পেক্টর
+intarbiu	ইন্টারভিউ
+intaresting	ইন্টারেস্টিং
+intarnet	ইন্টারনেট
+intarnete	ইন্টারনেটে
+intarneter	ইন্টারনেটের
+intarnjasnal	ইন্টারন্যাশনাল
+intarpl	ইন্টারপোল
+intarpler	ইন্টারপোলের
+intelijens	ইন্টেলিজেন্স
+inu	ইনু
+ip	ইপ
+ips	ইপস
+irak	ইরাক
+irhan	ইরহান
+iris	ইরিস
+irsa	ঈর্ষা
+is	ইশ ইস
+isa	ইঁসা
+isan	ইশান
+isara	ইশারা
+isb	ঐসব ওইসব
+isbr	ঈশ্বর ইশ্বর
+isbre	ঈশ্বরে
+isbrer	ঈশ্বরের ইশ্বরের
+isbrik	ঐশ্বরিক
+isbriya	ঐশ্বরিয়া
+isbrke	ঈশ্বরকে
+isidr	ইসিদোরো
+isju	ইস্যু
+islam	ইসলাম
+ismail	ইসমাইল
+ispater	ইস্পাতের
+isra	ইসরা
+ist	ইস্ট
+it	ইট ঐতো ওইতো
+ita	ঐটা ওইটা
+itai	ঐটাই
+itali	ইতালি
+italiyan	ইতালিয়ান ইটালিয়ান
+itan	ইথান
+itar	ইথার
+iti	ইতি
+itiback	ইতিবাচক
+itihas	ইতিহাস
+itihase	ইতিহাসে
+itihaser	ইতিহাসের
+itihasik	ঐতিহাসিক
+itihj	ঐতিহ্য
+itimdje	ইতিমধ্যে
+itimdjei	ইতিমধ্যেই
+itjadi	ইত্যাদি
+itjak	ইৎজাক
+itmdje	ইতোমধ্যে
+itmdjei	ইতোমধ্যেই
+iu	ইউ
+iujin	ইউজিন
+iunaited	ইউনাইটেড
+iunibarsiti	ইউনিভার্সিটি
+iuniprm	ইউনিফর্ম
+iunit	ইউনিট
+iuniter	ইউনিটের
+iur	ইউরো ইউর
+iuri	ইউরি
+iurp	ইউরোপ
+iurpe	ইউরোপে
+iustes	ইউস্টেস
+iusup	ইউসুফ
+iutah	ইউটাহ
+iuyan	ইউয়ান
+iya	ইয়া ইওয়া
+iyah	ইয়াহ
+iyakaja	ইয়াকাযা
+iyakub	ইয়াকুব
+iyang	ইয়াং
+iyap	ইয়াপ
+iyar	ইয়ার ইওয়ার
+iyard	ইয়ার্ড
+iye	ইয়ে
+iyeh	ইয়েহ
+iyen	ইয়েন
+iyes	ইয়েস
+iyesang	ইয়েসাং
+iyndu	ইয়ন্ডু ইয়নডু
+iyng	ইয়ং
+iyr	ইয়োর
+iyrk	ইয়র্ক
+iyrke	ইয়র্কে
+iyrker	ইয়র্কের
+iyu	ইয়ু
+j	জো অজ জ্যো
+ja	যাও যা ওঝা জা অ্যাঁ অ্যা জাও
+jab	যাবো যাব
+jaba	যাবা
+jabagnel	অ্যাবাগ্নেল
+jabar	যাবার
+jabatar	অ্যাভাটার
+jabe	যাবে
+jaben	যাবেন
+jabena	যাবেনা
+jabi	যাবি অ্যাবি
+jabna	যাবনা যাবোনা
+jabt	যাবত যাবৎ
+jac	যাচ্ছ যাচ্ছো
+jacai	যাচাই
+jace	যাচ্ছে
+jacel	্যাচেল
+jaceler	্যাচেলের
+jacelke	্যাচেলকে
+jacen	যাচ্ছেন
+jacena	যাচ্ছেনা
+jaci	যাচ্ছি
+jacil	যাচ্ছিল যাচ্ছিলো
+jacilam	যাচ্ছিলাম
+jacile	যাচ্ছিলে
+jacilen	যাচ্ছিলেন
+jacina	যাচ্ছিনা
+jacis	যাচ্ছিস
+jacna	যাচ্ছনা
+jadam	অ্যাডাম
+jadams	অ্যাডামস
+jader	যাদের
+jaderke	যাদেরকে
+jadu	জাদু যাদু
+jadugre	জাদুঘরে
+jadukr	জাদুকর যাদুকর
+jadukrder	জাদুকরদের
+jadukrer	জাদুকরের
+jadukri	জাদুকরী
+jadumntr	জাদুমন্ত্র
+jadur	জাদুর যাদুর
+jag	জাগো
+jagiye	জাগিয়ে
+jagrt	জাগ্রত
+jah	যাহ
+jahai	যাহাই
+jahaj	জাহাজ
+jahaje	জাহাজে
+jahajer	জাহাজের
+jahajta	জাহাজটা
+jahanam	জাহান্নাম
+jahaname	জাহান্নামে
+jahanamer	জাহান্নামের
+jahapna	জাঁহাপনা জাহাঁপনা
+jahk	যাহোক
+jai	যাই
+jaib	যাইবো
+jaihk	যাইহোক
+jaini	যাইনি
+jaitaci	যাইতাছি
+jaite	যাইতে
+jaj	জ্যাজ
+jajabr	যাযাবর
+jajk	যাজক
+jajnu	জাজ্ঞু
+jajra	ঝাঁঝরা
+jaju	জাজু
+jak	যাক জ্যাক জ্যাকঃ
+jakas	ঝাক্কাস
+jakaunt	অ্যাকাউন্ট
+jakauntent	অ্যাকাউন্টেন্ট
+jakb	জ্যাকব
+jake	যাকে জ্যাককে
+jakel	্যাকেল
+jaker	জ্যাকের
+jaket	জ্যাকেট
+jaki	জ্যাকি
+jakicu	যাকিছু
+jakl	্যাকল
+jakses	অ্যাক্সেস
+jaksident	অ্যাকসিডেন্ট
+jaksn	জ্যাকসন
+jal	জাল
+jalaki	অ্যালাকি
+jalal	জালাল
+jalan	অ্যালান
+jalarm	অ্যালার্ম
+jalbeniyan	অ্যালবেনিয়ান
+jalbi	অ্যালবি
+jale	জালে
+jaleks	অ্যালেক্স
+jaleksei	অ্যালেক্সেই
+jalen	অ্যালেন
+jalis	অ্যালিস
+jalpred	অ্যালফ্রেড
+jam	জ্যাম অ্যামো অ্যাম
+jama	জামা
+jamai	জামাই
+jamakapr	জামাকাপড়
+jamal	জামাল
+jaman	জামান
+jamata	জামাটা
+jambulens	অ্যাম্বুলেন্স
+jamdarski	অ্যামডারস্কি
+jamela	ঝামেলা
+jamelar	ঝামেলার
+jamelay	ঝামেলায়
+jamer	অ্যামের
+jamerikan	অ্যামেরিকান
+jamerikar	অ্যামেরিকার
+jamine	জামিনে
+jamp	জাম্প
+jamu	যামু
+jan	জানো যান জান অ্যান
+jana	জানা জানাও অজানা জাননা জানোনা অ্যানা
+janab	জানাবো জানাব
+janabe	জানাবে
+janaben	জানাবেন
+janace	জানাচ্ছে
+janaci	জানাচ্ছি
+janai	জানাই
+janal	জানালো
+janala	জানালা
+janalar	জানালার
+janalay	জানালায়
+janale	জানালে
+janamte	জানামতে
+janan	জানানো জানান
+jananr	জানানোর
+janar	জানার অ্যানার
+janate	জানাতে জান্নাতে
+janay	জানায়
+janb	জানবো জানব
+janbe	জানবে
+janben	জানবেন
+janbena	জানবেনা
+jand	অ্যান্ড
+jandi	অ্যান্ডি
+jane	জানে
+janeman	জানেমান
+janemn	জানেমন
+janen	জানেন
+janena	জানেনা
+janeni	জানেনই
+jang	্যাংগো জাং জ্যাং
+jani	জানি জানোই জানিও যাওনি জানই অ্যানি যাননি
+janii	জানিই
+janina	জানিনা
+janis	জানিস
+janiye	জানিয়ে
+janiyece	জানিয়েছে
+janiyecen	জানিয়েছেন
+janiyeci	জানিয়েছি
+janjelina	অ্যাঞ্জেলিনা
+janjiyar	অ্যাঞ্জিয়ার
+janl	জানলো
+janlam	জানলাম
+janle	জানলে
+janlen	জানলেন
+jans	্যান্স
+jant	জানতো জানত জ্যান্ত
+jantam	জানতাম
+jante	জানতে জানতেও
+janten	জানতেন
+jantni	অ্যান্টোনি অ্যান্থনি
+jantrik	যান্ত্রিক
+janu	জানু
+januk	জানুক
+janur	জানুর
+janyar	জানোয়ার
+janyarer	জানোয়ারের
+jap	ঝাপ ঝাঁপ
+japan	জাপান
+japane	জাপানে
+japaner	জাপানের
+japani	জাপানি
+japartment	অ্যাপার্টমেন্ট
+japartmente	অ্যাপার্টমেন্টে
+japiye	ঝাঁপিয়ে
+japn	যাপন
+japr	জাফর
+japran	জাফরান
+japsa	ঝাপসা
+japtr	্যাপ্টর
+japyentment	অ্যাপয়েন্টমেন্ট
+jar	যার
+jara	যারা অ্যারোরা
+jarai	যারাই
+jarbis	জার্ভিস
+jarga	জারগা
+jari	জারি
+jarj	জারজ
+jarman	জার্মান
+jarmander	জার্মানদের
+jarmani	জার্মানি
+jarmanite	জার্মানিতে
+jarmanra	জার্মানরা
+jarn	অ্যারন
+jaru	ঝাড়ু
+jas	যাস
+jast	জাস্ট
+jat	জাত
+jatak	অ্যাটাক
+jate	যাতে
+jater	জাতের
+jati	্যাটি জাতি
+jatike	জাতিকে
+jatir	জাতির
+jatisng	জাতিসংঘ
+jatiy	জাতীয়
+jatra	যাত্রা
+jatrar	যাত্রার
+jatray	যাত্রায়
+jatri	যাত্রী
+jatrider	যাত্রীদের
+jatrira	যাত্রীরা
+jay	যায়
+jaya	যাওয়া জায়া
+jayai	যাওয়াই
+jayar	যাওয়ার
+jayard	অ্যাওয়ার্ড
+jayata	যাওয়াটা
+jayay	যাওয়ায়
+jayga	জায়গা যায়গা
+jaygamt	জায়গামত
+jaygar	জায়গার
+jaygata	জায়গাটা
+jaygatake	জায়গাটাকে
+jaygatar	জায়গাটার
+jaygatay	জায়গাটায়
+jaygate	জায়গাতে
+jaygatei	জায়গাতেই
+jaygati	জায়গাটি
+jaygay	জায়গায় যায়গায়
+jayn	জায়ন
+jayna	যায়না
+jayni	যায়নি
+jb	জব
+jbab	জবাব
+jbabdihi	জবাবদিহি
+jbai	জবাই
+jbala	জ্বালাও
+jbalan	জ্বালানো
+jbalani	জ্বালানি জ্বালানী
+jbalate	জ্বালাতে
+jbalatn	জ্বালাতন
+jbaliye	জ্বালিয়ে
+jbi	জ্বি জ্বী
+jbin	জ্বিন জ্বীন
+jbinder	জ্বিনদের
+jbinra	জ্বিনরা
+jblce	জ্বলছে
+jble	জ্বলে
+jblnt	জ্বলন্ত
+jbr	জ্বর
+jda	যোদ্ধা
+jdader	যোদ্ধাদের
+jdar	যোদ্ধার
+jdara	যোদ্ধারা
+jdi	যদি যদিও
+jdina	যদিনা
+je	যে যেও জে যেঁ
+jebabe	যেভাবে
+jebabei	যেভাবেই
+jebiyar	জেভিয়ার
+jebra	জেব্রা
+jed	জেড জেদ
+jedin	যেদিন
+jege	জেগে
+jegece	জেগেছে
+jegul	যেগুলো
+jegulr	যেগুলোর
+jehetu	যেহেতু
+jei	যেই
+jeid	জেইড
+jeida	যেইদা
+jeimi	জেইমি
+jein	জেইন
+jek	জেক
+jekan	যেখান
+jekane	যেখানে
+jekanei	যেখানেই
+jekeu	যেকেউ
+jekn	যেকোন যেকোনো
+jel	জেল
+jela	জেলা
+jele	জেলে
+jeler	জেলের
+jeli	জেলি
+jelkana	জেলখানা
+jelkanay	জেলখানায়
+jema	জেমা
+jemi	জেমি
+jemn	যেমন
+jemnta	যেমনটা
+jemnti	যেমনটি
+jems	জেমস
+jen	যেন যেনো জেন
+jena	যেওনা
+jenarel	জেনারেল
+jenaretr	জেনারেটর
+jene	জেনে জেনেও
+jeneci	জেনেছি
+jenei	জেনেই
+jenetik	জেনেটিক
+jeni	জেনি
+jentalmjan	জেন্টালম্যান
+jentelmjan	জেন্টেলম্যান
+jentlmen	জেন্টলমেন
+jentlmjan	জেন্টলম্যান
+jep	জেফ
+jera	জেরা
+jere	ঝেড়ে
+jeremi	জেরেমি
+jeren	জেরেন
+jeri	জেরি
+jerkm	যেরকম
+jerujalem	জেরুজালেম
+jerujaleme	জেরুজালেমে
+jerujalemer	জেরুজালেমের
+jesas	জেসাস
+jesb	যেসব
+jesi	জেসি
+jesn	জেসন
+jet	যেত যেতো জেট
+jeta	যেটা জেতা
+jetai	যেটাই
+jetake	যেটাকে
+jetam	যেতাম
+jetar	যেটার জেতার
+jetate	যেটাতে
+jetay	যেটায়
+jete	যেতে যেতেও
+jetei	যেতেই
+jeti	যেটি
+jey	যেয়ো
+jeye	যেয়ে
+jg	যোগ
+jgajg	যোগাযোগ
+jgajger	যোগাযোগের
+jgakicuri	জগাখিচুড়ি
+jgar	জোগাড় যোগাড়
+jgdan	যোগদান
+jgj	যোগ্য অযোগ্য
+jgjta	যোগ্যতা
+jgnj	জঘন্য
+jgra	ঝগড়া
+jgrar	ঝগড়ার
+jgsutr	যোগসূত্র
+jgt	জগত জগৎ
+jgta	জগতটা
+jgte	জগতে
+jgter	জগতের
+jgu	জগগু
+ji	জি জী অজি
+jib	জীব জৈব
+jiba	জিবা
+jibanu	জীবাণু
+jibar	জিবার
+jibit	জীবিত
+jibn	জীবন জীবনও
+jibne	জীবনে জীবনেও
+jibner	জীবনের
+jibni	জীবনই
+jibnjapn	জীবনযাপন
+jibnke	জীবনকে
+jibnrksakari	জীবনরক্ষাকারী
+jibnt	জীবন্ত
+jibnta	জীবনটা
+jibntai	জীবনটাই
+jigay	জিগায়
+jigjes	জিগ্যেস
+jigu	জিগু
+jihba	জিহ্বা
+jijnas	জিজ্ঞাস
+jijnasa	জিজ্ঞাসা
+jijnasabad	জিজ্ঞাসাবাদ
+jijnasabader	জিজ্ঞাসাবাদের
+jijnes	জিজ্ঞেস
+jil	জিল
+jim	জিম
+jimay	জিম্মায়
+jimi	জিমি জিম্মি
+jimider	জিম্মিদের
+jimike	জিমিকে
+jimir	জিমির
+jin	জিন
+jinda	জিন্দা
+jindabad	জিন্দাবাদ
+jiner	জিনের
+jini	যিনি জিনি
+jinis	জিনিস জিনিষ জিনিসও
+jinise	জিনিসে
+jiniser	জিনিসের
+jinisgul	জিনিসগুলো
+jinisi	জিনিসই
+jiniske	জিনিসকে
+jinispati	জিনিসপাতি
+jinisptr	জিনিসপত্র
+jinisptrer	জিনিসপত্রের
+jinista	জিনিসটা জিনিষটা
+jinistai	জিনিসটাই
+jinistake	জিনিসটাকে
+jinistar	জিনিসটার
+jinisti	জিনিসটি
+jiniyas	জিনিয়াস
+jipies	জিপিএস
+jir	জিরো
+jisas	জিসাস
+jisu	যীশু
+jisur	যীশুর
+jitbe	জিতবে
+jite	জিতে জিততে
+jitec	জিতেছ
+jitece	জিতেছে
+jiteci	জিতেছি
+jiti	জিতি
+jitle	জিতলে
+jius	জিউস
+jiuser	জিউসের
+jiya	জিয়া
+jiyan	জিয়ান
+jiyang	জিয়াং
+jk	জোক
+jkar	জোকার
+jkarer	জোকারের
+jkarke	জোকারকে
+jkn	যখন
+jkni	যখনই যখনি
+jks	জোকস
+jl	জল
+jldi	জলদি জলদী
+jldii	জলদিই
+jldsju	জলদস্যু
+jldsjuder	জলদস্যুদের
+jldsjur	জলদস্যুর
+jle	জলে
+jler	জলের
+jlhsti	জলহস্তী
+jlil	জলিল
+jliler	জলিলের
+jlk	ঝলক
+jlti	জলতি
+jma	জমা
+jmbe	জমবে
+jme	জমে
+jmi	জমি
+jmir	জমির
+jmita	জমিটা
+jmite	জমিতে
+jmiye	জমিয়ে
+jmj	জমজ যমজ
+jmuna	যমুনা
+jn	জন ওজন জোন জনঃ জোওন
+jnab	জনাব
+jnaba	জনাবা
+jnan	জ্ঞান অজ্ঞান
+jnaner	জ্ঞানের
+jnani	জ্ঞানী
+jnat	অজ্ঞাত
+jnatn	জনাথন
+jne	জনে
+jnei	জনেই
+jner	জনের ওজনের
+jngi	জঙ্গি
+jngl	জঙ্গল
+jngle	জঙ্গলে
+jngler	জঙ্গলের
+jngn	জনগণ
+jngner	জনগণের জনগনের
+jngnke	জনগণকে
+jni	জনি জননী জনই
+jnj	জন্য জন্যও
+jnjal	জঞ্জাল
+jnje	জন্যে জন্যেও
+jnjei	জন্যেই
+jnji	জন্যই
+jnke	জনকে
+jnm	জন্ম
+jnmay	জন্মায়
+jnmdin	জন্মদিন
+jnmdine	জন্মদিনে
+jnmdiner	জন্মদিনের
+jnmeci	জন্মেছি
+jnmer	জন্মের জনমের
+jnmgrhn	জন্মগ্রহণ
+jnpriy	জনপ্রিয়
+jns	জোন্স জোনস
+jnsngkja	জনসংখ্যা
+jnsngkjar	জনসংখ্যার
+jnta	জনতা
+jntr	যন্ত্র
+jntrer	যন্ত্রের
+jntrna	যন্ত্রণা যন্ত্রনা
+jntrnabg	যন্ত্রণাভোগ
+jntrnadayk	যন্ত্রণাদায়ক
+jntrpati	যন্ত্রপাতি
+jntrta	যন্ত্রটা
+jntu	জন্তু
+jnur	অজনুর
+jpmala	জপমালা
+jr	জোর ঝড় জড়ো জোড়
+jra	জোড়া
+jrate	জড়াতে
+jrce	ঝরছে
+jrdan	জর্ডান
+jrdaner	জর্ডানের
+jre	জোরে ঝড়ে
+jrer	ঝড়ের
+jrimana	জরিমানা
+jrit	জড়িত
+jriye	জড়িয়ে
+jrj	জর্জ
+jrjiya	জর্জিয়া
+jrjrit	জর্জরিত
+jruri	জরুরী জরুরি
+js	জোস জশ জোশ
+jse	জোসে
+jsep	জোসেফ
+jt	যত যতো জোট জট
+jta	যতটা অযথা যতোটা
+jtajt	যথাযথ
+jtasadj	যথাসাধ্য
+jtbar	যতবার
+jtdin	যতদিন
+jtdur	যতদূর
+jtest	যথেষ্ট যথেষ্ঠ
+jtgul	যতগুলো
+jti	যতই
+jtil	জটিল
+jtksn	যতক্ষণ যতক্ষন
+jtn	যত্ন
+jtsb	যত্তসব
+jtuku	যতটুকু
+ju	জু
+juba	যুবা
+jubk	যুবক
+jubti	যুবতী
+jud	যুদ্ধ
+juda	যুদ্ধা
+jude	যুদ্ধে
+juder	যুদ্ধের
+judksetr	যুদ্ধক্ষেত্র
+judksetre	যুদ্ধক্ষেত্রে
+judta	যুদ্ধটা
+jug	যুগ
+juge	যুগে
+juger	যুগের
+juhat	অজুহাত
+juki	ঝুঁকি ঝুকি
+jukipurn	ঝুঁকিপূর্ণ
+jukir	ঝুঁকির
+jukite	ঝুঁকিতে
+jukt	যুক্ত
+jukti	যুক্তি
+juktijukt	যুক্তিযুক্ত
+juktik	যৌক্তিক অযৌক্তিক
+juktrastr	যুক্তরাষ্ট্র
+juktrastre	যুক্তরাষ্ট্রে
+juktrastrer	যুক্তরাষ্ট্রের
+julai	জুলাই
+jule	ঝুলে
+juliyan	জুলিয়ান
+juliye	ঝুলিয়ে
+julnt	ঝুলন্ত
+juls	জুলস
+jun	জুন যৌন
+juniyr	জুনিয়র
+junsngm	যৌনসঙ্গম
+jure	জুড়ে
+juri	ঝুড়ি
+jus	জুস
+jut	জুতো যৌথ
+juta	জুতা
+jutar	জুতার
+juya	জুয়া
+juyena	জুয়েন্না
+jy	জয় অজয়
+jyan	জোয়ান
+jyen	জয়েন
+jyer	জয়ের অজয়ের
+jyi	জয়ী
+jyke	অজয়কে
+k	ক কো খ কোক
+ka	খাও খোকা খা কা
+kab	খাবো খাব
+kabab	কাবাব
+kabar	খাবার কাভার
+kabare	খাবারে
+kabarer	খাবারের
+kabarta	খাবারটা
+kabe	খাবে
+kaben	খাবেন
+kabi	খাবি
+kabu	কাবু
+kac	কাছ খাচ্ছ কাঁচ
+kaca	খাঁচা কাঁচা
+kacakaci	কাছাকাছি
+kacakacii	কাছাকাছিই
+kacar	খাঁচার
+kacay	খাঁচায়
+kace	কাছে খাচ্ছে কাছেও
+kacei	কাছেই
+kacer	কাছের কাঁচের
+kaci	খাচ্ছি
+kad	কাধ
+kada	কাদা
+kadbe	কাঁদবে
+kadc	কাঁদছ
+kadce	কাঁদছে
+kade	কাঁধে কাঁদে কাধে
+kader	কাদের
+kadj	খাদ্য
+kadte	কাঁদতে
+kagj	কাগজ
+kagje	কাগজে
+kagjer	কাগজের
+kagjptr	কাগজপত্র
+kagjta	কাগজটা
+kahil	কাহিল
+kahini	কাহিনী কাহিনি
+kahinir	কাহিনীর
+kahinita	কাহিনীটা
+kai	খাই
+kaice	খাইছে
+kaici	খাইছি
+kail	কাইল
+kaite	খাইতে
+kaiye	খাইয়ে
+kaj	কাজ কাজও
+kaje	কাজে
+kajei	কাজেই
+kajer	কাজের অকাজের
+kajgul	কাজগুলো
+kaji	কাজই
+kajin	কাজিন
+kajkrm	কাজকর্ম
+kajta	কাজটা
+kajtai	কাজটাই
+kajti	কাজটি
+kak	কাক
+kaka	কাকা
+kake	কাকে কাওকে
+kaktaliy	কাকতালীয়
+kaku	কাকু
+kal	কাল কালো খাল
+kala	খালা কালা
+kalader	খালাদের
+kalar	কালার
+kalas	খালাস
+kalbapuri	কালবাপুড়ি
+kale	কালে
+kaler	কালের
+kali	খালি কালি
+kalisi	খালিসি
+kalke	কালকে
+kalkei	কালকেই
+kalker	কালকের
+kalpnik	কাল্পনিক
+kam	কাম
+kamai	কামাই
+kaman	কামান
+kamar	খামার
+kambur	কামবুর
+kamna	কামনা
+kamr	কামড়
+kamra	কামরা
+kamre	কামড়ে
+kamrul	কামরুল
+kan	কান ওখান খান
+kana	কান্না কানা খানা
+kanakati	কান্নাকাটি
+kanar	কান্নার
+kancn	কাঞ্চন
+kand	কান্ড কাণ্ড
+kane	ওখানে কানে
+kanei	ওখানেই
+kanek	খানেক
+kaner	কানের ওখানের
+kanikta	খানিকটা
+kankar	ওখানকার
+kap	কাপ খাপ
+kapce	কাঁপছে
+kapr	কাপড়
+kapre	কাপড়ে
+kaprer	কাপড়ের
+kapurus	কাপুরুষ
+kapuruser	কাপুরুষের
+kar	কারো কার কারও কারোর
+kara	কারা খাড়া
+karagar	কারাগার
+karagare	কারাগারে
+karagarer	কারাগারের
+karap	খারাপ খারাপও
+karapbabe	খারাপভাবে
+karaper	খারাপের
+karapi	খারাপই
+karbar	কারবার
+karbi	কার্বি
+karbn	কার্বন
+kard	কার্ড
+karde	কার্ডে
+karder	কার্ডের
+kardta	কার্ডটা
+karen	কারেন
+karg	কার্গো
+kari	কারোরই
+karigr	কারিগর
+karjkr	কার্যকর
+karjkri	কার্যকরী
+karjkrm	কার্যক্রম
+karkana	কারখানা
+karkanar	কারখানার
+karkanay	কারখানায়
+karl	কার্ল কার্লো
+karlenk	কারলেনকো
+karn	কারণ কারন
+karne	কারণে কারনে
+karnei	কারণেই কারনেই
+karnta	কারণটা
+karpb	কারপভ
+karpiu	কারফিউ
+kart	কার্ট
+kartar	কার্টার
+kartik	কার্তিক
+karur	কারুর
+kas	খাস
+kasi	কাশি
+kaspiyan	কাস্পিয়ান
+kastmar	কাস্টমার
+kastmarder	কাস্টমারদের
+kasumi	কাসুমী
+kat	কাঠ কাট কাটো খাটো
+kata	কাটা কাঁটা কাটাও
+katab	কাটাবো
+katabe	কাটাবে
+kataber	খাত্তাবের
+katace	কাটাচ্ছে
+katam	কাঠামো
+katan	কাটানো
+katanr	কাটানোর
+katar	কাটার কাঁটার
+katate	কাটাতে খাটাতে
+katay	কাটায়
+katbe	কাটবে
+katce	কাটছে
+katci	কাটছি
+kate	কাটতে কাটে
+kater	কাঠের
+kati	খাঁটি খাটি
+katir	কাথির
+katire	খাতিরে
+katiya	কাটিয়া
+katiyal	কাতিয়াল
+katiye	কাটিয়ে খাটিয়ে
+katiyece	কাটিয়েছে
+katiyeci	কাটিয়েছি
+katl	কাটলো
+katuk	কাটুক
+kauby	কাউবয়
+kauke	কাউকে
+kaukei	কাউকেই
+kaunsil	কাউন্সিল
+kaunsiler	কাউন্সিলের
+kaunsilr	কাউন্সিলর
+kaunt	কাউন্ট
+kauntar	কাউন্টার
+kaupd	কাউফড
+kaure	কাউরে
+kay	খায়
+kaya	খাওয়া খাওয়াও
+kayanr	খাওয়ানোর
+kayar	খাওয়ার
+kayate	খাওয়াতে
+kb	কব
+kba	কোবা
+kbar	কভার
+kbe	কবে
+kbenjant	কোভেন্যান্ট
+kbi	কবি
+kbir	কবির
+kbita	কবিতা
+kbitar	কবিতার
+kbja	কবজা কব্জা
+kble	কবলে
+kbr	খবর কবর
+kbrdar	খবরদার
+kbre	খবরে কবরে
+kbrer	খবরের কবরের
+kbrstan	কবরস্থান
+kbrstane	কবরস্থানে
+kbrta	খবরটা
+kc	কোচ
+kca	খোঁচা
+kci	কচি
+kcp	কচ্ছপ
+kd	কোড
+kda	খোদা খোঁদা
+kdai	খোদাই
+kdar	খোদার
+kder	কোডের
+kdm	কদম
+kdr	কদর
+kdta	কোডটা
+ke	কে ওকে কেও অকে ওকেও খেও
+keb	কেভ
+kebin	কেভিন কেবিন
+kebine	কেবিনে
+kebl	কেবল
+kebli	কেবলই
+keblmatr	কেবলমাত্র
+ked	কেঁদো
+keda	কেডা
+kede	কেঁদে
+keh	কেহ
+kei	কেওই কেই ওকেই
+keil	কেইল
+keis	কেইস
+kej	অকেজো
+keji	কেজি
+kejur	খেজুর
+kek	কেক
+kel	খেল খেলো
+kela	খেলা কেল্লা
+kelam	খেলাম
+kelar	খেলার
+kelata	খেলাটা
+kelay	খেলায়
+kelb	খেলবো খেলব
+kelbe	খেলবে
+kelce	খেলছে
+kelci	খেলছি
+kele	খেলে
+keleci	খেলেছি
+keli	খেলি
+kelna	খেলনা
+keltam	খেলতাম
+kelte	খেলতে
+kelyar	খেলোয়াড়
+kemikjal	কেমিক্যাল
+kemn	কেমন
+kemne	কেমনে
+ken	কেন কেনো
+kena	কেননা কেনা
+kenakata	কেনাকাটা
+kenar	কেনার
+kendr	কেন্দ্র
+kendre	কেন্দ্রে
+kendriy	কেন্দ্রীয়
+kenedi	কেনেডি
+keni	কেনই
+keniya	কেনিয়া
+kent	কেন্ট
+kentn	কেন্টন
+kep	কেপ
+kere	কেড়ে কেরে কেঁড়ে
+kes	কেস
+kese	কেসে
+keser	কেসের
+kesi	কেসি
+kesta	কেসটা
+ket	কেট
+kete	খেতে কেটে
+ketece	কেটেছে
+keu	কেউ
+keui	কেউই
+keyal	খেয়াল
+keyale	খেয়ালে
+keyar	কেয়ার
+keye	খেয়ে
+keyec	খেয়েছ খেয়েছো
+keyece	খেয়েছে
+keyecen	খেয়েছেন
+keyeci	খেয়েছি
+keyecil	খেয়েছিল
+keyecilam	খেয়েছিলাম
+keyei	খেয়েই
+khli	কোহলি
+ki	কি কী কই
+kibabe	কিভাবে কীভাবে
+kice	কইছে
+kicene	কিচেনে
+kicu	কিছু কিচ্ছু
+kicudin	কিছুদিন
+kicudiner	কিছুদিনের
+kicui	কিছুই
+kicuke	কিছুকে
+kicuksn	কিছুক্ষণ কিছুক্ষন
+kicuksner	কিছুক্ষণের কিছুক্ষনের
+kicuna	কিছুনা কিচ্ছুনা
+kicur	কিছুর
+kicuri	কিছুরই
+kicut	কিছুতো
+kicuta	কিছুটা
+kicute	কিছুতে
+kicutei	কিছুতেই
+kid	কিড
+kide	খিদে
+kidnjap	কিডন্যাপ
+kiiba	কিইবা কীইবা
+kik	কিক
+kil	কিলো
+kilai	কিলাই
+kilar	কিলার
+kili	কিলি
+kilmitar	কিলোমিটার
+kim	কিম
+kimer	কিমের
+kina	কিনা
+kinaray	কিনারায়
+kinb	কিনব কিনবো
+kinbe	কিনবে
+kine	কিনে
+kinece	কিনেছে
+kineci	কিনেছি
+king	কিং
+kingba	কিংবা
+kingbdnti	কিংবদন্তী কিংবদন্তি
+kings	কিংস
+kingsmjan	কিংসম্যান
+kinle	কিনলে
+kint	কিন্ত
+kinte	কিনতে
+kintu	কিন্তু
+kintuu	কিন্তুু
+kir	কইরো
+kira	কইরা
+kire	কিরে
+kirkm	কিরকম কীরকম
+kirn	কিরণ
+kis	কিস
+kisb	কিসব
+kise	কিসে কীসে
+kiser	কিসের কীসের
+kit	খিত কিট কিথ
+kitaci	কইতাছি
+kiti	কিটি
+kiu	কিউ
+kiut	কিউট
+kj	খোঁজ খোজ খোঁজো
+kja	খোঁজা খোজা
+kjab	ক্যাব
+kjabl	ক্যাবল
+kjac	ক্যাচ
+kjaleb	ক্যালেব
+kjamera	ক্যামেরা
+kjameramjan	ক্যামেরাম্যান
+kjamerar	ক্যামেরার
+kjamerata	ক্যামেরাটা
+kjameray	ক্যামেরায়
+kjamern	ক্যামেরন
+kjamn	ক্যামন
+kjamne	ক্যামনে
+kjamp	ক্যাম্প
+kjampe	ক্যাম্পে
+kjamper	ক্যাম্পের
+kjan	ক্যান
+kjandi	ক্যান্ডি
+kjang	ক্যাং
+kjansar	ক্যান্সার
+kjansarer	ক্যান্সারের
+kjap	ক্যাপ
+kjapete	ক্যাফেতে
+kjapten	ক্যাপ্টেন ক্যাপটেন
+kjaptener	ক্যাপ্টেনের
+kjaptenke	ক্যাপ্টেনকে
+kjar	খোঁজার খোজার
+kjaralain	ক্যারালাইন
+kjarina	ক্যারিনা
+kjariyar	ক্যারিয়ার
+kjariyarer	ক্যারিয়ারের
+kjarl	ক্যারল
+kjas	ক্যাশ
+kjasel	ক্যাসেল
+kjasi	ক্যাসি
+kjasin	ক্যাসিনো
+kjasinte	ক্যাসিনোতে
+kjat	ক্যাট
+kjati	খ্যাতি
+kjatnis	ক্যাটনিস
+kjatrin	ক্যাথরিন
+kjatrina	ক্যাটরিনা
+kje	খোঁজে খোজে
+kjkbr	খোঁজখবর
+kl	কল খোল খোলো কোল
+kla	খোলা কলা
+klab	ক্লাব
+klabe	ক্লাবে
+klaber	ক্লাবের
+klakuli	খোলাখুলি কোলাকুলি
+klamela	খোলামেলা
+klangk	ক্লাঙ্ক
+klant	ক্লান্ত
+klar	খোলার কলার
+klarik	ক্লারিক
+klaris	ক্লারিস
+klark	ক্লার্ক
+klas	ক্লাস
+klase	ক্লাসে
+klaser	ক্লাসের
+klaski	কওলাস্কি
+klayent	ক্লায়েন্ট
+kle	কোলে খোলে
+klej	কলেজ
+kleje	কলেজে
+klejer	কলেজের
+klen	খোলেন
+kler	কলের
+klet	কোলেট
+kleyar	ক্লেয়ার
+kli	কলি
+klija	কলিজা
+klik	ক্লিক
+klimens	ক্লিমেন্স
+klinar	ক্লিনার
+kling	কলিং
+klins	কলিন্স
+kliyar	ক্লিয়ার
+klj	ক্লোজ
+klm	কলম
+klmer	কলমের
+klni	কলোনি
+klnite	কলোনিতে
+klpna	কল্পনা কল্পনাও
+klpnar	কল্পনার
+klpnay	কল্পনায়
+kls	খোলস
+klski	কোলোস্কি
+klta	কলটা
+klu	ক্লু
+km	কম
+kma	কমাও
+kmand	কমান্ড
+kmandar	কমান্ডার
+kmandarer	কমান্ডারের
+kmander	কমান্ডের
+kmanr	কমানোর
+kmate	কমাতে
+kmay	কোমায়
+kmbysi	কমবয়সী
+kmce	কমছে
+kmdr	কমোডোর
+kme	কমে
+kmi	কমই
+kmik	কমিক
+kmisn	কমিশন
+kmisnar	কমিশনার
+kmisnarer	কমিশনারের
+kmiti	কমিটি
+kmitir	কমিটির
+kmiuniti	কমিউনিটি
+kmiye	কমিয়ে
+kml	কোমল
+kmla	কমলা
+kmlar	কমলার
+kmn	কমন
+kmpani	কোম্পানি কোম্পানী
+kmpanike	কোম্পানিকে
+kmpanir	কোম্পানির
+kmpanite	কোম্পানিতে
+kmpas	কম্পাস
+kmpiutar	কম্পিউটার
+kmpiutare	কম্পিউটারে
+kmpiutarer	কম্পিউটারের
+kmpkse	কমপক্ষে
+kmplit	কমপ্লিট
+kmpn	কম্পন
+kmr	কোমর
+kmred	কমরেড
+kmse	কমসে
+kmti	কমতি
+kn	কোন কোনো কখনো কখনও কখন কোনও কন খনন
+kna	কণা
+knars	কনারস
+knay	কোণায় কোনায়
+knbabe	কোনভাবে কোনোভাবে
+knbabei	কোনভাবেই কোনোভাবেই
+kndike	কোনদিকে
+kndin	কোনদিন কোনোদিন কোনদিনও
+kndini	কোনোদিনই
+kne	কোণে কনে
+kni	কখনোই কখনই খনি
+knja	কন্যা
+knkicu	কোনকিছু
+knkicui	কোনকিছুই
+knkicur	কোনকিছুর
+knparens	কনফারেন্স
+knparm	কনফার্ম
+knparmd	কনফার্মড
+knr	কনর
+knrkm	কোনরকম
+knrs	কনর্স
+knstebl	কনস্টেবল
+knstens	কন্সটেন্স
+knt	কণ্ঠ কন্ঠ কন্ঠঃ
+knta	কোনটা
+kntai	কোনটাই
+kntar	কোনটার
+knti	কোনটি
+kntrakt	কন্ট্রাক্ট
+kntrl	কন্ট্রোল
+kntrle	কন্ট্রোলে
+kntsbr	কন্ঠস্বর কণ্ঠস্বর
+kp	কোঅপ
+kpal	কপাল
+kpale	কপালে
+kpi	কফি কপি
+kpin	কফিন
+kpir	কফির
+kr	করো কর কোরো কোর
+kra	করা করাও কড়া
+krab	করাব
+krabe	করাবে
+kraben	করাবেন
+krai	করাই
+kraim	ক্রাইম
+kraist	ক্রাইস্ট
+kralain	কোরালাইন
+kram	ক্রাম
+kran	করানো কোরআন
+kranr	করানোর
+krar	করার
+kras	ক্রাশ
+krata	করাটা
+kratai	করাটাই
+krate	করাতে
+kray	করায়
+krb	করবো করব
+krba	করবা
+krbe	করবে
+krbei	করবেই
+krben	করবেন
+krbena	করবেনা
+krbi	করবি করবই করবোই
+krbin	করবিন
+krbna	করবনা করবোনা
+krc	করছ করছো খরচ
+krce	করছে
+krcen	করছেন
+krcena	করছেনা
+krci	করছি
+krcil	করছিল করছিলো
+krcilam	করছিলাম
+krcile	করছিলে
+krcilen	করছিলেন
+krcina	করছিনা
+krcis	করছিস
+krcta	করছোটা
+krd	ক্রোধ
+kre	করে করেও ক্রে
+krec	করেছ করেছো
+krece	করেছে
+krecen	করেছেন
+kreci	করেছি
+krecil	করেছিল করেছিলো
+krecilam	করেছিলাম
+krecile	করেছিলে
+krecilen	করেছিলেন
+krecili	করেছিলি
+krecis	করেছিস
+kredit	ক্রেডিট
+krei	করেই
+krekjiya	ক্রেকোঝিয়া
+kremlin	ক্রেমলিন
+kren	করেন ক্রেন
+krena	করেনা
+kreni	করেনি করেননি
+kreta	ক্রেতা
+krgs	খরগোশ
+krgser	খরগোশের
+kri	করি করিও
+kridi	ক্রিডি
+kriket	ক্রিকেট
+krim	ক্রিম
+krimi	কৃমি
+kriminal	ক্রিমিনাল
+krina	করিনা
+krini	করিনি
+kris	করিস ক্রিস ক্রিসঃ
+krisciyan	ক্রিশ্চিয়ান
+krisi	কৃষি
+krisk	কৃষক
+kriskder	কৃষকদের
+krismas	ক্রিসমাস
+krismase	ক্রিসমাসে
+krismaser	ক্রিসমাসের
+krist	খ্রিস্ট
+kristan	খ্রিষ্টান
+kristina	ক্রিস্টিনা
+kristpar	ক্রিসটোফার ক্রিস্টোফার
+kritdas	ক্রীতদাস
+krititb	কৃতিত্ব
+kritjn	কৃতজ্ঞ
+kritjnta	কৃতজ্ঞতা
+kritrim	কৃত্রিম
+kriyan	কোরিয়ান
+kriyar	কোরিয়ার
+kriye	করিয়ে
+kriyece	করিয়েছে
+kriyeci	করিয়েছি
+krjas	ক্র্যাশ
+krl	করলো করল
+krlam	করলাম
+krle	করলে করলেও
+krlei	করলেই
+krlen	করলেন
+krleyne	কোর্লেয়নে
+krli	করলি
+krm	কর্ম
+krma	অকর্মা
+krmar	অকর্মার
+krmcari	কর্মচারী
+krme	ক্রমে
+krmer	কর্মের
+krmi	কর্মী
+krmider	কর্মীদের
+krmkand	কর্মকান্ড
+krmkrta	কর্মকর্তা
+krmkrtader	কর্মকর্তাদের
+krmu	করমু
+krna	করোনা কোরনা করনা কোরোনা
+krnar	কর্নার
+krnare	কর্নারে
+krnel	কর্নেল
+krni	করনি করোনি
+krp	কর্প
+krpral	করপোরাল
+krpresner	কর্পোরেশনের
+krs	ক্রস করস কোর্স
+krt	করত করতো কোর্ট
+krtace	করতাছে
+krtaci	করতাছি
+krtam	করতাম
+krtbj	কর্তব্য
+krte	করতে কোর্টে করতেও
+krtec	করতেছো করতেছ
+krtece	করতেছে
+krteci	করতেছি
+krtecis	করতেছিস
+krtei	করতেই
+krten	করতেন
+krter	কোর্টের
+krtrik	কর্তৃক
+krtripks	কর্তৃপক্ষ
+krtripkser	কর্তৃপক্ষের
+krtritb	কর্তৃত্ব
+kru	ক্রু
+krud	ক্রুদ্ধ
+kruk	করুক
+krum	করুম
+krun	করুন করুণ
+kruna	করুণা করুনা
+ks	কক্ষ খোশ কস কোষ
+ksant	ক্ষান্ত
+ksb	ক্ষোভ
+kse	কক্ষে কষে
+ksepe	ক্ষেপে
+kset	ক্ষেত
+ksete	ক্ষেতে
+ksetr	ক্ষেত্র
+ksetre	ক্ষেত্রে ক্ষেত্রেও
+ksetrei	ক্ষেত্রেই
+ksi	ক্সি
+ksida	ক্ষিধা
+ksijen	অক্সিজেন
+ksipt	ক্ষিপ্ত
+ksm	কসম অক্ষম
+ksma	ক্ষমা
+ksmaprarti	ক্ষমাপ্রার্থী
+ksmar	ক্ষমার
+ksmta	ক্ষমতা
+ksmtaban	ক্ষমতাবান
+ksmtadr	ক্ষমতাধর
+ksmtar	ক্ষমতার
+ksmtasali	ক্ষমতাশালী
+ksmtay	ক্ষমতায়
+ksn	কক্ষনো
+ksprd	অক্সফোর্ড
+kspte	কক্ষপথে
+ksr	অক্ষর
+kst	কষ্ট ক্ষত অক্ষত
+kstdayk	কষ্টদায়ক
+kste	কষ্টে
+kstel	কস্টেলো
+kstelr	কস্টেলোর
+kster	কষ্টের
+ksti	ক্ষতি
+kstigrst	ক্ষতিগ্রস্ত
+kstikr	ক্ষতিকর
+kstipurn	ক্ষতিপূরণ
+kstir	ক্ষতির
+kstium	কস্টিউম
+kstkr	কষ্টকর
+ksuda	ক্ষুধা
+ksudart	ক্ষুধার্ত
+ksudr	ক্ষুদ্র
+kt	কত কতো কোট কত্ত
+kta	কথা কোথাও কোথা কতটা কথাও কতোটা কোটটা
+ktabarta	কথাবার্তা
+ktagul	কথাগুলো
+ktai	কথাই
+ktakar	কোথাকার
+ktamt	কথামত
+ktar	কথার
+ktata	কথাটা
+ktatil	কোত্তাতিল
+ktay	কোথায় কথায়
+ktbar	কতবার
+ktbr	অক্টোবর
+ktdin	কতদিন
+ktdur	কতদূর
+kteke	কোত্থেকে
+kter	কোটের
+ktgul	কতগুলো
+kti	কোটি
+ktin	কঠিন
+ktipti	কোটিপতি
+ktit	কথিত
+ktjn	কতজন
+ktkani	কতখানি
+ktksn	কতক্ষণ কতক্ষন
+ktm	খতম
+ktpktn	কথোপকথন
+ktr	কঠোর
+ktuku	কতটুকু
+ku	কু
+kub	খুব
+kubi	খুবই
+kubladar	কুবলাদার
+kubra	কুবরা
+kubrake	কুবরাকে
+kubrar	কুবরার
+kudret	কুদরেত
+kuidic	কুইডিচ
+kuil	কুইল
+kuin	কুইন
+kuj	খুঁজো
+kujb	খুঁজব খুঁজবো
+kujbe	খুঁজবে
+kujc	খুঁজছো খুঁজছ খুজছ খুজছো
+kujce	খুঁজছে খুজছে
+kujcen	খুঁজছেন
+kujci	খুঁজছি খুজছি
+kujcilam	খুঁজছিলাম খুজছিলাম
+kuje	খুঁজে খুজে
+kujeci	খুঁজেছি
+kuji	খুঁজি
+kujn	কূজন
+kujte	খুঁজতে খুজতে
+kujun	খুঁজুন
+kuk	কুক
+kuki	খুকি
+kukjat	কুখ্যাত
+kukur	কুকুর
+kukurcana	কুকুরছানা
+kukurer	কুকুরের
+kukurke	কুকুরকে
+kukurta	কুকুরটা
+kul	খুলো খুল কুল
+kulb	খুলব খুলবো
+kulbe	খুলবে
+kulben	খুলবেন
+kulce	খুলছে
+kulci	খুলছি
+kule	খুলে খুললে
+kulece	খুলেছে
+kuli	খুলি
+kulte	খুলতে
+kulun	খুলুন
+kumar	কুমার
+kumari	কুমারী
+kun	খুন কুন
+kundlibisist	কুণ্ডলিবিশিষ্ট
+kuner	খুনের কুনের
+kungpu	কুংফু
+kuni	খুনি খুনী
+kunike	খুনিকে খুনীকে
+kunir	খুনির খুনীর
+kunju	কুনজু
+kunta	খুনটা
+kup	কুপ
+kupar	কুপার
+kupuri	কুফুরি
+kur	কুর
+kure	খুঁড়ে কুড়ে
+kuriye	কুড়িয়ে
+kusi	খুশি খুশী
+kusir	খুশির
+kusite	খুশিতে
+kusl	কৌশল
+kusle	কৌশলে
+kusler	কৌশলের
+kuslta	কৌশলটা
+kuta	কুত্তা কুট্টা
+kutan	কুট্টান
+kutar	কুত্তার
+kutatake	কুত্তাটাকে
+kuti	কুত্তী
+kutinati	খুঁটিনাটি
+kutsit	কুৎসিত
+kutuhl	কৌতূহল কৌতুহল
+kutuk	কৌতুক
+kuyet	কুয়েত
+kuyeti	কুয়েতী
+ky	কয়
+kyalski	কোয়ালস্কি
+kyantam	কোয়ান্টাম
+kyartar	কোয়ার্টার
+kydin	কয়দিন
+kyedi	কয়েদী কয়েদি
+kyek	কয়েক
+kyekbar	কয়েকবার
+kyekdin	কয়েকদিন
+kyekdiner	কয়েকদিনের
+kyekjn	কয়েকজন
+kyekta	কয়েকটা
+kyekti	কয়েকটি
+kyen	কয়েন
+kyjn	কয়জন
+kyla	কয়লা
+kyta	কয়টা
+l	অল লো
+la	লা লাও
+lab	লাভ
+labaik	লাব্বাইক
+laber	লাভের
+labjnk	লাভজনক
+labsen	ওলাভসেন
+laga	লাগাও লাগা
+lagabe	লাগাবে
+lagaci	লাগাচ্ছি
+lagan	লাগানো লাগান
+laganr	লাগানোর
+lagar	লাগার
+lagate	লাগাতে
+lagay	লাগায়
+lagb	লাগবো
+lagbe	লাগবে
+lagbei	লাগবেই
+lagbena	লাগবেনা
+lagce	লাগছে
+lagcena	লাগছেনা
+lagcil	লাগছিল লাগছিলো
+lage	লাগে
+lagena	লাগেনা
+lageni	লাগেনি
+lagi	লাগি
+lagiye	লাগিয়ে
+lagiyece	লাগিয়েছে
+lagiyeci	লাগিয়েছি
+lagl	লাগলো লাগল
+laglam	লাগলাম
+lagle	লাগলে
+lagt	লাগতো লাগত
+lagte	লাগতে
+laib	লাইভ
+laiga	লাইগা
+laigja	লাইগ্যা
+lain	লাইন
+laine	লাইনে
+lainer	লাইনের
+lainta	লাইনটা
+laip	লাইফ
+laisens	লাইসেন্স
+lait	লাইট
+laita	লাইটটা
+laiter	লাইটের
+laitiyar	লাইটইয়ার
+lajl	লাযলো
+lajuk	লাজুক
+lak	লাখ লাক
+laki	লাকি
+lakri	লাকড়ি
+lal	লাল
+laln	লালন
+lanc	লাঞ্চ
+lancer	লাঞ্চের
+lanselt	লান্সেলট
+lap	লাফ
+lapa	লাফাও
+lapata	লাপাত্তা
+lapiye	লাফিয়ে
+las	লাশ লাস
+laser	লাশের
+last	লাস্ট
+lasta	লাশটা
+lati	লাথি লাঠি লাত্থি
+latir	লাঠির
+latita	লাঠিটা
+layn	লায়ন
+lb	লোভ
+lbe	লোভে
+lbi	লোভী
+lbn	লবণ
+ld	লোড ওল্ড
+le	লে
+lebel	লেভেল লেবেল
+lebu	লেবু
+ledi	লেডি
+ledis	লেডিস
+leg	লেগ
+lege	লেগে
+legece	লেগেছে
+legecil	লেগেছিল লেগেছিলো
+lein	লেইন
+leina	লেইনা
+lej	লেজ
+lejar	লেজার
+lek	লেখক ওলেক লেক লেখো লেখ
+leka	লেখা
+lekapra	লেখাপড়া
+lekar	লেখার
+lekcar	লেকচার
+leken	লেখেন
+leker	লেকের
+leks	লেক্স
+lektar	লেকটার
+len	লেন
+lenden	লেনদেন
+lept	লেফট
+leptenent	লেফটেনেন্ট
+leptenjant	লেফটেন্যান্ট
+let	লেট
+leti	লেটি
+lg	লগ
+lgan	লোগান
+lge	লগে
+lha	লোহা
+lhar	লোহার
+li	লি লী ওলি লিও
+libar	লিভার
+libarti	লিবার্টি
+libing	লিভিং
+libiya	অলিভিয়া
+lidar	লিডার
+lig	লিগ
+lik	লিখ
+lika	লিখা
+likb	লিখবো লিখব
+likbe	লিখবে
+likci	লিখছি
+like	লিখে লিকে
+likece	লিখেছে
+likecen	লিখেছেন
+likeci	লিখেছি
+likecil	লিখেছিল
+liki	লিখি
+likit	লিখিত
+likte	লিখতে
+likun	লিখুন
+lili	লিলি
+liliyana	লিলিয়ানা
+lin	লিন লিওন
+linaidas	লিওনাইডাস
+linda	লিন্ডা লিনডা
+ling	লিঙ্গ
+lingk	লিংক
+linguini	লিঙ্গুঈনি
+lipmjan	লিফম্যান
+lipt	লিফট লিপ্ত
+lipte	লিফটে
+lipter	লিফটের
+lisa	লিসা
+list	লিস্ট
+liste	লিস্টে
+litl	লিটল
+liyar	লিওয়ার
+lj	ল্য
+lja	লজ্জা
+ljab	ল্যাব
+ljabe	ল্যাবে
+ljaber	ল্যাবের
+ljajnk	লজ্জাজনক
+ljand	ল্যান্ড
+ljanding	ল্যান্ডিং
+ljandn	ল্যান্ডন
+ljangdn	ল্যাংডন
+ljangra	ল্যাংড়া
+ljanistar	ল্যানিস্টার
+ljans	ল্যান্স
+ljaptp	ল্যাপটপ
+ljar	লজ্জার
+ljari	ল্যারি
+ljatin	ল্যাটিন
+ljay	লজ্জায়
+ljit	লজ্জিত
+lk	লোক লক লোকঃ
+lkal	লোকাল
+lkar	লকার
+lkder	লোকদের
+lkderke	লোকদেরকে
+lke	লোককে লোকে
+lkeder	লোকেদের
+lker	লোকের
+lkera	লোকেরা
+lkesn	লোকেশন
+lkgul	লোকগুলো
+lkgulke	লোকগুলোকে
+lkgulr	লোকগুলোর
+lki	লকি লোকই লোকি
+lkir	লকির
+lkjn	লোকজন
+lkjnder	লোকজনদের
+lkjner	লোকজনের
+lkjnke	লোকজনকে
+lkjnra	লোকজনরা
+lkra	লোকরা
+lks	লক্ষ
+lksan	লোকসান
+lksi	লক্ষী
+lksj	লক্ষ্য
+lksje	লক্ষ্যে
+lksmi	লক্ষ্মী
+lksn	লক্ষণ লক্ষন
+lkta	লোকটা
+lktai	লোকটাই
+lktake	লোকটাকে
+lktar	লোকটার
+lkti	লোকটি
+lktike	লোকটিকে
+lktir	লোকটির
+lmba	লম্বা
+ln	লোন
+lnc	লঞ্চ
+lndn	লন্ডন
+lndne	লন্ডনে
+lndner	লন্ডনের
+lng	লং
+lngn	লঙ্ঘন
+lngsjangks	লংশ্যাঙ্কস
+lp	অল্প
+lr	লড়ো
+lra	লরা
+lrai	লড়াই
+lraiye	লড়াইয়ে
+lraiyer	লড়াইয়ের
+lraku	লড়াকু
+lrar	লড়ার
+lrb	লড়বো
+lrbe	লড়বে
+lrd	লর্ড
+lrder	লর্ডের
+lre	লড়ে
+lredi	অলরেডি
+lrens	লরেন্স
+lrte	লড়তে
+ls	লস অলস
+lsn	ওলসন
+lta	লতা
+ltar	লোথার
+ltas	লোটাস
+lu	লু
+luis	লুইস
+luk	লুক
+luka	লুকাও লুকা
+lukan	লুকানো
+lukanr	লুকানোর
+lukas	লুকাস
+lukate	লুকাতে
+lukcuri	লুকোচুরি
+lukik	অলৌকিক
+lukis	লুকিস
+lukiye	লুকিয়ে
+lukn	লুকোনো
+lukte	লুকোতে
+lup	লুপ
+lupin	লুপিন
+lura	লউরা
+lurar	লউরার
+lusi	লুসি
+lusinda	লুসিন্ডা
+lusiyas	লুসিয়াস
+lut	লুট
+lutar	লুথার
+m	মম ম মোঃ ১ম মো ওম ম্মম মমম
+ma	মা মাও
+mac	মাছ মাচো
+macer	মাছের
+maci	মাছি
+macli	মাছলি
+madar	মাদার
+madarc	মাদারচো
+madarcd	মাদারচোদ
+madarct	মাদারচোত
+madblad	মাডব্লাড
+madjakrsn	মাধ্যাকর্ষণ
+madjm	মাধ্যম
+madjme	মাধ্যমে
+madjmei	মাধ্যমেই
+madk	মাদক
+madurai	মাদুরাই
+mag	মাগো
+magi	মাগী
+magl	মাগল
+mahima	মাহিমা
+mahir	মাহির
+mahmud	মাহমুদ
+mai	মাই
+maik	মাইক
+maikel	মাইকেল
+maiki	মাইকি
+maikrpn	মাইক্রোফোন
+maikrpt	মাইক্রফট
+mail	মাইল
+mailer	মাইলের
+main	মাইন
+maind	মাইন্ড
+mair	মাইর
+maira	মাইরা
+mairala	মাইরালা
+mairi	মাইরি
+maiya	মাইয়া
+maj	মাঝ
+majamaji	মাঝামাঝি
+majari	মাঝারি
+maje	মাঝে মাঝেও
+majei	মাঝেই
+majemaje	মাঝেমাঝে
+majemdje	মাঝেমধ্যে
+majer	মাঝের
+majkane	মাঝখানে
+majrate	মাঝরাতে
+make	মাকে
+makn	মাখন
+makrsa	মাকড়সা
+makrsar	মাকড়সার
+makunga	মাকুঙ্গা
+mal	মাল
+malamal	মালামাল
+malar	মালার
+malayali	মালায়ালি
+malik	মালিক
+maliker	মালিকের
+malptr	মালপত্র
+malta	মালটা
+mama	মামা মাম্মা
+mamar	মামার
+mami	মাম্মি
+mamla	মামলা
+mamlar	মামলার
+mamlata	মামলাটা
+mamlay	মামলায়
+mamni	মামনি মামণি
+mamuli	মামুলি
+man	মান
+mana	মানা
+manabe	মানাবে
+manansi	মানানসই
+manay	মানায়
+manb	মানব
+manbe	মানবে
+manbik	মানবিক
+manbjati	মানবজাতি
+manbjatike	মানবজাতিকে
+manbjatir	মানবজাতির
+manbtar	মানবতার
+manci	মানছি
+mancitr	মানচিত্র
+mancitre	মানচিত্রে
+mancitrer	মানচিত্রের
+mane	মানে
+manei	মানেই
+maner	মানের
+mangs	মাংস মাংশ
+mangser	মাংসের
+mani	মানি
+manibjag	মানিব্যাগ
+maniy	মাননীয়
+maniya	মাননীয়া
+maniye	মানিয়ে
+maniyece	মানিয়েছে
+manj	অমান্য মান্য
+manlam	মানলাম
+mansik	মানসিক
+mansikbabe	মানসিকভাবে
+mante	মানতে
+mantei	মানতেই
+manubai	মানুভাই
+manus	মানুষ মানুষও
+manusder	মানুষদের
+manuser	মানুষের
+manusera	মানুষেরা
+manusgul	মানুষগুলো
+manusgulr	মানুষগুলোর
+manusi	মানুষই
+manusjn	মানুষজন
+manuske	মানুষকে
+manusra	মানুষরা
+manusta	মানুষটা
+manustake	মানুষটাকে
+manustar	মানুষটার
+manusti	মানুষটি
+manustike	মানুষটিকে
+map	মাফ মাপ
+maper	মাপের
+mapiya	মাফিয়া
+mapiyar	মাফিয়ার
+mar	মার মারো
+mara	মারা
+maramari	মারামারি
+maramarir	মারামারির
+marar	মারার
+maratmk	মারাত্মক
+maratnk	মারাত্নক
+marb	মারবো মারব
+marbe	মারবে
+marben	মারবেন
+marbi	মারবি
+marc	মার্চ মারছ
+marce	মারছে
+marci	মারছি
+marcisn	মারচিসন
+mardr	মারধোর
+mare	মারে
+maren	মারেন
+mareni	মারেনি
+margaret	মার্গারেট
+mari	মারি
+maris	মারিস
+mariya	মারিয়া
+mark	মার্ক
+marka	মার্কা
+markaj	মারকাজ
+markar	মার্কার
+markas	মার্কাস
+market	মার্কেট
+markete	মার্কেটে
+markin	মার্কিন
+marl	মারলো মারল
+marla	মার্লা
+marlam	মারলাম
+marle	মারলে
+marli	মারলি
+marlin	মার্লিন
+marp	মার্ফ
+marpi	মারফি
+marsal	মার্শাল
+marsedij	মার্সেডিজ
+marselas	মারসেলাস
+marta	মার্থা মারথা
+marte	মারতে
+marti	মারটি
+martin	মারটিন মার্টিন
+martini	মার্টিনি
+marun	মারুন
+mas	মাস
+masaalah	মাশাআল্লাহ
+mase	মাসে
+masei	মাসেই
+maser	মাসের
+masi	মাসি
+mask	মাস্ক
+masrum	মাশরুম
+mastar	মাস্টার মাষ্টার
+mastarer	মাস্টারের
+masul	মাশুল
+masum	মাসুম
+mat	মাঠ
+mata	মাথা মাতা
+matabjta	মাথাব্যথা
+matal	মাতাল
+matamta	মাথামোটা
+matar	মাথার
+matata	মাথাটা মাতাতা
+matay	মাথায়
+mate	মাঠে
+mater	মাঠের
+mati	মাটি
+matikaya	ওমাটিকায়া
+matir	মাটির
+matite	মাটিতে
+matr	মাত্র
+matra	মাত্রা
+matrar	মাত্রার
+matray	মাত্রায়
+matri	মাত্রই
+maui	মাউই
+maunt	মাউন্ট
+maunten	মাউন্টেন
+maya	মায়া
+mayer	মায়ের
+mayere	মায়েরে
+mbail	মোবাইল
+mbaile	মোবাইলে
+mbailer	মোবাইলের
+mbati	মোমবাতি
+md	মদ মোড
+mdel	মডেল
+mdeler	মডেলের
+mder	মদের
+mdi	মডি
+mdiul	মডিউল
+mdj	মধ্য
+mdje	মধ্যে মধ্যেও
+mdjei	মধ্যেই
+mdjkar	মধ্যকার
+mdjrate	মধ্যরাতে
+mdu	মধু
+mdur	মধুর
+me	মে
+mebis	মেভিস
+med	মেড
+meda	মেধা
+medabi	মেধাবী
+medar	মেধার
+medel	মেডেল
+medik	মেডিক
+medikel	মেডিকেল
+medikjal	মেডিক্যাল
+medisin	মেডিসিন
+meg	মেঘ
+megamaind	মেগামাইন্ড
+meger	মেঘের
+mehman	মেহমান
+meil	মেইল
+mein	মেইন
+mejaj	মেজাজ
+meje	মেঝে
+mejete	মেঝেতে
+mejr	মেজর
+mekanik	মেকানিক
+mekap	মেকআপ
+meke	মেখে
+meksik	মেক্সিকো
+meksikan	মেক্সিকান
+meksikr	মেক্সিকোর
+meksikte	মেক্সিকোতে
+mela	মেলা
+melate	মেলাতে
+melbin	মেলবিন
+mele	মেলে
+melmjan	মেলম্যান
+mem	মেম
+memar	মেমার
+membar	মেম্বার
+memri	মেমোরি মেমরি
+mene	মেনে
+mental	মেন্টাল
+mer	মেরো
+meramt	মেরামত
+meramter	মেরামতের
+mere	মেরে
+merec	মেরেছ মেরেছো
+merece	মেরেছে
+merecen	মেরেছেন
+mereci	মেরেছি
+merecil	মেরেছিল
+merecilam	মেরেছিলাম
+merecis	মেরেছিস
+merei	মেরেই
+meri	মেরি মেরী
+merida	মেরিডা
+merin	মেরিন
+merir	মেরীর
+merit	মেরিট
+mesej	মেসেজ
+mesejta	মেসেজটা
+mesin	মেশিন
+mesinder	মেশিনদের
+mesine	মেশিনে
+mesiner	মেশিনের
+mesinta	মেশিনটা
+met	মেট
+metate	মেটাতে
+meti	মেথিও
+metr	মেট্রো
+metrmjan	মেট্রোম্যান
+meyad	মেয়াদ
+meye	মেয়ে মেয়েও
+meyeder	মেয়েদের
+meyei	মেয়েই
+meyeke	মেয়েকে
+meyer	মেয়ের
+meyera	মেয়েরা
+meyeta	মেয়েটা
+meyetake	মেয়েটাকে
+meyetar	মেয়েটার
+meyeti	মেয়েটি
+meyetike	মেয়েটিকে
+meyetir	মেয়েটির
+meyr	মেয়র
+mgj	মগজ
+mha	মহা
+mhabisber	মহাবিশ্বের
+mhadya	মহাদয়া
+mhakase	মহাকাশে
+mhakrs	মহাকর্ষ
+mhamanj	মহামান্য
+mhamari	মহামারী
+mhamd	মোহাম্মদ
+mhan	মহান
+mhapracirer	মহাপ্রাচীরের
+mharaj	মহারাজ
+mharani	মহারাণী
+mhasagr	মহাসাগর
+mhasagre	মহাসাগরে
+mhasagrer	মহাসাগরের
+mhasy	মহাশয়
+mhdygn	মহোদয়গণ
+mhila	মহিলা
+mhilader	মহিলাদের
+mhilake	মহিলাকে
+mhilar	মহিলার
+mhilara	মহিলারা
+mhilata	মহিলাটা
+mhilati	মহিলাটি
+mhilatike	মহিলাটিকে
+mhima	মহিমা
+mhimanbit	মহিমান্বিত
+mhin	মহিন
+mht	মহৎ
+mi	মি মিঃ
+mid	মিদো
+miden	মৈদেন
+midiya	মিডিয়া
+midiyar	মিডিয়ার
+mik	মিক
+miki	মিকি
+mil	মিল
+mila	মিলা
+milar	মিলার
+milarer	মিলারের
+milce	মিলছে
+mile	মিলে
+milece	মিলেছে
+milin	মিলিওন
+milit	মিলিত
+militari	মিলিটারি
+militarir	মিলিটারির
+miliye	মিলিয়ে
+miliyn	মিলিয়ন
+miliyner	মিলিয়নের
+mils	মিলস মিলসঃ মিলোস
+min	মিন
+mina	মিনা
+minama	মিনাম্মা
+minar	মিনার
+minh	মিনহো
+ministar	মিনিস্টার
+minit	মিনিট
+minite	মিনিটে
+miniter	মিনিটের
+miniyn	মিনিয়ন
+minti	মিনতি
+mira	মইরা
+mire	মিরে
+mis	মিস মিস্
+misail	মিসাইল
+mise	মিশে
+misel	মিশেল
+mises	মিসেস
+mising	মিসিং
+misiye	মিশিয়ে
+misn	মিশন
+misne	মিশনে
+misner	মিশনের
+misnta	মিশনটা
+misrer	মিশরের
+mistar	মিস্টার
+misti	মিষ্টি মিস্টি
+mistik	মিস্টিক
+mitar	মিটার
+mitarer	মিটারের
+mitate	মিটাতে
+mite	মিটে
+mitila	মিথিলা
+miting	মিটিং
+mitingye	মিটিংয়ে
+mitiye	মিটিয়ে
+mitja	মিথ্যা
+mitjabadi	মিথ্যাবাদী
+mitjar	মিথ্যার
+mitje	মিথ্যে
+mitjuk	মিথ্যুক
+mitmat	মিটমাট
+mitra	মিত্রা
+mitran	মিত্রান মিথ্রান
+miu	মিউ
+miujik	মিউজিক
+miujiyam	মিউজিয়াম
+miujiyame	মিউজিয়ামে
+miutjant	মিউট্যান্ট
+miutjantder	মিউট্যান্টদের
+miutjanter	মিউট্যান্টের
+miutjantra	মিউট্যান্টরা
+miya	মিয়া মিয়াঁ
+miyar	মিয়ার
+mja	মজা মোজা
+mjac	ম্যাচ
+mjadam	ম্যাডাম
+mjadamer	ম্যাডামের
+mjadamke	ম্যাডামকে
+mjadar	মজাদার
+mjade	ম্যাডে
+mjadi	ম্যাডি
+mjagajin	ম্যাগাজিন
+mjagi	ম্যাগি
+mjai	মজাই
+mjajik	ম্যাজিক
+mjakgnagl	ম্যাকগোনাগল
+mjaks	ম্যাক্স
+mjal	ম্যাল
+mjalekit	ম্যালেকিথ
+mjalena	ম্যালেনা
+mjali	ম্যালি
+mjalkm	ম্যালকম
+mjalpy	ম্যালফয়
+mjam	ম্যাম
+mjambike	মোজাম্বিকে
+mjan	ম্যান
+mjanej	ম্যানেজ
+mjanejar	ম্যানেজার
+mjaner	ম্যানের
+mjanhatn	ম্যানহাটন
+mjanuyal	ম্যানুয়াল
+mjap	ম্যাপ
+mjape	ম্যাপে
+mjar	মজার
+mjari	ম্যারি
+mjariyn	ম্যারিয়ন
+mjasej	ম্যাসেজ
+mjat	ম্যাট
+mjata	মজাটা
+mjatriks	ম্যাট্রিক্স
+mjatrikse	ম্যাট্রিক্সে
+mjatrikser	ম্যাট্রিক্সের
+mjbut	মজবুত
+mjud	মজুদ
+mkabela	মোকাবেলা
+mkabila	মোকাবিলা
+mkadar	মোকাদ্দার
+mke	মমকে
+mkel	মক্কেল
+mkeler	মক্কেলের
+mksm	মোক্ষম
+ml	মল
+mle	মলে
+mli	মলি
+mlk	মোলক
+mlker	মোলকের
+mn	মন অমন
+mnbab	মনোভাব
+mnbl	মনোবল
+mnc	মঞ্চ
+mnce	মঞ্চে
+mncer	মঞ্চের
+mnd	মন্দ
+mndir	মন্দির
+mndire	মন্দিরে
+mndirer	মন্দিরের
+mne	মনে মনেও
+mnehy	মনেহয়
+mnei	মনেই
+mnekr	মনেকর
+mnekri	মনেকরি
+mner	মনের
+mngeya	মঙ্গেয়া
+mngl	মঙ্গল
+mnglbar	মঙ্গলবার
+mngler	মঙ্গলের
+mni	মণি মনই
+mnib	মনিব
+mnik	মনিক
+mnika	মনিকা
+mnitr	মনিটর
+mnjg	মনোযোগ মনযোগ
+mnjgi	মনোযোগী
+mnjur	মঞ্জুর
+mnke	মনকে
+mnmugdkr	মনোমুগ্ধকর
+mnrm	মনোরম
+mnstar	মনস্টার
+mnta	মনটা
+mntbj	মন্তব্য
+mntr	মন্ত্র
+mntri	মন্ত্রী
+mntrir	মন্ত্রীর
+mntrnaly	মন্ত্রণালয়
+mntrnalyer	মন্ত্রণালয়ের
+mnu	মনু
+mnusj	মনুষ্য
+mnusjsrist	মনুষ্যসৃষ্ট
+mr	মর ওমর মোর অমর মোড় মরো
+mra	মরা মোরা
+mrales	মোরালেস
+mrar	মরার
+mrb	মরবো মরব
+mrbe	মরবে
+mrbena	মরবেনা
+mrbi	মরবি
+mrci	মরছি
+mrdrer	মর্ডরের
+mrdu	মরডু
+mre	মরে
+mrece	মরেছে
+mrei	মরেই
+mreni	মরেনি
+mrg	মোরগ
+mrganake	মরগানাকে
+mrge	মর্গে
+mri	মরি মোরি
+mridu	মৃদু
+mriduhasi	মৃদুহাসি
+mris	মরিস
+mrit	মৃত
+mritdeh	মৃতদেহ
+mritder	মৃতদের
+mritju	মৃত্যু
+mritjubrn	মৃত্যুবরণ
+mritjudnd	মৃত্যুদণ্ড
+mritjui	মৃত্যুই
+mritjuke	মৃত্যুকে
+mritjur	মৃত্যুর
+mritjuta	মৃত্যুটা
+mritjute	মৃত্যুতে
+mritra	মৃতরা
+mriya	মরিয়া
+mriyarti	মরিয়ার্টি
+mrjada	মর্যাদা
+mrji	মর্জি
+mrle	মরলে
+mrm	মর্ম
+mrmaht	মর্মাহত
+mrmantik	মর্মান্তিক
+mrn	মরণ মরন
+mrning	মর্নিং
+mrpiyas	মর্ফিয়াস
+mrte	মরতে মরতেও
+mrtei	মরতেই
+mrti	মরটি
+mrubumi	মরুভূমি
+mrubumir	মরুভূমির
+mrubumite	মরুভূমিতে
+msa	মশা
+msai	মশাই
+msiur	মশিউর
+msjiur	মশ্যিউর
+msk	মস্কো
+mskra	মশকরা
+mskte	মস্কোতে
+msla	মসলা
+msrin	মসৃণ
+mstisk	মস্তিষ্ক
+mstiske	মস্তিষ্কে
+mstisker	মস্তিষ্কের
+mt	মত মতো মোট মোটো মঠ
+mta	মোটা
+mtabek	মোতাবেক
+mtamt	মতামত
+mtamuti	মোটামুটি
+mtbed	মতভেদ
+mte	মতে মোটেও
+mtei	মোটেই
+mter	মঠের
+mti	মতই মতোই
+mtku	মোটকু
+mtlb	মতলব
+mtn	মতন
+mtr	মোটর মোটোর
+mub	মুভ
+mubi	মুভি
+mubir	মুভির
+mubite	মুভিতে
+mubiti	মুভিটি
+muce	মুছে
+mud	মুড
+mude	মুডে
+mudra	মুদ্রা
+mugd	মুগ্ধ
+muhurt	মুহূর্ত মুহুর্ত
+muhurte	মুহূর্তে মুহুর্তে মূহুর্তে
+muhurtei	মুহূর্তেই
+muhurter	মুহূর্তের মুহুর্তের
+mui	মুই
+muk	মুখ
+muke	মুখে
+muker	মুখের
+mukj	মুখ্য
+mukjmntri	মুখ্যমন্ত্রী
+mukmuki	মুখোমুখি
+muks	মুখোশ
+mukser	মুখোশের
+muksta	মুখোশটা
+mukt	মুক্ত
+mukta	মুখটা মুক্তা
+mukti	মুক্তি
+muktir	মুক্তির
+mukut	মুকুট
+mukuter	মুকুটের
+mul	মূল
+mulik	মৌলিক
+mulj	মূল্য অমূল্য মুল্য
+muljayn	মূল্যায়ন
+muljban	মূল্যবান
+mulje	মূল্যে
+muljer	মূল্যের
+muljhin	মূল্যহীন
+mult	মূলত
+mumbai	মুম্বাই
+mumbaiyer	মুম্বাইয়ের
+mun	মুন
+munapa	মুনাফা
+muni	মুন্নী মুন্নি
+mupasa	মুফাসা
+murgi	মুরগী মুরগি
+murgir	মুরগির মুরগীর
+murk	মূর্খ
+murti	মূর্তি
+musa	মুসা
+muskil	মুশকিল মুস্কিল
+muslim	মুসলিম
+muslman	মুসলমান
+muty	মুঠোয়
+myana	মোয়ানা
+mydane	ময়দানে
+myla	ময়লা
+mylar	ময়লার
+myna	ময়না
+n	নও অন নন নো ন
+na	না নাও ওনা
+nabik	নাবিক
+nabikder	নাবিকদের
+nabrski	নাভোরস্কি
+nac	নাচ নাচো
+nacanaci	নাচানাচি
+nacb	নাচবো
+nacbe	নাচবে
+nace	নাচে নাচছে
+nacer	নাচের
+naci	নাচি
+nacte	নাচতে
+nagaler	নাগালের
+nagrik	নাগরিক
+nagrikder	নাগরিকদের
+nah	নাহ নাহ্
+nahle	নাহলে
+nahy	নাহয়
+nai	নাই
+naile	নাইলে
+nain	নাইন
+nais	নাইস
+nait	নাইট
+najap	নাজাফ
+nak	নাক
+nake	ওনাকে নাকে
+naker	নাকের
+naki	নাকি
+nala	নালা
+nalis	নালিশ
+nam	নাম নামো নামও নামঃ
+nama	নামাও নামা
+naman	নামান
+namar	নামার
+namate	নামাতে
+namb	নামবো
+nambar	নাম্বার
+nambare	নাম্বারে
+nambarer	নাম্বারের
+nambargul	নাম্বারগুলো
+nambarta	নাম্বারটা
+nambe	নামবে
+namce	নামছে
+name	নামে নামেও
+namei	নামেই
+namer	নামের
+namgul	নামগুলো
+nami	নামই
+namiye	নামিয়ে
+namk	নামক
+namkrn	নামকরণ
+namle	নামলে
+namta	নামটা
+namte	নামতে
+namti	নামটি
+namun	নামুন
+nana	নানা
+nanan	নানান
+nandu	নান্দু
+nanu	নানু
+nap	নাপ
+nar	ওনার অনার
+nara	ওনারা নাড়া
+narbas	নার্ভাস
+nare	নারে
+nari	নারী
+nariburi	নাড়িভুঁড়ি
+narider	নারীদের
+narike	নারীকে
+narikel	নারিকেল
+narir	নারীর
+narniyar	নারনীয়ার নার্নিয়ার
+nars	নার্স
+nasa	নাসা
+nasta	নাস্তা
+nastar	নাস্তার
+nastik	নাস্তিক
+nat	নাতো অনাথ
+natasa	নাতাশা
+nati	নাতি
+natk	নাটক
+natker	নাটকের
+nayer	নায়ের
+nayk	নায়ক
+nba	নোভা
+nbab	নবাব
+nbembr	নভেম্বর
+nbi	নবী
+nbir	নবীর
+nbrs	নববর্ষ
+ncl	অঞ্চল
+ncle	অঞ্চলে
+ncler	অঞ্চলের
+nd	অন্ধ
+ndi	নদী
+ndir	নদীর
+ndite	নদীতে
+ndkar	অন্ধকার
+ndkare	অন্ধকারে
+ndkarer	অন্ধকারের
+ne	নে নেও
+neb	নেব নেবো
+nebar	নেবার
+nebe	নেবে
+neben	নেবেন
+nebigesn	নেভিগেশন
+nebil	নেভিল
+ned	নেড
+negetib	নেগেটিভ
+nei	নেই
+neini	নেইনি
+nek	অনেক
+nekbar	অনেকবার
+nekdin	অনেকদিন
+neke	অনেকে
+nekei	অনেকেই
+neker	অনেকের
+nekgul	অনেকগুলো
+nekicu	অনেককিছু
+nekre	নেকড়ে
+neksn	অনেকক্ষণ
+nekst	নেক্সট
+nekta	অনেকটা
+nektai	অনেকটাই
+nelsn	নেলসন
+nem	নেম
+neme	নেমে
+nemece	নেমেছে
+nen	নেন
+nepliyn	নেপোলিয়ন
+nesa	নেশা
+nesakr	নেশাখোর
+nesay	নেশায়
+neta	নেতা
+netader	নেতাদের
+netar	নেতার
+netritb	নেতৃত্ব
+netritbe	নেতৃত্বে
+netyark	নেটওয়ার্ক
+ney	নেয়
+neya	নেয়া নেওয়া
+neyar	নেওয়ার নেয়ার
+neyni	নেয়নি
+neytiri	নেয়তিরি
+ng	নং অঙ্গ
+ngd	নগদ
+ngikar	অঙ্গীকার
+ngkur	অঙ্কুর
+ngn	নগ্ন
+ngnj	নগন্য
+ngra	নোংরা
+ngri	নগরী
+ngs	অংশ
+ngse	অংশে
+ngser	অংশের
+ngsgrhn	অংশগ্রহণ
+ngsidar	অংশীদার
+ngsta	অংশটা
+ngsti	অংশটি
+ni	নি নই নিও ওনি
+nib	নিব নিবো
+nibe	নিবে নিভে
+niben	নিবেন
+nibi	নিবি
+nibiye	নিভিয়ে
+nibndn	নিবন্ধন
+nic	নিচ নিচ্ছ নিচ্ছো
+nice	নিচে নিচ্ছে নীচে
+nicei	নিচেই
+nicen	নিচ্ছেন
+nicer	নিচের
+nici	নিচ্ছি নিছি
+nicilam	নিচ্ছিলাম
+nicis	নিচ্ছিস
+nick	নিছক
+nictlay	নিচতলায়
+nicu	নিচু
+nidralu	নিদ্রালু
+nidrsn	নিদর্শন
+nigr	নিগ্রো নিগ্রোর
+nigra	নিগ্রোরা
+nigrder	নিগ্রোদের
+niht	নিহত
+nii	নিই
+nij	নিজ
+nije	নিজে নিজেও
+nijeder	নিজেদের
+nijederke	নিজেদেরকে
+nijei	নিজেই
+nijeke	নিজেকে
+nijekei	নিজেকেই
+nijer	নিজের নিজেরও
+nijera	নিজেরা
+nijerai	নিজেরাই
+nijere	নিজেরে
+nijeri	নিজেরই
+nijerta	নিজেরটা
+nijsb	নিজস্ব
+nijukt	নিযুক্ত
+nik	নিক
+nikarsn	নিকারসন
+nikj	নিখোঁজ
+niklas	নিকোলাস
+niksep	নিক্ষেপ
+nikt	নিকট
+nikte	নিকটে
+nikuci	নিকুচি
+nikut	নিখুঁত
+nil	নীল নিলো নিল
+nilam	নিলাম
+nile	নইলে নিলে
+nilen	নিলেন
+nimntrn	নিমন্ত্রণ
+nin	নিন
+nina	নিনা নিওনা
+ninda	নিন্দা
+niramy	নিরাময়
+nirapd	নিরাপদ
+nirapde	নিরাপদে
+nirapdei	নিরাপদেই
+nirapta	নিরাপত্তা
+niraptar	নিরাপত্তার
+niraptay	নিরাপত্তায়
+niras	নিরাশ
+nirb	নীরব
+nirbacit	নির্বাচিত
+nirbacn	নির্বাচন
+nirbacne	নির্বাচনে
+nirbacner	নির্বাচনের
+nirbasit	নির্বাসিত
+nirbd	নির্বোধ
+nirbejal	নির্ভেজাল
+nirbr	নির্ভর
+nirbrjgj	নির্ভরযোগ্য
+nirbrsil	নির্ভরশীল
+nirbta	নীরবতা
+nirbul	নির্ভুল
+nirdarit	নির্ধারিত
+nirdarn	নির্ধারণ
+nirdes	নির্দেশ
+nirdesabli	নির্দেশাবলী
+nirdese	নির্দেশে
+nirdesna	নির্দেশনা
+nirdist	নির্দিষ্ট
+nirds	নির্দোষ
+nirdy	নির্দয়
+nirgat	নির্ঘাত
+nirih	নিরীহ
+nirjatn	নির্যাতন
+nirjatner	নির্যাতনের
+nirjn	নির্জন
+nirlj	নির্লজ্জ
+nirm	নির্মম
+nirman	নির্মাণ
+nirmata	নির্মাতা নির্মাতাঃ
+nirmbabe	নির্মমভাবে
+nirmit	নির্মিত
+nirny	নির্ণয়
+nirstr	নিরস্ত্র
+nis	নিস
+nisa	নিসা
+nisana	নিশানা
+nisbas	নিঃশ্বাস নিশ্বাস
+nisci	নিশ্চই
+niscihn	নিশ্চিহ্ন
+niscint	নিশ্চিন্ত
+niscinte	নিশ্চিন্তে
+niscit	নিশ্চিত অনিশ্চিত
+niscitbabe	নিশ্চিতভাবে
+niscup	নিশ্চুপ
+niscy	নিশ্চয়
+niscyi	নিশ্চয়ই
+niscyta	নিশ্চয়তা
+nised	নিষেধ
+nises	নিঃশেষ
+nisid	নিষিদ্ধ
+niskriy	নিষ্ক্রিয়
+nisndehe	নিঃসন্দেহে
+nisng	নিঃসঙ্গ
+nispap	নিষ্পাপ
+nistar	নিস্তার
+nistur	নিষ্ঠুর
+nit	নিতো নিত
+nitam	নিতাম
+nite	নিতে
+nitei	নিতেই
+niti	নীতি
+nitik	অনৈতিক
+niu	নিউ
+niuiyrk	নিউইয়র্ক
+niuj	নিউজ
+niukliyar	নিউক্লিয়ার
+niutn	নিউটন
+niy	নিয়ো
+niya	নিয়া
+niye	নিয়ে নিয়েও
+niyec	নিয়েছ নিয়েছো
+niyece	নিয়েছে
+niyecen	নিয়েছেন
+niyeci	নিয়েছি
+niyecil	নিয়েছিল নিয়েছিলো
+niyecilam	নিয়েছিলাম
+niyecile	নিয়েছিলে
+niyecilen	নিয়েছিলেন
+niyecis	নিয়েছিস
+niyei	নিয়েই
+niyen	নিয়েন
+niyg	নিয়োগ
+niyjit	নিয়োজিত
+niym	নিয়ম
+niyme	নিয়মে
+niymer	নিয়মের
+niymgul	নিয়মগুলো
+niymit	নিয়মিত
+niyntrit	নিয়ন্ত্রিত
+niyntrn	নিয়ন্ত্রণ নিয়ন্ত্রন
+niyntrne	নিয়ন্ত্রণে নিয়ন্ত্রনে
+niyntrner	নিয়ন্ত্রণের নিয়ন্ত্রনের
+niyti	নিয়তি
+nj	অন্য অনন্য
+njaj	ন্যায্য
+njangta	ন্যাংটা
+njanj	অন্যান্য
+njanjder	অন্যান্যদের
+njasnal	ন্যাশনাল
+njay	ন্যায় অন্যায়
+njaybicar	ন্যায়বিচার
+njbabe	অন্যভাবে
+njder	অন্যদের
+njderke	অন্যদেরকে
+njdike	অন্যদিকে
+njer	অন্যের
+njkar	অন্যকারো
+njke	অন্যকে
+njkeu	অন্যকেউ
+njkicu	অন্যকিছু
+njkn	অন্যকোন
+njkta	অন্যকোথাও
+njn	অন্যজন
+njr	নজর
+njra	অন্যরা
+njrdari	নজরদারি
+njrdarir	নজরদারির
+njrdarite	নজরদারিতে
+njre	নজরে
+njrkm	অন্যরকম
+njta	অন্যটা
+njtay	অন্যথায়
+njtm	অন্যতম
+njudls	ন্যুডলস
+nk	নক নখ
+nker	নখের
+nkl	নকল
+nksa	নকশা
+nkstr	নক্ষত্র
+nkstrer	নক্ষত্রের
+nlain	অনলাইন
+nlaine	অনলাইনে
+nmbr	নম্বর
+nmbrta	নম্বরটা
+nmr	নম্র
+nmskar	নমস্কার
+nmuna	নমুনা
+nr	নড়ো
+nracra	নড়াচড়া
+nrbe	নড়বে
+nrbena	নড়বেনা
+nrce	নড়ছে
+nri	নরি
+nrisngs	নৃশংস
+nritj	নৃত্য
+nrk	নরক
+nrke	নরকে
+nrker	নরকের
+nrm	নরম নর্ম
+nrmal	নরমাল
+nrmjan	নরম্যান
+nrt	নর্থ
+nrtap	নর্থাপ
+nrte	নড়তে
+nrtk	অনর্থক
+ns	নস
+nst	নষ্ট
+nt	অন্তত অনন্ত নোট নত অন্তঃত
+nthin	অন্তহীন
+nti	নথি
+ntim	অন্তিম
+ntis	নোটিশ
+ntjanu	নতজানু
+ntkal	অনন্তকাল
+ntr	অন্তর
+ntrbukt	অন্তর্ভুক্ত
+ntre	অন্তরে
+ntrer	অন্তরের
+ntrgt	অন্তর্গত
+ntuba	নতুবা
+ntun	নতুন
+ntunbabe	নতুনভাবে
+nu	অনু
+nub	অনুভব
+nubad	অনুবাদ অনুবাদঃ
+nubade	অনুবাদেঃ
+nubadk	অনুবাদক অনুবাদকঃ
+nubadkder	অনুবাদকদের
+nubut	অনুভূত
+nubuti	অনুভূতি অনুভুতি
+nubutir	অনুভূতির
+nubutita	অনুভূতিটা
+nugrh	অনুগ্রহ
+nugt	অনুগত
+nujayi	অনুযায়ী
+nuka	নৌকা
+nukar	নৌকার
+nukate	নৌকাতে
+nukay	নৌকায়
+numan	অনুমান
+numdit	অনুমোদিত
+numdn	অনুমোদন
+numit	অনুমিত
+numti	অনুমতি
+numtir	অনুমতির
+nuprbes	অনুপ্রবেশ
+nuprerna	অনুপ্রেরণা
+nupstit	অনুপস্থিত
+nur	নূর
+nurd	অনুরোধ
+nurde	অনুরোধে
+nusare	অনুসারে
+nuscna	অনুশোচনা
+nusena	নৌসেনা
+nusiln	অনুশীলন
+nusndan	অনুসন্ধান
+nusndane	অনুসন্ধানে
+nusrn	অনুসরণ অনুসরন
+nustan	অনুষ্ঠান
+nustane	অনুষ্ঠানে
+nustaner	অনুষ্ঠানের
+nustit	অনুষ্ঠিত
+nutap	অনুতাপ
+nutpt	অনুতপ্ত
+ny	নয়
+nya	নোয়া
+nyeji	নয়েজি
+nyi	নয়ই
+nyt	নয়তো নয়ত
+nyta	নয়টা
+p	অফ পোপ পো ফ পপ
+pa	পা পাও
+pab	পাবো পাব
+paba	পাবা
+pabar	পাবার
+pabe	পাবে
+paben	পাবেন
+pabena	পাবেনা
+pabi	পাবি
+pabl	পাবলো
+pablik	পাবলিক
+pabna	পাবনা
+pac	পাঁচ পাচ্ছ পাচ্ছো পাচ
+paca	পাছা
+pacar	পাচার পাছার
+pacay	পাছায়
+pace	পাচ্ছে
+pacen	পাচ্ছেন
+paci	পাচ্ছি
+pacilam	পাচ্ছিলাম
+pacina	পাচ্ছিনা
+pacis	পাচ্ছিস
+pacjn	পাঁচজন
+pacta	পাঁচটা
+pacti	পাঁচটি
+pad	ফাঁদ
+padar	ফাদার
+pade	ফাঁদে ফাদে
+padri	পাদ্রী
+pagl	পাগল
+pagla	পাগলা
+paglam	পাগলামো
+paglami	পাগলামি পাগলামী
+pagler	পাগলের
+pagli	পাগলী
+pahar	পাহাড়
+pahara	পাহারা
+pahare	পাহাড়ে
+paharer	পাহাড়ের
+pahari	পাহাড়ি
+pai	পাই
+paib	ফাইভ
+paibar	ফাইবার
+paice	পাইছে
+paici	পাইছি
+paijlami	ফাইজলামি
+pail	ফাইল
+pailam	পাইলাম
+paile	ফাইলে
+pailer	ফাইলের
+pailgul	ফাইলগুলো
+pailt	পাইলট
+pailta	ফাইলটা
+pailter	পাইলটের
+pain	ফাইন
+paina	পাইনা
+painal	ফাইনাল
+paini	পাইনি
+paip	পাইপ
+paiper	পাইপের
+pait	ফাইট
+paitar	ফাইটার
+paiye	পাইয়ে
+paj	ফাজ
+paji	পাজি
+pajil	ফাজিল
+pajlam	ফাজলামো
+pajlami	ফাজলামি
+pak	পাক ফাক ফাঁক
+paka	ফাঁকা পাকা পাখা পাক্কা ফাকা
+paki	পাখি ফাঁকি
+pakider	পাখিদের
+pakir	পাখির
+pakira	পাখিরা
+pakistan	পাকিস্তান
+pakistaner	পাকিস্তানের
+pakistani	পাকিস্তানি
+pakiye	পাকিয়ে
+pakra	পাকড়াও
+pal	পাল
+pala	পালা পালাও ফালাও
+palab	পালাবো
+palabar	পালাবার
+palabe	পালাবে
+palace	পালাচ্ছে
+palai	পালাই
+palal	পালালো
+palan	পালানো পালান
+palanr	পালানোর
+palate	পালাতে
+palay	পালায়
+paler	পালের
+palis	পালিশ
+paliye	পালিয়ে
+paliyece	পালিয়েছে
+palk	পালক
+paln	পালন
+pals	পালস
+palta	পাল্টা পাল্টাও
+paltabe	পাল্টাবে
+paltate	পাল্টাতে
+paltay	পাল্টায়
+palte	পাল্টে পালটে
+paltu	ফালতু
+pamp	পাম্প
+pan	পান
+pana	পাওনা
+panc	পাঞ্চ
+pand	ফান্ড
+panga	পাঙ্গা
+pani	পানি পাওনি পানিও পাননি
+panike	পানিকে
+panir	পানির
+panite	পানিতে
+paniy	পানীয়
+panpatr	পানপাত্র
+pap	পাপ
+papa	পাপা
+paper	পাপের
+papi	পাপি পাপ্পি
+par	পারো পার অফার
+para	পারা পাড়া
+parar	পারার
+parb	পারবো পারব
+parba	পারবা
+parbe	পারবে
+parben	পারবেন
+parbena	পারবেনা
+parbi	পারবি
+parbina	পারবিনা
+parbna	পারবনা পারবোনা
+parc	পারছ পারছো
+parce	পারছে
+parcen	পারছেন
+parcena	পারছেনা
+parci	পারছি
+parcilam	পারছিলাম
+parcina	পারছিনা
+parcis	পারছিস
+parcna	পারছনা
+pardrsi	পারদর্শী
+pare	পারে ওপারে পাড়ে
+paren	পারেন
+parena	পারেনা
+pareni	পারেনি পারেননি
+paresn	অপারেশন
+paresne	অপারেশনে
+paresner	অপারেশনের
+paretr	অপারেটর
+parhan	ফারহান
+pari	পারি পাড়ি
+paribarik	পারিবারিক
+parina	পারিনা
+parini	পারিনি
+paris	পারিস
+parisrmik	পারিশ্রমিক
+park	পার্ক
+parkar	পার্কার
+parke	পার্কে পার্ককে
+parker	পার্কের
+parking	পার্কিং
+parl	পার্ল পারলো পারল
+parlam	পারলাম
+parle	পারলে পার্লে পারলেও
+parlei	পারলেই
+parlen	পারলেন
+parlmjan	পার্লম্যান
+parm	ফার্ম
+parmanbik	পারমাণবিক
+parme	ফার্মে
+parna	পারোনা পারনা
+parni	পারোনি পারনি
+parpekt	পারফেক্ট
+parpium	পারফিউম
+pars	পার্স পারস
+parsb	পার্শ্ব
+parsel	পার্সেল
+parsi	পার্সি
+parsiyan	পার্সিয়ান
+parsiyas	পার্সিয়াস
+parsj	পারস্য
+parsnal	পার্সোনাল
+parst	ফার্স্ট
+part	পারতো পারত পার্ট
+partam	পারতাম
+parte	পারতে
+parten	পারতেন
+parti	পার্টি
+partir	পার্টির
+partite	পার্টিতে
+partj	পার্থজ
+partkj	পার্থক্য
+partkjta	পার্থক্যটা
+partnar	পার্টনার
+parts	পার্টস
+paruk	ফারুক
+pas	পাশ পাস ফাঁস ফাস
+pasapasi	পাশাপাশি
+pase	পাশে ওপাশে
+pasei	পাশেই
+paser	পাশের
+pasi	ফাঁসি
+pasir	ফাঁসির
+pasite	ফাঁসিতে
+paspartu	পাস্পারতু
+pasprt	পাসপোর্ট
+past	ফাস্ট
+pasyard	পাসওয়ার্ড
+pat	পাঠ
+pata	পাঠাও পাতা পাত্তা পাঠা
+patab	পাঠাবো পাঠাব
+patabe	পাঠাবে
+patace	পাঠাচ্ছে
+pataci	পাঠাচ্ছি
+patai	পাঠাই
+patal	পাঠালো পাঠাল
+patalen	পাঠালেন
+patan	পাঠানো পাঠান
+patanr	পাঠানোর
+patapati	ফাটাফাটি
+patar	পাতার
+patate	পাঠাতে
+patay	পাঠায় পাতায়
+patema	ফাতেমা
+patiye	পাঠিয়ে ফাটিয়ে
+patiyec	পাঠিয়েছ
+patiyece	পাঠিয়েছে
+patiyecen	পাঠিয়েছেন
+patiyeci	পাঠিয়েছি
+patiyecil	পাঠিয়েছিল
+patiyecilam	পাঠিয়েছিলাম
+patiyecile	পাঠিয়েছিলে
+patl	ফাটল
+patla	পাতলা
+patr	পাথর পাত্র
+patrer	পাথরের
+patrta	পাথরটা
+patu	পাথু
+paudar	পাউডার
+paul	ফাউল
+paund	পাউন্ড
+paunder	পাউন্ডের
+paundesn	ফাউন্ডেশন
+paunten	ফাউন্টেন
+pay	পায়
+paya	পাওয়া
+payar	পাওয়ার ফায়ার
+payaring	ফায়ারিং
+payarpul	পাওয়ারফুল
+payda	ফায়দা
+paye	পায়ে
+payer	পায়ের
+payna	পায়না
+payni	পায়নি
+pbitr	পবিত্র অপবিত্র
+pbn	পবন
+pca	পচা পঁচা
+pce	পচে
+pcnd	পছন্দ অপছন্দ পচ্ছন্দ
+pcnder	পছন্দের
+pcy	অপচয়
+pd	পদ
+pdart	পদার্থ অপদার্থ
+pdatik	পদাতিক
+pdcihn	পদচিহ্ন
+pde	পদে
+pdk	পদক
+pdksep	পদক্ষেপ
+pdti	পদ্ধতি
+pdtir	পদ্ধতির
+pdtite	পদ্ধতিতে
+pdtjag	পদত্যাগ
+pe	পেও পে
+pebarit	ফেভারিট
+pebruyari	ফেব্রুয়ারি
+peca	পেঁচা
+pecn	পেছন
+pecne	পেছনে
+pecner	পেছনের
+pedarel	ফেডারেল
+peg	পেগ
+pegasas	পেগাসাস পেগাসাসঃ
+peint	পেইন্ট
+peinting	পেইন্টিং
+peksa	অপেক্ষা
+peksar	অপেক্ষার
+peksay	অপেক্ষায়
+pel	ফেলো ফেল পেল পেলো ফেলল ফেললো
+pela	ফেলা
+pelam	পেলাম ফেললাম
+pelar	ফেলার
+pelb	ফেলবো ফেলব
+pelbe	ফেলবে
+pelben	ফেলবেন
+pelbi	ফেলবি
+pelc	ফেলছ ফেলছো
+pelce	ফেলছে
+pelci	ফেলছি
+pele	ফেলে পেলে ফেললে
+pelec	ফেলেছ ফেলেছো
+pelece	ফেলেছে
+pelecen	ফেলেছেন
+peleci	ফেলেছি
+pelecil	ফেলেছিল ফেলেছিলো
+pelecilam	ফেলেছিলাম
+pelecile	ফেলেছিলে
+pelecilen	ফেলেছিলেন
+pelecis	ফেলেছিস
+pelei	পেলেই
+pelen	পেলেন
+peli	ফেলি পেলি
+peliks	ফেলিক্স
+pelisiti	ফেলিসিটি
+peliya	অফেলিয়া
+pelt	ফেলত ফেলতো পেল্ট
+peltam	ফেলতাম
+pelte	ফেলতে
+pelun	ফেলুন
+pement	পেমেন্ট
+pena	পেওনা
+penguin	পেঙ্গুইন
+penguinder	পেঙ্গুইনদের
+peni	পেনি
+pensil	পেন্সিল
+pensn	পেনশন
+pepar	পেপার
+pepare	পেপারে
+per	পোপের
+pera	ফেরা
+perar	ফেরার
+pere	পেরে
+perec	পেরেছ পেরেছো
+perece	পেরেছে
+perecen	পেরেছেন
+pereci	পেরেছি
+perecil	পেরেছিল
+perecilam	পেরেছিলাম
+perek	পেরেক
+peresta	ফেরেশতা
+periye	পেরিয়ে
+permul	পেরমুল
+pert	ফেরত ফেরৎ
+pes	পেশ ফেস
+pesa	পেশা
+pesab	পেশাব
+pesadar	পেশাদার
+pesay	পেশায়
+pesbuk	ফেসবুক
+pesbuke	ফেসবুকে
+pese	ফেসে ফেঁসে
+pet	পেট পেত পেতো
+petam	পেতাম
+pete	পেতে পেটে ফেটে
+peter	পেটের
+petrl	পেট্রোল
+petrnam	পেট্রোনাম
+pey	পেয়ো
+peyari	ফেয়ারী
+peye	পেয়ে পেয়েও
+peyec	পেয়েছ পেয়েছো
+peyece	পেয়েছে
+peyecen	পেয়েছেন
+peyeci	পেয়েছি
+peyecil	পেয়েছিল পেয়েছিলো
+peyecilam	পেয়েছিলাম
+peyecile	পেয়েছিলে
+peyecis	পেয়েছিস
+peyja	ফেয়জা
+pg	ফগ
+pger	ফগের
+phrn	অপহরণ অপহরন
+pi	পি ফি
+pibdi	পিবডি
+pic	পীচ
+pica	পিছাও
+pice	পিছে
+pici	পিচ্চি পিচ্ছি
+piciye	পিছিয়ে
+picle	পিছলে
+picn	পিছন
+picne	পিছনে
+picnei	পিছনেই
+picner	পিছনের
+picu	পিছু
+pig	পিগ
+pija	পিজ্জা
+pik	পিক
+pike	পিকে
+piknik	পিকনিক
+piks	ফিক্স
+pil	ফিল পিল
+pild	ফিল্ড
+pili	ফিলি
+pilip	ফিলিপ
+piliyes	ফিলিয়েস
+pilm	ফিল্ম
+pim	পিম
+pin	পিন ফিন
+ping	ফিং পিং
+pingarprint	ফিঙ্গারপ্রিন্ট
+piniks	ফিনিক্স
+pinir	ফইন্নির
+pinle	ফীনলে
+pinta	পিনটা
+pip	পিপ
+piramid	পিরামিড
+pirb	ফিরবো ফিরব
+pirbe	ফিরবে
+pirci	ফিরছি
+pirdaus	ফিরদাউস
+pire	ফিরে
+pirece	ফিরেছে
+piriye	ফিরিয়ে
+pirl	ফিরলো
+pirle	ফিরলে
+pirte	ফিরতে
+pirti	ফিরতি
+pis	অফিস পিস ফিস
+pisac	পিশাচ
+pisar	অফিসার ফিশার
+pisarder	অফিসারদের
+pisarer	অফিসারের ফিশারের
+pisarke	অফিসারকে
+pise	অফিসে পিষে
+piser	অফিসের
+pisiyal	অফিসিয়াল
+pispis	ফিসফিস
+pistk	পিষ্টক
+pistl	পিস্তল
+pistler	পিস্তলের
+pistlta	পিস্তলটা
+pit	ফিট পিট পিঠ
+pita	পিতা পিটা ফিতা পিঠা
+pitamh	পিতামহ
+pitar	পিটার পিতার
+pitarsen	পিটারসেন
+pite	পিঠে
+pitiye	পিটিয়ে
+pitja	পিৎজা
+pitjerald	ফিটজেরাল্ড
+piuri	ফিউরি
+piyan	পিয়ানো
+piyetr	পিয়েত্রো
+pjac	প্যাচ
+pjak	প্যাক
+pjakej	প্যাকেজ
+pjaket	প্যাকেট
+pjaks	প্যাক্স
+pjaktri	ফ্যাক্টরি
+pjaktrir	ফ্যাক্টরির
+pjaktrite	ফ্যাক্টরিতে
+pjaln	ফ্যালন
+pjamili	ফ্যামিলি
+pjamilir	ফ্যামিলির
+pjan	প্যান ফ্যান
+pjandra	প্যান্ডোরা
+pjankek	প্যানকেক
+pjant	প্যান্ট
+pjanter	প্যান্টের
+pjarasut	প্যারাসুট
+pjaris	প্যারিস প্যারিশ ফ্যারিস
+pjarise	প্যারিসে
+pjariser	প্যারিসের
+pjasn	ফ্যাশন
+pjatarn	প্যাটার্ন
+pjati	প্যাটি
+pjatrik	প্যাট্রিক
+pjats	প্যাটস
+pjatsi	প্যাটসি
+pjisn	পজিশন
+pjisne	পজিশনে
+pjl	প্যল
+pka	পোকা
+pkar	পোকার
+pkas	ফোকাস
+pket	পকেট
+pkete	পকেটে
+pkir	ফকির
+pks	পক্ষ ফক্স
+pkse	পক্ষে
+pkser	পক্ষের
+pl	ফল ফলো পল
+pla	পোলা
+plag	ফ্লাগ প্লাগ
+plait	ফ্লাইট
+plaite	ফ্লাইটে
+plaiter	ফ্লাইটের
+plajma	প্লাজমা
+plan	প্লান
+plapain	পোলাপাইন
+plapan	পোলাপান
+plapaner	পোলাপানের
+plapl	ফলাফল
+plard	পোলার্ড
+plastik	প্লাস্টিক
+plastiker	প্লাস্টিকের
+platk	পলাতক
+playar	ফ্লাওয়ার
+ple	ফলে প্লে
+plen	প্লেন
+plene	প্লেনে
+plener	প্লেনের
+pler	ফলের
+plet	প্লেট
+pleyar	প্লেয়ার
+pli	পলি
+plij	প্লিজ প্লীজ
+plin	ফ্লিন
+plir	পলির
+plisi	পলিসি
+plit	ফলিত
+pljan	প্ল্যান
+pljanet	প্ল্যানেট
+pljant	প্ল্যান্ট
+pljanta	প্ল্যানটা
+pljas	ফ্ল্যাশ
+pljat	প্ল্যাট ফ্ল্যাট
+pljate	ফ্ল্যাটে
+plm	পল্লম
+plr	ফ্লোর
+plre	ফ্লোরে
+pman	অপমান
+pmanit	অপমানিত
+pn	ফোন
+pncas	পঞ্চাশ
+pncm	পঞ্চম
+pne	ফোনে
+pner	ফোনের পনের
+pngu	পঙ্গু
+pnir	পনির
+pnj	পণ্য
+pnta	ফোনটা পন্থা
+pr	পর ওপর পড়ো পড় পরো পরও ফ্র অপর
+pra	পড়া পরা পোড়া
+pracin	প্রাচীন
+pracir	প্রাচীর
+pracirer	প্রাচীরের
+prad	অপরাধ
+prade	অপরাধে
+prader	অপরাধের
+pradi	অপরাধী
+pradider	অপরাধীদের
+pradike	অপরাধীকে
+pradir	অপরাধীর
+pradira	অপরাধীরা
+pradmulk	অপরাধমূলক
+prahn	অপরাহ্ন অপরাহ্ণ
+prai	ফ্রাই পড়াই
+praibet	প্রাইভেট
+praim	প্রাইম
+prais	প্রাইস
+prajit	পরাজিত
+prajy	পরাজয়
+prakritik	প্রাকৃতিক
+praktn	প্রাক্তন
+praleka	পড়ালেখা
+pramrs	পরামর্শ
+pramrsdata	পরামর্শদাতা
+pran	প্রাণ প্রান
+prane	প্রাণে
+praner	প্রাণের
+prangati	প্রাণঘাতী
+prangk	ফ্রাঙ্ক
+prani	প্রাণী প্রানী
+pranider	প্রাণীদের প্রানীদের
+pranir	প্রাণীর
+prans	ফ্রান্স
+pranse	ফ্রান্সে
+pranser	ফ্রান্সের
+pransis	ফ্রান্সিস
+pransisk	ফ্রান্সিসকো
+prant	প্রান্ত
+prante	প্রান্তে
+prapj	প্রাপ্য
+prapt	প্রাপ্ত
+prar	পড়ার পরার
+prarti	প্রার্থী
+prartna	প্রার্থনা
+prartnar	প্রার্থনার
+prasad	প্রাসাদ
+prasade	প্রাসাদে
+prasader	প্রাসাদের
+prasi	ফরাসি ফরাসী
+prasna	পড়াশোনা
+prasngik	অপ্রাসঙ্গিক
+prast	পরাস্ত
+prastr	পররাষ্ট্র
+prasuna	পড়াশুনা
+pratmik	প্রাথমিক
+pray	প্রায়
+prayi	প্রায়ই
+prayscit	প্রায়শ্চিত্ত
+prb	পড়বো পর্ব পরবো পড়ব পরব প্রোব
+prbab	প্রভাব
+prbabit	প্রভাবিত
+prbad	প্রবাদ
+prbah	প্রবাহ
+prbahit	প্রবাহিত
+prbe	পড়বে পরবে
+prben	পড়বেন
+prbes	প্রবেশ
+prbesdbar	প্রবেশদ্বার
+prbeser	প্রবেশের
+prbl	প্রবল
+prbriti	প্রবৃত্তি
+prbrti	পরবর্তী
+prbrtite	পরবর্তীতে
+prbt	পর্বত
+prbte	পর্বতে
+prbter	পর্বতের
+prbu	প্রভু
+prbur	প্রভুর
+prc	পড়ছ
+prcar	প্রচার
+prce	পড়ছে পরছে
+prcesta	প্রচেষ্টা
+prci	পড়ছি পরছি
+prclit	প্রচলিত
+prcnd	প্রচন্ড প্রচণ্ড
+prcuna	ফরচুনা
+prcur	প্রচুর
+prd	ফ্রোডো ফর্ড ফোর্ড
+prda	পর্দা
+prdan	প্রধান প্রদান
+prdaner	প্রধানের
+prdanmntri	প্রধানমন্ত্রী
+prdanmntrir	প্রধানমন্ত্রীর
+prdar	পর্দার
+prdes	প্রদেশ
+prdin	পরদিন
+prdrsn	প্রদর্শন
+prdrsni	প্রদর্শনী
+prdrsnir	প্রদর্শনীর
+prdt	প্রদত্ত
+pre	পরে পড়ে ওপরে পরেও
+prec	পড়েছ পরেছ পড়েছো
+prece	পড়েছে পরেছে
+precen	পড়েছেন
+preci	পড়েছি পরেছি
+precil	পড়েছিল পড়েছিলো
+precilam	পড়েছিলাম পরেছিলাম
+precile	পড়েছিলে
+pred	ফ্রেড
+predi	ফ্রেডি
+pregnjant	প্রেগন্যান্ট
+prei	পরেই পড়েই
+prem	প্রেম ফ্রেম
+preme	প্রেমে
+premer	প্রেমের
+premik	প্রেমিক
+premika	প্রেমিকা
+premikake	প্রেমিকাকে
+premikar	প্রেমিকার
+premiker	প্রেমিকের
+pren	পড়েন পরেন
+prenc	ফ্রেঞ্চ
+prend	ফ্রেন্ড
+preni	পড়েনি
+prensik	ফরেনসিক
+prer	পরের অপরের
+prerbar	পরেরবার
+prern	প্রেরণ
+prerna	প্রেরণা
+prerta	পরেরটা
+pres	প্রেস ফ্রেশ
+presar	প্রেসার
+preser	প্রেসের
+president	প্রেসিডেন্ট
+presidenter	প্রেসিডেন্টের
+presidentke	প্রেসিডেন্টকে
+prest	ফরেস্ট
+prestn	প্রেস্টন
+pret	প্রেত
+pretatma	প্রেতাত্মা
+prgram	প্রোগ্রাম
+prgrame	প্রোগ্রামে
+prgramer	প্রোগ্রামের
+prhad	ফরহাদ
+prhri	প্রহরী
+prhrider	প্রহরীদের
+pri	পড়ি পরী ফ্রি পরই পরি
+pribar	পরিবার
+pribare	পরিবারে
+pribarer	পরিবারের
+pribarke	পরিবারকে
+pribes	পরিবেশ
+pribese	পরিবেশে
+pribeser	পরিবেশের
+pribesn	পরিবেশন
+pribhn	পরিবহন
+pribrte	পরিবর্তে
+pribrtit	পরিবর্তিত
+pribrtn	পরিবর্তন
+pribrtner	পরিবর্তনের
+pricalit	পরিচালিত
+pricalk	পরিচালক
+pricalna	পরিচালনা
+pricit	পরিচিত অপরিচিত
+priciti	পরিচিতি
+pricn	পরিচ্ছন্ন
+pricy	পরিচয়
+pricyptr	পরিচয়পত্র
+pridan	পরিধান
+prider	পরীদের
+pridrsk	পরিদর্শক
+pridrsn	পরিদর্শন
+priharj	অপরিহার্য
+prihas	পরিহাস
+prihit	পরিহিত
+prij	ফ্রিজ
+prije	ফ্রিজে
+prijer	ফ্রিজের
+priklpit	পরিকল্পিত
+priklpna	পরিকল্পনা
+priklpnar	পরিকল্পনার
+priklpnata	পরিকল্পনাটা
+priklpnay	পরিকল্পনায়
+priksa	পরীক্ষা পরিক্ষা
+priksamulk	পরীক্ষামূলক
+priksar	পরীক্ষার
+priksay	পরীক্ষায়
+priman	পরিমাণ পরিমান
+primane	পরিমাণে পরিমানে
+primiyar	প্রিমিয়ার
+prinam	পরিণাম
+prins	প্রিন্স
+prinses	প্রিন্সেস
+prinsipal	প্রিন্সিপাল
+print	পরিণত পরিনত প্রিন্ট
+printi	পরিণতি
+pripurn	পরিপূর্ণ
+prir	পরীর
+prisd	পরিশোধ
+prisese	পরিশেষে
+priskar	পরিষ্কার পরিস্কার
+priskarbabe	পরিষ্কারভাবে
+priskarer	পরিষ্কারের
+prisrm	পরিশ্রম
+prisrmer	পরিশ্রমের
+prist	পৃষ্ঠ
+prista	পৃষ্ঠা
+pristay	পৃষ্ঠায়
+pristiti	পরিস্থিতি
+pristitir	পরিস্থিতির
+pristitite	পরিস্থিতিতে
+pristn	প্রিস্টন
+pritibi	পৃথিবী
+pritibike	পৃথিবীকে
+pritibir	পৃথিবীর
+pritibita	পৃথিবীটা
+pritibite	পৃথিবীতে
+pritjag	পরিত্যাগ
+pritjakt	পরিত্যাক্ত
+pritjkt	পরিত্যক্ত
+pritk	পৃথক
+pritran	পরিত্রাণ
+pritraner	পরিত্রাণের
+priy	প্রিয়
+priya	প্রিয়া
+priye	পরিয়ে
+priytm	প্রিয়তম
+priytma	প্রিয়তমা
+prj	প্রযোজ্য
+prjajiyar	ফ্র্যাজিয়ার
+prjaktis	প্র্যাকটিস
+prjangk	ফ্র্যাঙ্ক
+prjangki	ফ্র্যাঙ্কি
+prjapt	পর্যাপ্ত
+prjapti	প্রজাপতি
+prjati	প্রজাতি
+prjatir	প্রজাতির
+prjaye	পর্যায়ে
+prjayer	পর্যায়ের
+prjbeksn	পর্যবেক্ষণ পর্যবেক্ষন
+prjeksn	প্রজেকশন
+prjekt	প্রজেক্ট প্রোজেক্ট
+prjnm	প্রজন্ম
+prjnmer	প্রজন্মের
+prjnt	পর্যন্ত
+prjnti	পর্যন্তই
+prjtk	পর্যটক
+prjukti	প্রযুক্তি
+prjuktir	প্রযুক্তির
+prkar	প্রকার
+prkarer	প্রকারের
+prkas	প্রকাশ
+prkaser	প্রকাশের
+prkasit	প্রকাশিত
+prke	অপরকে
+prklp	প্রকল্প
+prkrit	প্রকৃত
+prkriti	প্রকৃতি
+prkritir	প্রকৃতির
+prkritpkse	প্রকৃতপক্ষে
+prkriya	প্রক্রিয়া
+prkusl	প্রকৌশল
+prkusli	প্রকৌশলী
+prl	পড়লো পড়ল
+prlam	পড়লাম পরলাম
+prle	পড়লে পরলে
+prlubd	প্রলুব্ধ
+prm	পরম ফর্ম
+prman	প্রমাণ প্রমান
+prmaner	প্রমাণের
+prmanit	প্রমাণিত প্রমানিত
+prmanu	পরমাণু
+prme	প্রমে
+prmij	প্রমিজ
+prmjan	ফোরম্যান
+prmsn	প্রমোশন
+prmula	ফর্মুলা
+prpail	প্রোফাইল
+prpesnal	প্রফেশনাল
+prpesr	প্রফেসর
+prpj	প্রপোজ
+prpri	পরপরই
+prs	ফোর্স
+prsab	প্রসাব
+prsant	প্রশান্ত
+prsarit	প্রসারিত
+prser	ফোর্সের
+prset	প্রসেট
+prsikiutr	প্রসিকিউটর
+prsiksit	প্রশিক্ষিত
+prsiksn	প্রশিক্ষণ প্রশিক্ষন
+prsn	প্রশ্ন
+prsner	প্রশ্নের
+prsngsa	প্রশংসা
+prsngul	প্রশ্নগুলো
+prsni	প্রশ্নই
+prsnta	প্রশ্নটা
+prspr	পরস্পর
+prsrab	প্রস্রাব
+prst	প্রস্তত ফ্রস্ট
+prstab	প্রস্তাব
+prstabta	প্রস্তাবটা
+prstan	প্রস্থান
+prsti	প্রস্ততি
+prstut	প্রস্তুত
+prstuti	প্রস্তুতি
+prt	পড়ত পড়তো পোর্ট ফোর্ট
+prta	প্রথা
+prtal	পোর্টাল
+prtam	পড়তাম পরতাম
+prtarit	প্রতারিত
+prtark	প্রতারক
+prtarna	প্রতারণা প্রতারনা
+prtarnar	প্রতারণার
+prte	পড়তে পরতে
+prti	প্রতি
+prtiba	প্রতিভা
+prtibaban	প্রতিভাবান
+prtibad	প্রতিবাদ
+prtibar	প্রতিবার
+prtibari	প্রতিবারই
+prtibasmpn	প্রতিভাসম্পন্ন
+prtibedn	প্রতিবেদন
+prtibedne	প্রতিবেদনে
+prtibesi	প্রতিবেশী
+prtibesider	প্রতিবেশীদের
+prtibndi	প্রতিবন্ধী
+prticbi	প্রতিচ্ছবি
+prtidan	প্রতিদান
+prtidbndbi	প্রতিদ্বন্দ্বী
+prtidbndbita	প্রতিদ্বন্দ্বিতা
+prtidin	প্রতিদিন
+prtidiner	প্রতিদিনের
+prtidini	প্রতিদিনই
+prtihingsa	প্রতিহিংসা
+prtiht	প্রতিহত
+prtijgi	প্রতিযোগী
+prtijgita	প্রতিযোগিতা
+prtijgitar	প্রতিযোগিতার
+prtijgitay	প্রতিযোগিতায়
+prtijna	প্রতিজ্ঞা
+prtik	প্রতীক
+prtikar	প্রতিকার
+prtikriya	প্রতিক্রিয়া
+prtinidi	প্রতিনিধি
+prtiniditb	প্রতিনিধিত্ব
+prtiniyt	প্রতিনিয়ত
+prtipln	প্রতিফলন
+prtird	প্রতিরোধ
+prtirder	প্রতিরোধের
+prtirdj	অপ্রতিরোধ্য
+prtirksa	প্রতিরক্ষা
+prtisd	প্রতিশোধ
+prtisder	প্রতিশোধের
+prtisedk	প্রতিষেধক
+prtisruti	প্রতিশ্রুতি
+prtista	প্রতিষ্ঠা
+prtistan	প্রতিষ্ঠান
+prtistane	প্রতিষ্ঠানে
+prtistaner	প্রতিষ্ঠানের
+prtistapn	প্রতিস্থাপন
+prtistit	প্রতিষ্ঠিত
+prtita	প্রতিটা
+prtiti	প্রতিটি
+prtjabrtn	প্রত্যাবর্তন
+prtjahar	প্রত্যাহার
+prtjakjan	প্রত্যাখ্যান
+prtjasa	প্রত্যাশা
+prtjasit	অপ্রত্যাশিত
+prtjek	প্রত্যেক
+prtjekbar	প্রত্যেকবার
+prtjekdin	প্রত্যেকদিন
+prtjeke	প্রত্যেকে প্রত্যেককে
+prtjekei	প্রত্যেকেই
+prtjeker	প্রত্যেকের
+prtjekeri	প্রত্যেকেরই
+prtjekta	প্রত্যেকটা
+prtjekti	প্রত্যেকটি
+prtjksdrsi	প্রত্যক্ষদর্শী
+prtkl	প্রোটোকল
+prtm	প্রথম
+prtmbar	প্রথমবার
+prtmbarer	প্রথমবারের
+prtme	প্রথমে
+prtmei	প্রথমেই
+prtmt	প্রথমত
+pruk	পড়ুক
+prun	পড়ুন পরুন
+prya	পরোয়া পরওয়া
+pryg	প্রয়োগ
+pryjn	প্রয়োজন
+pryjne	প্রয়োজনে
+pryjner	প্রয়োজনের
+pryjniy	প্রয়োজনীয় অপ্রয়োজনীয়
+psa	পোষা
+psak	পোশাক পোষাক
+psake	পোশাকে
+psaker	পোশাকের
+psakta	পোশাকটা
+pscim	পশ্চিম
+pscima	পশ্চিমা
+pscime	পশ্চিমে
+pscimer	পশ্চিমের
+pseidner	পসেইডনের
+pske	ফসকে
+psl	ফসল
+psn	অপশন পোষণ
+pst	পোস্ট পোষ্ট
+pstar	পোস্টার ফস্টার
+psu	পশু
+psuder	পশুদের
+psupaki	পশুপাখি
+psur	পশুর
+psusabk	পশুশাবক
+pt	পথ ফটো
+pta	পথটা ফোটা ফোঁটা
+ptaka	পতাকা
+ptanr	পটানোর
+ptar	পটার
+ptarer	পটারের
+ptarke	পটারকে
+ptate	পটাতে
+ptbumi	পটভূমি
+pte	পথে
+ptei	পথেই
+pter	পথের
+ptgrapar	ফটোগ্রাফার
+pti	পথই
+ptik	পথিক
+ptimdje	পথিমধ্যে
+ptit	পতিত
+ptn	পতন
+ptr	পত্র
+ptrika	পত্রিকা
+ptrikar	পত্রিকার
+ptrikay	পত্রিকায়
+pu	ফু ফুঁ
+pucabe	পৌঁছাবে
+pucan	পৌঁছানো
+pucanr	পৌঁছানোর পৌছানোর
+pucate	পৌঁছাতে পৌছাতে
+pucay	পৌছায়
+puce	পৌঁছে পৌছে
+pucece	পৌঁছেছে
+pucecen	পৌঁছেছেন
+puceci	পৌঁছেছি
+pucke	পুঁচকে
+pucte	পৌছতে পৌঁছতে
+pud	ফুড
+puj	ফৌজ
+puja	পুজা পূজা
+pujar	পূজার
+pul	ফুল পুল
+pular	ফুলার
+pule	ফুলে পুলে
+puler	ফুলের
+pulgul	ফুলগুলো
+pulis	পুলিশ পুলিস
+pulisder	পুলিশদের
+pulise	পুলিশে
+puliser	পুলিশের
+puliske	পুলিশকে
+pulisra	পুলিশরা
+pumba	পুমবা
+punprcln	পুনঃপ্রচলন
+punrabriti	পুনরাবৃত্তি
+punray	পুনরায়
+punrudar	পুনরুদ্ধার
+pupa	ফুফা
+pupi	ফুফি
+pupu	ফুফু
+pur	পুরো
+pura	পুরা
+purai	পুরাই
+puran	পুরানো পুরান
+puranik	পৌরাণিক
+puratn	পুরাতন
+purb	পূর্ব অপূর্ব
+purbe	পূর্বে
+purbei	পূর্বেই
+purber	পূর্বের
+purbpurus	পূর্বপুরুষ
+pure	পুড়ে পুরে
+purhit	পুরোহিত
+puri	পুরোই
+puriye	পুড়িয়ে ফুরিয়ে
+purn	পুরনো পূর্ণ পূরণ পুরোনো পূরন পূর্ন পুরন
+purpuri	পুরোপুরি
+purskar	পুরষ্কার পুরস্কার
+purta	পুরোটা
+purtai	পুরোটাই
+purti	ফুর্তি
+puru	পুরু
+purus	পুরুষ
+purusder	পুরুষদের
+puruser	পুরুষের
+pus	পুস পুশ
+pusa	ফুসা
+pusp	পুষ্প
+puspus	ফুসফুস
+put	ফুট পুত ফুটো
+putbe	ফুটবে
+putbl	ফুটবল
+pute	ফুটে পুতে পুঁতে
+putej	ফুটেজ
+putr	পুত্র
+putrer	পুত্রের
+putul	পুতুল
+putuler	পুতুলের
+putulta	পুতুলটা
+puyel	ফুয়েল
+pyda	পয়দা
+pyent	পয়েন্ট
+pysa	পয়সা পয়সাও
+pysala	ফয়সালা
+pysar	পয়সার
+r	ওর র
+ra	ওরা রা ওরাও রাও
+rabar	রাবার
+radagast	রাডাগাস্ট
+radar	রাডার
+radte	রাঁধতে
+rag	রাগ
+raganbit	রাগান্বিত
+rager	রাগের
+ragi	রাগী
+rahul	রাহুল
+rai	ওরাই
+raidar	রাইডার
+raipel	রাইফেল
+rait	রাইট
+raj	রাজ্য রাজ
+raja	রাজা
+rajake	রাজাকে
+rajar	রাজার
+rajdani	রাজধানী
+rajdanir	রাজধানীর
+rajdanite	রাজধানীতে
+raje	রাজ্যে
+rajer	রাজ্যের
+raji	রাজি রাজী
+rajkiy	রাজকীয়
+rajknja	রাজকন্যা
+rajknjake	রাজকন্যাকে
+rajknjar	রাজকন্যার
+rajkumar	রাজকুমার
+rajkumarer	রাজকুমারের
+rajkumari	রাজকুমারী
+rajkumarir	রাজকুমারীর
+rajkumarke	রাজকুমারকে
+rajniti	রাজনীতি
+rajnitibid	রাজনীতিবিদ
+rajnitik	রাজনৈতিক
+rajnitir	রাজনীতির
+rajputr	রাজপুত্র
+rajsahi	রাজশাহী
+rajtb	রাজত্ব
+rak	রাখো রাখ
+raka	রাখা
+rakai	রাখাই
+rakar	রাখার
+rakb	রাখবো রাখব
+rakbe	রাখবে
+rakben	রাখবেন
+rakc	রাখছো রাখছ
+rakce	রাখছে
+rakci	রাখছি
+rakcilam	রাখছিলাম
+rake	রাখে
+raken	রাখেন
+raki	রাখি
+rakib	রাকিব
+rakis	রাখিস
+rakl	ওরাকল রাখলো
+raklam	রাখলাম
+rakle	রাখলে
+raks	রাক্ষস
+rakt	রাখতো
+raktam	রাখতাম
+rakte	রাখতে
+rakun	রাখুন
+ram	রাম
+ramana	রামানা
+ramcagl	রামছাগল
+rames	রামেস
+ran	রান
+rana	রান্না রানা
+ranagr	রান্নাঘর
+ranagre	রান্নাঘরে
+ranar	রানার রান্নার
+rani	রানী রাণী
+ranike	রানীকে
+ranir	রাণীর রানীর
+rap	রাফ
+rapayel	রাফায়েল
+rar	ওড়ার
+rasaynik	রাসায়নিক
+rasiya	রাশিয়া
+rasiyan	রাশিয়ান
+rasiyar	রাশিয়ার
+rasta	রাস্তা
+rastai	রাস্তাই
+rastar	রাস্তার
+rastata	রাস্তাটা
+rastay	রাস্তায়
+rastr	রাষ্ট্র
+rastrer	রাষ্ট্রের
+rastriy	রাষ্ট্রীয়
+rastrpti	রাষ্ট্রপতি
+rat	রাত
+rata	রাতটা
+ratarati	রাতারাতি
+rate	রাতে
+ratei	রাতেই
+rater	রাতের
+ratre	রাত্রে
+ratri	রাত্রি
+raul	রাউল
+raund	রাউন্ড
+ray	রায়
+rayan	রায়ান
+rb	ওর্ব
+rbart	রবার্ট
+rbarter	রবার্টের
+rbi	রবি
+rbibar	রবিবার
+rbibarer	রবিবারের
+rbt	রোবট
+rbter	রোবটের
+rc	রোচ
+rci	অর্চি
+rd	রোড রোদ অর্ধ রড
+rdar	অর্ডার
+rde	রোদে রোডে
+rdek	অর্ধেক
+rdekta	অর্ধেকটা
+rderik	রোডেরিক
+rds	রোডস
+re	রে ওরে
+rebarend	রেভারেন্ড
+rebeka	রেবেকা
+red	রেড রেডঃ
+redi	রেডি রেডিও
+redite	রেডিওতে
+rediyesn	রেডিয়েশন
+rege	রেগে
+rehai	রেহাই
+reiben	রেইভেন
+reinld	রেইনল্ড
+rejalt	রেজাল্ট
+rek	রেখো রেখ
+reka	রেখা
+reke	রেখে
+rekec	রেখেছ রেখেছো
+rekece	রেখেছে
+rekecen	রেখেছেন
+rekeci	রেখেছি
+rekecil	রেখেছিল রেখেছিলো
+rekecilam	রেখেছিলাম
+rekecile	রেখেছিলে
+rekecilen	রেখেছিলেন
+rekecis	রেখেছিস
+rekei	রেখেই
+rekrd	রেকর্ড
+rekrder	রেকর্ডের
+rekrding	রেকর্ডিং
+reks	রেক্স
+rel	রেল
+remas	রেমাস
+remi	রেমী
+ren	রেন
+renj	রেঞ্জ
+renjar	রেঞ্জার
+repika	রেফিকা
+res	রেস
+resing	রেসিং
+resipi	রেসিপি
+restra	রেস্তোরাঁ
+restrar	রেস্তোরাঁর
+restray	রেস্তোরাঁয়
+resturent	রেস্টুরেন্ট
+resturente	রেস্টুরেন্টে
+ret	রেট
+reting	রেটিং
+rg	রোগ
+rge	রোগে
+rger	রোগের
+rgi	রোগী
+rgider	রোগীদের
+rgike	রোগীকে
+rgir	রোগীর
+rgl	অর্গল
+rgta	রোগটা
+rhm	রহম
+rhman	রহমান
+rhmt	রহমত
+rhsj	রহস্য
+rhsjer	রহস্যের
+rhsjmy	রহস্যময়
+ri	রি
+ric	রিচ
+ricar	রিচার
+ricard	রিচার্ড
+ricep	রিচেপ
+rid	রিড
+riding	রিডিং
+rij	রিজ
+rijarb	রিজার্ভ
+rijinal	অরিজিনাল
+rik	রিকো রিক
+rika	রিকা
+rikard	রিকার্ডো
+riki	রিকি
+rikleti	রিকোলেটি
+riktar	রিখটার
+ril	রইল রইলো
+rilaks	রিলাক্স
+rilam	রইলাম
+rile	রিলে
+rilij	রিলিজ
+riljaks	রিল্যাক্স
+rima	রিমা
+rimt	রিমোট
+rin	ঋণ
+ring	রিং
+rini	ঋণী
+riprt	রিপোর্ট
+riprtar	রিপোর্টার
+riprte	রিপোর্টে
+risarc	রিসার্চ
+riset	রিসেট
+risi	ঋষি
+risib	রিসিভ
+riti	রীতি
+ritiniti	রীতিনীতি
+riyel	রিয়েল
+riyels	রিয়েলস
+rj	রোজ
+rjakun	র্যাকুন
+rjar	রজার
+rjars	রজার্স
+rjit	অর্জিত
+rjn	অর্জন
+rjner	অর্জনের
+rjun	অর্জুন
+rk	রক অর্ক
+rket	রকেট
+rki	রকি
+rkm	রকম ওরকম
+rkmer	রকমের
+rkmi	রকমই
+rksa	রক্ষা
+rksakari	রক্ষাকারী
+rksakrta	রক্ষাকর্তা
+rksar	রক্ষার
+rksen	রক্সেন
+rksk	রক্ষক
+rkt	রক্ত
+rktakt	রক্তাক্ত
+rkte	রক্তে
+rkter	রক্তের
+rktksrn	রক্তক্ষরণ
+rktpat	রক্তপাত
+rl	রোল
+rm	রোম
+rman	রোমান
+rmanckr	রোমাঞ্চকর
+rmanp	রোমানফ
+rmans	রোমান্স
+rmantik	রোমান্টিক
+rme	রোমে
+rmer	রোমের
+rmili	রমিলি
+rmni	রমণী
+rn	রন রণ
+rna	রওনা
+rnan	রোনান
+rng	রং রঙ
+rnger	রঙের
+rni	রনি
+rnin	রোনিন
+rnjit	রঞ্জিত
+rpn	রোপণ
+rs	রোস রস
+rsal	রসালো
+rsayn	রসায়ন
+rsi	রশি
+rsik	রসিক
+rsikta	রসিকতা
+rsmi	রশ্মি
+rst	রোস্ট
+rt	অর্থ
+rtat	অর্থাৎ
+rte	অর্থে
+rtei	অর্থেই
+rter	অর্থের
+rthin	অর্থহীন
+rtn	রত্ন
+rtnitik	অর্থনৈতিক
+rudi	রুডি
+ruke	রুখে
+ruks	রুক্ষ
+rul	রুল
+rum	রুম
+rumal	রুমাল
+rume	রুমে
+rumei	রুমেই
+rumer	রুমের
+rumta	রুমটা
+rup	রূপ রুপ
+rupanjel	রুপাঞ্জেল
+rupantr	রূপান্তর রুপান্তর
+rupantrit	রূপান্তরিত
+rupe	রূপে রুপে
+rupi	রুপি রুপী
+rupkta	রূপকথা
+rupktar	রূপকথার
+rupsi	রূপসী
+rut	রুট
+ruti	রুটি
+rutin	রুটিন
+rye	রয়ে
+ryece	রয়েছে
+ryecen	রয়েছেন
+ryeci	রয়েছি
+ryjal	রয়্যাল
+s	স শো শ সো সস শশশ শশ
+sa	সা
+sab	সাব
+sabah	সাবাহ
+saban	সাবান
+sabaner	সাবানের
+sabas	শাবাশ সাবাস সাবাশ সাব্বাস
+sabdan	সাবধান
+sabdane	সাবধানে
+sabek	সাবেক
+sabjekt	সাবজেক্ট
+sabjst	সাব্যস্ত
+sabmerin	সাবমেরিন
+sabmisib	সাবমিসিভ
+sabtaitel	সাবটাইটেল
+sabtaitelti	সাবটাইটেলটি
+sada	সাদা
+sadam	সাদ্দাম
+sadarn	অসাধারণ সাধারণ সাধারন অসাধারন
+sadarnt	সাধারণত সাধারনত
+sadik	সাদিক
+sadj	সাধ্য
+sadjer	সাধ্যের
+sadjmt	সাধ্যমত
+sadman	সাদমান
+sadna	সাধনা
+sadu	সাধু
+sadubaba	সাধুবাবা
+sagr	সাগর
+sagre	সাগরে
+sagrer	সাগরের
+sahaj	সাহায্য
+sahajadi	শাহাজাদি
+sahaje	সাহায্যে
+sahajer	সাহায্যের
+sahajkari	সাহায্যকারী
+saheb	সাহেব
+saheba	সাহেবা
+saheber	সাহেবের
+sahriyar	শাহরিয়ার
+sahs	সাহস
+sahse	সাহসে
+sahser	সাহসের
+sahsi	সাহসী
+sahsikta	সাহসিকতা
+saibar	সাইবার
+saibrg	সাইবর্গ
+said	সাইড
+saide	সাইডে
+saij	সাইজ
+saijer	সাইজের
+saikel	সাইকেল
+saikl	সাইকল
+saimn	সাইমন
+sain	সাইন
+saipar	সাইফার
+sairn	শাইরন
+sait	সাইট সাইতো
+saja	সাজা সাজাও
+sajan	সাজানো
+sajanr	সাজানোর
+sajate	সাজাতে
+sajiye	সাজিয়ে
+sajya	সাঁজোয়া
+saka	শাখা
+saksat	সাক্ষাৎ সাক্ষাত
+saksater	সাক্ষাতের
+saksi	সাক্ষী সাক্ষি
+saksj	সাক্ষ্য
+saksr	সাক্ষর
+sal	সাল
+sala	শালা
+salad	সালাদ
+salah	সালাহ্
+salake	শালাকে
+salam	সালাম
+salar	শালার
+salara	শালারা
+salare	শালারে
+salay	শালায়
+sale	সালে
+salehin	সালেহীন
+saler	সালের
+sali	শালি
+salim	সালিম
+salin	শাওলিন
+sam	অসাম
+samajik	সামাজিক
+samal	সামাল
+samanj	সামান্য
+samanta	সামান্থা
+samar	সামার
+samgri	সামগ্রী
+samil	শামিল
+samla	সামলাও সামলা
+samlaci	সামলাচ্ছি
+samlan	সামলানো
+samlate	সামলাতে
+samle	সামলে
+samnasamni	সামনাসামনি
+samne	সামনে
+samnei	সামনেই
+samner	সামনের
+samprtik	সাম্প্রতিক
+samraj	সাম্রাজ্য
+samrajer	সাম্রাজ্যের
+samrik	সামরিক
+samrtj	সামর্থ্য
+samudrik	সামুদ্রিক
+san	সান শান শাওন
+sandbal	সান্দোভাল
+sandbalke	সান্দোভালকে
+sangatik	সাংঘাতিক
+sangbadik	সাংবাদিক
+sangbadikder	সাংবাদিকদের
+sanglas	সানগ্লাস
+sani	সানি
+sant	শান্ত
+santa	সান্তা
+santbabe	শান্তভাবে
+santbna	সান্ত্বনা
+santi	শান্তি
+santir	শান্তির
+santite	শান্তিতে
+sap	সাপ সাফ শাপ
+saper	সাপের
+saplai	সাপ্লাই
+saplj	সাফল্য
+sapljer	সাফল্যের
+saprt	সাপোর্ট
+sar	ষাঁড়
+sara	সারা সাড়া
+saradin	সারাদিন
+sarah	সারাহ
+sarajibn	সারাজীবন
+sarajibner	সারাজীবনের
+saraksn	সারাক্ষণ
+sararat	সারারাত
+sarata	সারাটা
+sarbar	সার্ভার
+sarbis	সার্ভিস
+sarbise	সার্ভিসে
+sarbiser	সার্ভিসের
+sarc	সার্চ
+sare	সাড়ে সারে
+sari	সারি শাড়ি
+sarir	সারির
+saririk	শারীরিক
+sarite	সারিতে
+sariye	সারিয়ে
+sarj	সার্জ
+sarjari	সার্জারি
+sarjarir	সার্জারির
+sarjent	সার্জেন্ট
+sarkas	সার্কাস
+sarkase	সার্কাসে
+sarkaser	সার্কাসের
+sarkit	সার্কিট
+sarli	শার্লি
+sarlk	শার্লক
+sarmjan	শারম্যান
+sarpraij	সারপ্রাইজ
+sart	শার্ট
+sarte	সারতে
+sartipiket	সার্টিফিকেট
+sask	শাসক
+sasker	শাসকের
+sasn	শাসন
+sasti	শাস্তি
+sastir	শাস্তির
+sat	সাত শাট
+sata	সাতটা
+satar	সাঁতার সাতার
+sate	সাথে সাথেও
+satei	সাথেই
+sater	সাথের
+sati	সাথী
+saund	সাউন্ড
+saut	সাউথ
+sayama	শায়ামা
+sayens	সায়েন্স
+sayesta	শায়েস্তা
+saykb	সায়কভ
+sb	সব ওসব
+sba	সভা
+sbab	স্বভাব
+sbababik	স্বাভাবিক অস্বাভাবিক
+sbababikbabei	স্বাভাবিকভাবেই
+sbaber	স্বভাবের
+sbad	স্বাদ
+sbader	স্বাদের
+sbadin	স্বাধীন
+sbadinta	স্বাধীনতা
+sbadintar	স্বাধীনতার
+sbagt	স্বাগত
+sbagtm	স্বাগতম
+sbai	সবাই
+sbaike	সবাইকে
+sbaikei	সবাইকেই
+sbaksr	স্বাক্ষর
+sbami	স্বামী
+sbamike	স্বামীকে
+sbamir	স্বামীর
+sbar	সবার শোবার
+sbarhi	অশ্বারোহী
+sbari	সবারই
+sbart	স্বার্থ
+sbarte	স্বার্থে
+sbartpr	স্বার্থপর
+sbas	শ্বাস
+sbastj	স্বাস্থ্য
+sbastjer	স্বাস্থ্যের
+sbay	সভায়
+sbc	স্বচ্ছ
+sbcaite	সবচাইতে
+sbce	সবচে
+sbceye	সবচেয়ে
+sbd	শব্দ শব্দও
+sbde	শব্দে
+sbder	শব্দের
+sbdgul	শব্দগুলো
+sbdik	সবদিক
+sbdta	শব্দটা
+sbdti	শব্দটি
+sbe	সবে
+sbecay	স্বেচ্ছায়
+sber	ওসবের
+sbet	শ্বেত
+sbgul	সবগুলো
+sbguli	সবগুলোই
+sbgulr	সবগুলোর
+sbi	সবই
+sbikar	স্বীকার অস্বীকার
+sbikarkti	স্বীকারোক্তি
+sbikriti	স্বীকৃতি
+sbiyet	সোভিয়েত
+sbj	অসভ্য সভ্য
+sbjanta	সবজান্তা
+sbjaygay	সবজায়গায়
+sbji	সবজি
+sbjta	সভ্যতা
+sbjtar	সভ্যতার
+sbkane	সবখানে
+sbkanei	সবখানেই
+sbkicu	সবকিছু
+sbkicui	সবকিছুই
+sbkicur	সবকিছুর
+sbkicutei	সবকিছুতেই
+sblp	স্বল্প
+sbpn	স্বপ্ন
+sbpne	স্বপ্নে
+sbpner	স্বপ্নের
+sbr	স্বর
+sbrastr	স্বরাষ্ট্র
+sbre	স্বরে
+sbrg	স্বর্গ
+sbrge	স্বর্গে
+sbrger	স্বর্গের
+sbrgiy	স্বর্গীয়
+sbrkm	সবরকম
+sbrn	স্বর্ণ
+sbrner	স্বর্ণের
+sbrup	স্বরূপ
+sbsese	সবশেষে
+sbsmy	সবসময়
+sbsmyei	সবসময়েই
+sbsmyer	সবসময়ের
+sbsmyi	সবসময়ই
+sbsti	অস্বস্তি স্বস্তি
+sbstikr	অস্বস্তিকর
+sbsur	শ্বশুর
+sbta	সবটা
+sbtai	সবটাই
+sbteke	সবথেকে
+sbtuku	সবটুকু
+sbuj	সবুজ
+sbyng	স্বয়ং
+scetn	সচেতন
+scib	সচিব
+scin	শচীন
+scl	সচল
+scracr	সচরাচর
+sd	শোধ
+sda	সোডা সওদা সদা
+sdj	সদ্য
+sdr	সদর
+sdsj	সদস্য
+sdsjder	সদস্যদের
+sdy	সদয়
+se	সে সেও শে
+seb	শেভ
+seba	সেবা
+sebabe	সেভাবে
+sebabei	সেভাবেই
+sebar	সেবার
+sebay	সেবায়
+seben	সেভেন
+seberas	সেভেরাস
+sebk	সেবক
+seda	সেদা
+sedike	সেদিকে
+sedin	সেদিন
+sediner	সেদিনের
+sedrik	সেডরিক
+segul	সেগুলো
+segulke	সেগুলোকে
+segulr	সেগুলোর
+sei	সেই
+seilr	সেইলর
+seint	সেইন্ট
+seiram	সেইরাম
+seirkm	সেইরকম
+seisb	সেইসব
+seita	সেইটা
+sej	সসেজ
+seje	সেজে
+sejnj	সেজন্য
+sejnji	সেজন্যই
+sek	শেখ শেখো
+seka	শেখা
+sekabe	শেখাবে
+sekan	সেখান শেখানো শেখান
+sekane	সেখানে সেখানেও
+sekanei	সেখানেই
+sekaner	সেখানের
+sekankar	সেখানকার
+sekanr	শেখানোর
+sekar	শেখার
+sekate	শেখাতে
+sekay	শেখায়
+sekend	সেকেন্ড
+sekende	সেকেন্ডে
+sekender	সেকেন্ডের
+sekr	শেখর শেকড়
+sekrer	শেখরের
+sekretari	সেক্রেটারি
+seks	সেক্স
+seksetre	সেক্ষেত্রে
+seksi	সেক্সি
+seksn	সেকশন
+sektr	সেক্টর
+sel	সেল
+selai	সেলাই
+sele	সেলে
+selim	সেলিম
+selin	সেলিন
+selki	সেলকি
+selpn	সেলফোন
+sena	সেনা
+senabahini	সেনাবাহিনী
+senabahinir	সেনাবাহিনীর
+senabahinite	সেনাবাহিনীতে
+senader	সেনাদের
+senadl	সেনাদল
+senapti	সেনাপতি
+senetr	সেনেটর
+sens	সেন্স
+sensr	সেন্সর
+sent	সেন্ট
+sentar	সেন্টার
+sentare	সেন্টারে
+sentinel	সেন্টিনেল
+sentral	সেন্ট্রাল
+sep	শেফ
+seper	শেফের
+septembr	সেপ্টেম্বর
+septi	সেফটি
+sera	সেরা
+serata	সেরাটা
+sere	সেরে
+seribr	সেরিব্রো
+serip	শেরিফ
+serkm	সেরকম
+serkmi	সেরকমই
+ses	শেষ অশেষ
+sesb	সেসব
+sesbar	শেষবার
+sesbarer	শেষবারের
+sese	শেষে
+seser	শেষের
+seskritj	শেষকৃত্য
+sesmes	শেষমেশ
+sesprjnt	শেষপর্যন্ত
+sesta	শেষটা
+set	সেট সেথ সেতো
+seta	সেটা সেটাও
+setai	সেটাই
+setake	সেটাকে
+setar	সেটার
+setate	সেটাতে
+setay	সেটায়
+seter	সেটের
+seti	সেটি
+seting	সেটিং
+setings	সেটিংস
+setu	সেথু সেতু
+seyar	শেয়ার
+sh	সহ
+shag	সোহাগ
+shanubuti	সহানুভূতি
+shay	অসহায় সহায়
+shayta	সহায়তা
+shcr	সহচর
+shel	সোহেল
+shid	শহীদ
+shisnuta	সহিষ্ণুতা
+shit	সহিত
+shj	সহজ সহ্য অসহ্য
+shjbabe	সহজভাবে
+shje	সহজে
+shjei	সহজেই
+shjgi	সহযোগী
+shjgita	সহযোগিতা
+shjgitay	সহযোগিতায়
+shkare	সহকারে
+shkari	সহকারী
+shkrmi	সহকর্মী
+shkrmider	সহকর্মীদের
+shr	শহর
+shrbasi	শহরবাসী
+shre	শহরে
+shrei	শহরেই
+shrer	শহরের
+shrke	শহরকে
+shrta	শহরটা
+si	সই সি শি
+siaie	সিআইএ
+sibam	শিভাম
+sibil	সিভিল
+sice	সইছে
+sid	সিড সিদ্ধ
+sidant	সিদ্ধান্ত সিধান্ত
+sidanta	সিদ্ধান্তটা
+sidante	সিদ্ধান্তে
+sidanter	সিদ্ধান্তের
+sidart	সিদ্ধার্থ
+sidarter	সিদ্ধার্থের
+sidni	সিডনি
+sigaret	সিগারেট
+sigareter	সিগারেটের
+signal	সিগনাল
+signjal	সিগন্যাল
+signjaler	সিগন্যালের
+sigri	শীঘ্রই
+sijar	সিজার
+sik	শিখ শিক
+sika	শিখা শিখাও
+sikag	শিকাগো
+sikar	শিকার শিখার
+sikare	শিকারে
+sikarer	শিকারের
+sikari	শিকারী শিকারি
+sikate	শিখাতে
+sikbe	শিখবে
+sike	শিখে
+sikec	শিখেছ
+sikece	শিখেছে
+sikeci	শিখেছি
+sikecilam	শিখেছিলাম
+sikiuriti	সিকিউরিটি
+sikiuritir	সিকিউরিটির
+sikiye	শিখিয়ে
+sikiyece	শিখিয়েছে
+sikiyecen	শিখিয়েছেন
+sikl	শিকল
+sikle	শিখলে
+sikret	সিক্রেট
+sikrets	সিক্রেটস
+siks	সিক্স
+siksa	শিক্ষা
+siksar	শিক্ষার
+siksarti	শিক্ষার্থী
+siksartider	শিক্ষার্থীদের
+siksika	শিক্ষিকা
+siksit	শিক্ষিত
+siksk	শিক্ষক
+sikt	সৈকত
+sikte	শিখতে সৈকতে
+sil	সীল সিল
+sila	শিলা
+silbar	সিলভার
+sild	শিল্ড
+silk	সিল্ক
+silp	শিল্প
+silpa	শিল্পা
+silpar	শিল্পার
+silpi	শিল্পী
+silpider	শিল্পীদের
+sim	অসীম শিম সিম
+sima	সীমা
+simabd	সীমাবদ্ধ
+simahin	সীমাহীন
+simana	সীমানা
+simanar	সীমানার
+simanay	সীমানায়
+simant	সীমান্ত
+simar	সীমার
+simareka	সীমারেখা
+simay	সীমায়
+simba	সিমবা
+simit	সীমিত
+simul	শিমুল
+sin	সিন
+sindarela	সিন্ডারেলা
+sindiket	সিন্ডিকেট
+sindiketer	সিন্ডিকেটের
+sindlar	শিন্ডলার
+sindlarer	শিন্ডলারের
+sinduk	সিন্দুক
+sinduker	সিন্দুকের
+sindukta	সিন্দুকটা
+sinema	সিনেমা
+sinemar	সিনেমার
+sinemay	সিনেমায়
+sinetr	সিনেটর
+sing	সিং শিং
+singh	সিংহ
+singhasn	সিংহাসন
+singhasne	সিংহাসনে
+singhasner	সিংহাসনের
+singher	সিংহের
+sinik	সৈনিক
+siniyr	সিনিয়র
+sinj	সৈন্য
+sinjbahini	সৈন্যবাহিনী
+sinjder	সৈন্যদের
+sinjdl	সৈন্যদল
+sinjra	সৈন্যরা
+sip	শিপ
+sipahi	সিপাহী
+sipe	শিপে
+siper	শিপের
+sipt	শিফট
+sir	শিওর
+siram	সিরাম
+siray	শিরায়
+siri	সিঁড়ি সিড়ি
+sirir	সিঁড়ির
+sirite	সিঁড়িতে
+siriyal	সিরিয়াল
+siriyas	সিরিয়াস
+siriyasli	সিরিয়াসলি
+sirnam	শিরোনাম
+sirs	শীর্ষ
+sis	শিস
+sisb	শৈশব
+sisber	শৈশবের
+sisitibi	সিসিটিভি
+sisj	শিষ্য
+sistar	সিস্টার
+sistem	সিস্টেম
+sisteme	সিস্টেমে
+sistemer	সিস্টেমের
+sistemta	সিস্টেমটা
+sisu	শিশু
+sisuder	শিশুদের
+sisuke	শিশুকে
+sisur	শিশুর
+sisura	শিশুরা
+sit	সিট শিট শীত সীট
+sitbelt	সিটবেল্ট
+site	সিটে সইতে শীতে
+siter	শীতের
+siti	সিটি
+sitir	সিটির
+sitite	সিটিতে
+sitkal	শীতকাল
+sitl	শীতল
+siur	সিউর শিউর
+siyars	সিয়ার্সো
+siyera	সিয়েরা
+sj	শ্য
+sja	সোজা
+sjag	সজাগ
+sjal	সোশ্যাল
+sjalut	স্যালুট
+sjam	স্যাম শ্যাম
+sjampein	শ্যাম্পেইন
+sjampen	শ্যাম্পেন
+sjan	স্যান
+sjandi	স্যান্ডি
+sjanduic	স্যান্ডউইচ
+sjar	স্যার
+sjarer	স্যারের
+sjarke	স্যারকে
+sjasuji	সোজাসুজি
+sjatelait	স্যাটেলাইট
+sjit	সজ্জিত
+sjn	সজ্জন
+sjr	স্যর
+sjri	স্যরি
+sju	স্যু
+sjup	স্যুপ
+sjuper	স্যুপের
+sjupta	স্যুপটা
+sjut	স্যুট
+sjuter	স্যুটের
+sjutkes	স্যুটকেস
+sk	শক শখ শোক অশোক
+skainet	স্কাইনেট
+skaineter	স্কাইনেটের
+skal	সকাল
+skale	সকালে
+skalei	সকালেই
+skaler	সকালের
+skar	অস্কার স্কার
+skarlet	স্কারলেট
+skc	স্কচ
+ski	স্কি
+skinar	স্কিনার
+skipar	স্কিপার
+skjabars	স্ক্যাবারস
+skjan	স্ক্যান
+skjanar	স্ক্যানার
+skl	সকল
+skle	সকলে
+sklei	সকলেই
+skler	সকলের
+sklke	সকলকে
+skr	স্কোর
+skriy	সক্রিয়
+skriya	শোকরিয়া
+skru	স্ক্রু
+skruj	স্ক্রুজ
+sksm	সক্ষম
+skt	শক্ত স্কট
+skti	শক্তি
+sktike	শক্তিকে
+sktiman	শক্তিমান
+sktir	শক্তির
+sktisali	শক্তিশালী
+sktite	শক্তিতে
+sktljand	স্কটল্যান্ড
+sktljander	স্কটল্যান্ডের
+skul	স্কুল
+skule	স্কুলে
+skuler	স্কুলের
+skutar	স্কুটার
+skyad	স্কোয়াড
+sl	স্লো
+slaid	স্লাইড
+slidarin	স্লিদারিন
+slidariner	স্লিদারিনের
+slip	স্লিপ
+sliping	স্লিপিং
+slj	সোলোজো
+sljar	সোলজার
+slmn	সলোমন
+smadan	সমাধান
+smadaner	সমাধানের
+smadi	সমাধি
+smahit	সমাহিত
+smaj	সমাজ
+smaje	সমাজে
+smajer	সমাজের
+smalcna	সমালোচনা
+sman	সম্মান সমান অসম্মান ওসমান
+smanbabe	সমানভাবে
+smane	সম্মানে
+smaner	সম্মানের
+smani	সম্মানী
+smanit	সম্মানিত
+smapt	সমাপ্ত অসমাপ্ত
+smapti	সমাপ্তি
+smarset	সমারসেটঃ সমারসেট
+smart	স্মার্ট
+smb	সম্ভব অসম্ভব
+smbabj	সম্ভাব্য
+smbabna	সম্ভাবনা
+smbabnamy	সম্ভাবনাময়
+smbabnar	সম্ভাবনার
+smbar	সোমবার
+smbasn	সম্ভাষণ
+smbedna	সমবেদনা
+smbke	অসম্ভবকে
+smbl	সম্বল
+smbnde	সম্বন্ধে
+smbt	সম্ভবত
+smbu	শম্ভু
+smet	সমেত
+smgr	সমগ্র
+smikrn	সমীকরণ
+smipbrti	সমীপবর্তী
+smit	স্মিথ
+smjta	সমঝোতা
+smkami	সমকামী
+smks	সমকক্ষ
+smpadna	সম্পাদনা সম্পাদনাঃ
+smpd	সম্পদ
+smpder	সম্পদের
+smpn	সম্পন্ন
+smprcar	সম্প্রচার
+smprikt	সম্পৃক্ত
+smprk	সম্পর্ক
+smprke	সম্পর্কে
+smprker	সম্পর্কের
+smprkit	সম্পর্কিত
+smprti	সম্প্রতি
+smpti	সম্পত্তি
+smptir	সম্পত্তির
+smpurn	সম্পূর্ণ সম্পুর্ন অসম্পূর্ণ
+smpurnbabe	সম্পূর্ণভাবে
+smpurnrupe	সম্পূর্ণরূপে
+smrat	সম্রাট
+smrid	সমৃদ্ধ
+smriti	স্মৃতি
+smritigul	স্মৃতিগুলো
+smritii	স্মৃতিই
+smritir	স্মৃতির
+smritiskti	স্মৃতিশক্তি
+smritite	স্মৃতিতে
+smrn	স্মরণ
+smrniy	স্মরণীয়
+smrtk	সমর্থক
+smrtn	সমর্থন
+smsja	সমস্যা
+smsjai	সমস্যাই
+smsjar	সমস্যার
+smsjata	সমস্যাটা
+smsjay	সমস্যায়
+smst	সমস্ত
+smt	সম্মত
+smti	সম্মতি
+smudr	সমুদ্র
+smudre	সমুদ্রে
+smudrer	সমুদ্রের
+smukin	সম্মুখীন
+smy	সময় সময়ও
+smye	সময়ে অসময়ে
+smyei	সময়েই
+smyer	সময়ের
+smyi	সময়ই
+smyke	সময়কে
+smymt	সময়মত
+smyta	সময়টা
+smytate	সময়টাতে
+sn	শোন শোনো শন স্নো
+sna	সোনা শোনা শোনাও
+snabe	শোনাবে
+snace	শোনাচ্ছে
+snai	শোনাই
+snaipar	স্নাইপার
+snakt	সনাক্ত শনাক্ত
+snali	সোনালী সোনালি
+snamni	সোনামণি সোনামনি
+snan	স্নান
+snar	সোনার শোনার
+snata	সোনাটা
+snatk	স্নাতক
+sncy	সঞ্চয়
+sndan	সন্ধান
+sndane	সন্ধানে
+sndeh	সন্দেহ
+sndehbajn	সন্দেহভাজন
+sndeher	সন্দেহের
+sndehjnk	সন্দেহজনক
+snden	স্নোডেন
+sndi	সন্ধি
+sndja	সন্ধ্যা
+sndjar	সন্ধ্যার
+sndjay	সন্ধ্যায়
+sne	শোনে
+sneh	স্নেহ
+sneip	স্নেইপ
+snen	শোনেন
+sng	সঙ্গ
+sngbad	সংবাদ
+snge	সঙ্গে
+sngei	সঙ্গেই
+sngi	সঙ্গী
+sngider	সঙ্গীদের
+sngira	সঙ্গীরা
+sngit	সঙ্গীত
+sngjg	সংযোগ
+sngjukt	সংযুক্ত
+sngjukti	সংযুক্তি
+sngket	সংকেত
+sngketer	সংকেতের
+sngkj	অসংখ্য
+sngkja	সংখ্যা
+sngkjagul	সংখ্যাগুলো
+sngkjar	সংখ্যার
+sngkjata	সংখ্যাটা
+sngkjay	সংখ্যায়
+sngkjk	সংখ্যক
+sngkrant	সংক্রান্ত
+sngkrmit	সংক্রমিত
+sngksepe	সংক্ষেপে
+sngksipt	সংক্ষিপ্ত
+snglap	সংলাপ
+sngram	সংগ্রাম
+sngrh	সংগ্রহ
+sngrher	সংগ্রহের
+sngrksit	সংরক্ষিত
+sngrksn	সংরক্ষণ
+sngrs	সংঘর্ষ
+sngsar	সংসার
+sngsdn	সংশোধন
+sngskar	সংস্কার
+sngskriti	সংস্কৃতি
+sngskrn	সংস্করণ
+sngsta	সংস্থা
+sngstar	সংস্থার
+sngtit	সংঘটিত সংগঠিত
+sngtn	সংগঠন
+sngtner	সংগঠনের
+sni	সনি শনি শোননি
+snibar	শনিবার
+snjasider	সন্ন্যাসীদের
+sntan	সন্তান
+sntander	সন্তানদের
+sntaner	সন্তানের
+sntanke	সন্তানকে
+sntrasi	সন্ত্রাসী
+sntrasider	সন্ত্রাসীদের
+sntrst	সন্ত্রস্ত
+sntust	সন্তুষ্ট অসন্তুষ্ট
+spai	স্পাই
+spaidar	স্পাইডার
+spelmen	স্পেল্মেন
+spen	স্পেন
+spene	স্পেনে
+spes	স্পেস
+spesal	স্পেশাল
+spi	সোফি
+spid	স্পীড স্পিড
+spikar	স্পিকার
+sping	শপিং
+spjanis	স্প্যানিশ
+spjar	স্প্যারো
+spl	সফল
+splta	সফলতা
+spltar	সফলতার
+spndn	স্পন্দন
+spr	সফর
+spre	স্প্রে
+sprs	স্পর্শ
+spst	স্পষ্ট অস্পষ্ট
+spstbabe	স্পষ্টভাবে অস্পষ্টভাবে
+spt	শপথ স্পট
+sptah	সপ্তাহ
+sptahe	সপ্তাহে
+sptahei	সপ্তাহেই
+sptaher	সপ্তাহের
+sptay	সপ্তায়
+sptik	স্ফটিক
+sptm	সপ্তম
+sptyjar	সফটওয়্যার
+sr	সরো সর অস্র
+sra	সরাও সরা
+sran	সরানো সরান
+sranr	সরানোর
+srasri	সরাসরি
+srate	সরাতে
+srbadik	সর্বাধিক
+srbc	সর্বোচ্চ
+srbda	সর্বদা
+srbdai	সর্বদাই
+srbkaler	সর্বকালের
+srbnas	সর্বনাশ
+srbpri	সর্বোপরি
+srbprtm	সর্বপ্রথম
+srbrah	সরবরাহ
+srbsbant	সর্বস্বান্ত
+srbses	সর্বশেষ
+srbsktiman	সর্বশক্তিমান
+srbsrest	সর্বশ্রেষ্ঠ
+srbt	শরবত
+srbtr	সর্বত্র
+srda	শ্রদ্ধা
+srdar	সর্দার
+sre	সরে সড়ে
+sredar	শ্রেডার
+srenir	শ্রেণীর
+srep	স্রেফ
+srest	শ্রেষ্ঠ
+sri	সরি
+sringkla	শৃঙ্খলা
+srir	শরীর
+srire	শরীরে
+srirer	শরীরের
+srirta	শরীরটা
+srist	সৃষ্ট
+sristi	সৃষ্টি
+sristikrta	সৃষ্টিকর্তা
+sristikrtar	সৃষ্টিকর্তার
+sristir	সৃষ্টির
+sriye	সরিয়ে
+srjntr	ষড়যন্ত্র
+srjntrer	ষড়যন্ত্রের
+srkar	সরকার
+srkarer	সরকারের
+srkari	সরকারী সরকারি
+srkarke	সরকারকে
+srl	সরল
+srmik	শ্রমিক
+srmikder	শ্রমিকদের
+srnjam	সরঞ্জাম
+srpraj	সরফরাজ
+srs	সোর্স
+srsta	স্রষ্টা
+srstar	স্রষ্টার
+srt	শর্ত শর্ট স্রোত
+srte	শর্তে
+srter	স্রোতের
+sru	অশ্রু সরু
+srun	সরুন
+sruti	শ্রুতি
+st	শত সৎ শট অসৎ
+sta	সস্তা সততা
+stabdi	শতাব্দী
+stabdir	শতাব্দীর
+stad	ওস্তাদ
+stail	স্টাইল
+staile	স্টাইলে
+stan	স্থান
+stanangk	স্থানাঙ্ক
+stanantr	স্থানান্তর
+stanantrit	স্থানান্তরিত
+stane	স্থানে
+staner	স্থানের
+stangs	শতাংশ
+staniy	স্থানীয়
+stap	স্টাফ
+stapn	স্থাপন
+star	স্টার সততার
+stark	স্টার্ক
+starker	স্টার্কের
+starling	স্টারলিং
+starn	স্টার্ন
+start	স্টার্ট
+stayi	স্থায়ী অস্থায়ী
+stbd	স্তব্ধ
+stbe	সত্ত্বেও
+steil	ষ্টেইল
+stein	স্টেইন
+stej	সতেজ স্টেজ
+stek	স্টেক
+stesn	স্টেশন ষ্টেশন
+stesne	স্টেশনে ষ্টেশনে
+stesner	স্টেশনের
+stet	স্টেট
+stgit	স্থগিত
+sti	অস্থি
+stib	স্টিভ
+stiben	স্টিভেন
+stik	সঠিক
+stikbabe	সঠিকভাবে
+stipen	স্টিফেন
+stir	অস্থির স্থির
+stitb	অস্তিত্ব
+stitber	অস্তিত্বের
+stitbi	অস্তিত্বই
+stj	সত্য
+stjasi	স্ট্যাসি
+stjer	সত্যের
+stji	সত্যি
+stjii	সত্যিই
+stjikar	সত্যিকার
+stjikarer	সত্যিকারের
+stjita	সত্যিটা
+stjke	সত্যকে
+stjta	সত্যটা সত্যতা
+stk	স্টক
+stl	স্থল
+stn	স্টোন স্তন
+stp	স্টপ
+str	অস্ত্র স্তর সশস্ত্র
+straikar	স্ট্রাইকার
+strberi	স্ট্রবেরি
+stre	স্তরে অস্ত্রে
+streliya	অস্ট্রেলিয়া
+strer	অস্ত্রের স্তরের
+strgul	অস্ত্রগুলো
+stri	স্ত্রী
+strike	স্ত্রীকে
+strir	স্ত্রীর
+strit	স্ট্রিট স্ট্রীট
+strite	স্ট্রিটে
+strk	সতর্ক
+strkta	সতর্কতা
+strktar	সতর্কতার
+strm	স্টর্ম
+strta	অস্ত্রটা
+stru	শত্রু
+struder	শত্রুদের
+struke	শত্রুকে
+strur	শত্রুর
+strura	শত্রুরা
+struta	শত্রুতা
+stuyart	স্টুয়ার্ট
+su	সু
+sub	শুভ অশুভ
+subagj	সৌভাগ্য
+subagjban	সৌভাগ্যবান
+subagjbst	সৌভাগ্যবশত
+subagjer	সৌভাগ্যের
+subas	সুবাস
+subeca	শুভেচ্ছা
+subida	সুবিধা অসুবিধা
+subidajnk	সুবিধাজনক
+subidar	সুবিধার
+subkamna	শুভকামনা
+subratri	শুভরাত্রি
+subskal	শুভসকাল
+subsndja	শুভসন্ধ্যা
+suck	সূচক
+sucna	সূচনা
+sud	ওষুধ সুদ
+suder	ওষুধের
+sudrsn	সুদর্শন
+sudta	ওষুধটা
+sudu	শুধু
+sudui	শুধুই
+sudumatr	শুধুমাত্র
+sugndi	সুগন্ধি
+sui	সুঁই
+suic	সুইচ
+suijarljand	সুইজারল্যান্ড
+suijarljande	সুইজারল্যান্ডে
+suiming	সুইমিং
+suis	সুইস
+suisaid	সুইসাইড
+suit	সুইট
+suithart	সুইটহার্ট
+suiti	সুইটি
+suiye	শুইয়ে
+sujan	সুজান
+sujg	সুযোগ
+sujger	সুযোগের
+sujgi	সুযোগই
+sujgta	সুযোগটা
+suk	সুখ অসুখ
+suke	সুখে শুঁকে
+suker	সুখের
+suki	সুখী সুখি
+sukiye	শুকিয়ে
+sukn	শুকনো
+sukr	শূকর শুকর
+sukrbar	শুক্রবার
+sukrer	শুকরের
+sukriya	শুকরিয়া
+suksm	সূক্ষ্ম
+suli	সুলি
+suliban	সুলিভান
+sultan	সুলতান
+sun	শুনো শুন
+sunam	সুনাম
+sunani	শুনানি
+sunanir	শুনানির
+sunar	শুনার
+sunb	শুনবো শুনব
+sunbe	শুনবে
+sunben	শুনবেন
+sunc	শুনছ শুনছো
+sunce	শুনছে
+suncen	শুনছেন
+sunci	শুনছি
+suncis	শুনছিস
+sundr	সুন্দর
+sundrbabe	সুন্দরভাবে
+sundri	সুন্দরী
+sundrj	সৌন্দর্য
+sune	শুনে
+sunec	শুনেছ শুনেছো
+sunece	শুনেছে
+sunecen	শুনেছেন
+suneci	শুনেছি
+sunecilam	শুনেছিলাম
+sunecile	শুনেছিলে
+sunecis	শুনেছিস
+sunei	শুনেই
+sunen	শুনেন
+suneni	শুনেনি
+suni	শুনি
+sunini	শুনিনি
+sunirdist	সুনির্দিষ্ট
+sunj	শূন্য শুন্য
+sunlam	শুনলাম
+sunle	শুনলে
+sunte	শুনতে
+suntei	শুনতেই
+sunun	শুনুন
+supar	সুপার
+suparhir	সুপারহিরো
+suparis	সুপারিশ
+suparmjan	সুপারম্যান
+suprbat	সুপ্রভাত
+sur	সুর
+sure	সুরে
+suriya	সুরিয়া
+surj	সূর্য
+surjast	সূর্যাস্ত
+surjaster	সূর্যাস্তের
+surjer	সূর্যের
+surksa	সুরক্ষা
+surksar	সুরক্ষার
+surksit	সুরক্ষিত
+surng	সুড়ঙ্গ
+suru	শুরু
+surur	শুরুর
+suruta	শুরুটা
+surute	শুরুতে
+surutei	শুরুতেই
+susan	সুসান
+susbadu	সুস্বাদু
+susbagtm	সুস্বাগতম
+suse	শুষে
+susk	শুষ্ক
+susngbad	সুসংবাদ
+suspst	সুস্পষ্ট
+sust	অসুস্থ সুস্থ
+sustj	সুস্থ্য
+susu	সুসু
+suta	সুতা
+sute	শুতে
+suting	শুটিং
+sutr	সূত্র সুত্র
+sutrang	সুতরাং
+sutrpat	সূত্রপাত
+suye	শুয়ে
+suyen	সুয়েন
+suyr	শুয়োর
+suyrer	শুয়োরের
+syar	সয়ার
+sytan	শয়তান
+sytander	শয়তানদের
+sytaner	শয়তানের
+sytanke	শয়তানকে
+sytanta	শয়তানটা
+t	তো ওঠো ওঠ অত তত অটো অতো টো
+ta	তা ওটা টা তাও ওঠা অতটা ততটা ২টা
+taba	থাবা
+tabij	তাবিজ
+tacara	তাছাড়া
+tadasi	তাদাশি
+tader	তাদের তাঁদের
+taderke	তাদেরকে তাঁদেরকে
+tahle	তাহলে তাহলেও
+tahlei	তাহলেই
+tahlet	তাহলেতো
+tahmid	তাহমিদ
+tahsan	তাহসান
+tai	তাই ওটাই টাই ততটাই
+taiberiyas	টাইবেরিয়াস
+taigar	টাইগার
+taika	থাইকা
+tailar	টাইলার
+tailarer	টাইলারের
+taile	তাইলে
+taim	টাইম
+taime	টাইমে
+taiming	টাইমিং
+taina	তাইনা
+taip	টাইপ
+taiper	টাইপের
+tait	তাইতো টাইট
+taitanik	টাইটানিক
+taitaniker	টাইটানিকের
+taja	তাজা
+tajmaru	তাজোমারু
+tak	থাকো থাক তাক টাক
+taka	টাকা থাকা তাকাও তাকা টাকাও
+takabe	তাকাবে
+takaben	তাকাবেন
+takace	তাকাচ্ছে
+takagul	টাকাগুলো
+takai	টাকাই তাকাই থাকাই
+takalam	তাকালাম
+takale	তাকালে
+takan	তাকান তাকানো
+takapysa	টাকাপয়সা
+takar	থাকার টাকার টাকারঃ
+takata	টাকাটা থাকাটা
+takatai	থাকাটাই
+takate	তাকাতে
+takay	টাকায় থাকায় তাকায়
+takb	থাকবো থাকব
+takbe	থাকবে
+takbei	থাকবেই
+takben	থাকবেন
+takbena	থাকবেনা
+takbi	থাকবি
+takbna	থাকবনা
+takce	থাকছে
+takcen	থাকছেন
+takci	থাকছি
+take	তাকে থাকে তাঁকে ওটাকে তাকেও টাকে
+takei	তাকেই
+taken	থাকেন
+takena	থাকেনা
+taki	থাকি তাকিও
+takina	তাকিওনা
+takis	থাকিস
+takiy	তাকিয়ো
+takiye	তাকিয়ে
+takl	থাকলো থাকল
+taklam	থাকলাম
+takle	থাকলে থাকলেও
+taklei	থাকলেই
+takt	থাকতো থাকত
+taktam	থাকতাম
+takte	থাকতে
+taktei	থাকতেই
+takten	থাকতেন
+taktit	তথাকথিত
+takuk	থাকুক
+takun	থাকুন
+tal	তাল
+tala	তালা থালা
+talabasn	থালাবাসন
+tale	তালে
+talgl	তালগোল
+tali	তালি
+talika	তালিকা
+talikar	তালিকার
+talikay	তালিকায়
+tam	থামো থাম
+tama	থামাও থামা
+tamabe	থামাবে
+tamai	থামাই
+taman	থামান থামানো
+tamanr	থামানোর
+tamasa	তামাশা
+tamate	থামাতে
+tamb	থামবো
+tambe	থামবে
+tamen	থামেন
+tamija	তামিযা
+tamil	তামিল
+tamistiklis	থামিসটিক্লিস
+tamiye	থামিয়ে
+tamle	থামলে
+tamnas	টামনাস
+tamte	থামতে
+tamun	থামুন
+tan	টান টানো
+tana	টানা
+tanay	থানায়
+tanda	ঠাণ্ডা ঠান্ডা
+tanday	ঠাণ্ডায় ঠান্ডায়
+tane	টানে
+tanel	টানেল
+tante	টানতে
+tap	তাপ
+tapmatra	তাপমাত্রা
+tapr	থাপ্পড়
+tar	তার তাঁর ওটার টার ওঠার তারও
+tara	তারা তাঁরা তাড়া তারাও
+tarahur	তাড়াহুড়ো
+tarahura	তাড়াহুড়া
+tarai	তারাই
+tarar	তারার
+taratari	তাড়াতাড়ি তারাতারি
+taratarii	তাড়াতাড়িই
+tarceye	তারচেয়ে
+tard	থার্ড
+tare	তারে
+tarer	তারের
+targeriyan	টারগেরিয়ান
+target	টার্গেট
+targete	টার্গেটে
+targeter	টার্গেটের
+tari	তারই
+tarik	তারিখ
+tarike	তারিখে
+tariker	তারিখের
+tarip	তারিফ
+tariye	তাড়িয়ে
+tarka	তারকা
+tarmane	তারমানে
+tarminal	টার্মিনাল
+tarminetr	টার্মিনেটর
+tarnar	টার্নার
+tarnarer	টার্নারের
+tarpr	তারপর তারপরও
+tarpre	তারপরে তারপরেও
+tarprei	তারপরেই
+tarpri	তারপরই
+tars	টার্স
+tas	তাস
+task	টাস্ক
+tat	ওটাতো
+tata	ঠাট্টা
+tatagliya	তাতাগ্লিয়া
+tate	তাতে ওটাতে তাতেও
+tatei	তাতেই
+tatka	টাটকা
+tay	টায় ওটায়
+tayar	টাওয়ার টায়ার
+tayare	টাওয়ারে
+tayarer	টাওয়ারের
+tb	তত্ত্ব
+tba	অথবা
+tbabdayk	তত্ত্বাবধায়ক
+tbe	তবে
+tbei	তবেই
+tbi	টবি টোবি
+tbu	তবুও তবু
+tc	অথচ
+tcnc	তছনছ
+tder	তোদের
+tderke	তোদেরকে
+tdin	ততদিন
+tdine	ততদিনে
+tdnt	তদন্ত
+tdnte	তদন্তে
+tdnter	তদন্তের
+te	তে ওঠে টে ওতে
+teb	অতএব
+tebil	টেবিল
+tebile	টেবিলে
+tebiler	টেবিলের
+ted	টেড
+tedi	টেডি
+tei	ঠেই
+teika	থেইকা
+teilr	টেইলর
+tej	তেজ
+tek	থেকো থেক টেক
+teka	টেক্কা
+tekate	ঠেকাতে
+tekce	ঠেকছে
+teke	থেকে থেকেও
+tekeci	থেকেছি
+tekei	থেকেই
+teknik	টেকনিক
+teknlji	টেকনোলজি
+tekst	টেক্সট
+tel	তেল
+tele	ঠেলে
+teler	তেলের
+telibisn	টেলিভিশন
+telibisner	টেলিভিশনের
+telipn	টেলিফোন
+telugu	তেলুগু
+tem	থেমো
+teme	থেমে
+temn	তেমন
+temni	তেমনি তেমনই
+temnta	তেমনটা
+temntai	তেমনটাই
+templetn	টেমপ্লেটন
+ten	টেন
+tene	টেনে
+tenisi	টেনিসি
+tensn	টেনশন
+tep	টেপ
+ter	টের ঠোঁটের
+teresa	তেরেসা
+teri	টেরি
+tes	টেঁস
+tesa	তেসা
+tesla	টেসলা
+test	টেস্ট
+testing	টেস্টিং
+tgrap	অটোগ্রাফ
+thbil	তহবিল
+ti	টি অতি ততই তোই
+tibahit	অতিবাহিত
+tibi	টিভি
+tibir	টিভির
+tibite	টিভিতে
+tibr	তীব্র
+ticar	টিচার
+ticarer	টিচারের
+tik	ঠিক
+tikace	ঠিকাছে ঠিকআছে
+tikana	ঠিকানা
+tikbabe	ঠিকভাবে
+tike	টিকে ঠিকে
+tiket	টিকেট
+tiki	ঠিকই
+tikit	টিকিট
+tikiter	টিকিটের
+tikiye	টিকিয়ে
+tikmt	ঠিকমত ঠিকমতো
+tikrm	অতিক্রম
+tiksn	তীক্ষ্ণ
+tikt	তিক্ত
+tiktak	ঠিকঠাক
+tikte	টিকতে
+tiktiki	টিকটিকি
+tim	টিম টীম
+time	টিমে
+timer	টিমের
+timi	তিমি টিমি
+timke	টিমকে
+timti	টিমোথি
+tin	তিন
+tinbar	তিনবার
+tindin	তিনদিন
+tingkar	টিঙ্কার টিংকার
+tini	তিনি তিনিও
+tinii	তিনিই
+tinjn	তিনজন
+tinjner	তিনজনের
+tinjnke	তিনজনকে
+tinta	তিনটা
+tinti	তিনটি
+tip	টিপ
+tipe	টিপে
+tiprakrit	অতিপ্রাকৃত
+tir	তীর
+tire	তীরে
+tirer	তীরের
+tiri	তৈরি তৈরী থিওরি
+tirikt	অতিরিক্ত
+tirir	তৈরির তৈরীর
+tirndaj	তীরন্দাজ
+tirndajra	তীরন্দাজরা
+tisju	টিস্যু
+tisu	টিসু
+tit	অতীত
+tite	অতীতে
+titer	অতীতের
+titi	অতিথি
+titke	অতীতকে
+titsi	তিৎসি
+tiumar	টিউমার
+tiuring	টিউরিং
+tiyetar	থিয়েটার
+tiyetare	থিয়েটারে
+tiyetarer	থিয়েটারের
+tj	তথ্য
+tjablet	ট্যাবলেট
+tjacar	অত্যাচার
+tjag	ত্যাগ
+tjaka	ট্যাকা
+tjaks	ট্যাক্স
+tjaksi	ট্যাক্সি
+tjangk	ট্যাংক ট্যাঙ্ক থ্যাংক থ্যাঙ্ক
+tjangkiu	থ্যাঙ্কিউ
+tjangks	থ্যাংকস
+tjap	ট্যাপ
+tjatu	ট্যাটু
+tjdik	অত্যধিক
+tjer	তথ্যের
+tjgul	তথ্যগুলো
+tji	তথ্যই
+tjnt	অত্যন্ত
+tjur	ট্যুর
+tk	টক
+tka	টোকা
+tke	তোকে
+tkei	তোকেই
+tkn	তখন তখনও তখনো
+tkni	তখনই তখনি
+tknkar	তখনকার
+tksn	ততক্ষণ ততক্ষন
+tksnat	তৎক্ষণাৎ
+tksne	ততক্ষণে
+tl	তোলো তোল অটল
+tla	তোলা তলা
+tlar	তোলার তলার
+tlasi	তল্লাশি
+tlay	তলায়
+tlb	তলব
+tldese	তলদেশে
+tle	তোলে তলে
+tliye	তলিয়ে
+tlyar	তলোয়ার
+tm	টম তম
+tmader	তোমাদের
+tmaderke	তোমাদেরকে
+tmake	তোমাকে তোমাকেও
+tmakei	তোমাকেই
+tmar	তোমার তোমারও
+tmara	তোমারা
+tmare	তোমারে
+tmari	তোমারই
+tmarta	তোমারটা
+tmas	থমাস টমাস
+tmay	তোমায়
+tmer	টমের
+tmet	টমেটো
+tmi	টমি
+tmij	তমিজ
+tmir	টমির
+tmjatik	অটোম্যাটিক
+tmpsn	থম্পসন
+tmra	তোমরা তোমরাও
+tmrai	তোমরাই
+tn	টন তন্ন
+tni	টনি
+tp	টপ টোপ
+tpr	অতঃপর
+tpsbi	তপস্বী
+tpsbiji	তপস্বীজি
+tr	তোর তর থর তোরও
+tra	তোরা
+trabel	ট্রাভেল
+trai	ট্রাই
+trak	ট্রাক
+trake	ট্রাকে
+traker	ট্রাকের
+trakta	ট্রাকটা
+transmitar	ট্রান্সমিটার
+transpar	ট্রান্সফার
+trapik	ট্রাফিক
+tras	টরাস
+traser	টরাসের
+trbari	তরবারি
+trbarir	তরবারির
+tre	তোরে তরে
+trebr	ট্রেভর
+tren	ট্রেন
+trene	ট্রেনে
+trener	ট্রেনের
+trening	ট্রেনিং
+tres	ট্রেস
+tresarekt	ট্রেসারেক্ট
+tret	টরেটো
+tri	থ্রি
+trigar	ট্রিগার
+trin	থরিন
+triniti	ট্রিনিটি
+trip	ট্রিপ
+tris	ত্রিশ
+trisnart	তৃষ্ণার্ত
+trisul	ত্রিশূল
+tritiy	তৃতীয়
+trjak	ট্র্যাক
+trjaking	ট্র্যাকিং
+trjapik	ট্র্যাফিক
+trk	তর্ক
+trl	তরল
+trng	তরঙ্গ
+trp	তরফ
+truk	টোরুক
+trun	তরুণ তরুন
+truti	ত্রুটি
+tst	টোস্ট
+tu	টু থু
+tuc	তুচ্ছ
+tui	তুই তুইও
+tuii	তুইই
+tuit	তুইতো
+tukr	টুকরো
+tukra	টুকরা
+tul	তুলো তুল
+tula	তুলা
+tulb	তুলবো
+tulbe	তুলবে
+tulce	তুলছে
+tulci	তুলছি
+tule	তুলে তুললে
+tulec	তুলেছ
+tulece	তুলেছে
+tuleci	তুলেছি
+tulecil	তুলেছিল
+tuli	তুলি
+tulj	তুল্য
+tulna	তুলনা
+tulnay	তুলনায়
+tulniy	অতুলনীয়
+tulte	তুলতে
+tulun	তুলুন
+tumake	তুমাকে
+tumar	তুমার
+tumi	তুমি তুমিও
+tumii	তুমিই
+tumit	তুমিতো
+tupan	তুফান
+tupi	টুপি
+turnament	টুর্নামেন্ট
+turnamenter	টুর্নামেন্টের
+tusar	তুষার
+tutu	থুথু থুতু
+ty	টয়
+tyale	তোয়ালে
+tylet	টয়লেট
+tylete	টয়লেটে
+u	ঔ উ ওউ
+uby	উভয়
+ubyer	উভয়ের
+uc	উচ্চ
+ucarn	উচ্চারণ উচ্চারন
+ucit	উচিত উচিৎ
+ucta	উচ্চতা
+uctay	উচ্চতায়
+ucu	উঁচু উচু
+ucute	উঁচুতে উচুতে
+uda	উধাও
+udahrn	উদাহরণ
+udar	উদ্ধার উদার
+udarer	উদ্ধারের
+udarta	উদারতা
+udbeg	উদ্বেগ
+udbid	উদ্ভিদ
+udbign	উদ্বিগ্ন
+udbt	উদ্ভট
+udesj	উদ্দেশ্য
+udesje	উদ্দেশ্যে
+udgatn	উদঘাটন
+udi	উডি
+udjapn	উদযাপন
+udjapner	উদযাপনের
+udjg	উদ্যোগ
+udt	উদ্ধত
+udy	উদয়
+uh	উহ উহ্
+uha	উহা
+uhu	উহু উঁহু
+uijli	উইজলি
+uik	উইক
+uil	উইল
+uiliyam	উইলিয়াম
+uilsn	উইলসন
+uind	উইন্ড
+uings	উইংস
+uintarpele	উইন্টারফেলে
+uis	উইশ
+ujbl	উজ্জ্বল
+uki	উঁকি
+ukil	উকিল
+ukiler	উকিলের
+ukilke	উকিলকে
+ukng	উকং
+ul	উল
+ulas	উল্লাস
+ulek	উল্লেখ
+uljanda	উল্যাণ্ডা
+ulng	উলঙ্গ
+ulp	উলফ
+ult	উল্টো
+ulta	উল্টা উল্টোটা
+ultapalta	উল্টাপাল্টা
+ulte	উল্টে
+um	উম উমম
+umar	উমার
+unader	উনাদের
+unake	উনাকে
+unar	উনার
+unara	উনারা
+uni	উনি উন্নি উনিও
+unii	উনিই
+unmad	উন্মাদ
+unmcn	উন্মোচন
+unmukt	উন্মুক্ত
+unt	উন্নত
+unti	উন্নতি
+untir	উন্নতির
+up	উফ
+upadan	উপাদান
+upadi	উপাধি
+uparjn	উপার্জন
+upay	উপায়
+upaye	উপায়ে
+upbg	উপভোগ
+updes	উপদেশ
+updesta	উপদেষ্টা
+upeksa	উপেক্ষা
+uphar	উপহার
+upharer	উপহারের
+uphas	উপহাস
+upjati	উপজাতি
+upjatider	উপজাতিদের
+upjgi	উপযোগী
+upjukt	উপযুক্ত
+upkar	উপকার
+upkare	উপকারে
+upkari	উপকারী
+upkul	উপকূল
+uplbdi	উপলব্ধি
+uplkse	উপলক্ষে
+upnibes	উপনিবেশ
+upnjas	উপন্যাস
+upr	উপর
+upre	উপরে উপড়ে
+uprei	উপরেই
+uprer	উপরের
+upri	উপরই
+uprtlay	উপরতলায়
+upryalar	উপরওয়ালার
+upstapn	উপস্থাপন
+upstit	উপস্থিত
+upstiti	উপস্থিতি
+uptjka	উপত্যকা
+uptjkay	উপত্যকায়
+ur	উর
+ura	উড়াও
+urar	উড়ার
+urate	উড়াতে
+urbe	উড়বে
+urce	উড়ছে
+urci	উড়ছি
+urdbsbas	ঊর্ধ্বশ্বাস
+ure	উড়ে
+uriye	উড়িয়ে
+urnt	উড়ন্ত
+urte	উড়তে
+usd	ঔষধ
+usn	উষ্ণ
+ustad	উস্তাদ
+ut	উঠো উঠ উট
+uta	উঠাও উঠা
+utan	উঠান
+utar	উঠার
+utate	উঠাতে
+utb	উঠবো
+utbe	উঠবে
+utben	উঠবেন
+utce	উঠছে
+utci	উঠছি
+ute	উঠে উঠতে
+utece	উঠেছে
+uteci	উঠেছি
+utecil	উঠেছিল
+utejit	উত্তেজিত
+utejk	উত্তেজক
+utejna	উত্তেজনা
+utgul	উটগুলো
+utgulr	উটগুলোর
+uti	উঠি
+utiye	উঠিয়ে
+utl	উঠলো উঠল
+utla	উতলা
+utlam	উঠলাম
+utle	উঠলে
+utm	উত্তম
+utpadn	উৎপাদন
+utpt	উত্তপ্ত
+utpti	উৎপত্তি
+utr	উত্তর
+utradikar	উত্তরাধিকার
+utradikari	উত্তরাধিকারী
+utre	উত্তরে
+utrer	উত্তরের
+utrta	উত্তরটা
+uts	উৎস
+utsah	উৎসাহ
+utsb	উৎসব
+utsrg	উৎসর্গ
+utun	উঠুন
+y	৩য় ২য় অয়
+ya	ওয়াও ওয়া
+yac	ওয়াচ
+yacer	ওয়াচের
+yada	ওয়াদা
+yah	ওয়াহ
+yaibi	ওয়াইবি
+yain	ওয়াইন
+yajda	ওয়াজদা
+yak	ওয়াক
+yakar	ওয়াকার
+yala	ওয়ালা
+yalar	ওয়ালার
+yales	ওয়ালেস
+yaleser	ওয়ালেসের
+yalet	ওয়ালেট
+yaltar	ওয়াল্টার
+yan	ওয়ান
+yanda	ওয়ান্ডা
+yang	ওয়াং
+yard	ওয়ার্ড
+yarden	ওয়ার্ডেন
+yaren	ওয়ারেন
+yarent	ওয়ারেন্ট
+yarld	ওয়ার্ল্ড
+yarlds	ওয়ার্ল্ডস
+yasingtn	ওয়াশিংটন
+yasingtne	ওয়াশিংটনে
+yasingtner	ওয়াশিংটনের
+yaste	ওয়াস্তে
+yatar	ওয়াটার
+yatars	ওয়াটার্স
+yatsn	ওয়াটসন
+ye	২৫য়ে ওয়ে
+yebsait	ওয়েবসাইট
+yel	ওয়েল
+yelkam	ওয়েলকাম
+yels	ওয়েলস
+yen	ওয়েন
+yes	অয়েস
+yest	ওয়েস্ট
+yestarn	ওয়েস্টার্ন
+yet	ওয়েট
+yetar	ওয়েটার
+yjar	ওয়্যার
+ylp	ওয়লফ

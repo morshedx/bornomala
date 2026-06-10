@@ -31,7 +31,11 @@ import javax.inject.Singleton
 class DefaultSuggestionEngine @Inject constructor(
     private val providers: Set<@JvmSuppressWildcards SuggestionProvider>,
     private val dispatchers: DispatcherProvider,
+    private val banglaPhonetic: com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository,
 ) : SuggestionEngine {
+
+    override suspend fun banglaPhoneticCandidates(roman: String, limit: Int): List<String> =
+        if (roman.isBlank()) emptyList() else banglaPhonetic.candidates(roman, limit)
 
     override suspend fun getSuggestions(request: SuggestionRequest): List<Suggestion> {
         val active = providers

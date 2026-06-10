@@ -250,10 +250,10 @@ class InputInteractor(
             return
         }
         val verbatim = state.composingText
-        // Auto-correct (English only): if the engine flagged a high-confidence spelling
-        // correction for the just-finished word, swap it into the composing region before
-        // finalizing, and remember it so a following backspace can revert.
-        val correction = if (config.suggestionsEnabled && state.language == KeyboardLanguage.ENGLISH) {
+        // Auto-correct: if the strip flagged a high-confidence target — an English spelling
+        // correction, or the top Bangla phonetic-dictionary word (e.g. chara -> ছাড়া) — swap it
+        // into the composing region before finalizing, and remember it so backspace can revert.
+        val correction = if (config.suggestionsEnabled) {
             state.suggestions.firstOrNull { it.isAutoCorrect }?.text
         } else {
             null

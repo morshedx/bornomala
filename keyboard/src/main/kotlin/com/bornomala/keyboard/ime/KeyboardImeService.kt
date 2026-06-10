@@ -408,6 +408,9 @@ class KeyboardImeService : InputMethodService() {
             val rendered = transliterationPort.transliterate(currentWord)
             val engineCandidates = transliterationPort.candidates(currentWord)
             suggestionJob = serviceScope.launch {
+                val phonetic = withContext(dispatchers.default) {
+                    suggestionPort.banglaPhonetic(currentWord, SUGGESTION_LIMIT)
+                }
                 val dict = withContext(dispatchers.default) {
                     if (rendered.isNotEmpty()) {
                         suggestionPort.query(KeyboardLanguage.BANGLA, rendered, previous, secondPrevious, SUGGESTION_LIMIT)
@@ -416,7 +419,7 @@ class KeyboardImeService : InputMethodService() {
                     }
                 }
                 stateHolder.setSuggestions(
-                    buildBanglaSuggestions(currentWord, rendered, engineCandidates, dict),
+                    buildBanglaSuggestions(currentWord, rendered, phonetic, engineCandidates, dict),
                 )
             }
             return
@@ -444,6 +447,7 @@ class KeyboardImeService : InputMethodService() {
     private fun buildBanglaSuggestions(
         roman: String,
         rendered: String,
+        phonetic: List<String>,
         engineCandidates: List<String>,
         dictionary: List<Suggestion>,
     ): List<Suggestion> {
@@ -453,8 +457,15 @@ class KeyboardImeService : InputMethodService() {
             if (text.isEmpty() || !seen.add(text) || out.size >= SUGGESTION_LIMIT) return
             out.add(Suggestion(text = text, isAutoCorrect = highlight, isTransliteration = transliteration))
         }
+        // Raw latin first (so the user can keep exactly what they typed), then the top phonetic
+        // dictionary word as the highlighted auto-pick (committed on space, e.g. ছাড়া), then the
+        // plain phonetic render and the remaining candidates.
         add(roman, transliteration = false, highlight = false)
-        add(rendered, transliteration = true, highlight = true)
+        val autoPick = phonetic.firstOrNull()
+        if (autoPick != null) add(autoPick, transliteration = true, highlight = true)
+        // The render is highlighted only when there is no phonetic auto-pick to take its place.
+        add(rendered, transliteration = true, highlight = autoPick == null)
+        phonetic.forEach { add(it, transliteration = true, highlight = false) }
         engineCandidates.forEach { add(it, transliteration = true, highlight = false) }
         dictionary.forEach { add(it.text, transliteration = true, highlight = false) }
         return out

@@ -22,4 +22,11 @@ interface DictionarySource {
      * nothing if no seed ships for the language.
      */
     fun bigramLinesFor(language: SuggestionLanguage): Sequence<String>
+
+    /**
+     * Returns the Bangla phonetic-index lines (`key<TAB>word1 word2 …`), mapping an
+     * ambiguity-collapsed roman key to real Bangla words by frequency. Only Bangla ships one;
+     * other languages yield nothing.
+     */
+    fun phoneticLinesFor(language: SuggestionLanguage): Sequence<String> = emptySequence()
 }

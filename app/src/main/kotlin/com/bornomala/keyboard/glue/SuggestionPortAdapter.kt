@@ -60,6 +60,9 @@ class SuggestionPortAdapter @Inject constructor(
         }
     }
 
+    override suspend fun banglaPhonetic(roman: String, limit: Int): List<String> =
+        engine.banglaPhoneticCandidates(roman, limit)
+
     override fun recordCommitted(language: KeyboardLanguage, word: String) {
         if (word.isBlank()) return
         val lang = language.toSuggestionLanguage()

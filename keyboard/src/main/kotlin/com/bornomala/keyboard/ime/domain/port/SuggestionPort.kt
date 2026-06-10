@@ -34,6 +34,13 @@ interface SuggestionPort {
     ): List<Suggestion>
 
     /**
+     * Resolves a roman (Avro-style) Bangla input to real Bangla words via the bundled phonetic
+     * index — e.g. `chara` -> [ছাড়া, ছাড়াও] — ranked by frequency. Empty for other languages
+     * or when nothing matches. Runs off the main thread like [query].
+     */
+    suspend fun banglaPhonetic(roman: String, limit: Int): List<String> = emptyList()
+
+    /**
      * Records that the user committed [word] in [language] so the engine can learn
      * frequency / next-word transitions. Must not block; persistence is debounced by the
      * implementation.
