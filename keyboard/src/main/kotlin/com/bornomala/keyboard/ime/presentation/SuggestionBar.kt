@@ -2,18 +2,20 @@ package com.bornomala.keyboard.ime.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Text
@@ -37,16 +39,20 @@ internal fun SuggestionBar(
     modifier: Modifier = Modifier,
 ) {
     val colors = BornomalaTheme.keyboardColors
-    // Gboard-style strip: equal-width slots spanning the full bar, with the top (primary)
-    // candidate placed in the CENTER slot and emphasized; the remaining candidates fan out
-    // symmetrically around it. An odd visible count keeps the primary exactly centered.
+    // Gboard-style strip: the top (primary) candidate sits in the centre of the order and is
+    // emphasized, the rest fan out around it. Chips size to their text (with a minimum tap
+    // width) so a long word is shown in full; if the candidates overflow the bar they scroll
+    // horizontally instead of being truncated.
     Box(modifier = modifier.fillMaxWidth().background(colors.suggestionBarBackground)) {
         if (suggestions.isEmpty()) return@Box
         val shown = if (suggestions.size > MAX_VISIBLE) suggestions.subList(0, MAX_VISIBLE) else suggestions
         val primary = shown.first()
         val ordered = centerPrimary(shown)
         Row(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .horizontalScroll(rememberScrollState()),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ordered.forEachIndexed { index, suggestion ->
@@ -70,11 +76,11 @@ internal fun SuggestionBar(
                     fontWeight = if (isPrimary) FontWeight.SemiBold else FontWeight.Normal,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+                    softWrap = false, // never truncate: a long word is shown whole and scrolls
                     modifier = Modifier
-                        .weight(1f)
+                        .widthIn(min = 72.dp)
                         .clickable { onSuggestion(suggestion.text) }
-                        .padding(horizontal = 8.dp),
+                        .padding(horizontal = 16.dp),
                 )
             }
         }
