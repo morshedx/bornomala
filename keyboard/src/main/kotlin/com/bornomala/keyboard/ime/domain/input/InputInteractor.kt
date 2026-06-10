@@ -58,6 +58,12 @@ class InputInteractor(
     /** Timestamp of the last committed space, for the double-space-period shortcut. */
     private var lastSpaceTime: Long = 0L
 
+    /** The most recent auto-correct, so an immediate backspace can revert it; null otherwise. */
+    private var pendingAutoCorrect: AutoCorrectUndo? = null
+
+    /** Records an applied auto-correction for one-tap undo (original typed word vs the swap-in). */
+    private data class AutoCorrectUndo(val original: String, val corrected: String)
+
     /** Updates behavioural config (snapshot of user settings). Cheap; no reset. */
     fun updateConfig(newConfig: InputConfig) {
         config = newConfig
@@ -66,6 +72,7 @@ class InputInteractor(
     /** Clears the composing buffer/state, e.g. on field change or cursor jump. */
     fun resetComposing() {
         if (composingBuffer.isNotEmpty()) composingBuffer.setLength(0)
+        pendingAutoCorrect = null
         editor.finishComposing()
         stateHolder.clearComposingAndSuggestions()
     }
@@ -76,6 +83,13 @@ class InputInteractor(
      */
     fun onKey(action: KeyAction) {
         callbacks.onFeedback(action)
+        // A backspace immediately after an auto-correct reverts it (restores the typed word);
+        // any other key just consumes the pending undo. Either way the flag clears here.
+        val undo = pendingAutoCorrect
+        if (undo != null) {
+            pendingAutoCorrect = null
+            if (action == KeyAction.Backspace && revertAutoCorrect(undo)) return
+        }
         when (action) {
             is KeyAction.Character -> onCharacter(action.char)
             is KeyAction.Text -> onText(action.text)
@@ -231,17 +245,46 @@ class InputInteractor(
             composingBuffer.setLength(0)
             return
         }
-        editor.finishComposing()
-        val committedWord = state.composingText
-        val sourceWord = composingBuffer.toString().ifEmpty { committedWord }
+        val verbatim = state.composingText
+        // Auto-correct (English only): if the engine flagged a high-confidence spelling
+        // correction for the just-finished word, swap it into the composing region before
+        // finalizing, and remember it so a following backspace can revert.
+        val correction = if (config.suggestionsEnabled && state.language == KeyboardLanguage.ENGLISH) {
+            state.suggestions.firstOrNull { it.isAutoCorrect }?.text
+        } else {
+            null
+        }
+        val committedWord: String
+        if (correction != null && correction != verbatim) {
+            editor.setComposingText(correction)
+            editor.finishComposing()
+            committedWord = correction
+            pendingAutoCorrect = AutoCorrectUndo(original = verbatim, corrected = correction)
+        } else {
+            editor.finishComposing()
+            committedWord = verbatim
+        }
         composingBuffer.setLength(0)
         stateHolder.clearComposingAndSuggestions()
         if (committedWord.isNotEmpty()) {
             callbacks.onWordCommitted(state.language, committedWord)
             callbacks.onComposingChanged(state.language, "")
         }
-        // sourceWord retained for potential future learning of latin->bangla mappings.
-        @Suppress("UNUSED_EXPRESSION") sourceWord
+    }
+
+    /**
+     * Reverts the last auto-correction: if the text immediately before the cursor is the
+     * corrected word followed by a single space (the state right after auto-correct + space),
+     * deletes both and re-commits the original typed word. Returns true when it reverted.
+     */
+    private fun revertAutoCorrect(undo: AutoCorrectUndo): Boolean {
+        val tail = undo.corrected + " "
+        val before = editor.textBeforeCursor(tail.length)
+        if (before.toString() != tail) return false
+        editor.deleteSurroundingText(tail.length, 0)
+        editor.commitText(undo.original)
+        callbacks.onComposingChanged(stateHolder.current.language, "")
+        return true
     }
 
     /** Re-arms shift for sentence-start capitalization in English when enabled. */

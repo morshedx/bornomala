@@ -2,15 +2,12 @@ package com.bornomala.keyboard.ime.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,18 +37,19 @@ internal fun SuggestionBar(
     modifier: Modifier = Modifier,
 ) {
     val colors = BornomalaTheme.keyboardColors
-    // Background fills the bar; the chips live in a horizontally scrollable row so showing up
-    // to MAX_VISIBLE candidates never truncates a long word — overflow scrolls instead.
+    // Gboard-style strip: equal-width slots spanning the full bar, with the top (primary)
+    // candidate placed in the CENTER slot and emphasized; the remaining candidates fan out
+    // symmetrically around it. An odd visible count keeps the primary exactly centered.
     Box(modifier = modifier.fillMaxWidth().background(colors.suggestionBarBackground)) {
         if (suggestions.isEmpty()) return@Box
         val shown = if (suggestions.size > MAX_VISIBLE) suggestions.subList(0, MAX_VISIBLE) else suggestions
+        val primary = shown.first()
+        val ordered = centerPrimary(shown)
         Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .horizontalScroll(rememberScrollState()),
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            shown.forEachIndexed { index, suggestion ->
+            ordered.forEachIndexed { index, suggestion ->
                 if (index > 0) {
                     Box(
                         modifier = Modifier
@@ -61,23 +59,46 @@ internal fun SuggestionBar(
                             .background(colors.suggestionDivider),
                     )
                 }
-                val highlighted = suggestion.isAutoCorrect
+                val isPrimary = suggestion === primary
+                // The center/primary chip is always bold; it takes the highlight colour only
+                // when it is an actual auto-correct (so a plain top completion isn't mis-coloured).
+                val highlighted = isPrimary && suggestion.isAutoCorrect
                 Text(
                     text = suggestion.text,
                     color = if (highlighted) colors.suggestionTextHighlighted else colors.suggestionText,
                     fontSize = 15.sp,
-                    fontWeight = if (highlighted) FontWeight.SemiBold else FontWeight.Normal,
+                    fontWeight = if (isPrimary) FontWeight.SemiBold else FontWeight.Normal,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
-                        .widthIn(min = 72.dp)
+                        .weight(1f)
                         .clickable { onSuggestion(suggestion.text) }
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                 )
             }
         }
     }
 }
 
-private const val MAX_VISIBLE = 6
+/**
+ * Reorders [shown] so the primary (index 0) sits in the middle slot and the rest fan out
+ * symmetrically: 2nd to its right, 3rd to its left, 4th right, 5th left, … For an odd size the
+ * primary lands exactly at the centre; e.g. [a,b,c,d,e] -> [e,c,a,b,d].
+ */
+private fun centerPrimary(shown: List<Suggestion>): List<Suggestion> {
+    if (shown.size <= 1) return shown
+    val result = arrayOfNulls<Suggestion>(shown.size)
+    val mid = shown.size / 2
+    result[mid] = shown[0]
+    var left = mid - 1
+    var right = mid + 1
+    for (i in 1 until shown.size) {
+        if (i % 2 == 1) result[right++] = shown[i] else result[left--] = shown[i]
+    }
+    @Suppress("UNCHECKED_CAST")
+    return result.toList() as List<Suggestion>
+}
+
+// Odd cap so the primary slot is exactly centered.
+private const val MAX_VISIBLE = 5

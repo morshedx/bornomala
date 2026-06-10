@@ -63,6 +63,7 @@ class OfflineProvider @Inject constructor(
     private suspend fun currentWordSuggestions(request: SuggestionRequest): List<Suggestion> {
         val lang = request.language
         val prefix = normalize(request.currentWord, lang)
+        val prev = normalize(request.previousWord, lang)
         val limit = request.limit
         // Over-fetch a little from each source so the merge has room to rank well.
         val fetch = limit + EXTRA_FETCH
@@ -129,9 +130,54 @@ class OfflineProvider @Inject constructor(
             }
         }
 
-        return merged.values
+        // 5) Spelling corrections (English): QWERTY-aware edit-distance-1 candidates that are
+        //    real words. Offered as alternates; the best one is flagged for auto-correct only
+        //    when the typed word is not itself a known word (a likely finished typo).
+        var autoCorrectWord: String? = null
+        if (lang == SuggestionLanguage.ENGLISH && prefix.length >= 2) {
+            val verbatimKnown = dict.frequencyOf(prefix) > 0 ||
+                userHits.any { normalize(it.word, lang) == prefix } ||
+                CONTRACTIONS.containsKey(prefix)
+            val corrections = FuzzyCorrector.corrections(prefix, dict, fetch)
+            for (c in corrections) {
+                val score = (c.frequency.toDouble() / max) * c.editScore * CORRECTION_WEIGHT
+                putBest(merged, Suggestion(
+                    word = c.word,
+                    language = lang,
+                    source = SuggestionSource.CORRECTION,
+                    score = score,
+                ))
+            }
+            val startsUpper = request.currentWord.firstOrNull()?.isUpperCase() == true
+            if (!verbatimKnown && !startsUpper && prefix.length >= MIN_AUTOCORRECT_LEN && corrections.isNotEmpty()) {
+                autoCorrectWord = corrections.first().word
+            }
+        }
+
+        // 6) Context re-rank (English): lift completions of the current prefix that are likely
+        //    to follow the previous word (bigram next-words of `prev`), so e.g. "how" + "t…"
+        //    surfaces "to"/"the" ahead of equally-spelled but contextually unlikely words.
+        if (lang == SuggestionLanguage.ENGLISH && prev.isNotEmpty() && prefix.isNotEmpty()) {
+            val ctx = bigrams.get(lang).nextWords(prev, CONTEXT_LOOKUP)
+            ctx.forEachIndexed { idx, w ->
+                val existing = merged[w] ?: return@forEachIndexed
+                val boost = CONTEXT_BOOST * (1.0 - idx * CONTEXT_STEP).coerceAtLeast(0.0)
+                merged[w] = existing.copy(score = (existing.score + boost).coerceAtMost(MAX_SCORE))
+            }
+        }
+
+        var ranked = merged.values
             .sortedWith(RANK_COMPARATOR)
             .take(limit)
+        // Flag the auto-correct target only if it actually leads the ranking, so a strong
+        // completion of a partially-typed word is never silently replaced.
+        if (autoCorrectWord != null &&
+            ranked.firstOrNull()?.word == autoCorrectWord &&
+            ranked.first().source == SuggestionSource.CORRECTION
+        ) {
+            ranked = ranked.mapIndexed { i, s -> if (i == 0) s.copy(autoCorrect = true) else s }
+        }
+        return ranked
     }
 
     private suspend fun nextWordSuggestions(request: SuggestionRequest): List<Suggestion> {
@@ -272,6 +318,17 @@ class OfflineProvider @Inject constructor(
 
         /** Score for an apostrophe contraction — above any plain dictionary word (<= 1.0). */
         private const val CONTRACTION_SCORE = 1.5
+
+        /** Scales a correction's (frequency × edit-confidence) so it sits just under exact hits. */
+        private const val CORRECTION_WEIGHT = 0.95
+
+        /** Shortest typed word eligible for silent auto-correct on space (shorter = likely mid-word). */
+        private const val MIN_AUTOCORRECT_LEN = 3
+
+        // Previous-word context boost applied to current-word completions (Gboard-style re-rank).
+        private const val CONTEXT_LOOKUP = 12
+        private const val CONTEXT_BOOST = 0.5
+        private const val CONTEXT_STEP = 0.05
 
         /**
          * No-apostrophe -> apostrophe contractions, keyed by the lower-cased typed word.

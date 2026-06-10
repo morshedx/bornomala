@@ -49,12 +49,13 @@ class SuggestionPortAdapter @Inject constructor(
         )
         val ranked = engine.getSuggestions(request)
         if (ranked.isEmpty()) return emptyList()
-        // The top candidate is highlighted as the auto-correct target when it is not just a
-        // verbatim echo of what the user typed.
-        return ranked.mapIndexed { index, s ->
+        // isAutoCorrect carries the engine's genuine spelling-correction flag: it is set only on
+        // a high-confidence correction of a word the user did not spell as a known word, so the
+        // IME can safely swap it in on space. A plain top completion is NOT an auto-correct.
+        return ranked.map { s ->
             KeyboardSuggestion(
                 text = s.word,
-                isAutoCorrect = index == 0 && !s.isExactMatch && currentWord.isNotEmpty(),
+                isAutoCorrect = s.autoCorrect,
             )
         }
     }

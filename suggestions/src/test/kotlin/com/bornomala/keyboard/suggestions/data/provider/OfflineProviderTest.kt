@@ -140,6 +140,22 @@ class OfflineProviderTest {
     }
 
     @Test
+    fun `transposed typo is corrected and flagged for auto-correct`() = runTest {
+        // "teh" -> "the" via an adjacent transposition; "teh" is not a dictionary word.
+        val result = (provider.suggest(request("teh", limit = 5)) as com.bornomala.keyboard.core.result.AppResult.Success).data
+        assertThat(result.first().word).isEqualTo("the")
+        assertThat(result.first().source).isEqualTo(SuggestionSource.CORRECTION)
+        assertThat(result.first().autoCorrect).isTrue()
+    }
+
+    @Test
+    fun `a known word is never auto-corrected`() = runTest {
+        // "the" is a real word; nothing in the result should be flagged for auto-correct.
+        val result = (provider.suggest(request("the", limit = 5)) as com.bornomala.keyboard.core.result.AppResult.Success).data
+        assertThat(result.none { it.autoCorrect }).isTrue()
+    }
+
+    @Test
     fun `respects the requested limit`() = runTest {
         val result = (provider.suggest(request("t", limit = 2)) as com.bornomala.keyboard.core.result.AppResult.Success).data
         assertThat(result.size).isAtMost(2)
