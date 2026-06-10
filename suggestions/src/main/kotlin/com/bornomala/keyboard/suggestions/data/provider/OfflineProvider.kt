@@ -135,9 +135,13 @@ class OfflineProvider @Inject constructor(
         //    when the typed word is not itself a known word (a likely finished typo).
         var autoCorrectWord: String? = null
         if (lang == SuggestionLanguage.ENGLISH && prefix.length >= 2) {
+            // A word counts as "known" (so it is not auto-corrected) when it is in the bundled
+            // dictionary, is a contraction, or the user has typed it at least LEARN_TRUST times.
+            // The frequency gate matters: a single accidental commit of a typo (e.g. before
+            // auto-correct kicked in) must not permanently mark that typo as a real word.
             val verbatimKnown = dict.frequencyOf(prefix) > 0 ||
-                userHits.any { normalize(it.word, lang) == prefix } ||
-                CONTRACTIONS.containsKey(prefix)
+                CONTRACTIONS.containsKey(prefix) ||
+                userHits.any { normalize(it.word, lang) == prefix && it.frequency >= LEARN_TRUST }
             val corrections = FuzzyCorrector.corrections(prefix, dict, fetch)
             for (c in corrections) {
                 val score = (c.frequency.toDouble() / max) * c.editScore * CORRECTION_WEIGHT
@@ -324,6 +328,9 @@ class OfflineProvider @Inject constructor(
 
         /** Shortest typed word eligible for silent auto-correct on space (shorter = likely mid-word). */
         private const val MIN_AUTOCORRECT_LEN = 3
+
+        /** Times a word must be learned before it suppresses auto-correct (blocks one-off typos). */
+        private const val LEARN_TRUST = 2
 
         // Previous-word context boost applied to current-word completions (Gboard-style re-rank).
         private const val CONTEXT_LOOKUP = 12
