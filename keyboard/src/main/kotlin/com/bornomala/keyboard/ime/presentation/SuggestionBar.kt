@@ -87,14 +87,22 @@ internal fun SuggestionBar(
  * primary lands exactly at the centre; e.g. [a,b,c,d,e] -> [e,c,a,b,d].
  */
 private fun centerPrimary(shown: List<Suggestion>): List<Suggestion> {
-    if (shown.size <= 1) return shown
-    val result = arrayOfNulls<Suggestion>(shown.size)
-    val mid = shown.size / 2
+    val n = shown.size
+    if (n <= 1) return shown
+    val result = arrayOfNulls<Suggestion>(n)
+    val mid = (n - 1) / 2 // for an even count this leans one slot left of true centre
     result[mid] = shown[0]
     var left = mid - 1
     var right = mid + 1
-    for (i in 1 until shown.size) {
-        if (i % 2 == 1) result[right++] = shown[i] else result[left--] = shown[i]
+    var i = 1
+    // Fan the rest out right-then-left, but always within bounds so even sizes never overflow.
+    while (i < n) {
+        if (right < n) {
+            result[right++] = shown[i]; i++
+        }
+        if (i < n && left >= 0) {
+            result[left--] = shown[i]; i++
+        }
     }
     @Suppress("UNCHECKED_CAST")
     return result.toList() as List<Suggestion>
