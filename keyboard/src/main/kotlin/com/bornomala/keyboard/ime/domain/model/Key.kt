@@ -32,6 +32,8 @@ enum class KeyStyle {
  * @param action what the key does when tapped.
  * @param hint small corner hint (e.g. the digit on a letter key, or first long-press char).
  * @param longPressChars characters offered in the long-press popup, in display order.
+ * @param longPressKeyAction a discrete action fired when the key is held (no popup); used by
+ *   keys with no character alternates, e.g. the language key holds to open the IME picker.
  * @param weight relative horizontal size within the row (1f = one standard key).
  * @param style visual role.
  * @param contentDescription accessibility label for TalkBack; when null the renderer
@@ -45,6 +47,7 @@ data class Key(
     val shiftedLabel: String? = null,
     val hint: String? = null,
     val longPressChars: List<Char> = emptyList(),
+    val longPressKeyAction: KeyAction? = null,
     val weight: Float = 1f,
     val style: KeyStyle = KeyStyle.NORMAL,
     val contentDescription: String? = null,

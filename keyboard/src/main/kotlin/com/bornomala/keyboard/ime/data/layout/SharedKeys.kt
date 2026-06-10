@@ -60,6 +60,7 @@ internal object SharedKeys {
     val LANGUAGE = Key(
         label = "",
         action = KeyAction.SwitchLanguage,
+        longPressKeyAction = KeyAction.ShowImePicker,
         weight = 1f,
         style = KeyStyle.FUNCTIONAL,
         contentDescription = "Switch language",

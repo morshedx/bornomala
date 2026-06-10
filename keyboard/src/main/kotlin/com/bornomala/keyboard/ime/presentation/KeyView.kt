@@ -170,6 +170,15 @@ internal fun KeyView(
                         } else {
                             onKey(key.action)
                         }
+                    } else if (key.longPressKeyAction != null) {
+                        // Discrete long-press: hold fires the alternate action (e.g. the language
+                        // key opens the IME picker); a short tap fires the normal action.
+                        val up = waitForUpOrCancellationWindowed(longPressTimeoutMs)
+                        if (up == null) {
+                            onKey(key.longPressKeyAction)
+                        } else {
+                            onKey(key.action)
+                        }
                     } else {
                         val up = waitForUpOrCancellation()
                         if (up != null) {
@@ -277,6 +286,7 @@ private fun defaultDescription(key: Key, shift: ShiftState): String = when (key.
     KeyAction.ToAlpha -> "Letters"
     KeyAction.ToggleSymbolsPage -> "More symbols"
     KeyAction.Emoji -> "Emoji"
+    KeyAction.ShowImePicker -> "Switch keyboard"
     is KeyAction.Text -> (key.action as KeyAction.Text).text
     KeyAction.None -> ""
 }

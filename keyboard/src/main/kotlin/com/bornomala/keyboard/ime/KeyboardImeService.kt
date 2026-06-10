@@ -137,6 +137,11 @@ class KeyboardImeService : InputMethodService() {
             // step. Left intentionally inert so the keyboard never blocks on it.
         }
 
+        override fun onShowImePicker() {
+            (getSystemService(INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager)
+                ?.showInputMethodPicker()
+        }
+
         override fun onFeedback(action: KeyAction) {
             performKeyFeedback()
         }

@@ -46,6 +46,9 @@ class InputInteractor(
         /** The user asked to open the emoji panel. */
         fun onEmojiRequested()
 
+        /** The user held the language key: show the system input-method picker. */
+        fun onShowImePicker()
+
         /** Provide cheap haptic/sound feedback for a key press if enabled. */
         fun onFeedback(action: KeyAction)
     }
@@ -102,6 +105,7 @@ class InputInteractor(
             KeyAction.ToAlpha -> stateHolder.showAlpha()
             KeyAction.ToggleSymbolsPage -> stateHolder.toggleSymbolsPage()
             KeyAction.Emoji -> { commitComposing(); callbacks.onEmojiRequested() }
+            KeyAction.ShowImePicker -> { commitComposing(); callbacks.onShowImePicker() }
             KeyAction.None -> Unit
         }
     }

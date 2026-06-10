@@ -58,6 +58,10 @@ sealed interface KeyAction {
     @Immutable
     data object Emoji : KeyAction
 
+    /** Show the system input-method picker (switch to another keyboard app). */
+    @Immutable
+    data object ShowImePicker : KeyAction
+
     /** No-op placeholder used for spacer cells that keep rows aligned. */
     @Immutable
     data object None : KeyAction
