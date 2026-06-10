@@ -196,8 +196,17 @@ internal fun KeyboardScreen(
                         modifier = hostModifier,
                     )
                 } else {
-                    searchBar()
-                    ClipboardHost(onPaste = callbacks.onPaste, query = state.panelQuery, modifier = hostModifier)
+                    // Clipboard: the search bar sits INSIDE the fixed key-area height (not added
+                    // on top of it), so switching keyboard<->clipboard keeps the window height
+                    // identical to the keyboard's (strip + key area).
+                    Column(modifier = hostModifier) {
+                        searchBar()
+                        ClipboardHost(
+                            onPaste = callbacks.onPaste,
+                            query = state.panelQuery,
+                            modifier = Modifier.fillMaxWidth().weight(1f),
+                        )
+                    }
                 }
                 if (state.panelSearchActive) {
                     val alphaLayout = remember(state.language) {
