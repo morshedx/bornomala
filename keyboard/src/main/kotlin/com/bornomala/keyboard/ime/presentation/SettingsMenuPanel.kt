@@ -72,14 +72,14 @@ object SettingsMenuTestTags {
 }
 
 /**
- * In-keyboard settings menu: a back arrow + title bar, then a 2-column grid of the app's
- * settings categories (Gboard tools-page style, not identical). Tapping a tile opens the full
- * settings app on that section via [onOpenSection]; the back arrow ([onBack]) returns to the
- * keyboard. Sized to fill the panel host so the IME window stays keyboard-height.
+ * In-keyboard settings menu: a title bar then a 2-column grid of the app's settings categories
+ * (Gboard tools-page style, not identical). Tapping a tile opens the full settings app on that
+ * section via [onOpenSection]. Returning to the keyboard is handled by the action strip's back
+ * arrow above, so this panel has no back button of its own. Sized to fill the panel host so the
+ * IME window stays keyboard-height.
  */
 @Composable
 internal fun SettingsMenuPanel(
-    onBack: () -> Unit,
     onOpenSection: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -93,24 +93,10 @@ internal fun SettingsMenuPanel(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(BornomalaTheme.dimens.panelTabStripHeight),
+                .height(BornomalaTheme.dimens.panelTabStripHeight)
+                .padding(horizontal = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clickable(onClick = onBack)
-                    .testTag(SettingsMenuTestTags.BACK)
-                    .clearAndSetSemantics { contentDescription = "Back to keyboard" },
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = LucideIcons.ArrowLeft,
-                    contentDescription = null,
-                    tint = colors.functionalKeyContent,
-                    modifier = Modifier.size(22.dp),
-                )
-            }
             Text(
                 text = "Keyboard settings",
                 color = colors.suggestionText,

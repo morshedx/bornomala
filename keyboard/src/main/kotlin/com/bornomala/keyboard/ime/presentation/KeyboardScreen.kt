@@ -160,7 +160,6 @@ internal fun KeyboardScreen(
                 // In-keyboard settings menu: a category grid that opens the full app per section.
                 // No search; sized to the alpha key area so the window stays keyboard-height.
                 SettingsMenuPanel(
-                    onBack = callbacks.onToggleSettingsMenu,
                     onOpenSection = callbacks.onOpenSettingsSection,
                     modifier = Modifier.fillMaxWidth().height(panelHeight),
                 )

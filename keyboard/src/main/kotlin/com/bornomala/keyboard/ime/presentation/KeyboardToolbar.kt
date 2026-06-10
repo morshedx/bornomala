@@ -65,6 +65,10 @@ internal fun ActionStrip(
 
     val showTools = !hasSuggestions || toolsExpanded
 
+    // When a panel (clipboard/settings) or the numpad is open, the left button is a back arrow
+    // that returns to the main keyboard (matching the emoji panel), instead of the tools toggle.
+    val backActive = numpadActive || clipboardActive || settingsActive
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -72,11 +76,25 @@ internal fun ActionStrip(
             .padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        StripIconButton(
-            icon = if (showTools) LucideIcons.ChevronRight else LucideIcons.ChevronLeft,
-            description = if (showTools) "Show suggestions" else "Show tools",
-            onClick = { toolsExpanded = !showTools },
-        )
+        if (backActive) {
+            StripIconButton(
+                icon = LucideIcons.ArrowLeft,
+                description = "Back to keyboard",
+                onClick = {
+                    when {
+                        clipboardActive -> callbacks.onToggleClipboard()
+                        settingsActive -> callbacks.onToggleSettingsMenu()
+                        numpadActive -> callbacks.onToggleNumbers()
+                    }
+                },
+            )
+        } else {
+            StripIconButton(
+                icon = if (showTools) LucideIcons.ChevronRight else LucideIcons.ChevronLeft,
+                description = if (showTools) "Show suggestions" else "Show tools",
+                onClick = { toolsExpanded = !showTools },
+            )
+        }
 
         if (showTools) {
             ToolsRow(
