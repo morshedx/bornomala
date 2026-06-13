@@ -22,10 +22,10 @@ import com.bornomala.keyboard.ime.domain.model.KeyboardLayout
  */
 internal object NumpadLayout {
 
-    // Column model: 8 column-units per row — left rail (1) + 3 digits (2 each) + right rail (1).
-    // The renderer gives the left strip column weight 1 and the digit grid weight 7, so a strip
-    // key and a right-rail key are both 1 unit wide and the digits are 2.
-    private const val DIGIT_W = 2f
+    // Column model: 7 columns per row — left rail (1) + right rail (1) = 2, and the middle 5
+    // columns split equally across the 3 digits, so each digit = 5/3 columns. The renderer gives
+    // the left strip column weight 1 and the digit grid weight 6 (3 digits @5/3 + right rail @1).
+    private const val DIGIT_W = 5f / 3f
     private const val RAIL_W = 1f
 
     // Left strip symbols: FUNCTIONAL colour, full-size (one per row, the rest scroll).
@@ -54,7 +54,7 @@ internal object NumpadLayout {
     // Punctuation (comma/period) use the rail colour; !?#, 0, = use the digit colour.
     private val comma = Key(",", KeyAction.Character(','), weight = 1f, style = KeyStyle.FUNCTIONAL)
     private val toSymbols = Key("!?#", KeyAction.ToSymbols, weight = 1f, style = KeyStyle.NORMAL, contentDescription = "Symbols")
-    private val zero = Key("0", KeyAction.Character('0'), weight = 2f, style = KeyStyle.NORMAL)
+    private val zero = Key("0", KeyAction.Character('0'), weight = 1f, style = KeyStyle.NORMAL)
     private val equals = Key("=", KeyAction.Character('='), weight = 1f, style = KeyStyle.NORMAL)
     private val period = Key(".", KeyAction.Character('.'), weight = 1f, style = KeyStyle.FUNCTIONAL)
     private val enter = Key("", KeyAction.Enter, weight = 1f, style = KeyStyle.FUNCTIONAL, contentDescription = "Enter")

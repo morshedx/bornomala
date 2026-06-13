@@ -413,9 +413,10 @@ private fun KeyGrid(
                 .fillMaxWidth()
                 .height(rowHeight * gridRows.size),
         ) {
-            // Left strip: a scrollable rail = 1 column-unit, identical in size to a right-rail key.
-            // Strip weight 1 : grid weight 7; digit rows are [digit2, digit2, digit2, rail1] = 7,
-            // so the strip (1) and right rail (1) match and digits are 2 — all columns align.
+            // Left strip: a scrollable rail = 1 column, identical in size to a right-rail key.
+            // 7-column model: strip weight 1 : grid weight 6; digit rows are
+            // [digit 5/3, digit 5/3, digit 5/3, rail 1] = 6, so strip(1) and right rail(1) match
+            // and the 3 digits share the middle 5 columns equally.
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -439,8 +440,8 @@ private fun KeyGrid(
                     )
                 }
             }
-            // Digit grid + right column. Weight 7 = the 3 digits (2 each) + right rail (1).
-            Column(modifier = Modifier.weight(7f).fillMaxHeight()) {
+            // Digit grid + right column. Weight 6 = the 3 digits (5/3 each = 5) + right rail (1).
+            Column(modifier = Modifier.weight(6f).fillMaxHeight()) {
                 gridRows.forEach { row ->
                     KeyRowView(
                         row = row,

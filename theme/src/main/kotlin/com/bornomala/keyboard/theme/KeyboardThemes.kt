@@ -48,9 +48,10 @@ fun keyboardColorsFor(theme: KeyboardTheme, systemInDark: Boolean): KeyboardColo
     KeyboardTheme.SUNSET -> colored(0xFF2A1512, 0xFF3C211B, 0xFF4D2C23, 0xFF331A15, 0xFF4D2C23, 0xFFF0743A)
     KeyboardTheme.GRAPE -> colored(0xFF1C1430, 0xFF2A1E45, 0xFF362858, 0xFF221839, 0xFF362858, 0xFFA277F0)
     KeyboardTheme.ROSE -> colored(0xFF2A1320, 0xFF3C1D2C, 0xFF4D2738, 0xFF331826, 0xFF4D2738, 0xFFF06B9E)
-    // Slate tray + lighter slate keys, teal accent (Enter). Functional keys (shift, ?123,
-    // comma, period, globe, delete) share the letter-key slate so the whole grid is uniform.
-    KeyboardTheme.SOLARIZED -> colored(0xFF212B30, 0xFF394147, 0xFF454D53, 0xFF394147, 0xFF454D53, 0xFF39A097)
+    // Slate tray + lighter slate digit keys, darker slate functional/rail keys (shift, ?123,
+    // comma, period, globe, delete, numpad rails), teal accent (Enter) — so the grid reads with
+    // the same digit/functional contrast as the other themes.
+    KeyboardTheme.SOLARIZED -> colored(0xFF212B30, 0xFF394147, 0xFF454D53, 0xFF2D353A, 0xFF394147, 0xFF39A097)
 }
 
 /** Builds a full [KeyboardColors] from a few seed colors (all colored themes are dark). */
