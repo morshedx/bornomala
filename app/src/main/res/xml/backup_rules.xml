@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Backup is restricted to local DataStore preferences and the on-device user
-  dictionary / clipboard databases. No data ever leaves the device via network in V1;
-  these rules only govern the Android local/transfer backup framework.
+  Backs up the user's settings (DataStore Preferences, in the file domain under
+  datastore/), and the on-device user dictionary / clipboard databases, via the
+  Android backup framework (Auto Backup to the user's Google account + device transfer).
+  DataStore lives in the `file` domain, NOT sharedpref, so it needs its own include.
 -->
 <full-backup-content>
     <include domain="sharedpref" path="." />
     <include domain="database" path="." />
+    <include domain="file" path="datastore/" />
 </full-backup-content>
