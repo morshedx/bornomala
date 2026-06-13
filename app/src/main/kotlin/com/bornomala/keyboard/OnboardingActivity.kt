@@ -54,6 +54,8 @@ class OnboardingActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Keyboard already set up -> skip onboarding, go straight to Settings (no flash).
+        if (maybeGoToSettings()) return
         enableEdgeToEdge()
         setContent {
             // Material You for the onboarding app UI (Android 12+); keyboard palette unchanged.
@@ -75,6 +77,22 @@ class OnboardingActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    // Returning from the system IME picker/settings after finishing setup -> jump to Settings.
+    override fun onResume() {
+        super.onResume()
+        if (!isFinishing) maybeGoToSettings()
+    }
+
+    /** If the IME is enabled + selected, open Settings and finish onboarding. */
+    private fun maybeGoToSettings(): Boolean {
+        if (isImeEnabled(this) && isImeSelected(this)) {
+            startActivity(Intent(this, SettingsActivity::class.java))
+            finish()
+            return true
+        }
+        return false
     }
 }
 

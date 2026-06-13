@@ -173,7 +173,7 @@ internal fun <T> RadioSettingGroup(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp)) {
+        Column(modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 8.dp)) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyLarge,

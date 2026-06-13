@@ -28,6 +28,9 @@ internal object NumpadLayout {
     private const val DIGIT_W = 5f / 3f
     private const val RAIL_W = 1f
 
+    // Bottom-row punctuation: a pair sits under one digit column, so each is half a digit.
+    private const val HALF_DIGIT = DIGIT_W / 2f
+
     // Left strip symbols: FUNCTIONAL colour, full-size (one per row, the rest scroll).
     private fun stripSym(c: Char): Key =
         Key(label = c.toString(), action = KeyAction.Character(c), style = KeyStyle.FUNCTIONAL)
@@ -50,14 +53,16 @@ internal object NumpadLayout {
 
     // Bottom row — 7 keys summing to 8 units; only 0 is digit-width (2), the rest 1, so every
     // key lines up with a column above (0 under digit 8).
-    private val abc = Key("ABC", KeyAction.ToAlpha, weight = 1f, style = KeyStyle.FUNCTIONAL, contentDescription = "Letters")
-    // Punctuation (comma/period) use the rail colour; !?#, 0, = use the digit colour.
-    private val comma = Key(",", KeyAction.Character(','), weight = 1f, style = KeyStyle.FUNCTIONAL)
-    private val toSymbols = Key("!?#", KeyAction.ToSymbols, weight = 1f, style = KeyStyle.NORMAL, contentDescription = "Symbols")
-    private val zero = Key("0", KeyAction.Character('0'), weight = 1f, style = KeyStyle.NORMAL)
-    private val equals = Key("=", KeyAction.Character('='), weight = 1f, style = KeyStyle.NORMAL)
-    private val period = Key(".", KeyAction.Character('.'), weight = 1f, style = KeyStyle.FUNCTIONAL)
-    private val enter = Key("", KeyAction.Enter, weight = 1f, style = KeyStyle.FUNCTIONAL, contentDescription = "Enter")
+    // Bottom row aligns to the digit columns: ABC under left rail (1), comma+!?# under digit 1
+    // (½ digit each), 0 under digit 2 (full digit), =+. under digit 3 (½ each), enter under right
+    // rail (1). Punctuation (comma/period) use the rail colour; !?#, 0, = use the digit colour.
+    private val abc = Key("ABC", KeyAction.ToAlpha, weight = RAIL_W, style = KeyStyle.FUNCTIONAL, contentDescription = "Letters")
+    private val comma = Key(",", KeyAction.Character(','), weight = HALF_DIGIT, style = KeyStyle.FUNCTIONAL)
+    private val toSymbols = Key("!?#", KeyAction.ToSymbols, weight = HALF_DIGIT, style = KeyStyle.NORMAL, contentDescription = "Symbols")
+    private val zero = Key("0", KeyAction.Character('0'), weight = DIGIT_W, style = KeyStyle.NORMAL)
+    private val equals = Key("=", KeyAction.Character('='), weight = HALF_DIGIT, style = KeyStyle.NORMAL)
+    private val period = Key(".", KeyAction.Character('.'), weight = HALF_DIGIT, style = KeyStyle.FUNCTIONAL)
+    private val enter = Key("", KeyAction.Enter, weight = RAIL_W, style = KeyStyle.FUNCTIONAL, contentDescription = "Enter")
 
     // Vertically-scrollable left strip; all insert their character.
     private val symbolStrip: List<Key> = listOf(
