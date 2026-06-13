@@ -8,6 +8,7 @@
     <string name="settings_section_feedback">Key feedback</string>
     <string name="settings_section_features">Features</string>
     <string name="settings_section_preferences">Preferences</string>
+    <string name="settings_section_layout">Font &amp; size</string>
     <string name="settings_section_bangla">Bangla (Avro phonetic)</string>
     <string name="settings_section_accessibility">Accessibility</string>
 
@@ -33,7 +34,7 @@
     <string name="settings_number_row">Number row</string>
     <string name="settings_number_row_desc">Always show a dedicated row of digits.</string>
     <string name="settings_volume_cursor">Volume keys move cursor</string>
-    <string name="settings_volume_cursor_desc">While the keyboard is open, volume up/down nudges the cursor right/left.</string>
+    <string name="settings_volume_cursor_desc">While the keyboard is open, volume up/down nudges the cursor right/left. When audio or video is playing, the keys control volume as usual.</string>
     <string name="settings_try_now">Try now</string>
     <string name="settings_try_now_hint">Try out your setup</string>
     <string name="settings_suggestions">Word suggestions</string>

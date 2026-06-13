@@ -309,11 +309,11 @@ private fun SettingsHome(
     // subtitle with a hairline divider between rows in a card. Destructive Reset sits alone.
     val groups = listOf(
         listOf(
-            CategoryItem(LucideIcons.Palette, stringResource(R.string.settings_section_appearance), "Theme, font, keyboard height", SettingsRoute.APPEARANCE),
+            CategoryItem(LucideIcons.Palette, stringResource(R.string.settings_section_appearance), "Theme and colors", SettingsRoute.APPEARANCE),
             CategoryItem(LucideIcons.Vibrate, stringResource(R.string.settings_section_feedback), "Vibration and sound", SettingsRoute.FEEDBACK),
         ),
         listOf(
-            CategoryItem(LucideIcons.Keyboard, stringResource(R.string.settings_section_preferences), "Typing, suggestions, learning, clipboard", SettingsRoute.PREFERENCES),
+            CategoryItem(LucideIcons.Keyboard, stringResource(R.string.settings_section_preferences), "Typing, font, size, suggestions", SettingsRoute.PREFERENCES),
             CategoryItem(LucideIcons.Languages, stringResource(R.string.settings_section_bangla), "Auto-commit and phonetic alternatives", SettingsRoute.BANGLA),
         ),
         listOf(
@@ -437,25 +437,6 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
                         }
                     }
                 }
-            }
-            SettingsCard {
-                RadioSettingGroup(
-                    title = stringResource(R.string.settings_font),
-                    description = stringResource(R.string.settings_font_desc),
-                    options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
-                    selected = settings.keyboardFont,
-                    onSelected = callbacks.onKeyboardFont,
-                )
-            }
-            SettingsCard {
-                HeightSlider(
-                    scale = settings.keyboardHeightScale,
-                    onScaleChange = callbacks.onKeyboardHeightScale,
-                )
-                BottomGapSlider(
-                    scale = settings.bottomGapScale,
-                    onScaleChange = callbacks.onBottomGapScale,
-                )
             }
             // Breathing room so the floating button never hides the last card.
             Spacer(Modifier.height(88.dp))
@@ -736,6 +717,29 @@ private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks
                 onCheckedChange = callbacks.onClipboard,
             )
         }
+
+        SectionLabel(stringResource(R.string.settings_section_layout))
+        SettingsCard {
+            RadioSettingGroup(
+                title = stringResource(R.string.settings_font),
+                description = stringResource(R.string.settings_font_desc),
+                options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
+                selected = settings.keyboardFont,
+                onSelected = callbacks.onKeyboardFont,
+            )
+        }
+        SettingsCard {
+            HeightSlider(
+                scale = settings.keyboardHeightScale,
+                onScaleChange = callbacks.onKeyboardHeightScale,
+            )
+            BottomGapSlider(
+                scale = settings.bottomGapScale,
+                onScaleChange = callbacks.onBottomGapScale,
+            )
+        }
+        // Breathing room at the end of the scroll.
+        Spacer(Modifier.height(24.dp))
     }
 }
 

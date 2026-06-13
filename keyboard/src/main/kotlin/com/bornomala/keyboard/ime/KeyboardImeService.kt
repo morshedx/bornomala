@@ -279,8 +279,9 @@ class KeyboardImeService : InputMethodService() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         // Volume keys nudge the cursor while the keyboard is visible (a common power-user
         // accessibility aid). Opt-in via settings, and consumed only when the input view is
-        // shown so volume control works normally otherwise.
-        if (isInputViewShown && settingsState.value.volumeKeyCursorControl) {
+        // shown so volume control works normally otherwise. While media is actively playing,
+        // we defer to the system so the keys adjust the media volume instead.
+        if (volumeKeysControlCursor()) {
             when (keyCode) {
                 KeyEvent.KEYCODE_VOLUME_UP -> { moveCursor(1); return true }
                 KeyEvent.KEYCODE_VOLUME_DOWN -> { moveCursor(-1); return true }
@@ -290,12 +291,23 @@ class KeyboardImeService : InputMethodService() {
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        if (isInputViewShown && settingsState.value.volumeKeyCursorControl &&
+        if (volumeKeysControlCursor() &&
             (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
         ) {
             return true
         }
         return super.onKeyUp(keyCode, event)
+    }
+
+    /**
+     * Volume keys act as cursor controls only when the user enabled it, the keyboard is shown,
+     * and nothing is playing audio — if media is active the keys keep their normal volume role.
+     */
+    private fun volumeKeysControlCursor(): Boolean =
+        isInputViewShown && settingsState.value.volumeKeyCursorControl && !audioManager.isMusicActive
+
+    private val audioManager: AudioManager by lazy {
+        getSystemService(AUDIO_SERVICE) as AudioManager
     }
 
     override fun onDestroy() {
