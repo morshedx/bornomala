@@ -26,7 +26,8 @@ data class UpdateManifest(
 sealed interface UpdateStatus {
     data object Idle : UpdateStatus
     data object Checking : UpdateStatus
-    data object UpToDate : UpdateStatus
+    /** Up to date; carries the manifest so the screen can still show the current version's notes. */
+    data class UpToDate(val manifest: UpdateManifest?) : UpdateStatus
     data class Available(val manifest: UpdateManifest) : UpdateStatus
     data class Error(val message: String) : UpdateStatus
 }

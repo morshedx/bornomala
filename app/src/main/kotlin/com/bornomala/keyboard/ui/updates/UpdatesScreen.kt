@@ -128,14 +128,45 @@ fun UpdatesScreen(
                     )
                 }
             }
+
+            // Changelog / what's-new card for the latest version (shown whether up to date or not).
+            val notesManifest = statusManifest(state.status)
+            if (notesManifest != null && notesManifest.notes.isNotBlank()) {
+                Spacer(Modifier.height(16.dp))
+                Surface(
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    shape = RoundedCornerShape(24.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            "What's new in v${notesManifest.versionName}",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            notesManifest.notes,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
-private fun headline(state: UpdatesUiState): String = when (val s = state.status) {
+private fun statusManifest(s: UpdateStatus): UpdateManifest? = when (s) {
+    is UpdateStatus.Available -> s.manifest
+    is UpdateStatus.UpToDate -> s.manifest
+    else -> null
+}
+
+private fun headline(state: UpdatesUiState): String = when (state.status) {
     is UpdateStatus.Available -> "Update available"
     UpdateStatus.Checking -> "Checking…"
-    UpdateStatus.UpToDate -> "You're up to date"
+    is UpdateStatus.UpToDate -> "You're up to date"
     is UpdateStatus.Error -> "Couldn't check"
     UpdateStatus.Idle -> "Software update"
 }
@@ -159,18 +190,10 @@ private fun Body(
     when (val status = state.status) {
         is UpdateStatus.Available -> {
             Text(
-                "Version ${status.manifest.versionName}",
+                "Version ${status.manifest.versionName} is ready to install",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
             )
-            if (status.manifest.notes.isNotBlank()) {
-                Spacer(Modifier.height(6.dp))
-                Text(
-                    status.manifest.notes,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
             Spacer(Modifier.height(16.dp))
             when {
                 state.readyFile != null -> Button(onClick = onInstall, modifier = Modifier.fillMaxWidth()) {
@@ -201,7 +224,7 @@ private fun Body(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
-        UpdateStatus.UpToDate -> {
+        is UpdateStatus.UpToDate -> {
             Text(
                 "You have the latest version installed.",
                 style = MaterialTheme.typography.bodyMedium,

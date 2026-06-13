@@ -52,7 +52,7 @@ class UpdateService @Inject constructor(
             if (manifest.versionCode > currentVersionCode()) {
                 UpdateStatus.Available(manifest)
             } else {
-                UpdateStatus.UpToDate
+                UpdateStatus.UpToDate(manifest)
             }
         } catch (e: Exception) {
             UpdateStatus.Error(e.message ?: "Update check failed")

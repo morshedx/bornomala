@@ -137,7 +137,13 @@ internal fun KeyboardScreen(
             // carries a back arrow + category tabs, so the strip would be redundant.
             if (state.panel != KeyboardPanel.EMOJI) {
                 ActionStrip(
-                    suggestions = if (state.suggestionsEnabled) state.suggestions else emptyList(),
+                    // Word suggestions belong to the alphabetic (qwerty) layout only — never the
+                    // numpad or symbols pages.
+                    suggestions = if (state.suggestionsEnabled && state.page == KeyboardPage.ALPHA) {
+                        state.suggestions
+                    } else {
+                        emptyList()
+                    },
                     hasText = state.hasText,
                     emojiActive = state.panel == KeyboardPanel.EMOJI,
                     clipboardActive = state.panel == KeyboardPanel.CLIPBOARD,
