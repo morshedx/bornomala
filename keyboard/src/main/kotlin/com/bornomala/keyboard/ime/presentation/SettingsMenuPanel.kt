@@ -44,8 +44,7 @@ import com.bornomala.keyboard.theme.LucideIcons
 object SettingsSections {
     const val APPEARANCE = "appearance"
     const val FEEDBACK = "feedback"
-    const val TYPING = "typing"
-    const val FEATURES = "features"
+    const val PREFERENCES = "preferences"
     const val BANGLA = "bangla"
     const val ABOUT = "about"
 }
@@ -59,8 +58,7 @@ private data class MenuTile(
 private val MENU_TILES = listOf(
     MenuTile(SettingsSections.APPEARANCE, LucideIcons.Palette, "Appearance"),
     MenuTile(SettingsSections.FEEDBACK, LucideIcons.Vibrate, "Feedback"),
-    MenuTile(SettingsSections.TYPING, LucideIcons.Keyboard, "Typing"),
-    MenuTile(SettingsSections.FEATURES, LucideIcons.Lightbulb, "Features"),
+    MenuTile(SettingsSections.PREFERENCES, LucideIcons.Keyboard, "Preferences"),
     MenuTile(SettingsSections.BANGLA, LucideIcons.Languages, "Bangla"),
     MenuTile(SettingsSections.ABOUT, LucideIcons.Info, "About"),
 )

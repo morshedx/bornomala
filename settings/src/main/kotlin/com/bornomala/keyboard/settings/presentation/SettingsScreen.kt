@@ -205,8 +205,7 @@ private enum class SettingsRoute(val titleRes: Int, val key: String?) {
     HOME(R.string.settings_title, null),
     APPEARANCE(R.string.settings_section_appearance, "appearance"),
     FEEDBACK(R.string.settings_section_feedback, "feedback"),
-    TYPING(R.string.settings_section_typing, "typing"),
-    FEATURES(R.string.settings_section_features, "features"),
+    PREFERENCES(R.string.settings_section_preferences, "preferences"),
     BANGLA(R.string.settings_section_bangla, "bangla"),
     ABOUT(R.string.settings_section_about, "about"),
     /** Delegated to the host activity via [SettingsCallbacks.onSoftwareUpdate]. */
@@ -214,8 +213,13 @@ private enum class SettingsRoute(val titleRes: Int, val key: String?) {
 
     companion object {
         /** Maps an in-keyboard menu section key (see the IME's `SettingsSections`) to a route. */
-        fun fromKey(key: String?): SettingsRoute? =
-            key?.let { k -> entries.firstOrNull { it.key == k } }
+        fun fromKey(key: String?): SettingsRoute? = key?.let { k ->
+            // Legacy keys (Typing/Features were merged into Preferences) still deep-link correctly.
+            when (k) {
+                "typing", "features" -> PREFERENCES
+                else -> entries.firstOrNull { it.key == k }
+            }
+        }
     }
 }
 
@@ -277,8 +281,7 @@ internal fun SettingsContent(
             )
             SettingsRoute.APPEARANCE -> AppearanceSettings(settings, callbacks, content)
             SettingsRoute.FEEDBACK -> FeedbackSettings(settings, callbacks, content)
-            SettingsRoute.TYPING -> TypingSettings(settings, callbacks, content)
-            SettingsRoute.FEATURES -> FeaturesSettings(settings, callbacks, content)
+            SettingsRoute.PREFERENCES -> PreferencesSettings(settings, callbacks, content)
             SettingsRoute.BANGLA -> BanglaSettings(settings, callbacks, content)
             SettingsRoute.ABOUT -> Column(content) { SettingsCard { AboutSection() } }
             SettingsRoute.SOFTWARE_UPDATE -> Unit // handled by host via onSoftwareUpdate callback
@@ -310,14 +313,11 @@ private fun SettingsHome(
             CategoryItem(LucideIcons.Vibrate, stringResource(R.string.settings_section_feedback), "Vibration and sound", SettingsRoute.FEEDBACK),
         ),
         listOf(
-            CategoryItem(LucideIcons.Keyboard, stringResource(R.string.settings_section_typing), "Auto-capitalization, shortcuts, number row", SettingsRoute.TYPING),
-            CategoryItem(LucideIcons.Lightbulb, stringResource(R.string.settings_section_features), "Suggestions, learning, clipboard", SettingsRoute.FEATURES),
-        ),
-        listOf(
+            CategoryItem(LucideIcons.Keyboard, stringResource(R.string.settings_section_preferences), "Typing, suggestions, learning, clipboard", SettingsRoute.PREFERENCES),
             CategoryItem(LucideIcons.Languages, stringResource(R.string.settings_section_bangla), "Auto-commit and phonetic alternatives", SettingsRoute.BANGLA),
-            CategoryItem(LucideIcons.Info, stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
         ),
         listOf(
+            CategoryItem(LucideIcons.Info, stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
             CategoryItem(LucideIcons.Download, stringResource(R.string.settings_section_software_update), "Check for and install app updates", SettingsRoute.SOFTWARE_UPDATE),
         ),
     )
@@ -679,9 +679,14 @@ private fun FeedbackSettings(settings: Settings, callbacks: SettingsCallbacks, m
     }
 }
 
+/**
+ * Preferences = the former Typing + Features screens merged into one. Two labelled cards keep
+ * the original grouping (typing behaviour, then suggestion/learning/clipboard features).
+ */
 @Composable
-private fun TypingSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
     Column(modifier) {
+        SectionLabel(stringResource(R.string.settings_section_typing))
         SettingsCard {
             SwitchSettingRow(
                 title = stringResource(R.string.settings_auto_cap),
@@ -708,12 +713,8 @@ private fun TypingSettings(settings: Settings, callbacks: SettingsCallbacks, mod
                 onCheckedChange = callbacks.onVolumeKeyCursorControl,
             )
         }
-    }
-}
 
-@Composable
-private fun FeaturesSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
-    Column(modifier) {
+        SectionLabel(stringResource(R.string.settings_section_features))
         SettingsCard {
             SwitchSettingRow(
                 title = stringResource(R.string.settings_suggestions),
@@ -736,6 +737,16 @@ private fun FeaturesSettings(settings: Settings, callbacks: SettingsCallbacks, m
             )
         }
     }
+}
+
+/** Small group label above a [SettingsCard], matching the Appearance screen's section headers. */
+@Composable
+private fun SectionLabel(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleSmall,
+        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+    )
 }
 
 @Composable
