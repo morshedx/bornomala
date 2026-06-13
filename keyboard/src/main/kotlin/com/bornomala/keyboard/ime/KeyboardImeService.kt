@@ -221,8 +221,9 @@ class KeyboardImeService : InputMethodService() {
         super.onStartInputView(info, restarting)
         editorPort.connection = currentInputConnection
         composeHost.onResume()
-        // Each new field starts on the alphabetic page (don't carry over numpad/symbols).
-        stateHolder.showAlpha()
+        // Start on the numpad for numeric/phone fields, otherwise the alphabetic page
+        // (don't carry over the previous field's numpad/symbols state).
+        if (isNumberField(info)) stateHolder.showNumpad() else stateHolder.showAlpha()
         // Reflect whether the field already holds text (e.g. editing an existing value): the
         // strip shows the tools for an empty field and suggestions once there is text.
         refreshHasText()
@@ -542,6 +543,16 @@ class KeyboardImeService : InputMethodService() {
         if (soundEnabled) {
             (getSystemService(AUDIO_SERVICE) as? AudioManager)
                 ?.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
+        }
+    }
+
+    private fun isNumberField(info: EditorInfo?): Boolean {
+        val type = info?.inputType ?: return false
+        return when (type and android.text.InputType.TYPE_MASK_CLASS) {
+            android.text.InputType.TYPE_CLASS_NUMBER,
+            android.text.InputType.TYPE_CLASS_PHONE,
+            -> true
+            else -> false
         }
     }
 
