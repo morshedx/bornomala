@@ -67,6 +67,7 @@ internal fun KeyView(
     onLongPressReleased: () -> Unit,
     modifier: Modifier = Modifier,
     isPopupSource: Boolean = false,
+    flat: Boolean = false,
     repeatIntervalMs: Long = 45L,
     longPressTimeoutMs: Long = 300L,
 ) {
@@ -81,6 +82,8 @@ internal fun KeyView(
     // While this key is the active long-press source it takes the theme's accent color.
     val background = when {
         isPopupSource -> colors.accentKeyBackground
+        // Flat strip keys: no background (transparent), faint highlight only while pressed.
+        flat -> if (pressed) colors.keyBackgroundPressed else Color.Transparent
         else -> when (effectiveStyle) {
             KeyStyle.NORMAL -> if (pressed) colors.keyBackgroundPressed else colors.keyBackground
             KeyStyle.FUNCTIONAL -> if (pressed) colors.functionalKeyBackgroundPressed else colors.functionalKeyBackground
@@ -90,6 +93,7 @@ internal fun KeyView(
     }
     val contentColor = when {
         isPopupSource -> colors.accentKeyContent
+        flat -> colors.functionalKeyContent
         else -> when (effectiveStyle) {
             KeyStyle.NORMAL -> colors.keyContent
             KeyStyle.FUNCTIONAL -> colors.functionalKeyContent
@@ -191,12 +195,12 @@ internal fun KeyView(
             },
         contentAlignment = Alignment.Center,
     ) {
-        KeyContent(key = key, shift = shift, contentColor = contentColor)
+        KeyContent(key = key, shift = shift, contentColor = contentColor, flat = flat)
     }
 }
 
 @Composable
-private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color) {
+private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color, flat: Boolean = false) {
     val labelScale = BornomalaTheme.metrics.keyLabelScale
     val icon = iconFor(key, shift)
     if (icon != null) {
@@ -217,6 +221,7 @@ private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color) {
     val isSpacebar = key.style == KeyStyle.SPACEBAR
     // Multi-char function labels (?123, ABC, =\<) read better a touch smaller than glyphs.
     val labelSize = when {
+        flat -> 16.sp
         isSpacebar -> 15.4.sp
         label.length > 1 -> 15.5.sp
         else -> 22.sp

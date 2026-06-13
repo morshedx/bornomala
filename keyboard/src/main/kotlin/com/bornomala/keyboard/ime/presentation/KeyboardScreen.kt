@@ -413,11 +413,11 @@ private fun KeyGrid(
                 .fillMaxWidth()
                 .height(rowHeight * gridRows.size),
         ) {
-            // Left strip: one key wide (weight 1), each key a full row tall; the extra symbols
-            // overflow the visible 3-row height and scroll into view.
+            // Left strip: a thin, flat rail (~half a digit wide) of small symbol keys. Each key is
+            // shorter than a row so several show at once and the rest scroll vertically (Gboard style).
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(0.5f)
                     .fillMaxHeight()
                     .verticalScroll(rememberScrollState()),
             ) {
@@ -432,14 +432,15 @@ private fun KeyGrid(
                         onLongPressMove = onLongPressMove,
                         onLongPressReleased = onLongPressReleased,
                         isPopupSource = key === activePopupKey,
+                        flat = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(rowHeight),
+                            .height(rowHeight * 0.62f),
                     )
                 }
             }
-            // Digit grid + right function column. Weight 4 so strip:grid = 1:4 (five columns),
-            // matching the digit rows' four weight-1 keys.
+            // Digit grid + right function column. Weight 4 so each digit column = 1 unit and the
+            // strip (0.5) reads as a thin rail beside them.
             Column(modifier = Modifier.weight(4f).fillMaxHeight()) {
                 gridRows.forEach { row ->
                     KeyRowView(
