@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.bornomala.keyboard.ime.domain.model.Key
 import com.bornomala.keyboard.ime.domain.model.KeyAction
+import com.bornomala.keyboard.ime.domain.model.KeyIcon
 import com.bornomala.keyboard.ime.domain.model.KeyStyle
 import com.bornomala.keyboard.ime.domain.model.ShiftState
 import com.bornomala.keyboard.theme.BornomalaTheme
@@ -256,16 +257,23 @@ private fun labelFor(key: Key, shift: ShiftState): String {
     return key.shiftedLabel?.takeIf { shift.isUpper } ?: key.label
 }
 
-private fun iconFor(key: Key, shift: ShiftState): ImageVector? = when (key.action) {
-    KeyAction.Backspace -> LucideIcons.Delete
-    KeyAction.Enter -> LucideIcons.CornerDownLeft
-    KeyAction.SwitchLanguage -> LucideIcons.Globe
-    KeyAction.Emoji -> LucideIcons.Smile
-    KeyAction.Shift -> when (shift) {
-        ShiftState.CAPS_LOCK -> LucideIcons.ArrowBigUpDash
-        else -> LucideIcons.ArrowBigUp
+private fun iconFor(key: Key, shift: ShiftState): ImageVector? {
+    // An explicit per-key override wins over the action-derived icon, so two keys sharing one
+    // action can render different glyphs (e.g. the numpad space key vs. the main spacebar).
+    key.iconOverride?.let { return when (it) {
+        KeyIcon.SPACE -> LucideIcons.Space
+    } }
+    return when (key.action) {
+        KeyAction.Backspace -> LucideIcons.Delete
+        KeyAction.Enter -> LucideIcons.CornerDownLeft
+        KeyAction.SwitchLanguage -> LucideIcons.Globe
+        KeyAction.Emoji -> LucideIcons.Smile
+        KeyAction.Shift -> when (shift) {
+            ShiftState.CAPS_LOCK -> LucideIcons.ArrowBigUpDash
+            else -> LucideIcons.ArrowBigUp
+        }
+        else -> null
     }
-    else -> null
 }
 
 private fun defaultDescription(key: Key, shift: ShiftState): String = when (key.action) {

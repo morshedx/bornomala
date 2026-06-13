@@ -22,6 +22,21 @@ enum class KeyStyle {
 }
 
 /**
+ * A glyph override for a key, used when the icon shown must differ from the one the renderer
+ * would otherwise derive from [Key.action]. Kept as a tiny domain-safe enum (no Compose icon
+ * types here) so the data layer can opt a specific key into a specific glyph; the presentation
+ * layer maps each value to a concrete icon.
+ *
+ * Example: the numpad's right-column Space key shares [KeyAction.Space] with the main spacebar
+ * but must render the dedicated space glyph, while the main spacebar keeps its plain label.
+ */
+@Immutable
+enum class KeyIcon {
+    /** The compact space glyph used on the numpad's space key. */
+    SPACE,
+}
+
+/**
  * A single key in a layout, expressed purely as data. The layout tables build these once
  * at class-load time and reuse the same instances every keystroke, so rendering and input
  * handling allocate nothing per press.
@@ -39,6 +54,9 @@ enum class KeyStyle {
  * @param contentDescription accessibility label for TalkBack; when null the renderer
  *   derives a sensible default from the label/action.
  * @param repeatable whether holding the key repeats the action (backspace, space).
+ * @param iconOverride forces a specific glyph regardless of [action]; checked before the
+ *   action→icon fallback so two keys with the same action can render differently (e.g. the
+ *   numpad space key vs. the main spacebar). Null (default) keeps the standard behaviour.
  */
 @Immutable
 data class Key(
@@ -52,6 +70,7 @@ data class Key(
     val style: KeyStyle = KeyStyle.NORMAL,
     val contentDescription: String? = null,
     val repeatable: Boolean = false,
+    val iconOverride: KeyIcon? = null,
 ) {
     companion object {
         /** Builds a standard letter key with an optional long-press accent set and digit hint. */

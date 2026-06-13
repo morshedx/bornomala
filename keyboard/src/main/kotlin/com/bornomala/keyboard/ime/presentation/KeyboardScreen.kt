@@ -3,6 +3,8 @@ package com.bornomala.keyboard.ime.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -400,33 +402,133 @@ private fun KeyGrid(
     onLongPressReleased: () -> Unit,
     activePopupKey: Key?,
 ) {
-    layout.rows.forEach { row ->
+    val strip = layout.scrollableLeftStrip
+    if (strip != null) {
+        // Gboard numeric pad: a scrollable symbol strip pinned left of the digit grid, with the
+        // layout's last row laid out full-width beneath both. The strip spans the digit rows.
+        val gridRows = layout.rows.dropLast(1)
+        val bottomRow = layout.rows.lastOrNull()
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(rowHeight),
+                .height(rowHeight * gridRows.size),
         ) {
-            // Half-key gutter (Gboard/Samsung home-row indent). Empty so the keys stay aligned
-            // under the row above without stretching edge-to-edge.
-            if (row.edgeWeight > 0f) Spacer(Modifier.weight(row.edgeWeight))
-            row.keys.forEach { key ->
-                KeyView(
-                    key = key,
-                    shift = shift,
-                    enterIsAccent = enterIsAccent,
-                    onKey = onKey,
-                    onLongPressChar = onLongPressChar,
-                    onLongPressRequested = onLongPressRequested,
-                    onLongPressMove = onLongPressMove,
-                    onLongPressReleased = onLongPressReleased,
-                    isPopupSource = key === activePopupKey,
-                    modifier = Modifier
-                        .weight(key.weight)
-                        .fillMaxHeight(),
-                )
+            // Left strip: one key wide (weight 1), each key a full row tall; the extra symbols
+            // overflow the visible 3-row height and scroll into view.
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                strip.forEach { key ->
+                    KeyView(
+                        key = key,
+                        shift = shift,
+                        enterIsAccent = enterIsAccent,
+                        onKey = onKey,
+                        onLongPressChar = onLongPressChar,
+                        onLongPressRequested = onLongPressRequested,
+                        onLongPressMove = onLongPressMove,
+                        onLongPressReleased = onLongPressReleased,
+                        isPopupSource = key === activePopupKey,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(rowHeight),
+                    )
+                }
             }
-            if (row.edgeWeight > 0f) Spacer(Modifier.weight(row.edgeWeight))
+            // Digit grid + right function column. Weight 4 so strip:grid = 1:4 (five columns),
+            // matching the digit rows' four weight-1 keys.
+            Column(modifier = Modifier.weight(4f).fillMaxHeight()) {
+                gridRows.forEach { row ->
+                    KeyRowView(
+                        row = row,
+                        shift = shift,
+                        enterIsAccent = enterIsAccent,
+                        rowHeight = rowHeight,
+                        onKey = onKey,
+                        onLongPressChar = onLongPressChar,
+                        onLongPressRequested = onLongPressRequested,
+                        onLongPressMove = onLongPressMove,
+                        onLongPressReleased = onLongPressReleased,
+                        activePopupKey = activePopupKey,
+                    )
+                }
+            }
         }
+        if (bottomRow != null) {
+            KeyRowView(
+                row = bottomRow,
+                shift = shift,
+                enterIsAccent = enterIsAccent,
+                rowHeight = rowHeight,
+                onKey = onKey,
+                onLongPressChar = onLongPressChar,
+                onLongPressRequested = onLongPressRequested,
+                onLongPressMove = onLongPressMove,
+                onLongPressReleased = onLongPressReleased,
+                activePopupKey = activePopupKey,
+            )
+        }
+        return
+    }
+
+    layout.rows.forEach { row ->
+        KeyRowView(
+            row = row,
+            shift = shift,
+            enterIsAccent = enterIsAccent,
+            rowHeight = rowHeight,
+            onKey = onKey,
+            onLongPressChar = onLongPressChar,
+            onLongPressRequested = onLongPressRequested,
+            onLongPressMove = onLongPressMove,
+            onLongPressReleased = onLongPressReleased,
+            activePopupKey = activePopupKey,
+        )
+    }
+}
+
+/** One full-width weighted row of keys; the building block of every layout's grid. */
+@Composable
+private fun KeyRowView(
+    row: com.bornomala.keyboard.ime.domain.model.KeyRow,
+    shift: ShiftState,
+    enterIsAccent: Boolean,
+    rowHeight: Dp,
+    onKey: (KeyAction) -> Unit,
+    onLongPressChar: (Char) -> Unit,
+    onLongPressRequested: (Key, LayoutCoordinates) -> Unit,
+    onLongPressMove: (Offset) -> Unit,
+    onLongPressReleased: () -> Unit,
+    activePopupKey: Key?,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(rowHeight),
+    ) {
+        // Half-key gutter (Gboard/Samsung home-row indent). Empty so the keys stay aligned
+        // under the row above without stretching edge-to-edge.
+        if (row.edgeWeight > 0f) Spacer(Modifier.weight(row.edgeWeight))
+        row.keys.forEach { key ->
+            KeyView(
+                key = key,
+                shift = shift,
+                enterIsAccent = enterIsAccent,
+                onKey = onKey,
+                onLongPressChar = onLongPressChar,
+                onLongPressRequested = onLongPressRequested,
+                onLongPressMove = onLongPressMove,
+                onLongPressReleased = onLongPressReleased,
+                isPopupSource = key === activePopupKey,
+                modifier = Modifier
+                    .weight(key.weight)
+                    .fillMaxHeight(),
+            )
+        }
+        if (row.edgeWeight > 0f) Spacer(Modifier.weight(row.edgeWeight))
     }
 }
 

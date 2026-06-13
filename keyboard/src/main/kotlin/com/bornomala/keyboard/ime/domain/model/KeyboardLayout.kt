@@ -11,11 +11,18 @@ import androidx.compose.runtime.Immutable
  *
  * @param id stable identifier, useful for tests and debugging.
  * @param rows the key grid.
+ * @param scrollableLeftStrip optional vertically-scrollable column of keys pinned to the left
+ *   of the grid (the numpad's symbol strip). When non-null the renderer places this column on
+ *   the left — one key wide, only a few keys tall, the rest reachable by scrolling — alongside
+ *   the grid [rows] (whose last row is treated as a full-width bottom row beneath the strip).
+ *   Null (default) means the layout renders as plain weighted rows, unchanged for every other
+ *   layout.
  */
 @Immutable
 data class KeyboardLayout(
     val id: String,
     val rows: List<KeyRow>,
+    val scrollableLeftStrip: List<Key>? = null,
 )
 
 /**
