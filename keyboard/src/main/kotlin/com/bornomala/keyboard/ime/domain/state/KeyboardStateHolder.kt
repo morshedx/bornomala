@@ -165,4 +165,13 @@ class KeyboardStateHolder(
     fun setEmailField(isEmail: Boolean) = _state.update {
         if (it.isEmailField == isEmail) it else it.copy(isEmailField = isEmail)
     }
+
+    /**
+     * Marks whether the edited field currently holds any text. The top strip shows the tools
+     * for an empty field and switches to suggestions once typing begins; the service updates
+     * this on input start and on every selection/text change.
+     */
+    fun setHasText(hasText: Boolean) = _state.update {
+        if (it.hasText == hasText) it else it.copy(hasText = hasText)
+    }
 }

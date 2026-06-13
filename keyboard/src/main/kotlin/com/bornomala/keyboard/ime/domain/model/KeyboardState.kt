@@ -20,6 +20,8 @@ import androidx.compose.runtime.Immutable
  * @param showNumberRow whether the dedicated number row is shown above the top letter row.
  * @param suggestionsEnabled whether the suggestion bar is active (user setting).
  * @param enterIsAccent whether the Enter key is styled as the accent action (send/search).
+ * @param hasText whether the edited field currently holds any text. Drives the top strip:
+ *   empty field -> show the quick-action tools; once typing begins -> show suggestions.
  */
 @Immutable
 data class KeyboardState(
@@ -35,6 +37,7 @@ data class KeyboardState(
     val isEmailField: Boolean = false,
     val panelQuery: String = "",
     val panelSearchActive: Boolean = false,
+    val hasText: Boolean = false,
 ) {
     /** True while a word is being composed (Bangla transliteration or English correction). */
     val isComposing: Boolean

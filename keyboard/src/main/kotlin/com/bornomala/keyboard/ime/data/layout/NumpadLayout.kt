@@ -42,6 +42,14 @@ internal object NumpadLayout {
         style = KeyStyle.FUNCTIONAL,
         contentDescription = "Letters",
     )
+    private val space = Key(
+        label = "",
+        action = KeyAction.Space,
+        weight = 1f,
+        style = KeyStyle.SPACEBAR,
+        contentDescription = "Space",
+        repeatable = true,
+    )
 
     val PAD: KeyboardLayout = KeyboardLayout(
         id = "numpad",
@@ -49,7 +57,7 @@ internal object NumpadLayout {
             KeyRow(listOf(sym('+'), digit('1'), digit('2'), digit('3'), sym('%'))),
             KeyRow(listOf(sym('-'), digit('4'), digit('5'), digit('6'), sym('/'))),
             KeyRow(listOf(sym('*'), digit('7'), digit('8'), digit('9'), backspace)),
-            KeyRow(listOf(abc, sym(','), digit('0'), sym('.'), enter)),
+            KeyRow(listOf(abc, space, digit('0'), sym('.'), enter)),
         ),
     )
 }

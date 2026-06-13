@@ -213,6 +213,8 @@ class KeyboardImeService : InputMethodService() {
         interactor.resetComposing()
         stateHolder.setEnterIsAccent(isAccentAction(info))
         stateHolder.setEmailField(isEmailField(info))
+        // Seed the empty/typing signal for the newly bound field so the strip starts correct.
+        refreshHasText()
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
@@ -221,6 +223,9 @@ class KeyboardImeService : InputMethodService() {
         composeHost.onResume()
         // Each new field starts on the alphabetic page (don't carry over numpad/symbols).
         stateHolder.showAlpha()
+        // Reflect whether the field already holds text (e.g. editing an existing value): the
+        // strip shows the tools for an empty field and suggestions once there is text.
+        refreshHasText()
         // Offer next-word predictions for the empty field immediately.
         refreshSuggestions(stateHolder.current.language, currentWord = "")
     }
@@ -236,6 +241,10 @@ class KeyboardImeService : InputMethodService() {
         super.onUpdateSelection(
             oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd,
         )
+        // Keep the empty/typing signal live as text is inserted, deleted, or the caret moves
+        // (covers programmatic edits and deleting back to an empty field), independent of any
+        // in-progress composing word.
+        refreshHasText()
         if (!stateHolder.current.isComposing) return
         // While composing, the framework reports the composing region via candidatesStart/End.
         // If a selection appears, or the cursor lands outside that region, the user moved the
@@ -335,6 +344,28 @@ class KeyboardImeService : InputMethodService() {
         val target = (current + delta).coerceAtLeast(0)
         val max = extracted.text?.let { extracted.startOffset + it.length } ?: target
         ic.setSelection(target.coerceAtMost(max), target.coerceAtMost(max))
+    }
+
+    /**
+     * Recomputes whether the edited field currently holds any text and pushes it to the state
+     * so the top strip can switch between tools (empty field) and suggestions (while typing).
+     *
+     * "Has text" means any text before OR after the cursor, or an in-progress composing word —
+     * so the toolbar returns the moment the user deletes back to an empty field. Cheap reads
+     * (a single char each side) on the input thread; safe with no connection (treated as empty).
+     */
+    private fun refreshHasText() {
+        val ic = currentInputConnection
+        val hasText = if (stateHolder.current.isComposing) {
+            true
+        } else if (ic == null) {
+            false
+        } else {
+            val before = ic.getTextBeforeCursor(1, 0)
+            val after = ic.getTextAfterCursor(1, 0)
+            !before.isNullOrEmpty() || !after.isNullOrEmpty()
+        }
+        stateHolder.setHasText(hasText)
     }
 
     /**

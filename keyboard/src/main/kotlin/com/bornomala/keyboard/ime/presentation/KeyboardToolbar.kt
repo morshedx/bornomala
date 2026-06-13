@@ -47,6 +47,7 @@ import com.bornomala.keyboard.theme.BornomalaTheme
 @Composable
 internal fun ActionStrip(
     suggestions: List<Suggestion>,
+    hasText: Boolean,
     emojiActive: Boolean,
     clipboardActive: Boolean,
     numpadActive: Boolean,
@@ -55,7 +56,10 @@ internal fun ActionStrip(
     modifier: Modifier = Modifier,
 ) {
     val colors = BornomalaTheme.keyboardColors
-    val hasSuggestions = suggestions.isNotEmpty()
+    // Suggestions only ever replace the tools while the field actually holds text. An empty
+    // field always shows the quick-action tools, even though the engine may offer next-word
+    // predictions before a single key is pressed.
+    val hasSuggestions = hasText && suggestions.isNotEmpty()
     var toolsExpanded by remember { mutableStateOf(false) }
 
     // New suggestions pull focus back to the suggestion view automatically.
@@ -112,6 +116,15 @@ internal fun ActionStrip(
                 modifier = Modifier.weight(1f).fillMaxHeight(),
             )
         }
+
+        // Fixed settings button on the right, mirroring the leading button on the left. Always
+        // present (in both the tools and suggestions views) so the full keyboard settings app is
+        // one tap away regardless of what the strip is currently showing.
+        StripIconButton(
+            icon = LucideIcons.Settings,
+            description = "Keyboard settings",
+            onClick = callbacks.onOpenSettings,
+        )
     }
 }
 

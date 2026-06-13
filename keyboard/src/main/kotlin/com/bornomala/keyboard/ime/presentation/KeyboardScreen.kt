@@ -136,6 +136,7 @@ internal fun KeyboardScreen(
             if (state.panel != KeyboardPanel.EMOJI) {
                 ActionStrip(
                     suggestions = if (state.suggestionsEnabled) state.suggestions else emptyList(),
+                    hasText = state.hasText,
                     emojiActive = state.panel == KeyboardPanel.EMOJI,
                     clipboardActive = state.panel == KeyboardPanel.CLIPBOARD,
                     numpadActive = state.page == KeyboardPage.NUMPAD,
@@ -347,6 +348,7 @@ fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
             // exactly like the live keyboard before the user starts typing.
             ActionStrip(
                 suggestions = emptyList(),
+                hasText = false,
                 emojiActive = false,
                 clipboardActive = false,
                 numpadActive = false,
