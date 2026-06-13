@@ -438,11 +438,6 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
                     }
                 }
             }
-            Text(
-                text = "Font",
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 8.dp),
-            )
             SettingsCard {
                 RadioSettingGroup(
                     title = stringResource(R.string.settings_font),

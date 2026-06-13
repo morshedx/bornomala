@@ -9,84 +9,70 @@ import com.bornomala.keyboard.ime.domain.model.KeyboardLayout
 
 /**
  * Gboard-style numeric pad. Layout (left → right):
- *  - a narrow, vertically-scrollable strip of math/symbol keys ([SYMBOL_STRIP]) — only a few
- *    are visible at once, the rest scroll into view; it spans the three digit rows;
+ *  - a vertically-scrollable strip of symbol keys ([symbolStrip]) on the left;
  *  - a 3×3 digit grid (1-9) in the centre;
- *  - a narrow right column: %, space (compact glyph), backspace;
+ *  - a right column: %, space (compact glyph), backspace;
  *  - a full-width bottom row: ABC, comma, !?#, 0, =, period, enter.
  *
- * The scrollable strip lives in [KeyboardLayout.scrollableLeftStrip]; the three digit rows and
- * the bottom row live in [KeyboardLayout.rows]. The renderer pins the strip to the left of the
- * digit rows and lays the last row out full-width beneath them. Built once as an immutable
- * constant — shared across languages.
+ * Sizing/colour to match Gboard: the LEFT strip and the RIGHT column are the same size
+ * ([SIDE_W]) and share the FUNCTIONAL colour; the digits are wider (weight 1f) and use the
+ * normal key colour. The bottom row mixes widths — comma/period are narrow, !?#/= medium,
+ * ABC/0 wide. The strip's column width ([SIDE_W] mapped in the renderer) equals a right-column
+ * key so both rails read identical.
  */
 internal object NumpadLayout {
 
-    // Each digit / right-column / strip cell is weight 1 so the columns line up across rows.
-    private fun sym(c: Char): Key =
-        Key(label = c.toString(), action = KeyAction.Character(c), weight = 1f, style = KeyStyle.FUNCTIONAL)
+    // Column model: 8 column-units per row — left rail (1) + 3 digits (2 each) + right rail (1).
+    // The renderer gives the left strip column weight 1 and the digit grid weight 7, so a strip
+    // key and a right-rail key are both 1 unit wide and the digits are 2.
+    private const val DIGIT_W = 2f
+    private const val RAIL_W = 1f
+
+    // Left strip symbols: FUNCTIONAL colour, full-size (one per row, the rest scroll).
+    private fun stripSym(c: Char): Key =
+        Key(label = c.toString(), action = KeyAction.Character(c), style = KeyStyle.FUNCTIONAL)
 
     private fun digit(c: Char): Key =
-        Key(label = c.toString(), action = KeyAction.Character(c), weight = 1f)
+        Key(label = c.toString(), action = KeyAction.Character(c), weight = DIGIT_W)
 
-    private val backspace = Key(
-        label = "",
-        action = KeyAction.Backspace,
-        weight = 1f,
-        style = KeyStyle.FUNCTIONAL,
-        contentDescription = "Delete",
-        repeatable = true,
+    // Right column — 1 unit, same width + colour as the left strip.
+    private val percent = Key(
+        label = "%", action = KeyAction.Character('%'), weight = RAIL_W, style = KeyStyle.FUNCTIONAL,
     )
-    private val enter = Key(
-        label = "",
-        action = KeyAction.Enter,
-        weight = 1f,
-        style = KeyStyle.FUNCTIONAL,
-        contentDescription = "Enter",
-    )
-    private val abc = Key(
-        label = "ABC",
-        action = KeyAction.ToAlpha,
-        weight = 1f,
-        style = KeyStyle.FUNCTIONAL,
-        contentDescription = "Letters",
-    )
-    private val toSymbols = Key(
-        label = "!?#",
-        action = KeyAction.ToSymbols,
-        weight = 1f,
-        style = KeyStyle.FUNCTIONAL,
-        contentDescription = "Symbols",
-    )
-    // Shares KeyAction.Space with the main spacebar, but renders the compact space glyph via the
-    // icon override — scoped to this key only, so the main spacebar keeps its own rendering.
     private val space = Key(
-        label = "",
-        action = KeyAction.Space,
-        weight = 1f,
-        style = KeyStyle.SPACEBAR,
-        contentDescription = "Space",
-        repeatable = true,
-        iconOverride = KeyIcon.SPACE,
+        label = "", action = KeyAction.Space, weight = RAIL_W, style = KeyStyle.FUNCTIONAL,
+        contentDescription = "Space", repeatable = true, iconOverride = KeyIcon.SPACE,
+    )
+    private val backspace = Key(
+        label = "", action = KeyAction.Backspace, weight = RAIL_W, style = KeyStyle.FUNCTIONAL,
+        contentDescription = "Delete", repeatable = true,
     )
 
-    // The vertically-scrollable left strip: all insert their character. Order matches Gboard's
-    // calculator-style symbol set; only the first few are visible, the rest scroll into view.
+    // Bottom row — 7 keys summing to 8 units; only 0 is digit-width (2), the rest 1, so every
+    // key lines up with a column above (0 under digit 8).
+    private val abc = Key("ABC", KeyAction.ToAlpha, weight = 1f, style = KeyStyle.FUNCTIONAL, contentDescription = "Letters")
+    // Punctuation (comma/period) use the rail colour; !?#, 0, = use the digit colour.
+    private val comma = Key(",", KeyAction.Character(','), weight = 1f, style = KeyStyle.FUNCTIONAL)
+    private val toSymbols = Key("!?#", KeyAction.ToSymbols, weight = 1f, style = KeyStyle.NORMAL, contentDescription = "Symbols")
+    private val zero = Key("0", KeyAction.Character('0'), weight = 2f, style = KeyStyle.NORMAL)
+    private val equals = Key("=", KeyAction.Character('='), weight = 1f, style = KeyStyle.NORMAL)
+    private val period = Key(".", KeyAction.Character('.'), weight = 1f, style = KeyStyle.FUNCTIONAL)
+    private val enter = Key("", KeyAction.Enter, weight = 1f, style = KeyStyle.FUNCTIONAL, contentDescription = "Enter")
+
+    // Vertically-scrollable left strip; all insert their character.
     private val symbolStrip: List<Key> = listOf(
-        sym('+'), sym('-'), sym('*'), sym('/'), sym('('),
-        sym(')'), sym('='), sym('%'), sym('<'), sym('>'),
+        stripSym('+'), stripSym('-'), stripSym('*'), stripSym('/'), stripSym('('),
+        stripSym(')'), stripSym('='), stripSym('%'), stripSym('<'), stripSym('>'),
     )
 
     val PAD: KeyboardLayout = KeyboardLayout(
         id = "numpad",
         scrollableLeftStrip = symbolStrip,
         rows = listOf(
-            // Three digit rows; each carries the 3×3 digit grid plus the right function column.
-            KeyRow(listOf(digit('1'), digit('2'), digit('3'), sym('%'))),
+            KeyRow(listOf(digit('1'), digit('2'), digit('3'), percent)),
             KeyRow(listOf(digit('4'), digit('5'), digit('6'), space)),
             KeyRow(listOf(digit('7'), digit('8'), digit('9'), backspace)),
-            // Full-width bottom row, rendered beneath the strip + grid.
-            KeyRow(listOf(abc, SharedKeys.COMMA, toSymbols, digit('0'), sym('='), SharedKeys.PERIOD, enter)),
+            KeyRow(listOf(abc, comma, toSymbols, zero, equals, period, enter)),
         ),
     )
 }

@@ -163,6 +163,14 @@ class InputInteractor(
 
         // Plain commit (digits, punctuation, symbols, or letters with suggestions off).
         commitComposing()
+        // Smart punctuation: a hugging mark typed right after a (usually auto-inserted) space
+        // absorbs that space, so "word ," becomes "word, " — e.g. after picking a suggestion.
+        if (cased in SPACE_ABSORBING_PUNCTUATION && editor.textBeforeCursor(1) == " ") {
+            editor.deleteSurroundingText(1, 0)
+            editor.commitText("$cased ")
+            maybeAutoCapitalize()
+            return
+        }
         editor.commitText(cased.toString())
         if (isLetter) stateHolder.consumeShiftAfterChar()
         // Punctuation that ends a sentence may re-arm auto-capitalization on next space.
@@ -325,3 +333,6 @@ class InputInteractor(
 
     private fun Char.isLetter(): Boolean = Character.isLetter(this)
 }
+
+/** Punctuation that should "hug" the preceding word, absorbing an auto-inserted space before it. */
+private val SPACE_ABSORBING_PUNCTUATION: Set<Char> = setOf(',', '.', '!', '?', ';', ':')

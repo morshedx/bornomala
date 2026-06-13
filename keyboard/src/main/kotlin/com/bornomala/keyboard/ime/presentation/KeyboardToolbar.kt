@@ -117,14 +117,15 @@ internal fun ActionStrip(
             )
         }
 
-        // Fixed settings button on the right, mirroring the leading button on the left. Always
-        // present (in both the tools and suggestions views) so the full keyboard settings app is
-        // one tap away regardless of what the strip is currently showing.
-        StripIconButton(
-            icon = LucideIcons.Settings,
-            description = "Keyboard settings",
-            onClick = callbacks.onOpenSettings,
-        )
+        // Sticky settings button on the right — ONLY in the suggestions view (mirrors the back
+        // arrow). The tools row already has its own settings entry, so it's omitted there.
+        if (!showTools) {
+            StripIconButton(
+                icon = LucideIcons.Settings,
+                description = "Keyboard settings",
+                onClick = callbacks.onOpenSettings,
+            )
+        }
     }
 }
 
