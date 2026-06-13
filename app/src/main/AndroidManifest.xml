@@ -9,6 +9,11 @@
     -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- OTA updates: fetch the version manifest + APK from the release server. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:name=".BornomalaApplication"
         android:allowBackup="true"
@@ -62,6 +67,21 @@
             android:theme="@style/Theme.Bornomala"
             android:windowSoftInputMode="adjustResize"
             tools:replace="android:exported" />
+
+        <!-- OTA update screen: opened from the Software update entry in Settings. -->
+        <activity
+            android:name=".ui.updates.UpdatesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Bornomala" />
+
+        <!-- Receives PackageInstaller status callbacks for in-app (OTA) updates. -->
+        <receiver
+            android:name=".util.InstallReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.morshedx.bornomala.INSTALL_STATUS" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

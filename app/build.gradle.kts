@@ -1,5 +1,14 @@
 import java.util.Properties
 
+// Secrets (e.g. OTA gateway token) come from the environment first, then
+// local.properties as a fallback. Never committed.
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+val updateToken: String =
+    System.getenv("UPDATE_TOKEN") ?: localProps.getProperty("UPDATE_TOKEN") ?: ""
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -10,8 +19,8 @@ plugins {
 }
 
 // App version, reused for the build config and the output APK file name.
-val appVersionName = "0.5.34"
-val appVersionCode = 41
+val appVersionName = "0.5.35"
+val appVersionCode = 42
 
 // Optional release signing config, loaded from a gitignored keystore.properties.
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -34,6 +43,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // OTA gateway bearer token, injected from env / local.properties (never committed).
+        buildConfigField("String", "UPDATE_TOKEN", "\"$updateToken\"")
     }
 
     signingConfigs {
@@ -84,6 +96,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     packaging {

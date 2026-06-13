@@ -97,14 +97,16 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = viewModel(),
     initialSection: String? = null,
+    onSoftwareUpdate: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val callbacks = rememberCallbacks(viewModel, onSoftwareUpdate)
 
     when (val current = state) {
         is Resource.Loading -> SettingsScaffold(modifier) { LoadingState(it) }
-        is Resource.Success -> SettingsContent(current.data, rememberCallbacks(viewModel), modifier, initialSection)
+        is Resource.Success -> SettingsContent(current.data, callbacks, modifier, initialSection)
         // The repository recovers read errors to defaults, so render defaults defensively.
-        is Resource.Error -> SettingsContent(Settings.DEFAULTS, rememberCallbacks(viewModel), modifier, initialSection)
+        is Resource.Error -> SettingsContent(Settings.DEFAULTS, callbacks, modifier, initialSection)
     }
 }
 
@@ -161,10 +163,15 @@ internal data class SettingsCallbacks(
     val onLearnFromTyping: (Boolean) -> Unit,
     val onVolumeKeyCursorControl: (Boolean) -> Unit,
     val onResetToDefaults: () -> Unit,
+    /** Delegated to the host ([SettingsActivity]) which launches [UpdatesActivity]. */
+    val onSoftwareUpdate: () -> Unit = {},
 )
 
 @Composable
-private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
+private fun rememberCallbacks(
+    viewModel: SettingsViewModel,
+    onSoftwareUpdate: () -> Unit,
+): SettingsCallbacks =
     remember(viewModel) {
         SettingsCallbacks(
             onThemeMode = viewModel::onThemeModeChange,
@@ -189,6 +196,7 @@ private fun rememberCallbacks(viewModel: SettingsViewModel): SettingsCallbacks =
             onLearnFromTyping = viewModel::onLearnFromTypingChange,
             onVolumeKeyCursorControl = viewModel::onVolumeKeyCursorControlChange,
             onResetToDefaults = viewModel::onResetToDefaults,
+            onSoftwareUpdate = onSoftwareUpdate,
         )
     }
 
@@ -200,7 +208,9 @@ private enum class SettingsRoute(val titleRes: Int, val key: String?) {
     TYPING(R.string.settings_section_typing, "typing"),
     FEATURES(R.string.settings_section_features, "features"),
     BANGLA(R.string.settings_section_bangla, "bangla"),
-    ABOUT(R.string.settings_section_about, "about");
+    ABOUT(R.string.settings_section_about, "about"),
+    /** Delegated to the host activity via [SettingsCallbacks.onSoftwareUpdate]. */
+    SOFTWARE_UPDATE(R.string.settings_section_software_update, "software_update");
 
     companion object {
         /** Maps an in-keyboard menu section key (see the IME's `SettingsSections`) to a route. */
@@ -259,7 +269,10 @@ internal fun SettingsContent(
         when (route) {
             SettingsRoute.HOME -> SettingsHome(
                 modifier = content,
-                onOpen = { route = it },
+                onOpen = { r ->
+                    if (r == SettingsRoute.SOFTWARE_UPDATE) callbacks.onSoftwareUpdate()
+                    else route = r
+                },
                 onReset = { showResetDialog = true },
             )
             SettingsRoute.APPEARANCE -> AppearanceSettings(settings, callbacks, content)
@@ -268,6 +281,7 @@ internal fun SettingsContent(
             SettingsRoute.FEATURES -> FeaturesSettings(settings, callbacks, content)
             SettingsRoute.BANGLA -> BanglaSettings(settings, callbacks, content)
             SettingsRoute.ABOUT -> Column(content) { SettingsCard { AboutSection() } }
+            SettingsRoute.SOFTWARE_UPDATE -> Unit // handled by host via onSoftwareUpdate callback
         }
     }
 
@@ -302,6 +316,9 @@ private fun SettingsHome(
         listOf(
             CategoryItem(LucideIcons.Languages, stringResource(R.string.settings_section_bangla), "Auto-commit and phonetic alternatives", SettingsRoute.BANGLA),
             CategoryItem(LucideIcons.Info, stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
+        ),
+        listOf(
+            CategoryItem(LucideIcons.Download, stringResource(R.string.settings_section_software_update), "Check for and install app updates", SettingsRoute.SOFTWARE_UPDATE),
         ),
     )
     Column(

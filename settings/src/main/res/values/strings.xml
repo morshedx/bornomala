@@ -72,6 +72,9 @@
     <string name="settings_load_error">Couldn\'t load settings. Showing defaults.</string>
     <string name="settings_height_slider_cd">Keyboard height, %1$d percent</string>
 
+    <!-- Software update -->
+    <string name="settings_section_software_update">Software update</string>
+
     <!-- About -->
     <string name="settings_section_about">About</string>
     <string name="settings_about_app">Bornomala Keyboard</string>

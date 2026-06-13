@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.settings
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,7 +42,20 @@ class SettingsActivity : ComponentActivity() {
                 // Material You for the settings app UI (Android 12+); keyboard palette unchanged.
                 dynamicColor = true,
             ) {
-                SettingsScreen(viewModel = viewModel, initialSection = initialSection)
+                SettingsScreen(
+                    viewModel = viewModel,
+                    initialSection = initialSection,
+                    onSoftwareUpdate = {
+                        // UpdatesActivity lives in :app and cannot be imported here; use class
+                        // name so the :settings module stays free of :app dependencies.
+                        startActivity(
+                            Intent().setClassName(
+                                packageName,
+                                "com.bornomala.keyboard.ui.updates.UpdatesActivity",
+                            ),
+                        )
+                    },
+                )
             }
         }
     }
