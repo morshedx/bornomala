@@ -38,6 +38,14 @@ class AssetDictionarySource @Inject constructor(
     override fun phoneticLinesFor(language: SuggestionLanguage): Sequence<String> =
         if (language == SuggestionLanguage.BANGLA) readLines(ASSET_BANGLA_PHONETIC) else emptySequence()
 
+    override fun offensiveLinesFor(language: SuggestionLanguage): Sequence<String> {
+        val assetName = when (language) {
+            SuggestionLanguage.ENGLISH -> ASSET_ENGLISH_OFFENSIVE
+            SuggestionLanguage.BANGLA -> ASSET_BANGLA_OFFENSIVE
+        }
+        return readLines(assetName)
+    }
+
     private fun readLines(assetName: String): Sequence<String> = sequence {
         context.applicationContext.assets.open("$ASSET_DIR/$assetName").use { stream ->
             val reader: BufferedReader = stream.bufferedReader(Charsets.UTF_8)
@@ -58,5 +66,7 @@ class AssetDictionarySource @Inject constructor(
         const val ASSET_ENGLISH_BIGRAMS = "en_bigrams.txt"
         const val ASSET_BANGLA_BIGRAMS = "bn_bigrams.txt"
         const val ASSET_BANGLA_PHONETIC = "bn_phonetic.txt"
+        const val ASSET_ENGLISH_OFFENSIVE = "en_offensive.txt"
+        const val ASSET_BANGLA_OFFENSIVE = "bn_offensive.txt"
     }
 }

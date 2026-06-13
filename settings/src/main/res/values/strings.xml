@@ -39,6 +39,10 @@
     <string name="settings_try_now_hint">Try out your setup</string>
     <string name="settings_suggestions">Word suggestions</string>
     <string name="settings_suggestions_desc">Show the suggestion bar while typing.</string>
+    <string name="settings_auto_correct">Auto-correction</string>
+    <string name="settings_auto_correct_desc">Automatically fix a finished English typo when you press space. Press backspace to undo.</string>
+    <string name="settings_block_offensive">Block offensive words</string>
+    <string name="settings_block_offensive_desc">Keep profanity and slurs out of suggestions and auto-correction. You can still type them.</string>
     <string name="settings_clipboard">Clipboard history</string>
     <string name="settings_clipboard_desc">Save recently copied text for quick reuse.</string>
     <string name="settings_learn_typing">Learn from my typing</string>

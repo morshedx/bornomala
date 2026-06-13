@@ -61,6 +61,10 @@ interface SettingsRepository {
 
     suspend fun setSuggestionsEnabled(enabled: Boolean): AppResult<Unit>
 
+    suspend fun setAutoCorrectEnabled(enabled: Boolean): AppResult<Unit>
+
+    suspend fun setBlockOffensiveWords(enabled: Boolean): AppResult<Unit>
+
     suspend fun setClipboardEnabled(enabled: Boolean): AppResult<Unit>
 
     suspend fun setAutoCapitalization(enabled: Boolean): AppResult<Unit>

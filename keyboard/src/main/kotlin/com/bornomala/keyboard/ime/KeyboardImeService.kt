@@ -416,6 +416,7 @@ class KeyboardImeService : InputMethodService() {
                         doubleSpacePeriod = s.doubleSpacePeriod,
                         banglaTransliteration = s.banglaTransliterationEnabled,
                         suggestionsEnabled = s.suggestionsEnabled,
+                        autoCorrectEnabled = s.autoCorrectEnabled,
                     ),
                 )
                 stateHolder.applySettings(
@@ -457,7 +458,10 @@ class KeyboardImeService : InputMethodService() {
                 }
                 val dict = withContext(dispatchers.default) {
                     if (rendered.isNotEmpty()) {
-                        suggestionPort.query(KeyboardLanguage.BANGLA, rendered, previous, secondPrevious, SUGGESTION_LIMIT)
+                        suggestionPort.query(
+                            KeyboardLanguage.BANGLA, rendered, previous, secondPrevious, SUGGESTION_LIMIT,
+                            blockOffensive = settingsState.value.blockOffensiveWords,
+                        )
                     } else {
                         emptyList()
                     }
@@ -477,6 +481,7 @@ class KeyboardImeService : InputMethodService() {
                     previousWord = previous,
                     secondPreviousWord = secondPrevious,
                     limit = SUGGESTION_LIMIT,
+                    blockOffensive = settingsState.value.blockOffensiveWords,
                 )
             }
             stateHolder.setSuggestions(results)

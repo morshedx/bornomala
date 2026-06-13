@@ -48,6 +48,8 @@ private fun PreviewHost(themeMode: ThemeMode) {
             onSound = { settings = settings.copy(keyPressSound = it) },
             onNumberRow = { settings = settings.copy(numberRowEnabled = it) },
             onSuggestions = { settings = settings.copy(suggestionsEnabled = it) },
+            onAutoCorrect = { settings = settings.copy(autoCorrectEnabled = it) },
+            onBlockOffensiveWords = { settings = settings.copy(blockOffensiveWords = it) },
             onClipboard = { settings = settings.copy(clipboardEnabled = it) },
             onAutoCap = { settings = settings.copy(autoCapitalization = it) },
             onDoubleSpace = { settings = settings.copy(doubleSpacePeriod = it) },

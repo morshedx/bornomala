@@ -2,6 +2,7 @@ package com.bornomala.keyboard.suggestions.data.provider
 
 import com.bornomala.keyboard.suggestions.data.dictionary.BigramDictionaryRepository
 import com.bornomala.keyboard.suggestions.data.dictionary.FrequencyDictionaryRepository
+import com.bornomala.keyboard.suggestions.data.dictionary.OffensiveWordRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import com.bornomala.keyboard.suggestions.domain.SuggestionProvider
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionLanguage
@@ -39,7 +40,7 @@ class OfflineProviderTest {
         val dictSource = InMemoryDictionarySource(mapOf(SuggestionLanguage.ENGLISH to englishLines))
         val dictRepo = FrequencyDictionaryRepository(dictSource, dispatchers)
         val bigramRepo = BigramDictionaryRepository(dictSource, dispatchers)
-        provider = OfflineProvider(dictRepo, bigramRepo, userRepo)
+        provider = OfflineProvider(dictRepo, bigramRepo, userRepo, OffensiveWordRepository(dictSource, dispatchers))
     }
 
     private fun request(current: String, previous: String = "", limit: Int = 3) =

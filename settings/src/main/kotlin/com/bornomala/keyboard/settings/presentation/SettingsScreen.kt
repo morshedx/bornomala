@@ -155,6 +155,8 @@ internal data class SettingsCallbacks(
     val onSound: (Boolean) -> Unit,
     val onNumberRow: (Boolean) -> Unit,
     val onSuggestions: (Boolean) -> Unit,
+    val onAutoCorrect: (Boolean) -> Unit,
+    val onBlockOffensiveWords: (Boolean) -> Unit,
     val onClipboard: (Boolean) -> Unit,
     val onAutoCap: (Boolean) -> Unit,
     val onDoubleSpace: (Boolean) -> Unit,
@@ -188,6 +190,8 @@ private fun rememberCallbacks(
             onSound = viewModel::onKeyPressSoundChange,
             onNumberRow = viewModel::onNumberRowChange,
             onSuggestions = viewModel::onSuggestionsChange,
+            onAutoCorrect = viewModel::onAutoCorrectChange,
+            onBlockOffensiveWords = viewModel::onBlockOffensiveWordsChange,
             onClipboard = viewModel::onClipboardChange,
             onAutoCap = viewModel::onAutoCapitalizationChange,
             onDoubleSpace = viewModel::onDoubleSpacePeriodChange,
@@ -702,6 +706,20 @@ private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks
                 description = stringResource(R.string.settings_suggestions_desc),
                 checked = settings.suggestionsEnabled,
                 onCheckedChange = callbacks.onSuggestions,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_auto_correct),
+                description = stringResource(R.string.settings_auto_correct_desc),
+                checked = settings.autoCorrectEnabled,
+                enabled = settings.suggestionsEnabled,
+                onCheckedChange = callbacks.onAutoCorrect,
+            )
+            SwitchSettingRow(
+                title = stringResource(R.string.settings_block_offensive),
+                description = stringResource(R.string.settings_block_offensive_desc),
+                checked = settings.blockOffensiveWords,
+                enabled = settings.suggestionsEnabled,
+                onCheckedChange = callbacks.onBlockOffensiveWords,
             )
             SwitchSettingRow(
                 title = stringResource(R.string.settings_learn_typing),

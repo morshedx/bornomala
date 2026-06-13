@@ -29,4 +29,10 @@ interface DictionarySource {
      * other languages yield nothing.
      */
     fun phoneticLinesFor(language: SuggestionLanguage): Sequence<String> = emptySequence()
+
+    /**
+     * Returns the bundled offensive-word blocklist for [language], one word per line. Used to
+     * keep profanity/slurs out of suggestions and auto-correction. May yield nothing.
+     */
+    fun offensiveLinesFor(language: SuggestionLanguage): Sequence<String> = emptySequence()
 }

@@ -50,6 +50,10 @@ internal object SettingsMapper {
                 ?: defaults.numberRowEnabled,
             suggestionsEnabled = prefs[SettingsPreferenceKeys.SUGGESTIONS_ENABLED]
                 ?: defaults.suggestionsEnabled,
+            autoCorrectEnabled = prefs[SettingsPreferenceKeys.AUTO_CORRECT_ENABLED]
+                ?: defaults.autoCorrectEnabled,
+            blockOffensiveWords = prefs[SettingsPreferenceKeys.BLOCK_OFFENSIVE_WORDS]
+                ?: defaults.blockOffensiveWords,
             clipboardEnabled = prefs[SettingsPreferenceKeys.CLIPBOARD_ENABLED]
                 ?: defaults.clipboardEnabled,
             autoCapitalization = prefs[SettingsPreferenceKeys.AUTO_CAPITALIZATION]

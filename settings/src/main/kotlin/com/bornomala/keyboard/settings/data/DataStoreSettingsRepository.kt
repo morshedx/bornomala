@@ -95,6 +95,12 @@ internal class DataStoreSettingsRepository(
     override suspend fun setSuggestionsEnabled(enabled: Boolean): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.SUGGESTIONS_ENABLED] = enabled }
 
+    override suspend fun setAutoCorrectEnabled(enabled: Boolean): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.AUTO_CORRECT_ENABLED] = enabled }
+
+    override suspend fun setBlockOffensiveWords(enabled: Boolean): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.BLOCK_OFFENSIVE_WORDS] = enabled }
+
     override suspend fun setClipboardEnabled(enabled: Boolean): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.CLIPBOARD_ENABLED] = enabled }
 

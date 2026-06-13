@@ -14,6 +14,8 @@ package com.bornomala.keyboard.suggestions.domain.model
  *   if none. Used for bigram / next-word ranking.
  * @property language which language dictionaries to consult.
  * @property limit maximum number of suggestions to return. Must be positive.
+ * @property blockOffensive drop profanity/slurs from results and never auto-correct to one
+ *   (the verbatim word the user typed is still kept).
  */
 data class SuggestionRequest(
     val currentWord: String,
@@ -21,6 +23,7 @@ data class SuggestionRequest(
     val secondPreviousWord: String = "",
     val language: SuggestionLanguage,
     val limit: Int = DEFAULT_LIMIT,
+    val blockOffensive: Boolean = false,
 ) {
     init {
         require(limit > 0) { "limit must be positive, was $limit" }

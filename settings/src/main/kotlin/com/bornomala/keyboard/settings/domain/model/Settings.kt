@@ -22,6 +22,10 @@ import com.bornomala.keyboard.theme.ThemeMode
  * @property numberRowEnabled show a dedicated number row above the letters.
  * @property suggestionsEnabled show the suggestion bar and generate candidates.
  * @property clipboardEnabled record clipboard history and show the clipboard panel.
+ * @property autoCorrectEnabled automatically replace a finished English typo with the
+ *   engine's high-confidence correction on space/punctuation (undo with backspace).
+ * @property blockOffensiveWords keep profanity/slurs out of suggestions and auto-correct
+ *   (the user can still type them explicitly).
  * @property autoCapitalization auto-capitalize sentence starts (English layout).
  * @property doubleSpacePeriod insert ". " when space is tapped twice quickly.
  * @property banglaAutoCommit commit the transliterated Bangla word automatically on space
@@ -47,6 +51,8 @@ data class Settings(
     val keyPressSound: Boolean = false,
     val numberRowEnabled: Boolean = false,
     val suggestionsEnabled: Boolean = true,
+    val autoCorrectEnabled: Boolean = true,
+    val blockOffensiveWords: Boolean = true,
     val clipboardEnabled: Boolean = true,
     val autoCapitalization: Boolean = true,
     val doubleSpacePeriod: Boolean = true,

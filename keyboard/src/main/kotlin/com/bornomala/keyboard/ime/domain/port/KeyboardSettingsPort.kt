@@ -52,6 +52,8 @@ data class KeyboardSettings(
     val soundEnabled: Boolean = false,
     val showNumberRow: Boolean = false,
     val suggestionsEnabled: Boolean = true,
+    val autoCorrectEnabled: Boolean = true,
+    val blockOffensiveWords: Boolean = true,
     val autoCapitalization: Boolean = true,
     val doubleSpacePeriod: Boolean = true,
     val banglaTransliterationEnabled: Boolean = true,

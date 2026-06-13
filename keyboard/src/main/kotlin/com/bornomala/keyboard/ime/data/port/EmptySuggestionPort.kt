@@ -17,6 +17,7 @@ class EmptySuggestionPort @Inject constructor() : SuggestionPort {
         previousWord: String,
         secondPreviousWord: String,
         limit: Int,
+        blockOffensive: Boolean,
     ): List<Suggestion> = emptyList()
 
     override fun recordCommitted(language: KeyboardLanguage, word: String) = Unit

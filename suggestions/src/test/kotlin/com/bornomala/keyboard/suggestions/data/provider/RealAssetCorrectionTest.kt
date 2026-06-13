@@ -3,6 +3,7 @@ package com.bornomala.keyboard.suggestions.data.provider
 import com.bornomala.keyboard.core.result.AppResult
 import com.bornomala.keyboard.suggestions.data.dictionary.BigramDictionaryRepository
 import com.bornomala.keyboard.suggestions.data.dictionary.FrequencyDictionaryRepository
+import com.bornomala.keyboard.suggestions.data.dictionary.OffensiveWordRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionLanguage
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionRequest
@@ -38,6 +39,7 @@ class RealAssetCorrectionTest {
             FrequencyDictionaryRepository(source, dispatchers),
             BigramDictionaryRepository(source, dispatchers),
             userRepo,
+            OffensiveWordRepository(source, dispatchers),
         )
     }
 

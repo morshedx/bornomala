@@ -39,6 +39,7 @@ class SuggestionPortAdapter @Inject constructor(
         previousWord: String,
         secondPreviousWord: String,
         limit: Int,
+        blockOffensive: Boolean,
     ): List<KeyboardSuggestion> {
         val request = SuggestionRequest(
             currentWord = currentWord,
@@ -46,6 +47,7 @@ class SuggestionPortAdapter @Inject constructor(
             secondPreviousWord = secondPreviousWord,
             language = language.toSuggestionLanguage(),
             limit = limit,
+            blockOffensive = blockOffensive,
         )
         val ranked = engine.getSuggestions(request)
         if (ranked.isEmpty()) return emptyList()

@@ -78,6 +78,14 @@ class SettingsViewModel @Inject constructor(
         repository.setSuggestionsEnabled(enabled)
     }
 
+    fun onAutoCorrectChange(enabled: Boolean) = launchEdit {
+        repository.setAutoCorrectEnabled(enabled)
+    }
+
+    fun onBlockOffensiveWordsChange(enabled: Boolean) = launchEdit {
+        repository.setBlockOffensiveWords(enabled)
+    }
+
     fun onClipboardChange(enabled: Boolean) = launchEdit {
         repository.setClipboardEnabled(enabled)
     }

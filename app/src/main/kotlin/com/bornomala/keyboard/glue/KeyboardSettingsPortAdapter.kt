@@ -46,6 +46,8 @@ class KeyboardSettingsPortAdapter @Inject constructor(
                 soundEnabled = s.keyPressSound,
                 showNumberRow = s.numberRowEnabled,
                 suggestionsEnabled = s.suggestionsEnabled,
+                autoCorrectEnabled = s.autoCorrectEnabled,
+                blockOffensiveWords = s.blockOffensiveWords,
                 autoCapitalization = s.autoCapitalization,
                 doubleSpacePeriod = s.doubleSpacePeriod,
                 // The Bangla layout is always phonetic; the per-feature toggles below govern

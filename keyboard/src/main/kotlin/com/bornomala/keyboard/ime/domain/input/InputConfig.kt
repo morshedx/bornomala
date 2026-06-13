@@ -9,6 +9,7 @@ package com.bornomala.keyboard.ime.domain.input
  * @param doubleSpacePeriod convert a quick double-space into ". ".
  * @param banglaTransliteration route Bangla character input through the engine.
  * @param suggestionsEnabled compute and show suggestions.
+ * @param autoCorrectEnabled apply the engine's high-confidence English correction on commit.
  * @param doubleSpaceWindowMs max gap between the two spaces for the period shortcut.
  */
 data class InputConfig(
@@ -16,5 +17,6 @@ data class InputConfig(
     val doubleSpacePeriod: Boolean = true,
     val banglaTransliteration: Boolean = true,
     val suggestionsEnabled: Boolean = true,
+    val autoCorrectEnabled: Boolean = true,
     val doubleSpaceWindowMs: Long = 300L,
 )

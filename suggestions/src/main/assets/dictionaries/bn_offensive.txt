@@ -1,0 +1,42 @@
+# Bangla offensive-word blocklist (gali / slurs).
+# One word per line, matched verbatim. Kept out of suggestions and auto-correction;
+# the user can still type any of these explicitly. Lines starting with # are ignored.
+মাগী
+মাগি
+খানকি
+খানকী
+বেশ্যা
+বেশ্যার
+চুদ
+চুদি
+চুদা
+চোদা
+চোদন
+চুদির
+বাইনচোদ
+বানচোদ
+শুয়োরের
+শুয়োর
+হারামি
+হারামজাদা
+হারামজাদি
+কুত্তার
+কুত্তা
+শালা
+শালী
+গাধা
+বোকাচোদা
+মাদারচোদ
+পোঙ্গা
+ধোন
+ধন
+গুদ
+গুদা
+ভোদা
+ভোদাই
+চুতমারানি
+চুতিয়া
+মাগীবাজ
+লেওড়া
+নুনু
+পাছা

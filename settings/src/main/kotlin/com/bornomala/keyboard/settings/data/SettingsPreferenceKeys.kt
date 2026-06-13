@@ -23,6 +23,8 @@ internal object SettingsPreferenceKeys {
     val KEY_PRESS_SOUND = booleanPreferencesKey("key_press_sound")
     val NUMBER_ROW_ENABLED = booleanPreferencesKey("number_row_enabled")
     val SUGGESTIONS_ENABLED = booleanPreferencesKey("suggestions_enabled")
+    val AUTO_CORRECT_ENABLED = booleanPreferencesKey("auto_correct_enabled")
+    val BLOCK_OFFENSIVE_WORDS = booleanPreferencesKey("block_offensive_words")
     val CLIPBOARD_ENABLED = booleanPreferencesKey("clipboard_enabled")
     val AUTO_CAPITALIZATION = booleanPreferencesKey("auto_capitalization")
     val DOUBLE_SPACE_PERIOD = booleanPreferencesKey("double_space_period")

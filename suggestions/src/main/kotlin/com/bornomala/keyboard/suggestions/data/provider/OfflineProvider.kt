@@ -5,6 +5,7 @@ import com.bornomala.keyboard.core.result.getOrDefault
 import com.bornomala.keyboard.suggestions.data.dictionary.BigramDictionaryRepository
 import com.bornomala.keyboard.suggestions.data.dictionary.DictionaryHit
 import com.bornomala.keyboard.suggestions.data.dictionary.FrequencyDictionaryRepository
+import com.bornomala.keyboard.suggestions.data.dictionary.OffensiveWordRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import com.bornomala.keyboard.suggestions.domain.SuggestionProvider
 import com.bornomala.keyboard.suggestions.domain.model.Suggestion
@@ -36,6 +37,7 @@ class OfflineProvider @Inject constructor(
     private val dictionaries: FrequencyDictionaryRepository,
     private val bigrams: BigramDictionaryRepository,
     private val userDictionary: UserDictionaryRepository,
+    private val offensiveWords: OffensiveWordRepository,
 ) : SuggestionProvider {
 
     override val id: String = ID
@@ -170,6 +172,22 @@ class OfflineProvider @Inject constructor(
             }
         }
 
+        // Offensive filter: drop profanity/slurs from candidates and corrections, but keep the
+        // exact word the user actually typed (they can always commit what they wrote).
+        if (request.blockOffensive) {
+            val blocked = offensiveWords.get(lang)
+            if (blocked.isNotEmpty()) {
+                val iterator = merged.entries.iterator()
+                while (iterator.hasNext()) {
+                    val word = normalize(iterator.next().key, lang)
+                    if (word != prefix && word in blocked) iterator.remove()
+                }
+                if (autoCorrectWord != null && normalize(autoCorrectWord, lang) in blocked) {
+                    autoCorrectWord = null
+                }
+            }
+        }
+
         var ranked = merged.values
             .sortedWith(RANK_COMPARATOR)
             .take(limit)
@@ -246,7 +264,13 @@ class OfflineProvider @Inject constructor(
             }
         }
 
-        return merged.values.sortedWith(RANK_COMPARATOR).take(limit)
+        // Never predict an offensive next word when the filter is on.
+        val blocked = if (request.blockOffensive) offensiveWords.get(lang) else emptySet()
+        return merged.values.asSequence()
+            .filter { blocked.isEmpty() || normalize(it.word, lang) !in blocked }
+            .sortedWith(RANK_COMPARATOR)
+            .take(limit)
+            .toList()
     }
 
     override suspend fun learn(

@@ -31,6 +31,7 @@ interface SuggestionPort {
         previousWord: String,
         secondPreviousWord: String,
         limit: Int,
+        blockOffensive: Boolean = false,
     ): List<Suggestion>
 
     /**
