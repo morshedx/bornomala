@@ -74,6 +74,12 @@
             android:exported="false"
             android:theme="@style/Theme.Bornomala" />
 
+        <!-- Cloud Backup & restore (Google Drive): opened from the Backup entry in Settings. -->
+        <activity
+            android:name=".backup.BackupActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Bornomala" />
+
         <!-- Receives PackageInstaller status callbacks for in-app (OTA) updates. -->
         <receiver
             android:name=".util.InstallReceiver"

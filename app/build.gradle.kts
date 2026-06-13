@@ -158,6 +158,10 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
 
+    // Cloud backup: Google sign-in/authorization for Drive + background backup scheduling.
+    implementation(libs.play.services.auth)
+    implementation(libs.androidx.work.runtime.ktx)
+
     // Enables ProfileInstaller so macrobenchmark can measure/compile startup profiles.
     implementation(libs.androidx.profileinstaller)
 

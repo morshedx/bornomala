@@ -59,6 +59,25 @@ abstract class ClipboardDao {
     @Query("SELECT COUNT(*) FROM clipboard_items WHERE pinned = 0")
     abstract suspend fun countUnpinned(): Int
 
+    // --- backup export / import ---------------------------------------------------------
+
+    /** All rows (pinned-first, newest-first), for backup export. */
+    @Query("SELECT * FROM clipboard_items ORDER BY pinned DESC, created_at DESC")
+    abstract suspend fun getAllOnce(): List<ClipboardEntity>
+
+    @Query("DELETE FROM clipboard_items")
+    abstract suspend fun clearAll()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertAll(items: List<ClipboardEntity>)
+
+    /** Replaces the whole history with the backup contents in one transaction. */
+    @Transaction
+    open suspend fun replaceAll(items: List<ClipboardEntity>) {
+        clearAll()
+        insertAll(items)
+    }
+
     /**
      * Deletes the oldest non-pinned rows so that at most [maxUnpinned] non-pinned rows
      * remain. No-op when already within budget. Pinned rows are untouched.

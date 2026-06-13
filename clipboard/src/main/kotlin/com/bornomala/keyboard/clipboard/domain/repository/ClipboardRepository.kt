@@ -49,6 +49,12 @@ interface ClipboardRepository {
     /** Deletes all non-pinned items. Pinned items are retained. */
     suspend fun clearUnpinned(): AppResult<Unit>
 
+    /** All items, for backup export. */
+    suspend fun exportAll(): AppResult<List<ClipboardItem>>
+
+    /** Replaces the entire history with [items] (backup restore). */
+    suspend fun replaceAll(items: List<ClipboardItem>): AppResult<Unit>
+
     companion object {
         /** Hard upper bound on retained non-pinned history items. */
         const val MAX_HISTORY_ITEMS: Int = 500

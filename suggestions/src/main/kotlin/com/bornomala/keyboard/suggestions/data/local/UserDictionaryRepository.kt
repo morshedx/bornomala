@@ -101,4 +101,20 @@ class UserDictionaryRepository @Inject constructor(
     suspend fun clearAll(): AppResult<Unit> = withContext(dispatchers.io) {
         appRunCatching { dao.clear() }
     }
+
+    // --- backup export / import ---------------------------------------------------------
+
+    /** All learned words + n-grams, for backup export. */
+    suspend fun exportAll(): AppResult<Pair<List<UserDictionaryEntity>, List<LearnedNgramEntity>>> =
+        withContext(dispatchers.io) {
+            appRunCatching { dao.getAllWords() to dao.getAllNgrams() }
+        }
+
+    /** Replaces the entire dictionary with backup contents (restore). */
+    suspend fun replaceAll(
+        words: List<UserDictionaryEntity>,
+        ngrams: List<LearnedNgramEntity>,
+    ): AppResult<Unit> = withContext(dispatchers.io) {
+        appRunCatching { dao.replaceAll(words, ngrams) }
+    }
 }

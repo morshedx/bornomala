@@ -55,6 +55,14 @@ class SettingsActivity : ComponentActivity() {
                             ),
                         )
                     },
+                    onCloudBackup = {
+                        startActivity(
+                            Intent().setClassName(
+                                packageName,
+                                "com.bornomala.keyboard.backup.BackupActivity",
+                            ),
+                        )
+                    },
                 )
             }
         }

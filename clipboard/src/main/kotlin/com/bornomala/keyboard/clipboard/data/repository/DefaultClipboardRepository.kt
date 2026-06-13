@@ -88,6 +88,27 @@ class DefaultClipboardRepository @Inject constructor(
             appRunCatching { dao.deleteAllUnpinned() }
         }
 
+    override suspend fun exportAll(): AppResult<List<ClipboardItem>> =
+        withContext(dispatchers.io) {
+            appRunCatching { dao.getAllOnce().toDomain() }
+        }
+
+    override suspend fun replaceAll(items: List<ClipboardItem>): AppResult<Unit> =
+        withContext(dispatchers.io) {
+            appRunCatching {
+                dao.replaceAll(
+                    items.map { item ->
+                        ClipboardEntity(
+                            id = item.id,
+                            text = item.text,
+                            pinned = item.pinned,
+                            createdAt = item.createdAt,
+                        )
+                    },
+                )
+            }
+        }
+
     /**
      * Builds a case-insensitive `LIKE` pattern, escaping the SQL wildcards `%`, `_` and
      * the escape char `\` so user-typed queries are treated as literal substrings.

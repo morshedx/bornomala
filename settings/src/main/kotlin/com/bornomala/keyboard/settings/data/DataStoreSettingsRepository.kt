@@ -125,6 +125,35 @@ internal class DataStoreSettingsRepository(
     override suspend fun resetToDefaults(): AppResult<Unit> =
         edit { prefs -> prefs.clear() }
 
+    override suspend fun replaceAll(settings: Settings): AppResult<Unit> =
+        edit { prefs ->
+            prefs.clear()
+            val keys = SettingsPreferenceKeys
+            prefs[keys.THEME_MODE] = settings.themeMode.name
+            prefs[keys.KEYBOARD_THEME] = settings.keyboardTheme.name
+            prefs[keys.KEYBOARD_FONT] = settings.keyboardFont.name
+            prefs[keys.KEY_BORDER] = settings.keyBorder
+            prefs[keys.HORIZONTAL_GAP_SCALE] = settings.horizontalGapScale
+            prefs[keys.VERTICAL_GAP_SCALE] = settings.verticalGapScale
+            prefs[keys.KEY_LABEL_SCALE] = settings.keyLabelScale
+            prefs[keys.SUGGESTION_BAR_SCALE] = settings.suggestionBarScale
+            prefs[keys.BOTTOM_GAP_SCALE] = settings.bottomGapScale
+            prefs[keys.KEYBOARD_HEIGHT_SCALE] = settings.keyboardHeightScale
+            prefs[keys.KEY_PRESS_VIBRATION] = settings.keyPressVibration
+            prefs[keys.KEY_PRESS_SOUND] = settings.keyPressSound
+            prefs[keys.NUMBER_ROW_ENABLED] = settings.numberRowEnabled
+            prefs[keys.SUGGESTIONS_ENABLED] = settings.suggestionsEnabled
+            prefs[keys.AUTO_CORRECT_ENABLED] = settings.autoCorrectEnabled
+            prefs[keys.BLOCK_OFFENSIVE_WORDS] = settings.blockOffensiveWords
+            prefs[keys.CLIPBOARD_ENABLED] = settings.clipboardEnabled
+            prefs[keys.AUTO_CAPITALIZATION] = settings.autoCapitalization
+            prefs[keys.DOUBLE_SPACE_PERIOD] = settings.doubleSpacePeriod
+            prefs[keys.BANGLA_AUTO_COMMIT] = settings.banglaAutoCommit
+            prefs[keys.BANGLA_PHONETIC_SUGGESTIONS] = settings.banglaPhoneticSuggestions
+            prefs[keys.LEARN_FROM_TYPING] = settings.learnFromTyping
+            prefs[keys.VOLUME_KEY_CURSOR_CONTROL] = settings.volumeKeyCursorControl
+        }
+
     /**
      * Runs a single DataStore edit on the IO dispatcher and converts the outcome to an
      * [AppResult]. [CancellationException] is rethrown so structured concurrency

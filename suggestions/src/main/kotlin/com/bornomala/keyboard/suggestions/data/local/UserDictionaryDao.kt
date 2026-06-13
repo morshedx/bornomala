@@ -1,7 +1,10 @@
 package com.bornomala.keyboard.suggestions.data.local
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 
 /**
  * Data access for the on-device user dictionary.
@@ -104,4 +107,29 @@ interface UserDictionaryDao {
     /** Clears the entire user dictionary. Exposed for settings "reset learned words". */
     @Query("DELETE FROM user_dictionary")
     suspend fun clear()
+
+    // --- backup export / import ---------------------------------------------------------
+
+    /** All learned words, for backup export. */
+    @Query("SELECT * FROM user_dictionary")
+    suspend fun getAllWords(): List<UserDictionaryEntity>
+
+    /** All learned n-grams, for backup export. */
+    @Query("SELECT * FROM learned_ngram")
+    suspend fun getAllNgrams(): List<LearnedNgramEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWords(words: List<UserDictionaryEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNgrams(ngrams: List<LearnedNgramEntity>)
+
+    /** Replaces the entire dictionary with the backup contents in one transaction. */
+    @Transaction
+    suspend fun replaceAll(words: List<UserDictionaryEntity>, ngrams: List<LearnedNgramEntity>) {
+        clear()
+        clearNgrams()
+        insertWords(words)
+        insertNgrams(ngrams)
+    }
 }

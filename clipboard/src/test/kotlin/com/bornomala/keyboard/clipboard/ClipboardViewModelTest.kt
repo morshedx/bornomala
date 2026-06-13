@@ -146,5 +146,13 @@ class ClipboardViewModelTest {
             state.update { list -> list.filter { it.pinned } }
             return AppResult.success(Unit)
         }
+
+        override suspend fun exportAll(): AppResult<List<ClipboardItem>> =
+            AppResult.success(state.value)
+
+        override suspend fun replaceAll(items: List<ClipboardItem>): AppResult<Unit> {
+            state.value = items
+            return AppResult.success(Unit)
+        }
     }
 }

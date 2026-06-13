@@ -80,6 +80,7 @@
 
     <!-- Software update -->
     <string name="settings_section_software_update">Software update</string>
+    <string name="settings_section_backup">Backup &amp; restore</string>
 
     <!-- About -->
     <string name="settings_section_about">About</string>

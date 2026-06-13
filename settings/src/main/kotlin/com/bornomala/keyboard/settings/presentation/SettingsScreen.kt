@@ -98,9 +98,10 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = viewModel(),
     initialSection: String? = null,
     onSoftwareUpdate: () -> Unit = {},
+    onCloudBackup: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val callbacks = rememberCallbacks(viewModel, onSoftwareUpdate)
+    val callbacks = rememberCallbacks(viewModel, onSoftwareUpdate, onCloudBackup)
 
     when (val current = state) {
         is Resource.Loading -> SettingsScaffold(modifier) { LoadingState(it) }
@@ -167,12 +168,15 @@ internal data class SettingsCallbacks(
     val onResetToDefaults: () -> Unit,
     /** Delegated to the host ([SettingsActivity]) which launches [UpdatesActivity]. */
     val onSoftwareUpdate: () -> Unit = {},
+    /** Delegated to the host which launches the cloud Backup & restore activity. */
+    val onCloudBackup: () -> Unit = {},
 )
 
 @Composable
 private fun rememberCallbacks(
     viewModel: SettingsViewModel,
     onSoftwareUpdate: () -> Unit,
+    onCloudBackup: () -> Unit,
 ): SettingsCallbacks =
     remember(viewModel) {
         SettingsCallbacks(
@@ -201,6 +205,7 @@ private fun rememberCallbacks(
             onVolumeKeyCursorControl = viewModel::onVolumeKeyCursorControlChange,
             onResetToDefaults = viewModel::onResetToDefaults,
             onSoftwareUpdate = onSoftwareUpdate,
+            onCloudBackup = onCloudBackup,
         )
     }
 
@@ -212,6 +217,8 @@ private enum class SettingsRoute(val titleRes: Int, val key: String?) {
     PREFERENCES(R.string.settings_section_preferences, "preferences"),
     BANGLA(R.string.settings_section_bangla, "bangla"),
     ABOUT(R.string.settings_section_about, "about"),
+    /** Delegated to the host activity via [SettingsCallbacks.onCloudBackup]. */
+    BACKUP(R.string.settings_section_backup, "backup"),
     /** Delegated to the host activity via [SettingsCallbacks.onSoftwareUpdate]. */
     SOFTWARE_UPDATE(R.string.settings_section_software_update, "software_update");
 
@@ -278,8 +285,11 @@ internal fun SettingsContent(
             SettingsRoute.HOME -> SettingsHome(
                 modifier = content,
                 onOpen = { r ->
-                    if (r == SettingsRoute.SOFTWARE_UPDATE) callbacks.onSoftwareUpdate()
-                    else route = r
+                    when (r) {
+                        SettingsRoute.SOFTWARE_UPDATE -> callbacks.onSoftwareUpdate()
+                        SettingsRoute.BACKUP -> callbacks.onCloudBackup()
+                        else -> route = r
+                    }
                 },
                 onReset = { showResetDialog = true },
             )
@@ -288,6 +298,7 @@ internal fun SettingsContent(
             SettingsRoute.PREFERENCES -> PreferencesSettings(settings, callbacks, content)
             SettingsRoute.BANGLA -> BanglaSettings(settings, callbacks, content)
             SettingsRoute.ABOUT -> Column(content) { SettingsCard { AboutSection() } }
+            SettingsRoute.BACKUP -> Unit // handled by host via onCloudBackup callback
             SettingsRoute.SOFTWARE_UPDATE -> Unit // handled by host via onSoftwareUpdate callback
         }
     }
@@ -322,6 +333,7 @@ private fun SettingsHome(
         ),
         listOf(
             CategoryItem(LucideIcons.Info, stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
+            CategoryItem(LucideIcons.RefreshCw, stringResource(R.string.settings_section_backup), "Save your data to Google Drive", SettingsRoute.BACKUP),
             CategoryItem(LucideIcons.Download, stringResource(R.string.settings_section_software_update), "Check for and install app updates", SettingsRoute.SOFTWARE_UPDATE),
         ),
     )

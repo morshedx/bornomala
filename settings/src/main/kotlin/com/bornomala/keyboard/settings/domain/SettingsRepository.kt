@@ -81,4 +81,7 @@ interface SettingsRepository {
 
     /** Restores every preference to its default value in a single atomic edit. */
     suspend fun resetToDefaults(): AppResult<Unit>
+
+    /** Overwrites all preferences with [settings] in one atomic edit (used by backup restore). */
+    suspend fun replaceAll(settings: Settings): AppResult<Unit>
 }
