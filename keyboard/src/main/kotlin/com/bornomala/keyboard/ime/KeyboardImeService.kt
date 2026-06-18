@@ -86,6 +86,10 @@ class KeyboardImeService : InputMethodService() {
     @Volatile private var soundEnabled = false
     @Volatile private var learnFromTyping = true
 
+    /** Most recent system-clipboard text and when it was copied, for the strip paste chip. */
+    @Volatile private var recentClipText: String? = null
+    @Volatile private var recentClipAtMs: Long = 0L
+
     private lateinit var serviceScope: CoroutineScope
     private lateinit var interactor: InputInteractor
     private var suggestionJob: Job? = null
@@ -105,6 +109,15 @@ class KeyboardImeService : InputMethodService() {
         },
         onToggleClipboard = { stateHolder.toggleClipboard() },
         onPaste = { text -> pasteText(text) },
+        onClipSuggestion = {
+            val text = stateHolder.current.clipSuggestion
+            if (!text.isNullOrEmpty()) {
+                pasteText(text)
+                stateHolder.clearClipSuggestion()
+                // Consumed: don't re-offer the same chip when this field is refocused.
+                recentClipText = null
+            }
+        },
         onEmoji = { glyph ->
             interactor.resetComposing()
             currentInputConnection?.commitText(glyph, 1)
@@ -229,6 +242,8 @@ class KeyboardImeService : InputMethodService() {
         refreshHasText()
         // Offer next-word predictions for the empty field immediately.
         refreshSuggestions(stateHolder.current.language, currentWord = "")
+        // If something was copied moments ago, offer it as a one-tap paste chip in the strip.
+        maybeShowClipSuggestion()
     }
 
     override fun onUpdateSelection(
@@ -340,7 +355,24 @@ class KeyboardImeService : InputMethodService() {
         if (clip.itemCount == 0) return
         val text = clip.getItemAt(0).coerceToText(this)?.toString()?.trim().orEmpty()
         if (text.isEmpty()) return
+        // Remember the freshly-copied text so the next focus can offer a one-tap paste chip.
+        recentClipText = text
+        recentClipAtMs = System.currentTimeMillis()
         serviceScope.launch(dispatchers.io) { clipboardRepository.addItem(text) }
+    }
+
+    /**
+     * Offers the freshly-copied clipboard text as a one-tap paste chip in the top strip when a
+     * field gains focus, Gboard-style — but only within [CLIP_SUGGESTION_WINDOW_MS] of the copy.
+     * Freshness is checked here on focus (no timer/wakelock); any key press then clears the chip.
+     */
+    private fun maybeShowClipSuggestion() {
+        val text = recentClipText
+        if (text != null && System.currentTimeMillis() - recentClipAtMs <= CLIP_SUGGESTION_WINDOW_MS) {
+            stateHolder.setClipSuggestion(text)
+        } else {
+            stateHolder.clearClipSuggestion()
+        }
     }
 
     /**
@@ -600,6 +632,9 @@ class KeyboardImeService : InputMethodService() {
     private companion object {
         const val SUGGESTION_LIMIT = 6
         const val PREVIOUS_WORD_LOOKBACK = 48
+
+        /** How long after a copy the strip still offers a one-tap paste chip (Gboard-style). */
+        const val CLIP_SUGGESTION_WINDOW_MS = 60_000L
         const val SETTINGS_ACTIVITY = "com.bornomala.keyboard.settings.SettingsActivity"
 
         /** Intent extra naming the settings section to open directly (see [SettingsSections]). */

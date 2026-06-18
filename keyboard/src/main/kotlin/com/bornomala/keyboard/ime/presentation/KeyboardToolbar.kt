@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -29,6 +31,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bornomala.keyboard.ime.domain.model.Suggestion
@@ -54,6 +57,7 @@ internal fun ActionStrip(
     settingsActive: Boolean,
     callbacks: KeyboardCallbacks,
     modifier: Modifier = Modifier,
+    clipSuggestion: String? = null,
 ) {
     val colors = BornomalaTheme.keyboardColors
     // Suggestions only ever replace the tools while the field actually holds text. An empty
@@ -80,6 +84,16 @@ internal fun ActionStrip(
             .padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        // A freshly-copied clip takes over the whole strip as a one-tap paste chip (Gboard-style),
+        // except while a panel/numpad is open (the back arrow owns the strip then).
+        if (clipSuggestion != null && !backActive) {
+            ClipSuggestionStrip(
+                text = clipSuggestion,
+                onClick = callbacks.onClipSuggestion,
+                modifier = Modifier.weight(1f).fillMaxHeight(),
+            )
+            return@Row
+        }
         if (backActive) {
             StripIconButton(
                 icon = LucideIcons.ArrowLeft,
@@ -128,6 +142,54 @@ internal fun ActionStrip(
         }
     }
 }
+
+/**
+ * The clipboard paste chip shown across the strip after a copy: a clipboard glyph + the copied
+ * text (single line, ellipsized). Tapping it pastes the text into the field. It is a plain
+ * clickable row so the tap stays within budget, matching the rest of the strip.
+ */
+@Composable
+private fun ClipSuggestionStrip(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = BornomalaTheme.keyboardColors
+    // Display-only: collapse newlines to a single line and hard-cap the length so a huge clip is
+    // never measured in full; the Text still ellipsizes to the available width. The full text is
+    // pasted via onClick regardless of this preview.
+    val preview = remember(text) {
+        val singleLine = text.replace('\n', ' ').replace('\r', ' ').trim()
+        if (singleLine.length > CLIP_CHIP_MAX_CHARS) singleLine.take(CLIP_CHIP_MAX_CHARS) + "…" else singleLine
+    }
+    Row(
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp)
+            .semantics { contentDescription = "Paste copied text" },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = LucideIcons.ClipboardList,
+            contentDescription = null,
+            tint = colors.suggestionTextHighlighted,
+            modifier = Modifier.size(20.dp),
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = preview,
+            color = colors.suggestionText,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+        )
+    }
+}
+
+/** Display cap for the paste chip; the full clipboard text is still pasted on tap. */
+private const val CLIP_CHIP_MAX_CHARS = 80
 
 @Composable
 private fun ToolsRow(

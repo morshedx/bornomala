@@ -174,4 +174,14 @@ class KeyboardStateHolder(
     fun setHasText(hasText: Boolean) = _state.update {
         if (it.hasText == hasText) it else it.copy(hasText = hasText)
     }
+
+    /** Offers a freshly-copied clipboard text as a one-tap paste chip in the top strip. */
+    fun setClipSuggestion(text: String) = _state.update {
+        if (it.clipSuggestion == text) it else it.copy(clipSuggestion = text)
+    }
+
+    /** Dismisses the clipboard paste chip (on key press, paste, or a stale/empty clip). */
+    fun clearClipSuggestion() = _state.update {
+        if (it.clipSuggestion == null) it else it.copy(clipSuggestion = null)
+    }
 }

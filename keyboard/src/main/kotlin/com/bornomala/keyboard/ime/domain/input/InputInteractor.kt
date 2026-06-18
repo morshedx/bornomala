@@ -2,6 +2,7 @@ package com.bornomala.keyboard.ime.domain.input
 
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
+import com.bornomala.keyboard.ime.domain.model.KeyboardPage
 import com.bornomala.keyboard.ime.domain.model.ShiftState
 import com.bornomala.keyboard.ime.domain.port.EditorPort
 import com.bornomala.keyboard.ime.domain.port.TransliterationPort
@@ -64,6 +65,13 @@ class InputInteractor(
     /** The most recent auto-correct, so an immediate backspace can revert it; null otherwise. */
     private var pendingAutoCorrect: AutoCorrectUndo? = null
 
+    /**
+     * True once at least one character has been typed since entering a symbol page. Lets a
+     * following space "finish" the symbol and hop back to the alphabetic page, so going to
+     * symbols for a single mark (e.g. "?") returns to QWERTY automatically after the space.
+     */
+    private var symbolCharTyped: Boolean = false
+
     /** Records an applied auto-correction for one-tap undo (original typed word vs the swap-in). */
     private data class AutoCorrectUndo(val original: String, val corrected: String)
 
@@ -76,6 +84,7 @@ class InputInteractor(
     fun resetComposing() {
         if (composingBuffer.isNotEmpty()) composingBuffer.setLength(0)
         pendingAutoCorrect = null
+        symbolCharTyped = false
         editor.finishComposing()
         stateHolder.clearComposingAndSuggestions()
     }
@@ -86,6 +95,8 @@ class InputInteractor(
      */
     fun onKey(action: KeyAction) {
         callbacks.onFeedback(action)
+        // Any key press dismisses a clipboard chip and hands the strip back to suggestions.
+        if (stateHolder.current.clipSuggestion != null) stateHolder.clearClipSuggestion()
         // A backspace immediately after an auto-correct reverts it (restores the typed word);
         // any other key just consumes the pending undo. Either way the flag clears here.
         val undo = pendingAutoCorrect
@@ -101,8 +112,8 @@ class InputInteractor(
             KeyAction.Enter -> onEnter()
             KeyAction.Shift -> stateHolder.toggleShift()
             KeyAction.SwitchLanguage -> onSwitchLanguage()
-            KeyAction.ToSymbols -> { commitComposing(); stateHolder.showSymbols() }
-            KeyAction.ToAlpha -> stateHolder.showAlpha()
+            KeyAction.ToSymbols -> { commitComposing(); symbolCharTyped = false; stateHolder.showSymbols() }
+            KeyAction.ToAlpha -> { symbolCharTyped = false; stateHolder.showAlpha() }
             KeyAction.ToggleSymbolsPage -> stateHolder.toggleSymbolsPage()
             KeyAction.Emoji -> { commitComposing(); callbacks.onEmojiRequested() }
             KeyAction.ShowImePicker -> { commitComposing(); callbacks.onShowImePicker() }
@@ -133,6 +144,10 @@ class InputInteractor(
 
     private fun onCharacter(rawChar: Char) {
         val state = stateHolder.current
+        // A character typed on a symbol page arms the "space returns to QWERTY" behaviour.
+        if (state.page == KeyboardPage.SYMBOLS || state.page == KeyboardPage.SYMBOLS_EXTRA) {
+            symbolCharTyped = true
+        }
         val isLetter = rawChar.isLetter()
         val cased = if (isLetter && state.shift.isUpper) rawChar.uppercaseChar() else rawChar
 
@@ -222,12 +237,28 @@ class InputInteractor(
                 editor.commitText(". ")
                 lastSpaceTime = 0L
                 maybeAutoCapitalize()
+                returnToAlphaAfterSymbolSpace()
                 return
             }
         }
         editor.commitText(" ")
         lastSpaceTime = now
         maybeAutoCapitalize()
+        returnToAlphaAfterSymbolSpace()
+    }
+
+    /**
+     * After a symbol was typed on a symbol page, a following space "finishes" it and returns
+     * to the alphabetic page — so a quick trip to symbols for one mark (e.g. "?") hops back to
+     * QWERTY automatically. No-op on the alphabetic page or before any symbol is typed.
+     */
+    private fun returnToAlphaAfterSymbolSpace() {
+        if (!symbolCharTyped) return
+        val page = stateHolder.current.page
+        if (page == KeyboardPage.SYMBOLS || page == KeyboardPage.SYMBOLS_EXTRA) {
+            symbolCharTyped = false
+            stateHolder.showAlpha()
+        }
     }
 
     private fun onEnter() {

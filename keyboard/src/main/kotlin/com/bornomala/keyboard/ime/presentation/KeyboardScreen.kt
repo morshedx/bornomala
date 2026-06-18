@@ -153,6 +153,8 @@ internal fun KeyboardScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp * BornomalaTheme.metrics.suggestionBarScale),
+                    // The paste chip belongs to the qwerty layout only (not numpad/symbols).
+                    clipSuggestion = if (state.page == KeyboardPage.ALPHA) state.clipSuggestion else null,
                 )
             }
 
@@ -326,6 +328,7 @@ private val PreviewCallbacks = KeyboardCallbacks(
     onToggleNumbers = {},
     onToggleClipboard = {},
     onPaste = {},
+    onClipSuggestion = {},
     onEmoji = {},
     onHideKeyboard = {},
     onSearchKey = {},

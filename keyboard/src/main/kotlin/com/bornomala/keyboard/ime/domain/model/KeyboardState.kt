@@ -22,6 +22,9 @@ import androidx.compose.runtime.Immutable
  * @param enterIsAccent whether the Enter key is styled as the accent action (send/search).
  * @param hasText whether the edited field currently holds any text. Drives the top strip:
  *   empty field -> show the quick-action tools; once typing begins -> show suggestions.
+ * @param clipSuggestion a freshly-copied clipboard text offered as a one-tap paste chip in the
+ *   top strip (Gboard-style). Shown when focusing a field shortly after a copy; null otherwise.
+ *   Any key press clears it and hands the strip back to suggestions/tools.
  */
 @Immutable
 data class KeyboardState(
@@ -38,6 +41,7 @@ data class KeyboardState(
     val panelQuery: String = "",
     val panelSearchActive: Boolean = false,
     val hasText: Boolean = false,
+    val clipSuggestion: String? = null,
 ) {
     /** True while a word is being composed (Bangla transliteration or English correction). */
     val isComposing: Boolean

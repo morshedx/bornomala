@@ -19,6 +19,7 @@ import com.bornomala.keyboard.ime.domain.model.KeyAction
  * @param onToggleNumbers toggles between the numeric pad and the alphabetic keyboard.
  * @param onToggleClipboard toggles the clipboard history panel.
  * @param onPaste commits a clipboard item's text into the field.
+ * @param onClipSuggestion pastes the clipboard chip currently offered in the top strip.
  * @param onEmoji commits a chosen emoji glyph (panel stays open).
  * @param onHideKeyboard dismisses the keyboard (toolbar down-chevron).
  */
@@ -34,6 +35,7 @@ class KeyboardCallbacks(
     val onToggleNumbers: () -> Unit,
     val onToggleClipboard: () -> Unit,
     val onPaste: (String) -> Unit,
+    val onClipSuggestion: () -> Unit,
     val onEmoji: (String) -> Unit,
     val onHideKeyboard: () -> Unit,
     /** Routes a key press to the in-panel search query (emoji/clipboard search keyboard). */
