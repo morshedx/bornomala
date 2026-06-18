@@ -2,6 +2,7 @@ package com.bornomala.keyboard.ime.data.layout
 
 import com.bornomala.keyboard.ime.domain.model.Key
 import com.bornomala.keyboard.ime.domain.model.KeyAction
+import com.bornomala.keyboard.ime.domain.model.KeyIcon
 import com.bornomala.keyboard.ime.domain.model.KeyRow
 import com.bornomala.keyboard.ime.domain.model.KeyStyle
 import com.bornomala.keyboard.ime.domain.model.KeyboardLayout
@@ -32,6 +33,7 @@ internal object SymbolsLayout {
                 style = KeyStyle.SPACEBAR,
                 contentDescription = "Space",
                 repeatable = true,
+                iconOverride = KeyIcon.SPACE,
             ),
             SharedKeys.PERIOD,
             SharedKeys.ENTER,

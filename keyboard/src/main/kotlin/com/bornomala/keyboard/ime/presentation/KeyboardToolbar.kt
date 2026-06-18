@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,22 +61,24 @@ internal fun ActionStrip(
     clipSuggestion: String? = null,
 ) {
     val colors = BornomalaTheme.keyboardColors
-    // Suggestions only ever replace the tools while the field actually holds text. An empty
-    // field always shows the quick-action tools, even though the engine may offer next-word
-    // predictions before a single key is pressed.
-    val hasSuggestions = hasText && suggestions.isNotEmpty()
-    var toolsExpanded by remember { mutableStateOf(false) }
-
-    // New suggestions pull focus back to the suggestion view automatically.
-    LaunchedEffect(hasSuggestions) {
-        if (hasSuggestions) toolsExpanded = false
-    }
-
-    val showTools = !hasSuggestions || toolsExpanded
-
     // When a panel (clipboard/settings) or the numpad is open, the left button is a back arrow
     // that returns to the main keyboard (matching the emoji panel), instead of the tools toggle.
     val backActive = numpadActive || clipboardActive || settingsActive
+    // Suggestions only ever replace the tools while the field actually holds text. An empty
+    // field shows the quick-action tools — unless a freshly-copied clip is offered as a chip,
+    // which takes priority over both (Gboard-style) and sits centred in the strip.
+    val hasSuggestions = hasText && suggestions.isNotEmpty()
+    val hasClip = clipSuggestion != null && !backActive
+    var toolsExpanded by remember { mutableStateOf(false) }
+
+    // A fresh clip or new suggestions pull focus back from the tools view automatically.
+    LaunchedEffect(hasSuggestions, hasClip) {
+        if (hasSuggestions || hasClip) toolsExpanded = false
+    }
+
+    // The centre shows the tools when expanded, or when there's nothing else to offer; otherwise
+    // it shows the clip chip (priority) or the word suggestions.
+    val showTools = toolsExpanded || (!hasClip && !hasSuggestions)
 
     Row(
         modifier = modifier
@@ -84,16 +87,6 @@ internal fun ActionStrip(
             .padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // A freshly-copied clip takes over the whole strip as a one-tap paste chip (Gboard-style),
-        // except while a panel/numpad is open (the back arrow owns the strip then).
-        if (clipSuggestion != null && !backActive) {
-            ClipSuggestionStrip(
-                text = clipSuggestion,
-                onClick = callbacks.onClipSuggestion,
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-            )
-            return@Row
-        }
         if (backActive) {
             StripIconButton(
                 icon = LucideIcons.ArrowLeft,
@@ -123,6 +116,12 @@ internal fun ActionStrip(
                 callbacks = callbacks,
                 modifier = Modifier.weight(1f).fillMaxHeight(),
             )
+        } else if (hasClip) {
+            ClipSuggestionChip(
+                text = clipSuggestion!!,
+                onClick = callbacks.onClipSuggestion,
+                modifier = Modifier.weight(1f).fillMaxHeight(),
+            )
         } else {
             SuggestionBar(
                 suggestions = suggestions,
@@ -144,12 +143,13 @@ internal fun ActionStrip(
 }
 
 /**
- * The clipboard paste chip shown across the strip after a copy: a clipboard glyph + the copied
- * text (single line, ellipsized). Tapping it pastes the text into the field. It is a plain
- * clickable row so the tap stays within budget, matching the rest of the strip.
+ * The clipboard paste chip offered after a copy: a rounded, filled pill centred in the strip
+ * (Gboard-style) holding a clipboard glyph + the copied text (single line, ellipsized). Tapping
+ * it pastes the full text. The left tools button and right settings button sit around it, just
+ * like the suggestions view. A plain clickable row so the tap stays within budget.
  */
 @Composable
-private fun ClipSuggestionStrip(
+private fun ClipSuggestionChip(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -162,29 +162,33 @@ private fun ClipSuggestionStrip(
         val singleLine = text.replace('\n', ' ').replace('\r', ' ').trim()
         if (singleLine.length > CLIP_CHIP_MAX_CHARS) singleLine.take(CLIP_CHIP_MAX_CHARS) + "…" else singleLine
     }
-    Row(
-        modifier = modifier
-            .clickable(onClick = onClick)
-            .padding(horizontal = 14.dp)
-            .semantics { contentDescription = "Paste copied text" },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = LucideIcons.ClipboardList,
-            contentDescription = null,
-            tint = colors.suggestionTextHighlighted,
-            modifier = Modifier.size(20.dp),
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(
-            text = preview,
-            color = colors.suggestionText,
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Medium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f),
-        )
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        Row(
+            modifier = Modifier
+                .widthIn(max = 260.dp)
+                .clip(CircleShape)
+                .background(colors.keyBackground)
+                .clickable(onClick = onClick)
+                .padding(horizontal = 16.dp, vertical = 7.dp)
+                .semantics { contentDescription = "Paste copied text" },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = LucideIcons.ClipboardList,
+                contentDescription = null,
+                tint = colors.suggestionTextHighlighted,
+                modifier = Modifier.size(18.dp),
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = preview,
+                color = colors.suggestionText,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 
