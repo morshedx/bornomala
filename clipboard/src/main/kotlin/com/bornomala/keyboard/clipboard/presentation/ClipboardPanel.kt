@@ -2,7 +2,11 @@ package com.bornomala.keyboard.clipboard.presentation
 
 import com.bornomala.keyboard.theme.LucideIcons
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +18,9 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,9 +32,14 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -84,6 +94,9 @@ fun ClipboardPanelContent(
     modifier: Modifier = Modifier,
 ) {
     val colors = BornomalaTheme.keyboardColors
+    // The clip whose action menu (Pin/Paste/Delete) is open, or null. A tap pastes immediately;
+    // long-press opens this menu instead of cluttering every card with inline icons.
+    var menuItem by remember { mutableStateOf<ClipboardItem?>(null) }
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -91,32 +104,59 @@ fun ClipboardPanelContent(
         color = colors.keyboardBackground,
         contentColor = colors.keyContent,
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            // No in-panel search field: an IME cannot type into its own UI without a
-            // sub-keyboard. `onQueryChange`/`onClearQuery` are unused here.
-            when {
-                state.isLoading -> Unit // brief; avoids a flashing empty state
-                state.isEmpty -> EmptyState(isSearchMiss = state.isSearchMiss)
-                else -> LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(
-                        horizontal = 8.dp,
-                        vertical = 4.dp,
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                ) {
-                    items(
-                        items = state.items,
-                        key = { it.id },
-                    ) { item ->
-                        ClipboardRow(
-                            item = item,
-                            onPaste = onPaste,
-                            onTogglePin = onTogglePin,
-                            onDelete = onDelete,
-                        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                // No in-panel search field: an IME cannot type into its own UI without a
+                // sub-keyboard. `onQueryChange`/`onClearQuery` are unused here.
+                when {
+                    state.isLoading -> Unit // brief; avoids a flashing empty state
+                    state.isEmpty -> EmptyState(isSearchMiss = state.isSearchMiss)
+                    // Two-column masonry: clips vary in length, so a staggered grid packs short and
+                    // long cards without the ragged gaps a fixed grid would leave.
+                    else -> LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Fixed(2),
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                            horizontal = 8.dp,
+                            vertical = 4.dp,
+                        ),
+                        verticalItemSpacing = 6.dp,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        items(
+                            items = state.items,
+                            key = { it.id },
+                        ) { item ->
+                            ClipboardCard(
+                                item = item,
+                                onPaste = onPaste,
+                                onLongPress = { menuItem = item },
+                            )
+                        }
                     }
                 }
+            }
+
+            // Long-press action menu, drawn over the panel with a dim scrim (Gboard-style).
+            val active = menuItem
+            if (active != null) {
+                ClipActionMenu(
+                    item = active,
+                    onPaste = {
+                        onPaste(active.text)
+                        menuItem = null
+                    },
+                    onTogglePin = {
+                        onTogglePin(active.id, active.pinned)
+                        menuItem = null
+                    },
+                    onDelete = {
+                        onDelete(active.id)
+                        menuItem = null
+                    },
+                    onDismiss = { menuItem = null },
+                    modifier = Modifier.matchParentSize(),
+                )
             }
         }
     }
@@ -174,78 +214,145 @@ private fun ClipboardSearchBar(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ClipboardRow(
+private fun ClipboardCard(
     item: ClipboardItem,
     onPaste: (String) -> Unit,
-    onTogglePin: (id: Long, currentlyPinned: Boolean) -> Unit,
-    onDelete: (id: Long) -> Unit,
+    onLongPress: () -> Unit,
 ) {
     val colors = BornomalaTheme.keyboardColors
     val pasteLabel = "Paste clipboard item: ${item.text}"
+    val shape = RoundedCornerShape(BornomalaTheme.shapes.keyCornerRadius)
+    // Just the clip text now — a tap pastes, a long-press opens the action menu. The text takes
+    // the full card width and can run several lines, which is what gives the masonry its varied
+    // card heights.
     Surface(
-        modifier = Modifier.fillMaxWidth(),
         color = colors.keyBackground,
         contentColor = colors.keyContent,
-        shape = RoundedCornerShape(BornomalaTheme.shapes.keyCornerRadius),
-        onClick = { onPaste(item.text) },
+        shape = shape,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .combinedClickable(
+                onClick = { onPaste(item.text) },
+                onLongClick = onLongPress,
+                onClickLabel = "Paste",
+                onLongClickLabel = "More actions",
+            ),
     ) {
-        Row(
+        Text(
+            text = item.text,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 12.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)
-                .heightIn(min = BornomalaTheme.dimens.minTouchTarget),
-            verticalAlignment = Alignment.CenterVertically,
+                .padding(horizontal = 12.dp, vertical = 10.dp)
+                .clearAndSetSemantics { contentDescription = pasteLabel },
+            color = colors.keyContent,
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 8,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
+}
+
+/**
+ * Long-press action sheet for a clip: a dimmed scrim over the panel with the clip preview and a
+ * Pin / Paste / Delete button row. Tapping the scrim (anywhere outside a button) dismisses it.
+ */
+@Composable
+private fun ClipActionMenu(
+    item: ClipboardItem,
+    onPaste: () -> Unit,
+    onTogglePin: () -> Unit,
+    onDelete: () -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = BornomalaTheme.keyboardColors
+    Box(
+        modifier = modifier
+            .background(Color.Black.copy(alpha = 0.4f))
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) { onDismiss() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                text = item.text,
-                modifier = Modifier
-                    .weight(1f)
-                    .clearAndSetSemantics { contentDescription = pasteLabel },
-                color = colors.keyContent,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.width(4.dp))
-            RowAction(
-                onClick = { onTogglePin(item.id, item.pinned) },
-                icon = if (item.pinned) LucideIcons.Pin else LucideIcons.Pin,
-                contentDescription = if (item.pinned) {
-                    "Unpin clipboard item"
-                } else {
-                    "Pin clipboard item"
-                },
-                tint = if (item.pinned) colors.suggestionTextHighlighted else colors.functionalKeyContent,
-            )
-            RowAction(
-                onClick = { onDelete(item.id) },
-                icon = LucideIcons.Trash,
-                contentDescription = "Delete clipboard item",
-                tint = colors.functionalKeyContent,
-            )
+            Surface(
+                color = colors.popupBackground,
+                contentColor = colors.popupContent,
+                shape = RoundedCornerShape(BornomalaTheme.shapes.keyCornerRadius),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    text = item.text,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                    color = colors.popupContent,
+                    style = MaterialTheme.typography.bodyLarge,
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+            Spacer(Modifier.size(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                MenuButton(
+                    modifier = Modifier.weight(1f),
+                    icon = LucideIcons.Pin,
+                    label = if (item.pinned) "Unpin" else "Pin",
+                    onClick = onTogglePin,
+                )
+                MenuButton(
+                    modifier = Modifier.weight(1f),
+                    icon = LucideIcons.Clipboard,
+                    label = "Paste",
+                    onClick = onPaste,
+                )
+                MenuButton(
+                    modifier = Modifier.weight(1f),
+                    icon = LucideIcons.Trash,
+                    label = "Delete",
+                    onClick = onDelete,
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun RowAction(
+private fun MenuButton(
+    modifier: Modifier,
+    icon: ImageVector,
+    label: String,
     onClick: () -> Unit,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    contentDescription: String,
-    tint: Color,
 ) {
-    IconButton(
+    val colors = BornomalaTheme.keyboardColors
+    Surface(
+        modifier = modifier.semantics { contentDescription = label },
+        color = colors.keyBackground,
+        contentColor = colors.keyContent,
+        shape = RoundedCornerShape(BornomalaTheme.shapes.keyCornerRadius),
         onClick = onClick,
-        modifier = Modifier
-            .size(BornomalaTheme.dimens.minTouchTarget)
-            .semantics { this.contentDescription = contentDescription },
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = tint,
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Icon(imageVector = icon, contentDescription = null, tint = colors.functionalKeyContent)
+            Spacer(Modifier.width(8.dp))
+            Text(text = label, color = colors.keyContent, style = MaterialTheme.typography.bodyMedium)
+        }
     }
 }
 

@@ -65,6 +65,7 @@ internal fun KeyView(
     onLongPressRequested: (Key, LayoutCoordinates) -> Unit,
     onLongPressMove: (Offset) -> Unit,
     onLongPressReleased: () -> Unit,
+    onCursorSwipe: (Int) -> Unit,
     modifier: Modifier = Modifier,
     isPopupSource: Boolean = false,
     flat: Boolean = false,
@@ -142,7 +143,23 @@ internal fun KeyView(
                     down.consume()
                     pressed = true
 
-                    if (key.repeatable) {
+                    if (key.cursorControl) {
+                        // Spacebar hold-and-swipe: a horizontal drag moves the caret, a held-still
+                        // press repeats space, a quick tap inserts one space. Checked before
+                        // `repeatable` so the gesture owns its own repeat handling. Thresholds use
+                        // the touch slop and a fixed travel-per-character, both density-correct via
+                        // this pointer scope's [Density].
+                        detectSpacebarGesture(
+                            startX = down.position.x,
+                            slopPx = viewConfiguration.touchSlop,
+                            pxPerChar = 12.dp.toPx(),
+                            longPressTimeoutMillis = longPressTimeoutMs,
+                            repeatIntervalMillis = repeatIntervalMs,
+                            onTap = { onKey(key.action) },
+                            onRepeat = { onKey(key.action) },
+                            onCursorStep = onCursorSwipe,
+                        )
+                    } else if (key.repeatable) {
                         // Initial action immediately, then a short pause before repeating,
                         // then repeat at the fast interval while still held.
                         onKey(key.action)

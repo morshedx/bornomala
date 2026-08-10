@@ -134,6 +134,7 @@ class KeyboardImeService : InputMethodService() {
         },
         onOpenSearch = { stateHolder.setPanelSearch(true) },
         onCloseSearch = { stateHolder.setPanelSearch(false) },
+        onCursorSwipe = { delta -> interactor.onCursorSwipe(delta) },
     )
 
     private val interactorCallbacks = object : InputInteractor.Callbacks {

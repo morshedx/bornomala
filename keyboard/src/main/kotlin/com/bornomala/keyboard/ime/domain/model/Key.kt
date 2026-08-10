@@ -57,6 +57,10 @@ enum class KeyIcon {
  * @param iconOverride forces a specific glyph regardless of [action]; checked before the
  *   action→icon fallback so two keys with the same action can render differently (e.g. the
  *   numpad space key vs. the main spacebar). Null (default) keeps the standard behaviour.
+ * @param cursorControl turns the key into a hold-and-swipe cursor controller (the spacebar):
+ *   a horizontal drag moves the text caret, a held-still press still repeats [action], and a
+ *   quick tap fires [action] once. The renderer checks this before [repeatable], so a key with
+ *   cursor control owns its own repeat handling and must leave [repeatable] false.
  */
 @Immutable
 data class Key(
@@ -71,6 +75,7 @@ data class Key(
     val contentDescription: String? = null,
     val repeatable: Boolean = false,
     val iconOverride: KeyIcon? = null,
+    val cursorControl: Boolean = false,
 ) {
     companion object {
         /** Builds a standard letter key with an optional long-press accent set and digit hint. */

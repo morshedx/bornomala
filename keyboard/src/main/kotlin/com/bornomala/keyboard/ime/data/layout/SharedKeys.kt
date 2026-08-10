@@ -209,7 +209,7 @@ internal object SharedKeys {
                 weight = 4f,
                 style = KeyStyle.SPACEBAR,
                 contentDescription = "Space",
-                repeatable = true,
+                cursorControl = true,
             ),
             period,
             ENTER,

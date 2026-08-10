@@ -32,7 +32,7 @@ internal object SymbolsLayout {
                 weight = 4f,
                 style = KeyStyle.SPACEBAR,
                 contentDescription = "Space",
-                repeatable = true,
+                cursorControl = true,
                 iconOverride = KeyIcon.SPACE,
             ),
             SharedKeys.PERIOD,

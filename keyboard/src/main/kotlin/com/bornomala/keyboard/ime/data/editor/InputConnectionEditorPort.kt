@@ -52,6 +52,20 @@ class InputConnectionEditorPort : EditorPort {
         }
     }
 
+    override fun moveCursorBy(chars: Int) {
+        val c = connection ?: return
+        if (chars == 0) return
+        // Directional key events move the caret in any editor (unlike setSelection, which needs
+        // extracted-text support some fields lack). One down+up per step; |chars| is small (a few
+        // characters per gesture frame), and the gesture itself is user-paced, so the per-step
+        // KeyEvent allocation is off the typing hot path.
+        val keyCode = if (chars > 0) KeyEvent.KEYCODE_DPAD_RIGHT else KeyEvent.KEYCODE_DPAD_LEFT
+        repeat(if (chars > 0) chars else -chars) {
+            c.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
+            c.sendKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keyCode))
+        }
+    }
+
     override fun textBeforeCursor(n: Int): CharSequence =
         connection?.getTextBeforeCursor(n, 0) ?: ""
 

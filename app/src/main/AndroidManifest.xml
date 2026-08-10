@@ -80,14 +80,8 @@
             android:exported="false"
             android:theme="@style/Theme.Bornomala" />
 
-        <!-- Receives PackageInstaller status callbacks for in-app (OTA) updates. -->
-        <receiver
-            android:name=".util.InstallReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.morshedx.bornomala.INSTALL_STATUS" />
-            </intent-filter>
-        </receiver>
+        <!-- OTA PackageInstaller status receiver + FileProvider are supplied by the im.morshed:ota
+             library via manifest merge (im.morshed.ota.InstallReceiver, ${applicationId}.fileprovider). -->
     </application>
 
 </manifest>

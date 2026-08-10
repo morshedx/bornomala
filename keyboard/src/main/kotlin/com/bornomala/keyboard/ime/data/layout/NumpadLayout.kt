@@ -44,7 +44,7 @@ internal object NumpadLayout {
     )
     private val space = Key(
         label = "", action = KeyAction.Space, weight = RAIL_W, style = KeyStyle.FUNCTIONAL,
-        contentDescription = "Space", repeatable = true, iconOverride = KeyIcon.SPACE,
+        contentDescription = "Space", cursorControl = true, iconOverride = KeyIcon.SPACE,
     )
     private val backspace = Key(
         label = "", action = KeyAction.Backspace, weight = RAIL_W, style = KeyStyle.FUNCTIONAL,

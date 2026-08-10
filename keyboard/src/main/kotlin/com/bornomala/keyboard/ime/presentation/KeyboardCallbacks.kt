@@ -44,4 +44,6 @@ class KeyboardCallbacks(
     val onOpenSearch: () -> Unit,
     /** Closes the in-panel search keyboard and clears the query. */
     val onCloseSearch: () -> Unit,
+    /** Moves the text caret by N characters (signed; negative = left) — spacebar hold-and-swipe. */
+    val onCursorSwipe: (Int) -> Unit,
 )

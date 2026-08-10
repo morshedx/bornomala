@@ -276,6 +276,19 @@ class InputInteractor(
         callbacks.onComposingChanged(stateHolder.current.language, "")
     }
 
+    /**
+     * Moves the text caret by [delta] characters (negative = left), driven by the spacebar
+     * hold-and-swipe gesture. Finalizes any in-progress word in place — verbatim, with no
+     * surprise auto-correct — and clears suggestions so the caret never lands inside a composing
+     * region. Mirrors the volume-key cursor move. The gesture layer debounces the drag into whole
+     * characters, so this only fires when the caret actually advances.
+     */
+    fun onCursorSwipe(delta: Int) {
+        if (delta == 0) return
+        resetComposing()
+        editor.moveCursorBy(delta)
+    }
+
     // --- helpers --------------------------------------------------------------------
 
     /**

@@ -233,6 +233,9 @@ internal fun KeyboardScreen(
                         onLongPressRequested = { _, _ -> },
                         onLongPressMove = {},
                         onLongPressReleased = {},
+                        // Cursor swipe is disabled inside panel search: the keys feed the search
+                        // query, not a text field, so there is no caret to move.
+                        onCursorSwipe = {},
                         activePopupKey = null,
                     )
                 }
@@ -267,6 +270,7 @@ internal fun KeyboardScreen(
                         popupKey = null
                         popupPointer = null
                     },
+                    onCursorSwipe = callbacks.onCursorSwipe,
                     activePopupKey = popupKey,
                 )
             }
@@ -334,6 +338,7 @@ private val PreviewCallbacks = KeyboardCallbacks(
     onSearchKey = {},
     onOpenSearch = {},
     onCloseSearch = {},
+    onCursorSwipe = {},
 )
 
 @Composable
@@ -379,6 +384,7 @@ fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
                 onLongPressRequested = { _, _ -> },
                 onLongPressMove = {},
                 onLongPressReleased = {},
+                onCursorSwipe = {},
                 activePopupKey = null,
             )
         }
@@ -409,6 +415,7 @@ private fun KeyGrid(
     onLongPressRequested: (Key, LayoutCoordinates) -> Unit,
     onLongPressMove: (Offset) -> Unit,
     onLongPressReleased: () -> Unit,
+    onCursorSwipe: (Int) -> Unit,
     activePopupKey: Key?,
 ) {
     val strip = layout.scrollableLeftStrip
@@ -442,6 +449,7 @@ private fun KeyGrid(
                         onLongPressRequested = onLongPressRequested,
                         onLongPressMove = onLongPressMove,
                         onLongPressReleased = onLongPressReleased,
+                        onCursorSwipe = onCursorSwipe,
                         isPopupSource = key === activePopupKey,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -462,6 +470,7 @@ private fun KeyGrid(
                         onLongPressRequested = onLongPressRequested,
                         onLongPressMove = onLongPressMove,
                         onLongPressReleased = onLongPressReleased,
+                        onCursorSwipe = onCursorSwipe,
                         activePopupKey = activePopupKey,
                     )
                 }
@@ -478,6 +487,7 @@ private fun KeyGrid(
                 onLongPressRequested = onLongPressRequested,
                 onLongPressMove = onLongPressMove,
                 onLongPressReleased = onLongPressReleased,
+                onCursorSwipe = onCursorSwipe,
                 activePopupKey = activePopupKey,
             )
         }
@@ -495,6 +505,7 @@ private fun KeyGrid(
             onLongPressRequested = onLongPressRequested,
             onLongPressMove = onLongPressMove,
             onLongPressReleased = onLongPressReleased,
+            onCursorSwipe = onCursorSwipe,
             activePopupKey = activePopupKey,
         )
     }
@@ -512,6 +523,7 @@ private fun KeyRowView(
     onLongPressRequested: (Key, LayoutCoordinates) -> Unit,
     onLongPressMove: (Offset) -> Unit,
     onLongPressReleased: () -> Unit,
+    onCursorSwipe: (Int) -> Unit,
     activePopupKey: Key?,
 ) {
     Row(
@@ -532,6 +544,7 @@ private fun KeyRowView(
                 onLongPressRequested = onLongPressRequested,
                 onLongPressMove = onLongPressMove,
                 onLongPressReleased = onLongPressReleased,
+                onCursorSwipe = onCursorSwipe,
                 isPopupSource = key === activePopupKey,
                 modifier = Modifier
                     .weight(key.weight)

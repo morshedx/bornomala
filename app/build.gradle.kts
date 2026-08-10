@@ -16,11 +16,31 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.play.publisher)
+    // OTA self-update release task (./gradlew publishApkToR2): builds the signed APK, writes
+    // latest.json, and uploads both to the Cloudflare R2 bucket the app polls for updates.
+    id("im.morshed.ota-release") version "1.3.0"
 }
 
 // App version, reused for the build config and the output APK file name.
-val appVersionName = "0.8.3"
-val appVersionCode = 58
+val appVersionName = "0.8.7"
+val appVersionCode = 62
+
+// Never ship a debug-signed release: the OTA library installs updates in place, and a signing
+// signature flip on the next release would fail the in-place update and wipe user data. Fail
+// loudly if a release/publish task runs without the stable release keystore.
+gradle.taskGraph.whenReady {
+    val needsRelease = allTasks.any {
+        val n = it.name
+        (n.contains("Release") && (n.startsWith("assemble") || n.startsWith("bundle") || n.startsWith("package"))) ||
+            n.contains("publishApkToR2", ignoreCase = true)
+    }
+    if (needsRelease && !rootProject.file("keystore.properties").exists()) {
+        throw GradleException(
+            "Release signing key missing: keystore.properties not found. Refusing to build/publish " +
+                "a release — a debug-signed release would break OTA updates and wipe user data.",
+        )
+    }
+}
 
 // Optional release signing config, loaded from a gitignored keystore.properties.
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -33,8 +53,9 @@ android {
     compileSdk = 35
 
     defaultConfig {
+        // minSdk 29: required by the im.morshed:ota self-update library (drops Android 8.0–9).
         applicationId = "com.morshedx.bornomala"
-        minSdk = 26
+        minSdk = 29
         targetSdk = 35
         versionCode = appVersionCode
         versionName = appVersionName
@@ -46,6 +67,8 @@ android {
 
         // OTA gateway bearer token, injected from env / local.properties (never committed).
         buildConfigField("String", "UPDATE_TOKEN", "\"$updateToken\"")
+        // OTA version manifest the app polls for newer releases (Cloudflare R2, bornomala slug).
+        buildConfigField("String", "MANIFEST_URL", "\"https://app-releases.morshed.im/bornomala/latest.json\"")
     }
 
     signingConfigs {
@@ -132,6 +155,15 @@ play {
     releaseStatus.set(com.github.triplet.gradle.androidpublisher.ReleaseStatus.DRAFT)
 }
 
+// OTA release task (im.morshed.ota-release): ./gradlew publishApkToR2 builds the signed release
+// APK, writes the version manifest, and uploads both to the R2 bucket the app polls (latest.json
+// at <baseUrl>/<appSlug>/). R2 credentials come from the environment, never committed.
+otaRelease {
+    bucket.set("app-releases")
+    baseUrl.set("https://app-releases.morshed.im")
+    appSlug.set("bornomala")
+}
+
 dependencies {
     // Feature & shared modules. As feature modules are scaffolded by their owning
     // agents they are wired into the IME and settings host through these deps.
@@ -161,6 +193,11 @@ dependencies {
     // Cloud backup: Google sign-in/authorization for Drive + background backup scheduling.
     implementation(libs.play.services.auth)
     implementation(libs.androidx.work.runtime.ktx)
+
+    // OTA self-update: version check, download, and PackageInstaller flow + the UpdateScreen UI.
+    // Self-contained (own Hilt ViewModel, worker, InstallReceiver, FileProvider via manifest merge);
+    // configured by OtaModule (manifest URL + bearer token from BuildConfig).
+    implementation("im.morshed:ota:1.3.0")
 
     // Enables ProfileInstaller so macrobenchmark can measure/compile startup profiles.
     implementation(libs.androidx.profileinstaller)

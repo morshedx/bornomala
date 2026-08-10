@@ -20,3 +20,6 @@ local.properties
 
 # Google Play service account (never commit)
 play-service-account.json
+
+# Wrangler local cache (OTA release uploads)
+.wrangler/

@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        maven("https://maven.morshed.im") // im.morshed.ota-release plugin + OTA components
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -15,6 +16,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven("https://maven.morshed.im") // im.morshed:ota + shared components
         google()
         mavenCentral()
     }
