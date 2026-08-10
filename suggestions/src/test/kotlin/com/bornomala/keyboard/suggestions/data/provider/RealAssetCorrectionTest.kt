@@ -76,15 +76,21 @@ class RealAssetCorrectionTest {
     }
 
     @Test
-    fun `chara resolves to ছাড়া via the real bangla phonetic index`() = runTest {
+    fun `chara resolves to ছাড়া via the real bangla phonetic index`() = runTest {
         val engine = com.bornomala.keyboard.suggestions.data.DefaultSuggestionEngine(
             providers = setOf(providerFromAssets()),
             dispatchers = dispatchers,
             banglaPhonetic = phoneticRepoFromAssets(),
+            userDictionary = com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository(
+                com.bornomala.keyboard.suggestions.util.lazyOf(
+                    com.bornomala.keyboard.suggestions.util.FakeUserDictionaryDao(),
+                ),
+                dispatchers,
+            ),
         )
         val result = engine.banglaPhoneticCandidates("chara", 5)
         assertThat(result).isNotEmpty()
-        assertThat(result.first()).isEqualTo("ছাড়া")
+        assertThat(result.first()).isEqualTo("ছাড়া")
     }
 
     @Test
@@ -93,6 +99,12 @@ class RealAssetCorrectionTest {
             providers = setOf(providerFromAssets()),
             dispatchers = dispatchers,
             banglaPhonetic = phoneticRepoFromAssets(),
+            userDictionary = com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository(
+                com.bornomala.keyboard.suggestions.util.lazyOf(
+                    com.bornomala.keyboard.suggestions.util.FakeUserDictionaryDao(),
+                ),
+                dispatchers,
+            ),
         )
         val result = engine.getSuggestions(req("teh"))
         assertThat(result.first().word).isEqualTo("the")

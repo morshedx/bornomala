@@ -28,8 +28,11 @@ class BanglaPhoneticRepository @Inject constructor(
     private val mutex = Mutex()
 
     /** Real Bangla words matching the phonetic key of [roman], best-first; empty if none. */
-    suspend fun candidates(roman: String, limit: Int): List<String> {
-        val key = BanglaPhoneticKey.romanKey(roman)
+    suspend fun candidates(roman: String, limit: Int): List<String> =
+        candidatesForKey(BanglaPhoneticKey.romanKey(roman), limit)
+
+    /** As [candidates], for a phonetic key the caller has already computed. */
+    suspend fun candidatesForKey(key: String, limit: Int): List<String> {
         if (key.isEmpty()) return emptyList()
         return table().nextWords(key, limit)
     }

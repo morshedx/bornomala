@@ -39,9 +39,11 @@ interface SuggestionEngine {
     )
 
     /**
-     * Resolves a roman (Avro-style) Bangla input to real Bangla words via the bundled phonetic
-     * index — e.g. `chara` -> [ছাড়া, ছাড়াও]. Ambiguity-collapsed so spelling variants match,
-     * ranked by frequency. Returns up to [limit], best-first; empty when nothing matches.
+     * Resolves a roman (Avro-style) Bangla input to real Bangla words — e.g. `chara` ->
+     * [ছাড়া, ছাড়াও]. Ambiguity-collapsed so spelling variants match, ranked by frequency.
+     * Draws on both the bundled phonetic index and the words the user has taught the keyboard,
+     * with repeatedly-typed learned words leading. Returns up to [limit], best-first; empty
+     * when nothing matches.
      */
     suspend fun banglaPhoneticCandidates(roman: String, limit: Int): List<String>
 }

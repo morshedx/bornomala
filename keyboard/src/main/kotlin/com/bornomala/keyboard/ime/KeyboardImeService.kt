@@ -543,7 +543,7 @@ class KeyboardImeService : InputMethodService() {
         // dictionary word as the highlighted auto-pick (committed on space, e.g. ছাড়া), then the
         // plain phonetic render and the remaining candidates.
         add(roman, transliteration = false, highlight = false)
-        val autoPick = phonetic.firstOrNull()
+        val autoPick = banglaAutoPick(roman, rendered, phonetic)
         if (autoPick != null) add(autoPick, transliteration = true, highlight = true)
         // The render is highlighted only when there is no phonetic auto-pick to take its place.
         add(rendered, transliteration = true, highlight = autoPick == null)
@@ -551,6 +551,22 @@ class KeyboardImeService : InputMethodService() {
         engineCandidates.forEach { add(it, transliteration = true, highlight = false) }
         dictionary.forEach { add(it.text, transliteration = true, highlight = false) }
         return out
+    }
+
+    /**
+     * The phonetic-dictionary word that space may commit in place of the literal transliteration,
+     * or null to keep exactly what was typed. Swapping is withheld when:
+     *
+     *  - the roman is still too short to be a finished word (a 1-2 letter prefix matches far too
+     *    many dictionary words to guess from), or
+     *  - the transliteration itself is one of the candidates — what the user typed already spells
+     *    a real Bangla word, so it is not a misspelling to fix. The alternatives (including
+     *    anything the user has taught the keyboard) stay one tap away on the strip.
+     */
+    private fun banglaAutoPick(roman: String, rendered: String, phonetic: List<String>): String? {
+        if (roman.length < MIN_BANGLA_AUTO_PICK_LEN) return null
+        if (rendered.isNotEmpty() && phonetic.contains(rendered)) return null
+        return phonetic.firstOrNull()
     }
 
     /**
@@ -633,6 +649,9 @@ class KeyboardImeService : InputMethodService() {
     private companion object {
         const val SUGGESTION_LIMIT = 6
         const val PREVIOUS_WORD_LOOKBACK = 48
+
+        /** Shortest roman input that may be silently swapped for a phonetic-dictionary word. */
+        const val MIN_BANGLA_AUTO_PICK_LEN = 3
 
         /** How long after a copy the strip still offers a one-tap paste chip (Gboard-style). */
         const val CLIP_SUGGESTION_WINDOW_MS = 60_000L

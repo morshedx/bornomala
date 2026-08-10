@@ -23,15 +23,39 @@ interface UserDictionaryDao {
      */
     @Query(
         """
-        INSERT INTO user_dictionary (word, lang, frequency, last_used, prev_word)
-        VALUES (:word, :lang, 1, :now, :prevWord)
+        INSERT INTO user_dictionary (word, lang, frequency, last_used, prev_word, phonetic_key)
+        VALUES (:word, :lang, 1, :now, :prevWord, :phoneticKey)
         ON CONFLICT(word, lang) DO UPDATE SET
             frequency = frequency + 1,
             last_used = :now,
-            prev_word = :prevWord
+            prev_word = :prevWord,
+            phonetic_key = :phoneticKey
         """,
     )
-    suspend fun learnWord(word: String, lang: String, prevWord: String, now: Long)
+    suspend fun learnWord(word: String, lang: String, prevWord: String, now: Long, phoneticKey: String)
+
+    /**
+     * Phonetic resolution of learned words: rows in [lang] whose ambiguity-collapsed key is
+     * [phoneticKey], ranked by frequency then recency. Lets roman Avro input reach words the
+     * user taught the keyboard, not just the bundled phonetic index.
+     */
+    @Query(
+        """
+        SELECT * FROM user_dictionary
+        WHERE lang = :lang AND phonetic_key = :phoneticKey
+        ORDER BY frequency DESC, last_used DESC
+        LIMIT :limit
+        """,
+    )
+    suspend fun queryByPhoneticKey(lang: String, phoneticKey: String, limit: Int): List<UserDictionaryEntity>
+
+    /** Rows in [lang] still missing a phonetic key (learned before the column existed). */
+    @Query("SELECT * FROM user_dictionary WHERE lang = :lang AND phonetic_key = '' LIMIT :limit")
+    suspend fun wordsMissingPhoneticKey(lang: String, limit: Int): List<UserDictionaryEntity>
+
+    /** Backfills the phonetic key of one row. */
+    @Query("UPDATE user_dictionary SET phonetic_key = :phoneticKey WHERE word = :word AND lang = :lang")
+    suspend fun setPhoneticKey(word: String, lang: String, phoneticKey: String)
 
     /**
      * Current-word completion: rows in [lang] whose word starts with [prefix],

@@ -21,6 +21,7 @@ import androidx.room.Index
     indices = [
         Index(value = ["lang", "frequency"]),
         Index(value = ["lang", "prev_word"]),
+        Index(value = ["lang", "phonetic_key", "frequency"]),
     ],
 )
 data class UserDictionaryEntity(
@@ -35,4 +36,11 @@ data class UserDictionaryEntity(
      * dedicated bigram table is the natural future expansion.
      */
     @ColumnInfo(name = "prev_word") val prevWord: String = "",
+    /**
+     * The ambiguity-collapsed phonetic key of [word] (Bangla only; empty for English), so words
+     * the user has taught the keyboard resolve from roman Avro input exactly like the bundled
+     * phonetic index does. Computed on learn; backfilled lazily for rows written before the
+     * column existed. See `BanglaPhoneticKey`.
+     */
+    @ColumnInfo(name = "phonetic_key") val phoneticKey: String = "",
 )

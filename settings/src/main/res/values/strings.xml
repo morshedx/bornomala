@@ -40,7 +40,7 @@
     <string name="settings_suggestions">Word suggestions</string>
     <string name="settings_suggestions_desc">Show the suggestion bar while typing.</string>
     <string name="settings_auto_correct">Auto-correction</string>
-    <string name="settings_auto_correct_desc">Automatically fix a finished English typo when you press space. Press backspace to undo.</string>
+    <string name="settings_auto_correct_desc">When you press space, fix a finished English typo and swap Bangla input for the closest dictionary word. Press backspace to undo.</string>
     <string name="settings_block_offensive">Block offensive words</string>
     <string name="settings_block_offensive_desc">Keep profanity and slurs out of suggestions and auto-correction. You can still type them.</string>
     <string name="settings_clipboard">Clipboard history</string>

@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 /**
  * Room database owned by the :suggestions module.
@@ -16,7 +18,7 @@ import androidx.room.RoomDatabase
  */
 @Database(
     entities = [UserDictionaryEntity::class, LearnedNgramEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false,
 )
 abstract class SuggestionsDatabase : RoomDatabase() {
@@ -25,6 +27,25 @@ abstract class SuggestionsDatabase : RoomDatabase() {
 
     companion object {
         const val DATABASE_NAME = "bornomala_suggestions.db"
+
+        /**
+         * Adds the phonetic key that lets roman Avro input resolve to words the user taught the
+         * keyboard. Migrated rather than dropped: learned words are the whole point of the
+         * feature, so losing them on upgrade would be worse than the migration's cost. Existing
+         * rows start with an empty key and are backfilled lazily by
+         * [UserDictionaryRepository.backfillPhoneticKeys].
+         */
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE user_dictionary ADD COLUMN phonetic_key TEXT NOT NULL DEFAULT ''",
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS index_user_dictionary_lang_phonetic_key_frequency " +
+                        "ON user_dictionary (lang, phonetic_key, frequency)",
+                )
+            }
+        }
 
         /**
          * Builds the database. Called lazily from DI on first use, never at IME
@@ -36,8 +57,9 @@ abstract class SuggestionsDatabase : RoomDatabase() {
                 SuggestionsDatabase::class.java,
                 DATABASE_NAME,
             )
-                // Learned data is a cache rebuilt by on-device learning; a schema bump can
-                // safely drop it rather than ship a migration for a regenerable table.
+                .addMigrations(MIGRATION_2_3)
+                // Backstop only: a schema path with no migration drops the learned cache rather
+                // than failing to open. Real upgrades ship a migration (see [MIGRATION_2_3]).
                 .fallbackToDestructiveMigration()
                 .build()
     }

@@ -22,8 +22,8 @@ plugins {
 }
 
 // App version, reused for the build config and the output APK file name.
-val appVersionName = "0.8.7"
-val appVersionCode = 62
+val appVersionName = "0.8.8"
+val appVersionCode = 63
 
 // Never ship a debug-signed release: the OTA library installs updates in place, and a signing
 // signature flip on the next release would fail the in-place update and wipe user data. Fail

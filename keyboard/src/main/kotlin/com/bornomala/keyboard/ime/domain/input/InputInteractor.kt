@@ -305,10 +305,9 @@ class InputInteractor(
         // Auto-correct: if the strip flagged a high-confidence target — an English spelling
         // correction, or the top Bangla phonetic-dictionary word (e.g. chara -> ছাড়া) — swap it
         // into the composing region before finalizing, and remember it so backspace can revert.
-        // English spell auto-correct is gated by its own toggle; Bangla phonetic auto-commit is
-        // not (it is the core of phonetic typing and has its own Bangla setting).
-        val autoCorrectAllowed = config.suggestionsEnabled &&
-            (state.language != KeyboardLanguage.ENGLISH || config.autoCorrectEnabled)
+        // Both languages obey the auto-correction setting: with it off, space commits exactly
+        // what was typed and the alternatives stay one tap away on the suggestion strip.
+        val autoCorrectAllowed = config.suggestionsEnabled && config.autoCorrectEnabled
         val correction = if (autoCorrectAllowed) {
             state.suggestions.firstOrNull { it.isAutoCorrect }?.text
         } else {

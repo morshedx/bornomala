@@ -2,6 +2,10 @@ package com.bornomala.keyboard.suggestions.data
 
 import com.bornomala.keyboard.core.dispatchers.DispatcherProvider
 import com.bornomala.keyboard.core.result.AppResult
+import com.bornomala.keyboard.core.result.getOrDefault
+import com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticKey
+import com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository
+import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import com.bornomala.keyboard.suggestions.domain.SuggestionEngine
 import com.bornomala.keyboard.suggestions.domain.SuggestionProvider
 import com.bornomala.keyboard.suggestions.domain.model.Suggestion
@@ -31,11 +35,46 @@ import javax.inject.Singleton
 class DefaultSuggestionEngine @Inject constructor(
     private val providers: Set<@JvmSuppressWildcards SuggestionProvider>,
     private val dispatchers: DispatcherProvider,
-    private val banglaPhonetic: com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository,
+    private val banglaPhonetic: BanglaPhoneticRepository,
+    private val userDictionary: UserDictionaryRepository,
 ) : SuggestionEngine {
 
-    override suspend fun banglaPhoneticCandidates(roman: String, limit: Int): List<String> =
-        if (roman.isBlank()) emptyList() else banglaPhonetic.candidates(roman, limit)
+    /**
+     * Resolves roman Avro input against both the bundled phonetic index and the words the user
+     * has taught the keyboard, which share one ambiguity-collapsed key space.
+     *
+     * Learned words the user has committed at least [LEARNED_TRUST] times lead — that is what
+     * makes "learn from my typing" actually steer the auto-pick, instead of the bundled corpus
+     * winning forever. A word seen only once trails the bundled hits: one accidental commit
+     * should not promote itself to the word space silently swaps in.
+     */
+    override suspend fun banglaPhoneticCandidates(roman: String, limit: Int): List<String> {
+        if (roman.isBlank() || limit <= 0) return emptyList()
+        val key = BanglaPhoneticKey.romanKey(roman)
+        if (key.isEmpty()) return emptyList()
+        userDictionary.backfillPhoneticKeys(SuggestionLanguage.BANGLA)
+        val learned = userDictionary
+            .queryByPhoneticKey(SuggestionLanguage.BANGLA, key, limit)
+            .getOrDefault(emptyList())
+        val bundled = banglaPhonetic.candidatesForKey(key, limit)
+        if (learned.isEmpty()) return bundled
+
+        val out = ArrayList<String>(limit)
+        for (entry in learned) {
+            if (entry.frequency < LEARNED_TRUST) continue
+            if (out.size >= limit) return out
+            if (!out.contains(entry.word)) out.add(entry.word)
+        }
+        for (word in bundled) {
+            if (out.size >= limit) return out
+            if (!out.contains(word)) out.add(word)
+        }
+        for (entry in learned) {
+            if (out.size >= limit) return out
+            if (!out.contains(entry.word)) out.add(entry.word)
+        }
+        return out
+    }
 
     override suspend fun getSuggestions(request: SuggestionRequest): List<Suggestion> {
         val active = providers
@@ -103,6 +142,9 @@ class DefaultSuggestionEngine @Inject constructor(
     }
 
     private companion object {
+        /** Commits of a learned Bangla word before it outranks the bundled phonetic index. */
+        const val LEARNED_TRUST = 2
+
         val RANK_COMPARATOR: Comparator<Suggestion> =
             compareByDescending<Suggestion> { it.score }
                 .thenBy { it.source.ordinal }
