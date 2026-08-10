@@ -25,6 +25,36 @@ plugins {
 val appVersionName = "0.8.8"
 val appVersionCode = 63
 
+/**
+ * The bullet list under `## v<version>` in RELEASE_NOTES.md, normalised to `- ` bullets. Feeds the
+ * OTA manifest so the in-app update screen shows the same "what's new" text as the store listing —
+ * the publish plugin exposes `notes` on its task but not on its extension, so it is wired here.
+ *
+ * Read through a value provider rather than at configuration time, so the configuration cache
+ * re-evaluates it when the notes file changes.
+ */
+fun releaseNotesFor(markdown: String, version: String): String {
+    val lines = markdown.lines()
+    val start = lines.indexOfFirst { it.trim() == "## v$version" || it.trim().startsWith("## v$version ") }
+    if (start < 0) return ""
+    return lines.asSequence()
+        .drop(start + 1)
+        .map { it.trim() }
+        // The section runs to the next heading or the `---` rule between entries; both terminate
+        // it here, so neither can leak into the manifest as a bullet.
+        .takeWhile { line -> !line.startsWith("## ") && !(line.length >= 3 && line.all { it == '-' }) }
+        .map { it.removePrefix("\u2022").removePrefix("-").trim() }
+        .filter { it.isNotEmpty() }
+        .joinToString("\n") { "- $it" }
+}
+
+val otaReleaseNotes: Provider<String> = providers
+    .fileContents(rootProject.layout.projectDirectory.file("RELEASE_NOTES.md"))
+    .asText
+    .map { releaseNotesFor(it, appVersionName) }
+    .orElse("")
+
+
 // Never ship a debug-signed release: the OTA library installs updates in place, and a signing
 // signature flip on the next release would fail the in-place update and wipe user data. Fail
 // loudly if a release/publish task runs without the stable release keystore.
@@ -38,6 +68,15 @@ gradle.taskGraph.whenReady {
         throw GradleException(
             "Release signing key missing: keystore.properties not found. Refusing to build/publish " +
                 "a release — a debug-signed release would break OTA updates and wipe user data.",
+        )
+    }
+    // An OTA release with no notes shows an empty changelog in the update screen. Catch it here
+    // rather than after the upload, when the only fix is re-publishing.
+    val publishing = allTasks.any { it.name.contains("publishApkToR2", ignoreCase = true) }
+    if (publishing && otaReleaseNotes.get().isBlank()) {
+        throw GradleException(
+            "Release notes missing: RELEASE_NOTES.md has no '## v$appVersionName' section. " +
+                "Add one before publishing — it is what the in-app update screen shows.",
         )
     }
 }
@@ -162,6 +201,17 @@ otaRelease {
     bucket.set("app-releases")
     baseUrl.set("https://app-releases.morshed.im")
     appSlug.set("bornomala")
+}
+
+// The publish task carries a `notes` property the extension does not expose — the plugin only
+// fills it from a -PotaNotes property. Wire it to the RELEASE_NOTES.md section for this version so
+// latest.json ships a real changelog without the publisher having to paste it on the command line.
+// Inside afterEvaluate so this runs after the plugin's own wiring and wins; an explicit
+// -PotaNotes still overrides, since that provider is preferred when present.
+afterEvaluate {
+    tasks.withType<im.morshed.ota.release.PublishApkToR2>().configureEach {
+        notes.set(providers.gradleProperty("otaNotes").orElse(otaReleaseNotes))
+    }
 }
 
 dependencies {
