@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.ime.presentation
 
+import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Text
 import com.bornomala.keyboard.ime.data.layout.LayoutProvider
+import com.bornomala.keyboard.ime.domain.model.EnterAction
 import com.bornomala.keyboard.ime.domain.model.Key
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyboardPage
@@ -77,12 +79,13 @@ internal fun KeyboardScreen(
     callbacks: KeyboardCallbacks,
     keyHeightFraction: Float,
     modifier: Modifier = Modifier,
+    inlineSuggestions: List<View> = emptyList(),
 ) {
     val colors = BornomalaTheme.keyboardColors
     val dimens = BornomalaTheme.dimens
 
-    val layout = remember(state.language, state.page, state.showNumberRow, state.isEmailField) {
-        layoutProvider.layoutFor(state.language, state.page, state.showNumberRow, state.isEmailField)
+    val layout = remember(state.language, state.page, state.showNumberRow, state.fieldKind) {
+        layoutProvider.layoutFor(state.language, state.page, state.showNumberRow, state.fieldKind)
     }
     val rowHeight = remember(keyHeightFraction) {
         lerpDp(dimens.minKeyRowHeight, dimens.maxKeyRowHeight, keyHeightFraction.coerceIn(0f, 1f))
@@ -135,7 +138,16 @@ internal fun KeyboardScreen(
         ) {
             // The emoji panel hides the tools/suggestion strip (Gboard-style): its own top bar
             // carries a back arrow + category tabs, so the strip would be redundant.
-            if (state.panel != KeyboardPanel.EMOJI) {
+            if (state.panel == KeyboardPanel.NONE && state.page == KeyboardPage.ALPHA && inlineSuggestions.isNotEmpty()) {
+                // An autofill service is offering saved logins/addresses/codes: those replace the
+                // strip, as on Gboard, until the service withdraws them.
+                InlineSuggestionStrip(
+                    views = inlineSuggestions,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp * BornomalaTheme.metrics.suggestionBarScale),
+                )
+            } else if (state.panel != KeyboardPanel.EMOJI) {
                 ActionStrip(
                     // Word suggestions belong to the alphabetic (qwerty) layout only — never the
                     // numpad or symbols pages.
@@ -226,7 +238,8 @@ internal fun KeyboardScreen(
                     KeyGrid(
                         layout = alphaLayout,
                         shift = state.shift,
-                        enterIsAccent = false,
+                        enterAction = EnterAction.NEWLINE,
+                        enterLabel = null,
                         rowHeight = rowHeight,
                         onKey = callbacks.onSearchKey,
                         onLongPressChar = {},
@@ -243,7 +256,8 @@ internal fun KeyboardScreen(
                 KeyGrid(
                     layout = layout,
                     shift = state.shift,
-                    enterIsAccent = state.enterIsAccent,
+                    enterAction = state.enterAction,
+                    enterLabel = state.enterLabel,
                     rowHeight = gridRowHeight,
                     onKey = callbacks.onKey,
                     onLongPressChar = callbacks.onLongPressChar,
@@ -377,7 +391,8 @@ fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
             KeyGrid(
                 layout = layout,
                 shift = ShiftState.OFF,
-                enterIsAccent = true,
+                enterAction = EnterAction.DONE,
+                enterLabel = null,
                 rowHeight = 56.dp,
                 onKey = {},
                 onLongPressChar = {},
@@ -408,7 +423,8 @@ fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
 private fun KeyGrid(
     layout: KeyboardLayout,
     shift: ShiftState,
-    enterIsAccent: Boolean,
+    enterAction: EnterAction,
+    enterLabel: String?,
     rowHeight: Dp,
     onKey: (KeyAction) -> Unit,
     onLongPressChar: (Char) -> Unit,
@@ -443,7 +459,8 @@ private fun KeyGrid(
                     KeyView(
                         key = key,
                         shift = shift,
-                        enterIsAccent = enterIsAccent,
+                        enterAction = enterAction,
+                        enterLabel = enterLabel,
                         onKey = onKey,
                         onLongPressChar = onLongPressChar,
                         onLongPressRequested = onLongPressRequested,
@@ -463,7 +480,8 @@ private fun KeyGrid(
                     KeyRowView(
                         row = row,
                         shift = shift,
-                        enterIsAccent = enterIsAccent,
+                        enterAction = enterAction,
+                        enterLabel = enterLabel,
                         rowHeight = rowHeight,
                         onKey = onKey,
                         onLongPressChar = onLongPressChar,
@@ -480,7 +498,8 @@ private fun KeyGrid(
             KeyRowView(
                 row = bottomRow,
                 shift = shift,
-                enterIsAccent = enterIsAccent,
+                enterAction = enterAction,
+                enterLabel = enterLabel,
                 rowHeight = rowHeight,
                 onKey = onKey,
                 onLongPressChar = onLongPressChar,
@@ -498,7 +517,8 @@ private fun KeyGrid(
         KeyRowView(
             row = row,
             shift = shift,
-            enterIsAccent = enterIsAccent,
+            enterAction = enterAction,
+            enterLabel = enterLabel,
             rowHeight = rowHeight,
             onKey = onKey,
             onLongPressChar = onLongPressChar,
@@ -516,7 +536,8 @@ private fun KeyGrid(
 private fun KeyRowView(
     row: com.bornomala.keyboard.ime.domain.model.KeyRow,
     shift: ShiftState,
-    enterIsAccent: Boolean,
+    enterAction: EnterAction,
+    enterLabel: String?,
     rowHeight: Dp,
     onKey: (KeyAction) -> Unit,
     onLongPressChar: (Char) -> Unit,
@@ -538,7 +559,8 @@ private fun KeyRowView(
             KeyView(
                 key = key,
                 shift = shift,
-                enterIsAccent = enterIsAccent,
+                enterAction = enterAction,
+                enterLabel = enterLabel,
                 onKey = onKey,
                 onLongPressChar = onLongPressChar,
                 onLongPressRequested = onLongPressRequested,

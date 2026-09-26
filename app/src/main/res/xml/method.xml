@@ -8,6 +8,7 @@
 -->
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
     android:settingsActivity="com.bornomala.keyboard.settings.SettingsActivity"
+    android:supportsInlineSuggestions="true"
     android:supportsSwitchingToNextInputMethod="true">
 
     <subtype

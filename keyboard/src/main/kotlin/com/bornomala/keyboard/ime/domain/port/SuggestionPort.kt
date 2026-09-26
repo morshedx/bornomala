@@ -1,5 +1,7 @@
 package com.bornomala.keyboard.ime.domain.port
 
+import com.bornomala.keyboard.ime.domain.model.BanglaPhoneticCandidates
+import com.bornomala.keyboard.ime.domain.model.BanglaWordMatch
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.model.Suggestion
 
@@ -36,10 +38,25 @@ interface SuggestionPort {
 
     /**
      * Resolves a roman (Avro-style) Bangla input to real Bangla words via the bundled phonetic
-     * index — e.g. `chara` -> [ছাড়া, ছাড়াও] — ranked by frequency. Empty for other languages
-     * or when nothing matches. Runs off the main thread like [query].
+     * index — e.g. `chara` -> [ছাড়া, ছাড়াও] — ranked by frequency, then suggest-only words
+     * (see [BanglaPhoneticCandidates.trustedCount]). Empty for other languages or when nothing
+     * matches. Runs off the main thread like [query].
      */
-    suspend fun banglaPhonetic(roman: String, limit: Int): List<String> = emptyList()
+    suspend fun banglaPhonetic(roman: String, limit: Int): BanglaPhoneticCandidates =
+        BanglaPhoneticCandidates.EMPTY
+
+    /**
+     * Resolves the exact roman spelling [roman] to a whole Bangla word the phonetic index cannot
+     * reach — an English loanword (`chair` -> চেয়ার) or the user's own earlier pick for that
+     * spelling. Null when there is none. Runs off the main thread like [query].
+     */
+    suspend fun banglaWord(roman: String): BanglaWordMatch? = null
+
+    /**
+     * Records that the user picked [word] from the strip for the roman input [roman], so it is
+     * auto-picked for that spelling next time. Fire-and-forget; must not block.
+     */
+    fun recordBanglaPick(roman: String, word: String) = Unit
 
     /**
      * Records that the user committed [word] in [language] so the engine can learn

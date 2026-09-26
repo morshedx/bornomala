@@ -1,7 +1,10 @@
 package com.bornomala.keyboard.ime.domain.input
 
+import com.bornomala.keyboard.ime.domain.model.CapsMode
+import com.bornomala.keyboard.ime.domain.model.FieldProfile
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
+import com.bornomala.keyboard.ime.domain.model.ShiftState
 import com.bornomala.keyboard.ime.domain.model.Suggestion
 import com.bornomala.keyboard.ime.domain.port.EditorPort
 import com.bornomala.keyboard.ime.domain.port.TransliterationPort
@@ -20,6 +23,7 @@ class InputInteractorAutoCorrectTest {
     private val editor = FakeEditor()
     private val stateHolder = KeyboardStateHolder()
     private val committed = ArrayList<String>()
+    private val picks = ArrayList<Pair<String, String>>()
 
     private val interactor = InputInteractor(
         editor = editor,
@@ -34,6 +38,9 @@ class InputInteractorAutoCorrectTest {
             override fun onEmojiRequested() = Unit
             override fun onShowImePicker() = Unit
             override fun onFeedback(action: KeyAction) = Unit
+            override fun onBanglaPicked(roman: String, word: String) {
+                picks.add(roman to word)
+            }
         },
         clock = { 0L },
     )
@@ -49,6 +56,106 @@ class InputInteractorAutoCorrectTest {
             ),
         )
         editor.setComposingText(typed)
+    }
+
+    private fun typeBangla(roman: String) {
+        stateHolder.setLanguage(KeyboardLanguage.BANGLA)
+        roman.forEach { interactor.onKey(KeyAction.Character(it)) }
+    }
+
+    @Test
+    fun `password fields never compose, auto-correct or learn from the strip`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        interactor.setField(FieldProfile(isPassword = true, allowLearning = false, allowSuggestions = false, allowAutoCorrect = false, capsMode = CapsMode.NONE))
+        stateHolder.setLanguage(KeyboardLanguage.ENGLISH)
+        "teh".forEach { interactor.onKey(KeyAction.Character(it)) }
+
+        assertThat(stateHolder.current.isComposing).isFalse()
+        interactor.onKey(KeyAction.Space)
+        assertThat(editor.text.toString()).isEqualTo("teh ")
+    }
+
+    @Test
+    fun `fields without auto-correct keep what was typed`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        interactor.setField(FieldProfile(allowAutoCorrect = false))
+        compose(KeyboardLanguage.ENGLISH, typed = "teh", autoCorrectTo = "the")
+
+        interactor.onKey(KeyAction.Space)
+
+        assertThat(editor.text.toString()).isEqualTo("teh ")
+    }
+
+    @Test
+    fun `capitalization follows the field`() {
+        interactor.updateConfig(InputConfig(autoCapitalization = true))
+        stateHolder.setLanguage(KeyboardLanguage.ENGLISH)
+
+        interactor.setField(FieldProfile(capsMode = CapsMode.NONE))
+        interactor.refreshAutoCapitalization()
+        assertThat(stateHolder.current.shift).isEqualTo(ShiftState.OFF)
+
+        interactor.setField(FieldProfile(capsMode = CapsMode.SENTENCES))
+        interactor.refreshAutoCapitalization()
+        assertThat(stateHolder.current.shift).isEqualTo(ShiftState.SHIFTED)
+
+        interactor.setField(FieldProfile(capsMode = CapsMode.CHARACTERS, allowSuggestions = false))
+        interactor.onKey(KeyAction.Character('a'))
+        assertThat(editor.text.toString()).isEqualTo("A")
+        assertThat(stateHolder.current.shift).isEqualTo(ShiftState.SHIFTED)
+
+        interactor.setField(FieldProfile(capsMode = CapsMode.WORDS, allowSuggestions = false))
+        interactor.onKey(KeyAction.Character('b'))
+        assertThat(stateHolder.current.shift).isEqualTo(ShiftState.OFF)
+        interactor.onKey(KeyAction.Space)
+        assertThat(stateHolder.current.shift).isEqualTo(ShiftState.SHIFTED)
+    }
+
+    @Test
+    fun `avro symbols inside a bangla word join the roman buffer`() {
+        typeBangla("cha^d")
+        assertThat(stateHolder.current.composingText).isEqualTo("cha^d")
+
+        stateHolder.setComposing("")
+        interactor.resetComposing()
+        typeBangla("du:kho")
+        assertThat(stateHolder.current.composingText).isEqualTo("du:kho")
+    }
+
+    @Test
+    fun `avro symbols typed before any letter stay literal`() {
+        typeBangla(":")
+        assertThat(stateHolder.current.isComposing).isFalse()
+        assertThat(editor.text.toString()).isEqualTo(":")
+    }
+
+    @Test
+    fun `tapping a bangla suggestion remembers it for the typed roman`() {
+        typeBangla("bus")
+
+        interactor.commitSuggestion("বাস")
+
+        assertThat(picks).containsExactly("bus" to "বাস")
+        assertThat(editor.text.toString()).isEqualTo("বাস ")
+    }
+
+    @Test
+    fun `tapping the raw latin chip is not remembered as a bangla pick`() {
+        typeBangla("bus")
+
+        interactor.commitSuggestion("bus")
+
+        assertThat(picks).isEmpty()
+    }
+
+    @Test
+    fun `english suggestion taps are not bangla picks`() {
+        stateHolder.setLanguage(KeyboardLanguage.ENGLISH)
+        "teh".forEach { interactor.onKey(KeyAction.Character(it)) }
+
+        interactor.commitSuggestion("the")
+
+        assertThat(picks).isEmpty()
     }
 
     @Test

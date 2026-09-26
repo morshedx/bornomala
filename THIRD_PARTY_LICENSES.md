@@ -28,6 +28,19 @@ English and Bangla frequency dictionaries used for suggestions
 
 ---
 
+## OpenBangla riti data
+
+Bangla auto-correct entries (`avro_autocorrect.json`), suffix table (`avro_suffix.json`), and the
+suggest-only dictionary words merged into `bn_phonetic.txt`. Unmodified upstream copies are kept
+in `third_party/riti/` (commit `afee54a`).
+
+- Source: https://github.com/OpenBangla/riti
+- License: Mozilla Public License 2.0 (full text: `third_party/riti/LICENSE`,
+  shipped as `avro_autocorrect.LICENSE`)
+- Copyright © OpenBangla contributors.
+
+---
+
 ## Lucide Icons
 
 The keyboard's icon set is generated from Lucide SVGs.

@@ -2,6 +2,7 @@ package com.bornomala.keyboard.ime.data.editor
 
 import android.view.KeyEvent
 import android.view.inputmethod.InputConnection
+import com.bornomala.keyboard.ime.domain.model.EnterAction
 import com.bornomala.keyboard.ime.domain.port.EditorPort
 
 /**
@@ -17,6 +18,14 @@ class InputConnectionEditorPort : EditorPort {
     /** The currently bound input connection; null between fields. Written on the input thread. */
     @Volatile
     var connection: InputConnection? = null
+
+    /** The bound field's Enter behaviour; set alongside [connection] on every `onStartInput`. */
+    @Volatile
+    var enterAction: EnterAction = EnterAction.NEWLINE
+
+    /** The app's own action id behind a custom Enter label; wins over [enterAction] when set. */
+    @Volatile
+    var customActionId: Int? = null
 
     override fun commitText(text: String) {
         connection?.commitText(text, 1)
@@ -36,8 +45,19 @@ class InputConnectionEditorPort : EditorPort {
 
     override fun sendDefaultEditorActionOrNewline() {
         val c = connection ?: return
-        // A real key event lets single-line fields fire their editor action (search/send/go)
-        // and multi-line fields insert a newline, matching default keyboard behaviour.
+        customActionId?.let {
+            c.performEditorAction(it)
+            return
+        }
+        val action = enterAction
+        if (action != EnterAction.NEWLINE) {
+            // Fire the field's declared action directly, as Gboard does: some editors (Compose,
+            // Flutter, React Native) ignore a raw Enter key event for done/search/go.
+            c.performEditorAction(EnterActionResolver.actionId(action))
+            return
+        }
+        // Otherwise a real key event: multi-line fields insert a newline and single-line fields
+        // without a declared action still get their default Enter handling.
         c.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
         c.sendKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER))
     }

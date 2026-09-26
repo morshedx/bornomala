@@ -29,6 +29,9 @@ object LucideIcons {
     val ChevronDown: ImageVector by lazy { ic("m6 9 6 6 6-6") }
     val ChevronUp: ImageVector by lazy { ic("m18 15-6-6-6 6") }
     val CornerDownLeft: ImageVector by lazy { ic("M20 4v7a4 4 0 0 1-4 4H4", "m9 10-5 5 5 5") }
+    val Check: ImageVector by lazy { ic("M20 6 9 17l-5-5") }
+    val ArrowRight: ImageVector by lazy { ic("M5 12h14", "m12 5 7 7-7 7") }
+    val SendHorizontal: ImageVector by lazy { ic("M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z", "M6 12h16") }
     val Clock: ImageVector by lazy { ic("M2.0 12.0a10.0 10.0 0 1 0 20.0 0a10.0 10.0 0 1 0 -20.0 0", "M12 6v6l4 2") }
     val X: ImageVector by lazy { ic("M18 6 6 18", "m6 6 12 12") }
     val Trash: ImageVector by lazy { ic("M10 11v6", "M14 11v6", "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", "M3 6h18", "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2") }

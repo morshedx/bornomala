@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.suggestions.domain
 
+import com.bornomala.keyboard.suggestions.domain.model.BanglaCandidates
 import com.bornomala.keyboard.suggestions.domain.model.Suggestion
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionLanguage
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionRequest
@@ -42,8 +43,9 @@ interface SuggestionEngine {
      * Resolves a roman (Avro-style) Bangla input to real Bangla words — e.g. `chara` ->
      * [ছাড়া, ছাড়াও]. Ambiguity-collapsed so spelling variants match, ranked by frequency.
      * Draws on both the bundled phonetic index and the words the user has taught the keyboard,
-     * with repeatedly-typed learned words leading. Returns up to [limit], best-first; empty
-     * when nothing matches.
+     * with repeatedly-typed learned words leading, then suggest-only words (OpenBangla riti's
+     * dictionary, and base + suffix joins such as `boigulo` -> বইগুলো). Returns up to [limit];
+     * see [BanglaCandidates.trustedCount] for which of them may be auto-picked.
      */
-    suspend fun banglaPhoneticCandidates(roman: String, limit: Int): List<String>
+    suspend fun banglaPhoneticCandidates(roman: String, limit: Int): BanglaCandidates
 }

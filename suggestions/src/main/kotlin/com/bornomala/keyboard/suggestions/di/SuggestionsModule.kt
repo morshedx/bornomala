@@ -1,12 +1,15 @@
 package com.bornomala.keyboard.suggestions.di
 
 import android.content.Context
+import com.bornomala.keyboard.suggestions.data.DefaultBanglaWordLookup
 import com.bornomala.keyboard.suggestions.data.DefaultSuggestionEngine
 import com.bornomala.keyboard.suggestions.data.dictionary.AssetDictionarySource
 import com.bornomala.keyboard.suggestions.data.dictionary.DictionarySource
+import com.bornomala.keyboard.suggestions.data.local.RomanPickDao
 import com.bornomala.keyboard.suggestions.data.local.SuggestionsDatabase
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryDao
 import com.bornomala.keyboard.suggestions.data.provider.OfflineProvider
+import com.bornomala.keyboard.suggestions.domain.BanglaWordLookup
 import com.bornomala.keyboard.suggestions.domain.SuggestionEngine
 import com.bornomala.keyboard.suggestions.domain.SuggestionProvider
 import dagger.Binds
@@ -41,6 +44,10 @@ abstract class SuggestionsModule {
 
     @Binds
     @Singleton
+    abstract fun bindBanglaWordLookup(impl: DefaultBanglaWordLookup): BanglaWordLookup
+
+    @Binds
+    @Singleton
     abstract fun bindDictionarySource(impl: AssetDictionarySource): DictionarySource
 
     /**
@@ -67,5 +74,11 @@ abstract class SuggestionsModule {
         fun provideUserDictionaryDao(
             database: SuggestionsDatabase,
         ): UserDictionaryDao = database.userDictionaryDao()
+
+        @Provides
+        @Singleton
+        fun provideRomanPickDao(
+            database: SuggestionsDatabase,
+        ): RomanPickDao = database.romanPickDao()
     }
 }

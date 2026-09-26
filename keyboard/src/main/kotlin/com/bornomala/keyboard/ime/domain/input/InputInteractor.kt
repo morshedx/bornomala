@@ -1,5 +1,7 @@
 package com.bornomala.keyboard.ime.domain.input
 
+import com.bornomala.keyboard.ime.domain.model.CapsMode
+import com.bornomala.keyboard.ime.domain.model.FieldProfile
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.model.KeyboardPage
@@ -52,9 +54,17 @@ class InputInteractor(
 
         /** Provide cheap haptic/sound feedback for a key press if enabled. */
         fun onFeedback(action: KeyAction)
+
+        /**
+         * In Bangla mode the user tapped [word] on the strip for the roman input [roman] (the
+         * raw-latin chip excluded), so the host can remember the choice for that spelling.
+         */
+        fun onBanglaPicked(roman: String, word: String) = Unit
     }
 
     private var config: InputConfig = InputConfig()
+
+    private var fieldProfile: FieldProfile = FieldProfile.DEFAULT
 
     /** Reused buffer holding the latin characters of the in-progress word (Bangla mode). */
     private val composingBuffer = StringBuilder(32)
@@ -79,6 +89,18 @@ class InputInteractor(
     fun updateConfig(newConfig: InputConfig) {
         config = newConfig
     }
+
+    /**
+     * Applies the focused field's requirements (see [FieldProfile]); called on every field
+     * change. The field can only switch features off — the user's settings still gate them.
+     */
+    fun setField(profile: FieldProfile) {
+        fieldProfile = profile
+    }
+
+    /** Suggestions and current-word composing: on in settings and allowed by the field. */
+    private val suggestionsOn: Boolean
+        get() = config.suggestionsEnabled && fieldProfile.allowSuggestions
 
     /** Clears the composing buffer/state, e.g. on field change or cursor jump. */
     fun resetComposing() {
@@ -124,6 +146,10 @@ class InputInteractor(
     /** Commits a suggestion chosen from the suggestion bar, replacing the current word. */
     fun commitSuggestion(text: String) {
         val state = stateHolder.current
+        if (state.language == KeyboardLanguage.BANGLA && composingBuffer.isNotEmpty()) {
+            val roman = composingBuffer.toString()
+            if (text != roman) callbacks.onBanglaPicked(roman, text)
+        }
         if (state.isComposing) {
             // Replace the composing region with the chosen word.
             editor.setComposingText(text)
@@ -153,25 +179,25 @@ class InputInteractor(
 
         if (state.language == KeyboardLanguage.BANGLA &&
             config.banglaTransliteration &&
-            isAsciiLetter(rawChar)
+            (isAsciiLetter(rawChar) || isMidWordAvroSymbol(rawChar))
         ) {
             // Build up the latin buffer and show its Bangla rendering in the composing region.
             composingBuffer.append(if (state.shift.isUpper) rawChar.uppercaseChar() else rawChar)
             val rendered = transliteration.transliterate(composingBuffer.toString())
             editor.setComposingText(rendered)
             stateHolder.setComposing(rendered)
-            stateHolder.consumeShiftAfterChar()
+            consumeShift()
             callbacks.onComposingChanged(state.language, composingBuffer.toString())
             return
         }
 
         // English (or non-letter in Bangla): commit directly. For English letters we keep a
         // composing region so the dictionary can offer current-word completions.
-        if (state.language == KeyboardLanguage.ENGLISH && isLetter && config.suggestionsEnabled) {
+        if (state.language == KeyboardLanguage.ENGLISH && isLetter && suggestionsOn) {
             composingBuffer.append(cased)
             editor.setComposingText(composingBuffer.toString())
             stateHolder.setComposing(composingBuffer.toString())
-            stateHolder.consumeShiftAfterChar()
+            consumeShift()
             callbacks.onComposingChanged(state.language, composingBuffer.toString())
             return
         }
@@ -187,7 +213,7 @@ class InputInteractor(
             return
         }
         editor.commitText(cased.toString())
-        if (isLetter) stateHolder.consumeShiftAfterChar()
+        if (isLetter) consumeShift()
         // Punctuation that ends a sentence may re-arm auto-capitalization on next space.
     }
 
@@ -229,7 +255,7 @@ class InputInteractor(
     private fun onSpace() {
         commitComposing()
         val now = clock()
-        if (config.doubleSpacePeriod && now - lastSpaceTime <= config.doubleSpaceWindowMs) {
+        if (config.doubleSpacePeriod && fieldProfile.allowAutoCorrect && now - lastSpaceTime <= config.doubleSpaceWindowMs) {
             // Turn the previously committed space + this one into ". ".
             val before = editor.textBeforeCursor(2)
             if (before.length >= 1 && before.last() == ' ' && endsSentencePunctuationAbsent(before)) {
@@ -264,8 +290,11 @@ class InputInteractor(
     private fun onEnter() {
         commitComposing()
         editor.sendDefaultEditorActionOrNewline()
-        // A newline starts a new sentence: re-arm auto-cap.
-        if (config.autoCapitalization && stateHolder.current.language == KeyboardLanguage.ENGLISH) {
+        // A newline starts a new sentence (and word): re-arm auto-cap where the field wants it.
+        if (config.autoCapitalization && fieldProfile.capsMode != CapsMode.NONE &&
+            stateHolder.current.language == KeyboardLanguage.ENGLISH &&
+            stateHolder.current.shift != ShiftState.CAPS_LOCK
+        ) {
             stateHolder.setShift(ShiftState.SHIFTED)
         }
     }
@@ -303,11 +332,11 @@ class InputInteractor(
         }
         val verbatim = state.composingText
         // Auto-correct: if the strip flagged a high-confidence target — an English spelling
-        // correction, or the top Bangla phonetic-dictionary word (e.g. chara -> ছাড়া) — swap it
+        // correction, or the top Bangla phonetic-dictionary word (e.g. chara -> ছাড়া) — swap it
         // into the composing region before finalizing, and remember it so backspace can revert.
         // Both languages obey the auto-correction setting: with it off, space commits exactly
         // what was typed and the alternatives stay one tap away on the suggestion strip.
-        val autoCorrectAllowed = config.suggestionsEnabled && config.autoCorrectEnabled
+        val autoCorrectAllowed = suggestionsOn && config.autoCorrectEnabled && fieldProfile.allowAutoCorrect
         val correction = if (autoCorrectAllowed) {
             state.suggestions.firstOrNull { it.isAutoCorrect }?.text
         } else {
@@ -346,13 +375,31 @@ class InputInteractor(
         return true
     }
 
+    /** Drops a one-shot shift after a letter; all-caps fields re-arm it straight away. */
+    private fun consumeShift() {
+        stateHolder.consumeShiftAfterChar()
+        if (fieldProfile.capsMode == CapsMode.CHARACTERS) maybeAutoCapitalize()
+    }
+
+    /**
+     * Re-arms shift at the start of a field; the host calls it when a field is bound, after
+     * [setField], so an empty field starts capitalized when the field asks for it.
+     */
+    fun refreshAutoCapitalization() = maybeAutoCapitalize()
+
     /** Re-arms shift for sentence-start capitalization in English when enabled. */
     private fun maybeAutoCapitalize() {
         if (!config.autoCapitalization) return
         if (stateHolder.current.language != KeyboardLanguage.ENGLISH) return
         if (stateHolder.current.shift == ShiftState.CAPS_LOCK) return
         val before = editor.textBeforeCursor(3)
-        if (shouldCapitalizeAfter(before)) {
+        val capitalize = when (fieldProfile.capsMode) {
+            CapsMode.NONE -> false
+            CapsMode.CHARACTERS -> true
+            CapsMode.WORDS -> before.isEmpty() || before.last().isWhitespace()
+            CapsMode.SENTENCES -> shouldCapitalizeAfter(before)
+        }
+        if (capitalize) {
             stateHolder.setShift(ShiftState.SHIFTED)
         } else {
             stateHolder.setShift(ShiftState.OFF)
@@ -378,8 +425,19 @@ class InputInteractor(
 
     private fun isAsciiLetter(c: Char): Boolean = (c in 'a'..'z') || (c in 'A'..'Z')
 
+    /**
+     * Avro symbols that only mean something inside a word — `^` chandrabindu (`cha^d` -> চাঁদ),
+     * `:` visarga (`du:kho` -> দুঃখ), and the `` ` `` conjunct breaker (`t``` -> ৎ). They join the
+     * roman buffer only once a word has started, so a leading `:` or `^` still types itself.
+     */
+    private fun isMidWordAvroSymbol(c: Char): Boolean =
+        composingBuffer.isNotEmpty() && MID_WORD_AVRO_SYMBOLS.indexOf(c) >= 0
+
     private fun Char.isLetter(): Boolean = Character.isLetter(this)
 }
 
 /** Punctuation that should "hug" the preceding word, absorbing an auto-inserted space before it. */
 private val SPACE_ABSORBING_PUNCTUATION: Set<Char> = setOf(',', '.', '!', '?', ';', ':')
+
+/** Avro symbols accepted inside a Bangla word; see `InputInteractor.isMidWordAvroSymbol`. */
+private const val MID_WORD_AVRO_SYMBOLS = "^:`"

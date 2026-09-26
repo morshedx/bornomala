@@ -66,6 +66,16 @@ class RealAssetCorrectionTest {
         assertThat(result.map { it.word }).contains("receive")
     }
 
+    private fun suffixRepoFromAssets(): com.bornomala.keyboard.suggestions.data.dictionary.BanglaSuffixRepository {
+        val lines = File("src/main/assets/dictionaries/avro_suffix.json").readLines()
+        val source = object : com.bornomala.keyboard.suggestions.data.dictionary.DictionarySource {
+            override fun linesFor(language: SuggestionLanguage) = emptySequence<String>()
+            override fun bigramLinesFor(language: SuggestionLanguage) = emptySequence<String>()
+            override fun suffixLines() = lines.asSequence()
+        }
+        return com.bornomala.keyboard.suggestions.data.dictionary.BanglaSuffixRepository(source, dispatchers)
+    }
+
     private fun phoneticRepoFromAssets(): com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository {
         val lines = File("src/main/assets/dictionaries/bn_phonetic.txt").readLines()
         val source = InMemoryDictionarySource(
@@ -87,10 +97,32 @@ class RealAssetCorrectionTest {
                 ),
                 dispatchers,
             ),
+            suffixes = suffixRepoFromAssets(),
         )
-        val result = engine.banglaPhoneticCandidates("chara", 5)
+        val result = engine.banglaPhoneticCandidates("chara", 5).words
         assertThat(result).isNotEmpty()
         assertThat(result.first()).isEqualTo("ছাড়া")
+    }
+
+    @Test
+    fun `inflected and dictionary-only words resolve via the real assets`() = runTest {
+        val engine = com.bornomala.keyboard.suggestions.data.DefaultSuggestionEngine(
+            providers = emptySet(),
+            dispatchers = dispatchers,
+            banglaPhonetic = phoneticRepoFromAssets(),
+            userDictionary = com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository(
+                com.bornomala.keyboard.suggestions.util.lazyOf(
+                    com.bornomala.keyboard.suggestions.util.FakeUserDictionaryDao(),
+                ),
+                dispatchers,
+            ),
+            suffixes = suffixRepoFromAssets(),
+        )
+        assertThat(engine.banglaPhoneticCandidates("boigulo", 8).words).contains("বইগুলো")
+        assertThat(engine.banglaPhoneticCandidates("bondhuder", 8).words).contains("বন্ধুদের")
+        val chara = engine.banglaPhoneticCandidates("chara", 8)
+        assertThat(chara.trustedCount).isAtLeast(1)
+        assertThat(chara.words.first()).isEqualTo("ছাড়া")
     }
 
     @Test
@@ -105,6 +137,7 @@ class RealAssetCorrectionTest {
                 ),
                 dispatchers,
             ),
+            suffixes = suffixRepoFromAssets(),
         )
         val result = engine.getSuggestions(req("teh"))
         assertThat(result.first().word).isEqualTo("the")

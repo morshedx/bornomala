@@ -4,10 +4,14 @@ import android.content.ClipboardManager
 import android.inputmethodservice.InputMethodService
 import android.media.AudioManager
 import android.os.Build
+import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InlineSuggestionsRequest
+import android.view.inputmethod.InlineSuggestionsResponse
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -15,11 +19,18 @@ import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.bornomala.keyboard.core.dispatchers.DispatcherProvider
+import com.bornomala.keyboard.ime.data.autofill.InlineAutofill
+import com.bornomala.keyboard.ime.data.editor.EnterActionResolver
+import com.bornomala.keyboard.ime.data.editor.FieldProfileResolver
 import com.bornomala.keyboard.ime.data.editor.InputConnectionEditorPort
 import com.bornomala.keyboard.ime.data.layout.LayoutProvider
 import com.bornomala.keyboard.ime.domain.input.InputConfig
 import com.bornomala.keyboard.ime.domain.input.InputInteractor
 import com.bornomala.keyboard.clipboard.domain.repository.ClipboardRepository
+import com.bornomala.keyboard.ime.domain.model.BanglaPhoneticCandidates
+import com.bornomala.keyboard.ime.domain.model.BanglaWordMatch
+import com.bornomala.keyboard.ime.domain.model.EnterAction
+import com.bornomala.keyboard.ime.domain.model.FieldProfile
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.model.KeyboardPage
@@ -38,6 +49,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -93,6 +105,17 @@ class KeyboardImeService : InputMethodService() {
     private lateinit var serviceScope: CoroutineScope
     private lateinit var interactor: InputInteractor
     private var suggestionJob: Job? = null
+
+    /** Inline autofill chips (Android 11+); null on older versions. */
+    private val inlineAutofill: InlineAutofill? by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) InlineAutofill(this) else null
+    }
+
+    /** Requirements of the focused field; restricts learning, suggestions and auto-correct. */
+    @Volatile private var fieldProfile: FieldProfile = FieldProfile.DEFAULT
+
+    /** The user's language while a field overrides it (see [applyLanguageOverride]); else null. */
+    private var languageBeforeOverride: KeyboardLanguage? = null
     private var keyboardView: ComposeView? = null
 
     private val callbacks = KeyboardCallbacks(
@@ -139,7 +162,7 @@ class KeyboardImeService : InputMethodService() {
 
     private val interactorCallbacks = object : InputInteractor.Callbacks {
         override fun onWordCommitted(language: KeyboardLanguage, word: String) {
-            if (learnFromTyping) suggestionPort.recordCommitted(language, word)
+            if (learnFromTyping && fieldProfile.allowLearning) suggestionPort.recordCommitted(language, word)
         }
 
         override fun onComposingChanged(language: KeyboardLanguage, currentWord: String) {
@@ -158,6 +181,10 @@ class KeyboardImeService : InputMethodService() {
 
         override fun onFeedback(action: KeyAction) {
             performKeyFeedback()
+        }
+
+        override fun onBanglaPicked(roman: String, word: String) {
+            if (learnFromTyping && fieldProfile.allowLearning) suggestionPort.recordBanglaPick(roman, word)
         }
     }
 
@@ -195,6 +222,7 @@ class KeyboardImeService : InputMethodService() {
             setContent {
                 val settings by settingsState.collectAsStateWithLifecycle()
                 val state by stateHolder.state.collectAsStateWithLifecycle()
+                val inlineSuggestions by (inlineAutofill?.views ?: NO_INLINE_SUGGESTIONS).collectAsStateWithLifecycle()
                 BornomalaTheme(
                     theme = settings.keyboardTheme,
                     font = settings.keyboardFont,
@@ -212,6 +240,7 @@ class KeyboardImeService : InputMethodService() {
                         layoutProvider = layoutProvider,
                         callbacks = callbacks,
                         keyHeightFraction = settings.keyHeightFraction,
+                        inlineSuggestions = inlineSuggestions,
                     )
                 }
             }
@@ -225,10 +254,49 @@ class KeyboardImeService : InputMethodService() {
         super.onStartInput(info, restarting)
         editorPort.connection = currentInputConnection
         interactor.resetComposing()
-        stateHolder.setEnterIsAccent(isAccentAction(info))
-        stateHolder.setEmailField(isEmailField(info))
+        inlineAutofill?.clear()
+        val profile = resolveField(info)
+        fieldProfile = profile
+        interactor.setField(profile)
+        applyEnterKey(info, profile)
+        stateHolder.setFieldKind(profile.kind)
+        applyLanguageOverride(profile.languageOverride)
         // Seed the empty/typing signal for the newly bound field so the strip starts correct.
         refreshHasText()
+    }
+
+    private fun resolveField(info: EditorInfo?): FieldProfile {
+        if (info == null) return FieldProfile.DEFAULT
+        val hints = info.hintLocales
+        val tags = if (hints == null) emptyList() else List(hints.size()) { hints[it].toLanguageTag() }
+        return FieldProfileResolver.resolve(info.inputType, info.imeOptions, tags, info.actionLabel)
+    }
+
+    /**
+     * Sets Enter's glyph/label and what it performs. An app-supplied label ("Post") comes with
+     * its own action id, fired directly; a labelled key is always styled as the accent action.
+     */
+    private fun applyEnterKey(info: EditorInfo?, profile: FieldProfile) {
+        val resolved = EnterActionResolver.resolve(info?.imeOptions ?: 0)
+        val label = profile.enterLabel
+        val action = if (label != null && resolved == EnterAction.NEWLINE) EnterAction.DONE else resolved
+        editorPort.enterAction = action
+        editorPort.customActionId = if (label != null) info?.actionId else null
+        stateHolder.setEnterAction(action, label)
+    }
+
+    /**
+     * Switches to [override] for this field only (English for passwords, URLs and email; else the
+     * app's language hint), remembering the user's language to restore on the next ordinary field.
+     */
+    private fun applyLanguageOverride(override: KeyboardLanguage?) {
+        if (override != null) {
+            if (languageBeforeOverride == null) languageBeforeOverride = stateHolder.current.language
+            stateHolder.setLanguage(override)
+        } else {
+            languageBeforeOverride?.let { stateHolder.setLanguage(it) }
+            languageBeforeOverride = null
+        }
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
@@ -241,6 +309,8 @@ class KeyboardImeService : InputMethodService() {
         // Reflect whether the field already holds text (e.g. editing an existing value): the
         // strip shows the tools for an empty field and suggestions once there is text.
         refreshHasText()
+        // Capitalize the first letter where the field asks for it.
+        interactor.refreshAutoCapitalization()
         // Offer next-word predictions for the empty field immediately.
         refreshSuggestions(stateHolder.current.language, currentWord = "")
         // If something was copied moments ago, offer it as a one-tap paste chip in the strip.
@@ -281,7 +351,16 @@ class KeyboardImeService : InputMethodService() {
         super.onFinishInputView(finishingInput)
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun onCreateInlineSuggestionsRequest(uiExtras: Bundle): InlineSuggestionsRequest? =
+        inlineAutofill?.createRequest()
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun onInlineSuggestionsResponse(response: InlineSuggestionsResponse): Boolean =
+        inlineAutofill?.onResponse(response) ?: false
+
     override fun onFinishInput() {
+        inlineAutofill?.clear()
         editorPort.connection = null
         super.onFinishInput()
     }
@@ -470,7 +549,8 @@ class KeyboardImeService : InputMethodService() {
     // --- suggestions -------------------------------------------------------------------
 
     private fun refreshSuggestions(language: KeyboardLanguage, currentWord: String) {
-        if (!settingsState.value.suggestionsEnabled) {
+        if (!settingsState.value.suggestionsEnabled || !fieldProfile.allowSuggestions) {
+            suggestionJob?.cancel()
             stateHolder.setSuggestions(emptyList())
             return
         }
@@ -489,6 +569,9 @@ class KeyboardImeService : InputMethodService() {
                 val phonetic = withContext(dispatchers.default) {
                     suggestionPort.banglaPhonetic(currentWord, SUGGESTION_LIMIT)
                 }
+                val word = withContext(dispatchers.default) {
+                    suggestionPort.banglaWord(currentWord)
+                }
                 val dict = withContext(dispatchers.default) {
                     if (rendered.isNotEmpty()) {
                         suggestionPort.query(
@@ -500,7 +583,7 @@ class KeyboardImeService : InputMethodService() {
                     }
                 }
                 stateHolder.setSuggestions(
-                    buildBanglaSuggestions(currentWord, rendered, phonetic, engineCandidates, dict),
+                    buildBanglaSuggestions(currentWord, rendered, word, phonetic, engineCandidates, dict),
                 )
             }
             return
@@ -524,12 +607,14 @@ class KeyboardImeService : InputMethodService() {
     /**
      * Assembles the Bangla suggestion strip: the raw latin first, the transliterated word
      * (highlighted), any engine commit candidate, then dictionary completions — de-duplicated
-     * by text and capped at [SUGGESTION_LIMIT].
+     * by text and capped at [SUGGESTION_LIMIT]. A whole-word [word] match (loanword or the
+     * user's own pick) sits right after the latin chip.
      */
     private fun buildBanglaSuggestions(
         roman: String,
         rendered: String,
-        phonetic: List<String>,
+        word: BanglaWordMatch?,
+        phonetic: BanglaPhoneticCandidates,
         engineCandidates: List<String>,
         dictionary: List<Suggestion>,
     ): List<Suggestion> {
@@ -540,33 +625,58 @@ class KeyboardImeService : InputMethodService() {
             out.add(Suggestion(text = text, isAutoCorrect = highlight, isTransliteration = transliteration))
         }
         // Raw latin first (so the user can keep exactly what they typed), then the top phonetic
-        // dictionary word as the highlighted auto-pick (committed on space, e.g. ছাড়া), then the
+        // dictionary word as the highlighted auto-pick (committed on space, e.g. ছাড়া), then the
         // plain phonetic render and the remaining candidates.
         add(roman, transliteration = false, highlight = false)
-        val autoPick = banglaAutoPick(roman, rendered, phonetic)
+        val autoPick = banglaAutoPick(roman, rendered, word, phonetic)
         if (autoPick != null) add(autoPick, transliteration = true, highlight = true)
+        // A loanword that lost to a real Bangla spelling stays one tap away, just after it.
+        if (word != null && word.word != autoPick) {
+            add(rendered, transliteration = true, highlight = autoPick == null)
+            add(word.word, transliteration = true, highlight = false)
+        }
         // The render is highlighted only when there is no phonetic auto-pick to take its place.
         add(rendered, transliteration = true, highlight = autoPick == null)
-        phonetic.forEach { add(it, transliteration = true, highlight = false) }
+        phonetic.words.forEach { add(it, transliteration = true, highlight = false) }
         engineCandidates.forEach { add(it, transliteration = true, highlight = false) }
         dictionary.forEach { add(it.text, transliteration = true, highlight = false) }
         return out
     }
 
     /**
-     * The phonetic-dictionary word that space may commit in place of the literal transliteration,
-     * or null to keep exactly what was typed. Swapping is withheld when:
+     * The word that space may commit in place of the literal transliteration, or null to keep
+     * exactly what was typed. In order:
      *
-     *  - the roman is still too short to be a finished word (a 1-2 letter prefix matches far too
-     *    many dictionary words to guess from), or
-     *  - the transliteration itself is one of the candidates — what the user typed already spells
-     *    a real Bangla word, so it is not a misspelling to fix. The alternatives (including
-     *    anything the user has taught the keyboard) stay one tap away on the strip.
+     *  1. the user's own earlier pick for this exact spelling — an explicit choice, always honoured;
+     *  2. a whole-word [word] match — an English loanword (`chair` -> চেয়ার) or an Avro spelling
+     *     fix (`beshI` -> বেশি). When the typed spelling already renders a real Bangla word it is
+     *     applied only if it is the more frequent of the two (both are then phonetic candidates,
+     *     ranked by frequency): `karon` -> কারণ swaps, but `nice` keeps নিচে and `apon` keeps
+     *     আপন, with the match offered one tap away instead;
+     *  3. the top *trusted* phonetic-dictionary word, withheld when the roman is still too short
+     *     to be a finished word (a 1-2 letter prefix matches far too many words to guess from) or
+     *     when the transliteration is itself a candidate (not a misspelling to fix). Suggest-only
+     *     candidates still count as real words for that check, but are never auto-picked.
      */
-    private fun banglaAutoPick(roman: String, rendered: String, phonetic: List<String>): String? {
+    private fun banglaAutoPick(
+        roman: String,
+        rendered: String,
+        word: BanglaWordMatch?,
+        candidates: BanglaPhoneticCandidates,
+    ): String? {
+        val phonetic = candidates.words
+        val renderedRank = if (rendered.isEmpty()) -1 else phonetic.indexOf(rendered)
+        val renderedIsRealWord = renderedRank >= 0
+        if (word != null) {
+            if (word.learned || !renderedIsRealWord) return word.word
+            // Only the trusted head of the list is frequency-ranked, so only there does an
+            // earlier position mean "more common".
+            val wordRank = phonetic.indexOf(word.word)
+            if (wordRank in 0 until minOf(renderedRank, candidates.trustedCount)) return word.word
+        }
         if (roman.length < MIN_BANGLA_AUTO_PICK_LEN) return null
-        if (rendered.isNotEmpty() && phonetic.contains(rendered)) return null
-        return phonetic.firstOrNull()
+        if (renderedIsRealWord) return null
+        return candidates.topTrusted
     }
 
     /**
@@ -622,31 +732,11 @@ class KeyboardImeService : InputMethodService() {
         }
     }
 
-    private fun isEmailField(info: EditorInfo?): Boolean {
-        val type = info?.inputType ?: return false
-        if (type and android.text.InputType.TYPE_MASK_CLASS != android.text.InputType.TYPE_CLASS_TEXT) return false
-        return when (type and android.text.InputType.TYPE_MASK_VARIATION) {
-            android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
-            android.text.InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS,
-            -> true
-            else -> false
-        }
-    }
-
-    private fun isAccentAction(info: EditorInfo?): Boolean {
-        val action = (info?.imeOptions ?: 0) and EditorInfo.IME_MASK_ACTION
-        return when (action) {
-            EditorInfo.IME_ACTION_GO,
-            EditorInfo.IME_ACTION_SEARCH,
-            EditorInfo.IME_ACTION_SEND,
-            EditorInfo.IME_ACTION_DONE,
-            EditorInfo.IME_ACTION_NEXT,
-            -> true
-            else -> false
-        }
-    }
 
     private companion object {
+        /** Stand-in for [InlineAutofill.views] below Android 11, where inline autofill doesn't exist. */
+        val NO_INLINE_SUGGESTIONS: StateFlow<List<View>> = MutableStateFlow(emptyList())
+
         const val SUGGESTION_LIMIT = 6
         const val PREVIOUS_WORD_LOOKBACK = 48
 

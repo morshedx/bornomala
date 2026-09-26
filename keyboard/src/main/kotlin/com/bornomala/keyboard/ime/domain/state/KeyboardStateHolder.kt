@@ -1,5 +1,7 @@
 package com.bornomala.keyboard.ime.domain.state
 
+import com.bornomala.keyboard.ime.domain.model.EnterAction
+import com.bornomala.keyboard.ime.domain.model.FieldKind
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.model.KeyboardPage
 import com.bornomala.keyboard.ime.domain.model.KeyboardPanel
@@ -156,14 +158,14 @@ class KeyboardStateHolder(
         }
     }
 
-    /** Marks whether Enter should be styled as the accent action for the current field. */
-    fun setEnterIsAccent(accent: Boolean) = _state.update {
-        if (it.enterIsAccent == accent) it else it.copy(enterIsAccent = accent)
+    /** Sets what the Enter key shows and does for the current field, and its custom label. */
+    fun setEnterAction(action: EnterAction, label: String? = null) = _state.update {
+        if (it.enterAction == action && it.enterLabel == label) it else it.copy(enterAction = action, enterLabel = label)
     }
 
-    /** Marks whether the current field is an email field (comma becomes "@"). */
-    fun setEmailField(isEmail: Boolean) = _state.update {
-        if (it.isEmailField == isEmail) it else it.copy(isEmailField = isEmail)
+    /** Sets the focused field's kind, which picks its bottom-row keys (email "@", URL "/"). */
+    fun setFieldKind(kind: FieldKind) = _state.update {
+        if (it.fieldKind == kind) it else it.copy(fieldKind = kind)
     }
 
     /**

@@ -3,11 +3,12 @@ package com.bornomala.keyboard.backup
 import com.bornomala.keyboard.clipboard.domain.model.ClipboardItem
 import com.bornomala.keyboard.settings.domain.model.Settings
 import com.bornomala.keyboard.suggestions.data.local.LearnedNgramEntity
+import com.bornomala.keyboard.suggestions.data.local.RomanPickEntity
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryEntity
 
 /**
  * Full snapshot of everything a backup carries: user settings, the learned dictionary
- * (words + n-grams), and clipboard history, plus metadata. Serialized to JSON, then
+ * (words + n-grams + roman picks), and clipboard history, plus metadata. Serialized to JSON, then
  * encrypted with the user's passphrase before upload.
  */
 data class BackupData(
@@ -19,6 +20,8 @@ data class BackupData(
     val words: List<UserDictionaryEntity>,
     val ngrams: List<LearnedNgramEntity>,
     val clips: List<ClipboardItem>,
+    /** Absent from archives written before roman picks existed; decodes as empty. */
+    val romanPicks: List<RomanPickEntity> = emptyList(),
 ) {
     companion object {
         const val SCHEMA_VERSION = 1

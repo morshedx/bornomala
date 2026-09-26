@@ -5,9 +5,12 @@ import com.bornomala.keyboard.core.result.AppResult
 import com.bornomala.keyboard.core.result.getOrDefault
 import com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticKey
 import com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository
+import com.bornomala.keyboard.suggestions.data.dictionary.BanglaSuffixRepository
+import com.bornomala.keyboard.suggestions.data.dictionary.BanglaSuffixes
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import com.bornomala.keyboard.suggestions.domain.SuggestionEngine
 import com.bornomala.keyboard.suggestions.domain.SuggestionProvider
+import com.bornomala.keyboard.suggestions.domain.model.BanglaCandidates
 import com.bornomala.keyboard.suggestions.domain.model.Suggestion
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionLanguage
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionRequest
@@ -37,6 +40,7 @@ class DefaultSuggestionEngine @Inject constructor(
     private val dispatchers: DispatcherProvider,
     private val banglaPhonetic: BanglaPhoneticRepository,
     private val userDictionary: UserDictionaryRepository,
+    private val suffixes: BanglaSuffixRepository,
 ) : SuggestionEngine {
 
     /**
@@ -47,16 +51,53 @@ class DefaultSuggestionEngine @Inject constructor(
      * makes "learn from my typing" actually steer the auto-pick, instead of the bundled corpus
      * winning forever. A word seen only once trails the bundled hits: one accidental commit
      * should not promote itself to the word space silently swaps in.
+     *
+     * Those are the trusted words. After them come suggest-only words: riti dictionary words for
+     * the same key, then base + suffix joins (`barite` -> বাড়ি + তে).
      */
-    override suspend fun banglaPhoneticCandidates(roman: String, limit: Int): List<String> {
-        if (roman.isBlank() || limit <= 0) return emptyList()
+    override suspend fun banglaPhoneticCandidates(roman: String, limit: Int): BanglaCandidates {
+        if (roman.isBlank() || limit <= 0) return BanglaCandidates.EMPTY
         val key = BanglaPhoneticKey.romanKey(roman)
-        if (key.isEmpty()) return emptyList()
+        if (key.isEmpty()) return BanglaCandidates.EMPTY
+        val hits = banglaPhonetic.hitsForKey(key, limit)
+        val trusted = trustedCandidates(key, hits.trusted, limit)
+        if (trusted.size >= limit) return BanglaCandidates(trusted, trusted.size)
+
+        val out = ArrayList<String>(limit)
+        out.addAll(trusted)
+        for (word in hits.extra) {
+            if (out.size >= limit) break
+            if (!out.contains(word)) out.add(word)
+        }
+        if (out.size < limit) addSuffixJoins(roman, limit, out)
+        return BanglaCandidates(out, trusted.size)
+    }
+
+    /**
+     * Joins the best words for each base of a base + suffix reading of [roman] with that
+     * suffix, appending to [out] up to [limit]. Longest base first, so `bariteo` prefers
+     * বাড়িতে + ও over shorter readings.
+     */
+    private suspend fun addSuffixJoins(roman: String, limit: Int, out: MutableList<String>) {
+        for (split in suffixes.suffixes().splits(roman)) {
+            val baseKey = BanglaPhoneticKey.romanKey(split.base)
+            if (baseKey.isEmpty()) continue
+            val base = banglaPhonetic.hitsForKey(baseKey, BASES_PER_SPLIT)
+            val words = base.trusted.ifEmpty { base.extra }
+            for (word in words) {
+                if (out.size >= limit) return
+                val joined = BanglaSuffixes.join(word, split.suffix)
+                if (!out.contains(joined)) out.add(joined)
+            }
+        }
+    }
+
+    /** Learned and corpus words for [key], learned-trusted first (see [banglaPhoneticCandidates]). */
+    private suspend fun trustedCandidates(key: String, bundled: List<String>, limit: Int): List<String> {
         userDictionary.backfillPhoneticKeys(SuggestionLanguage.BANGLA)
         val learned = userDictionary
             .queryByPhoneticKey(SuggestionLanguage.BANGLA, key, limit)
             .getOrDefault(emptyList())
-        val bundled = banglaPhonetic.candidatesForKey(key, limit)
         if (learned.isEmpty()) return bundled
 
         val out = ArrayList<String>(limit)
@@ -144,6 +185,9 @@ class DefaultSuggestionEngine @Inject constructor(
     private companion object {
         /** Commits of a learned Bangla word before it outranks the bundled phonetic index. */
         const val LEARNED_TRUST = 2
+
+        /** Base words tried per base + suffix reading; more only floods the strip. */
+        const val BASES_PER_SPLIT = 2
 
         val RANK_COMPARATOR: Comparator<Suggestion> =
             compareByDescending<Suggestion> { it.score }

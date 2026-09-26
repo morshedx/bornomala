@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.ime.data.layout
 
+import com.bornomala.keyboard.ime.domain.model.FieldKind
 import com.bornomala.keyboard.ime.domain.model.Key
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyRow
@@ -189,30 +190,53 @@ internal object SharedKeys {
         return Key.letter(char, hint = sym?.first, longPress = sym?.second ?: "")
     }
 
+    /** Replaces the comma on URL fields, where "/" separates path segments. */
+    val SLASH = Key(
+        label = "/",
+        action = KeyAction.Character('/'),
+        weight = 1f,
+        style = KeyStyle.FUNCTIONAL,
+        longPressChars = listOf(':', '-', '_', '?', '=', '&', '#'),
+    )
+
+    /** Types ".com" in one tap on URL fields. */
+    val DOT_COM = Key(
+        label = ".com",
+        action = KeyAction.Text(".com"),
+        weight = 1f,
+        style = KeyStyle.FUNCTIONAL,
+        contentDescription = "dot com",
+    )
+
     /**
      * Builds the alphabetic bottom row for a language. Order: ?123, comma, language, space,
-     * period, enter. On email fields the comma is replaced by "@" ([emailField]). The
-     * spacebar shows the language name to confirm the active language.
+     * period, enter. The field [kind] swaps keys: on email fields the comma becomes "@"; on URL
+     * fields it becomes "/" and a ".com" key takes a slice of the spacebar. The spacebar shows
+     * the language name to confirm the active language.
      */
     fun bottomRow(
         spaceLabel: String,
-        emailField: Boolean = false,
+        kind: FieldKind = FieldKind.TEXT,
         period: Key = PERIOD,
-    ): KeyRow = KeyRow(
-        listOf(
-            TO_SYMBOLS,
-            if (emailField) AT else COMMA,
-            LANGUAGE,
-            Key(
-                label = spaceLabel,
-                action = KeyAction.Space,
-                weight = 4f,
-                style = KeyStyle.SPACEBAR,
-                contentDescription = "Space",
-                cursorControl = true,
-            ),
-            period,
-            ENTER,
-        ),
-    )
+    ): KeyRow {
+        val space = Key(
+            label = spaceLabel,
+            action = KeyAction.Space,
+            weight = if (kind == FieldKind.URL) 3f else 4f,
+            style = KeyStyle.SPACEBAR,
+            contentDescription = "Space",
+            cursorControl = true,
+        )
+        val left = when (kind) {
+            FieldKind.TEXT -> COMMA
+            FieldKind.EMAIL -> AT
+            FieldKind.URL -> SLASH
+        }
+        val keys = if (kind == FieldKind.URL) {
+            listOf(TO_SYMBOLS, left, LANGUAGE, space, DOT_COM, period, ENTER)
+        } else {
+            listOf(TO_SYMBOLS, left, LANGUAGE, space, period, ENTER)
+        }
+        return KeyRow(keys)
+    }
 }

@@ -3,6 +3,7 @@ package com.bornomala.keyboard.backup
 import com.bornomala.keyboard.clipboard.domain.model.ClipboardItem
 import com.bornomala.keyboard.settings.domain.model.Settings
 import com.bornomala.keyboard.suggestions.data.local.LearnedNgramEntity
+import com.bornomala.keyboard.suggestions.data.local.RomanPickEntity
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryEntity
 import com.bornomala.keyboard.theme.KeyboardFont
 import com.bornomala.keyboard.theme.KeyboardTheme
@@ -29,6 +30,7 @@ class BackupSerializer @Inject constructor() {
         put("dictionary", JSONObject().apply {
             put("words", wordsToJson(data.words))
             put("ngrams", ngramsToJson(data.ngrams))
+            put("romanPicks", romanPicksToJson(data.romanPicks))
         })
         put("clipboard", clipsToJson(data.clips))
     }.toString().toByteArray(Charsets.UTF_8)
@@ -44,6 +46,7 @@ class BackupSerializer @Inject constructor() {
             words = wordsFromJson(root.optJSONObject("dictionary")?.optJSONArray("words")),
             ngrams = ngramsFromJson(root.optJSONObject("dictionary")?.optJSONArray("ngrams")),
             clips = clipsFromJson(root.optJSONArray("clipboard")),
+            romanPicks = romanPicksFromJson(root.optJSONObject("dictionary")?.optJSONArray("romanPicks")),
         )
     }
 
@@ -132,6 +135,30 @@ class BackupSerializer @Inject constructor() {
                 frequency = o.optInt("frequency", 1),
                 lastUsed = o.optLong("lastUsed", 0L),
                 prevWord = o.optString("prevWord", ""),
+            )
+        }
+    }
+
+    private fun romanPicksToJson(picks: List<RomanPickEntity>) = JSONArray().apply {
+        picks.forEach { p ->
+            put(JSONObject().apply {
+                put("roman", p.roman)
+                put("lang", p.lang)
+                put("word", p.word)
+                put("lastUsed", p.lastUsed)
+            })
+        }
+    }
+
+    private fun romanPicksFromJson(arr: JSONArray?): List<RomanPickEntity> {
+        if (arr == null) return emptyList()
+        return (0 until arr.length()).map { i ->
+            val o = arr.getJSONObject(i)
+            RomanPickEntity(
+                roman = o.getString("roman"),
+                lang = o.getString("lang"),
+                word = o.getString("word"),
+                lastUsed = o.optLong("lastUsed", 0L),
             )
         }
     }

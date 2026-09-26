@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":emoji"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.autofill)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

@@ -7,6 +7,7 @@ import com.bornomala.keyboard.backup.drive.DriveClient
 import com.bornomala.keyboard.clipboard.domain.repository.ClipboardRepository
 import com.bornomala.keyboard.core.result.AppResult
 import com.bornomala.keyboard.settings.domain.SettingsRepository
+import com.bornomala.keyboard.suggestions.data.local.RomanPickRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
@@ -28,6 +29,7 @@ class BackupManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val userDictionary: UserDictionaryRepository,
+    private val romanPicks: RomanPickRepository,
     private val clipboard: ClipboardRepository,
     private val drive: DriveClient,
     private val serializer: BackupSerializer,
@@ -39,6 +41,7 @@ class BackupManager @Inject constructor(
         val settings = settingsRepository.settings.first()
         val (words, ngrams) = userDictionary.exportAll().orThrow()
         val clips = clipboard.exportAll().orThrow()
+        val picks = romanPicks.exportAll().orThrow()
         val data = BackupData(
             schemaVersion = BackupData.SCHEMA_VERSION,
             appVersion = appVersion(),
@@ -48,6 +51,7 @@ class BackupManager @Inject constructor(
             words = words,
             ngrams = ngrams,
             clips = clips,
+            romanPicks = picks,
         )
         val blob = CryptoBox.encrypt(serializer.encode(data), passphrase)
         drive.upload(token, blob, existingId = drive.findBackup(token)?.fileId)
@@ -66,6 +70,7 @@ class BackupManager @Inject constructor(
         val data = serializer.decode(plain)
         settingsRepository.replaceAll(data.settings).orThrow()
         userDictionary.replaceAll(data.words, data.ngrams).orThrow()
+        romanPicks.replaceAll(data.romanPicks).orThrow()
         clipboard.replaceAll(data.clips).orThrow()
     }
 

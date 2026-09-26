@@ -2,8 +2,11 @@ package com.bornomala.keyboard.glue
 
 import com.bornomala.keyboard.core.coroutines.AppCoroutineScope
 import com.bornomala.keyboard.core.dispatchers.DispatcherProvider
+import com.bornomala.keyboard.ime.domain.model.BanglaPhoneticCandidates
+import com.bornomala.keyboard.ime.domain.model.BanglaWordMatch
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.port.SuggestionPort
+import com.bornomala.keyboard.suggestions.domain.BanglaWordLookup
 import com.bornomala.keyboard.suggestions.domain.SuggestionEngine
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionLanguage
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionRequest
@@ -24,6 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class SuggestionPortAdapter @Inject constructor(
     private val engine: SuggestionEngine,
+    private val banglaWords: BanglaWordLookup,
     dispatchers: DispatcherProvider,
 ) : SuggestionPort {
 
@@ -62,8 +66,15 @@ class SuggestionPortAdapter @Inject constructor(
         }
     }
 
-    override suspend fun banglaPhonetic(roman: String, limit: Int): List<String> =
-        engine.banglaPhoneticCandidates(roman, limit)
+    override suspend fun banglaPhonetic(roman: String, limit: Int): BanglaPhoneticCandidates =
+        engine.banglaPhoneticCandidates(roman, limit).let { BanglaPhoneticCandidates(it.words, it.trustedCount) }
+
+    override suspend fun banglaWord(roman: String): BanglaWordMatch? =
+        banglaWords.lookup(roman)?.let { BanglaWordMatch(it.word, it.learned) }
+
+    override fun recordBanglaPick(roman: String, word: String) {
+        learningScope.launch { banglaWords.learnPick(roman, word) }
+    }
 
     override fun recordCommitted(language: KeyboardLanguage, word: String) {
         if (word.isBlank()) return

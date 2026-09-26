@@ -81,11 +81,11 @@ class BanglaPhoneticKeyTest {
     fun `shipped index is consistent with banglaKey`() {
         val index = HashMap<String, List<String>>()
         File(INDEX_PATH).forEachLine { raw ->
-            val line = raw.trim()
-            if (line.isEmpty() || line.startsWith("#")) return@forEachLine
-            val tab = line.indexOf('\t')
-            if (tab <= 0) return@forEachLine
-            index[line.substring(0, tab)] = line.substring(tab + 1).split(' ')
+            if (raw.isBlank() || raw.startsWith("#")) return@forEachLine
+            val columns = raw.split('\t')
+            if (columns.size < 2) return@forEachLine
+            // Trusted and suggest-only columns alike must be reachable under their own key.
+            index[columns[0]] = columns.drop(1).flatMap { it.split(' ') }.filter { it.isNotEmpty() }
         }
         assertThat(index).isNotEmpty()
 
@@ -104,7 +104,7 @@ class BanglaPhoneticKeyTest {
     fun `chara resolves to chhaRa in the shipped index`() {
         val key = BanglaPhoneticKey.romanKey("chara")
         val line = File(INDEX_PATH).readLines().first { it.startsWith("$key\t") }
-        assertThat(line.substringAfter('\t').split(' ')).contains("ছাড়া")
+        assertThat(line.split('\t')[1].split(' ')).contains("ছাড়া")
     }
 
     private companion object {

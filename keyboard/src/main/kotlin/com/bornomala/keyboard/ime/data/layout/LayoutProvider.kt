@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.ime.data.layout
 
+import com.bornomala.keyboard.ime.domain.model.FieldKind
 import com.bornomala.keyboard.ime.domain.model.KeyRow
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.model.KeyboardLayout
@@ -23,7 +24,7 @@ class LayoutProvider @Inject constructor() {
         val language: KeyboardLanguage,
         val page: KeyboardPage,
         val numberRow: Boolean,
-        val email: Boolean,
+        val field: FieldKind,
     )
 
     private val cache: Map<LayoutKey, KeyboardLayout> = buildCache()
@@ -32,19 +33,19 @@ class LayoutProvider @Inject constructor() {
      * @param language active language (only matters for the ALPHA page).
      * @param page active page.
      * @param showNumberRow whether to prepend the dedicated number row (alpha page only).
-     * @param emailField whether the editor is an email field (comma becomes "@", alpha only).
+     * @param field the focused field's kind: email and URL fields swap bottom-row keys (alpha only).
      */
     fun layoutFor(
         language: KeyboardLanguage,
         page: KeyboardPage,
         showNumberRow: Boolean,
-        emailField: Boolean = false,
+        field: FieldKind = FieldKind.TEXT,
     ): KeyboardLayout {
-        // Symbol/numpad pages have their own bottom keys; the number-row and email tweaks only
+        // Symbol/numpad pages have their own bottom keys; the number-row and field tweaks only
         // apply to the alpha page, so collapse them there to hit shared cached instances.
         val isAlpha = page == KeyboardPage.ALPHA
         return cache.getValue(
-            LayoutKey(language, page, showNumberRow && isAlpha, emailField && isAlpha),
+            LayoutKey(language, page, showNumberRow && isAlpha, if (isAlpha) field else FieldKind.TEXT),
         )
     }
 
@@ -52,11 +53,11 @@ class LayoutProvider @Inject constructor() {
         val result = HashMap<LayoutKey, KeyboardLayout>()
         for (language in KeyboardLanguage.entries) {
             for (page in KeyboardPage.entries) {
-                for (email in listOf(false, true)) {
-                    val base = baseLayout(language, page, email)
-                    result[LayoutKey(language, page, numberRow = false, email = email)] = base
+                for (field in FieldKind.entries) {
+                    val base = baseLayout(language, page, field)
+                    result[LayoutKey(language, page, numberRow = false, field = field)] = base
                     val withNumbers = if (page == KeyboardPage.ALPHA) withNumberRow(base, language) else base
-                    result[LayoutKey(language, page, numberRow = true, email = email)] = withNumbers
+                    result[LayoutKey(language, page, numberRow = true, field = field)] = withNumbers
                 }
             }
         }
@@ -66,7 +67,7 @@ class LayoutProvider @Inject constructor() {
     private fun baseLayout(
         language: KeyboardLanguage,
         page: KeyboardPage,
-        email: Boolean,
+        field: FieldKind,
     ): KeyboardLayout =
         when (page) {
             KeyboardPage.ALPHA -> {
@@ -74,18 +75,18 @@ class LayoutProvider @Inject constructor() {
                     KeyboardLanguage.ENGLISH -> EnglishLayout.QWERTY
                     KeyboardLanguage.BANGLA -> BanglaLayout.AVRO_PHONETIC
                 }
-                if (email) emailVariant(layout, language) else layout
+                if (field == FieldKind.TEXT) layout else fieldVariant(layout, language, field)
             }
             KeyboardPage.SYMBOLS -> SymbolsLayout.PAGE_ONE
             KeyboardPage.SYMBOLS_EXTRA -> SymbolsLayout.PAGE_TWO
             KeyboardPage.NUMPAD -> NumpadLayout.PAD
         }
 
-    /** Replaces the alpha layout's bottom row with the email variant (comma -> "@"). */
-    private fun emailVariant(layout: KeyboardLayout, language: KeyboardLanguage): KeyboardLayout {
+    /** Replaces the alpha layout's bottom row with the email or URL variant. */
+    private fun fieldVariant(layout: KeyboardLayout, language: KeyboardLanguage, field: FieldKind): KeyboardLayout {
         val rows = layout.rows.toMutableList()
-        rows[rows.size - 1] = SharedKeys.bottomRow(language.displayName, emailField = true)
-        return layout.copy(id = layout.id + "_email", rows = rows)
+        rows[rows.size - 1] = SharedKeys.bottomRow(language.displayName, kind = field)
+        return layout.copy(id = layout.id + "_" + field.name.lowercase(), rows = rows)
     }
 
     private fun withNumberRow(layout: KeyboardLayout, language: KeyboardLanguage): KeyboardLayout {

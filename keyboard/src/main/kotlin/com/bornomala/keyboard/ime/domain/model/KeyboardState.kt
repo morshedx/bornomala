@@ -19,7 +19,10 @@ import androidx.compose.runtime.Immutable
  *   underlined in the field via the InputConnection composing region); empty when none.
  * @param showNumberRow whether the dedicated number row is shown above the top letter row.
  * @param suggestionsEnabled whether the suggestion bar is active (user setting).
- * @param enterIsAccent whether the Enter key is styled as the accent action (send/search).
+ * @param enterAction what Enter shows and does in the focused field (newline / done / search…).
+ * @param enterLabel the app's custom Enter label for the focused field, shown instead of the
+ *   glyph when short enough; null when the app supplies none.
+ * @param fieldKind which bottom-row keys suit the focused field (email `@`, URL `/` `.com`).
  * @param hasText whether the edited field currently holds any text. Drives the top strip:
  *   empty field -> show the quick-action tools; once typing begins -> show suggestions.
  * @param clipSuggestion a freshly-copied clipboard text offered as a one-tap paste chip in the
@@ -35,9 +38,10 @@ data class KeyboardState(
     val composingText: String = "",
     val showNumberRow: Boolean = false,
     val suggestionsEnabled: Boolean = true,
-    val enterIsAccent: Boolean = false,
+    val enterAction: EnterAction = EnterAction.NEWLINE,
+    val enterLabel: String? = null,
     val panel: KeyboardPanel = KeyboardPanel.NONE,
-    val isEmailField: Boolean = false,
+    val fieldKind: FieldKind = FieldKind.TEXT,
     val panelQuery: String = "",
     val panelSearchActive: Boolean = false,
     val hasText: Boolean = false,

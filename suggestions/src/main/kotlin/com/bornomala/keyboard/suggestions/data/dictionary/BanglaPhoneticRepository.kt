@@ -12,10 +12,10 @@ import javax.inject.Singleton
  * Lazily loads the bundled Bangla phonetic index and resolves roman input to real Bangla words.
  *
  * The index (`bn_phonetic.txt`) maps an ambiguity-collapsed roman key to the Bangla words that
- * spell to it, best-first by frequency — the same `key<TAB>word…` shape as the bigram seed, so
- * it reuses [BigramDictionary] as the in-memory table (loaded with `lowercase = false` to keep
- * the Bangla word values intact). The first lookup parses the asset off the main thread and
- * caches it for the process lifetime; a missing index degrades to [BigramDictionary.EMPTY].
+ * spell to it: trusted corpus words best-first by frequency, then suggest-only words from
+ * OpenBangla riti's dictionary. It is held as a compact [PhoneticIndex]. The first lookup parses
+ * the asset off the main thread and caches it for the process lifetime; a missing index degrades
+ * to [PhoneticIndex.EMPTY].
  */
 @Singleton
 class BanglaPhoneticRepository @Inject constructor(
@@ -24,30 +24,30 @@ class BanglaPhoneticRepository @Inject constructor(
 ) {
 
     @Volatile
-    private var cached: BigramDictionary? = null
+    private var cached: PhoneticIndex? = null
     private val mutex = Mutex()
 
-    /** Real Bangla words matching the phonetic key of [roman], best-first; empty if none. */
+    /** Trusted words matching the phonetic key of [roman], best-first; empty if none. */
     suspend fun candidates(roman: String, limit: Int): List<String> =
         candidatesForKey(BanglaPhoneticKey.romanKey(roman), limit)
 
     /** As [candidates], for a phonetic key the caller has already computed. */
-    suspend fun candidatesForKey(key: String, limit: Int): List<String> {
-        if (key.isEmpty()) return emptyList()
-        return table().nextWords(key, limit)
+    suspend fun candidatesForKey(key: String, limit: Int): List<String> = hitsForKey(key, limit).trusted
+
+    /** Trusted and suggest-only words for [key], each group best-first. */
+    suspend fun hitsForKey(key: String, limit: Int): PhoneticHits {
+        if (key.isEmpty()) return PhoneticHits.EMPTY
+        return table().lookup(key, limit)
     }
 
-    private suspend fun table(): BigramDictionary {
+    private suspend fun table(): PhoneticIndex {
         cached?.let { return it }
         return mutex.withLock {
             cached?.let { return it }
             val built = withContext(dispatchers.default) {
                 runCatching {
-                    BigramDictionary.build(
-                        lines = source.phoneticLinesFor(SuggestionLanguage.BANGLA),
-                        lowercase = false,
-                    )
-                }.getOrDefault(BigramDictionary.EMPTY)
+                    PhoneticIndex.build(source.phoneticLinesFor(SuggestionLanguage.BANGLA))
+                }.getOrDefault(PhoneticIndex.EMPTY)
             }
             cached = built
             built

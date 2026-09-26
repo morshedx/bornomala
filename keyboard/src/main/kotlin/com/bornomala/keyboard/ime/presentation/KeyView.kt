@@ -36,6 +36,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.bornomala.keyboard.ime.domain.model.EnterAction
 import com.bornomala.keyboard.ime.domain.model.Key
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyIcon
@@ -59,7 +60,8 @@ import com.bornomala.keyboard.theme.BornomalaTheme
 internal fun KeyView(
     key: Key,
     shift: ShiftState,
-    enterIsAccent: Boolean,
+    enterAction: EnterAction,
+    enterLabel: String?,
     onKey: (KeyAction) -> Unit,
     onLongPressChar: (Char) -> Unit,
     onLongPressRequested: (Key, LayoutCoordinates) -> Unit,
@@ -77,7 +79,7 @@ internal fun KeyView(
     var coordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
 
     val style = key.style
-    val isAccentEnter = style == KeyStyle.FUNCTIONAL && key.action == KeyAction.Enter && enterIsAccent
+    val isAccentEnter = style == KeyStyle.FUNCTIONAL && key.action == KeyAction.Enter && enterAction.isAccent
     val effectiveStyle = if (isAccentEnter) KeyStyle.ACCENT else style
 
     // While this key is the active long-press source it takes the theme's accent color.
@@ -111,7 +113,11 @@ internal fun KeyView(
     val metrics = BornomalaTheme.metrics
     val gap = metrics.horizontalGap
     val vGap = metrics.verticalGap
-    val description = key.contentDescription ?: defaultDescription(key, shift)
+    val description = if (key.action == KeyAction.Enter) {
+        enterLabel ?: enterAction.label
+    } else {
+        key.contentDescription ?: defaultDescription(key, shift)
+    }
 
     Box(
         modifier = modifier
@@ -212,14 +218,30 @@ internal fun KeyView(
             },
         contentAlignment = Alignment.Center,
     ) {
-        KeyContent(key = key, shift = shift, contentColor = contentColor, flat = flat)
+        KeyContent(
+            key = key,
+            shift = shift,
+            enterAction = enterAction,
+            enterLabel = enterLabel,
+            contentColor = contentColor,
+            flat = flat,
+        )
     }
 }
 
 @Composable
-private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color, flat: Boolean = false) {
+private fun KeyContent(
+    key: Key,
+    shift: ShiftState,
+    enterAction: EnterAction,
+    enterLabel: String?,
+    contentColor: Color,
+    flat: Boolean = false,
+) {
     val labelScale = BornomalaTheme.metrics.keyLabelScale
-    val icon = iconFor(key, shift)
+    // An app-supplied Enter label ("Post", "Log in") replaces the glyph when it fits the key.
+    val customEnter = key.action == KeyAction.Enter && enterLabel != null && enterLabel.length <= MAX_ENTER_LABEL
+    val icon = if (customEnter) null else iconFor(key, shift, enterAction)
     if (icon != null) {
         // All icon keys use a single 20dp base, scaled by the "Key label size" slider (like the
         // text labels) so they track it predictably and don't drift with key height/gaps.
@@ -234,7 +256,7 @@ private fun KeyContent(key: Key, shift: ShiftState, contentColor: Color, flat: B
         return
     }
 
-    val label = labelFor(key, shift)
+    val label = if (customEnter) enterLabel.orEmpty() else labelFor(key, shift)
     val isSpacebar = key.style == KeyStyle.SPACEBAR
     // Multi-char function labels (?123, ABC, =\<) read better a touch smaller than glyphs.
     val labelSize = when {
@@ -279,7 +301,7 @@ private fun labelFor(key: Key, shift: ShiftState): String {
     return key.shiftedLabel?.takeIf { shift.isUpper } ?: key.label
 }
 
-private fun iconFor(key: Key, shift: ShiftState): ImageVector? {
+private fun iconFor(key: Key, shift: ShiftState, enterAction: EnterAction): ImageVector? {
     // An explicit per-key override wins over the action-derived icon, so two keys sharing one
     // action can render different glyphs (e.g. the numpad space key vs. the main spacebar).
     key.iconOverride?.let { return when (it) {
@@ -287,7 +309,15 @@ private fun iconFor(key: Key, shift: ShiftState): ImageVector? {
     } }
     return when (key.action) {
         KeyAction.Backspace -> LucideIcons.Delete
-        KeyAction.Enter -> LucideIcons.CornerDownLeft
+        KeyAction.Enter -> when (enterAction) {
+            EnterAction.NEWLINE -> LucideIcons.CornerDownLeft
+            EnterAction.DONE -> LucideIcons.Check
+            EnterAction.GO -> LucideIcons.ArrowRight
+            EnterAction.SEARCH -> LucideIcons.Search
+            EnterAction.SEND -> LucideIcons.SendHorizontal
+            EnterAction.NEXT -> LucideIcons.ChevronRight
+            EnterAction.PREVIOUS -> LucideIcons.ChevronLeft
+        }
         KeyAction.SwitchLanguage -> LucideIcons.Globe
         KeyAction.Emoji -> LucideIcons.Smile
         KeyAction.Shift -> when (shift) {
@@ -320,3 +350,6 @@ private fun defaultDescription(key: Key, shift: ShiftState): String = when (key.
     is KeyAction.Text -> (key.action as KeyAction.Text).text
     KeyAction.None -> ""
 }
+
+/** Longest app-supplied Enter label shown as text; longer ones fall back to the action glyph. */
+private const val MAX_ENTER_LABEL = 8

@@ -34,8 +34,9 @@ Settings → Apps → Bornomala → Permissions).
 Some features store data **only on your device**, in the app's private storage. This data
 never leaves the device and is removed when you uninstall the app:
 
-- **User dictionary / learning** — words you type frequently, to improve suggestions
-  (can be disabled in Settings).
+- **User dictionary / learning** — words you type frequently, and the Bangla word you pick for
+  a given spelling, to improve suggestions (can be disabled in Settings). Nothing is learned in
+  password fields or in fields that ask for no personalized learning (such as incognito tabs).
 - **Clipboard history** — recent copied text, so you can paste it again (can be disabled;
   cleared on uninstall).
 - **Emoji usage** — which emoji you use, to surface recents/frequents.

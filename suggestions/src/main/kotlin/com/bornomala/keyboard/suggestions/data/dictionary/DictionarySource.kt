@@ -24,8 +24,8 @@ interface DictionarySource {
     fun bigramLinesFor(language: SuggestionLanguage): Sequence<String>
 
     /**
-     * Returns the Bangla phonetic-index lines (`key<TAB>word1 word2 …`), mapping an
-     * ambiguity-collapsed roman key to real Bangla words by frequency. Only Bangla ships one;
+     * Returns the Bangla phonetic-index lines (`key<TAB>trusted…[<TAB>suggest-only…]`), mapping
+     * an ambiguity-collapsed roman key to real Bangla words by frequency. Only Bangla ships one;
      * other languages yield nothing.
      */
     fun phoneticLinesFor(language: SuggestionLanguage): Sequence<String> = emptySequence()
@@ -35,4 +35,16 @@ interface DictionarySource {
      * keep profanity/slurs out of suggestions and auto-correction. May yield nothing.
      */
     fun offensiveLinesFor(language: SuggestionLanguage): Sequence<String> = emptySequence()
+
+    /**
+     * Returns the lines of the bundled Avro auto-correct table (OpenBangla riti's flat
+     * `{"roman": "avro-notation"}` JSON, one entry per line). May yield nothing.
+     */
+    fun autocorrectLines(): Sequence<String> = emptySequence()
+
+    /** Returns Bornomala's `roman<TAB>Bangla` loanword overlay lines. May yield nothing. */
+    fun loanwordLines(): Sequence<String> = emptySequence()
+
+    /** Returns riti's roman -> Bangla suffix table lines (flat JSON, one entry per line). */
+    fun suffixLines(): Sequence<String> = emptySequence()
 }

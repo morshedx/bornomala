@@ -46,6 +46,12 @@ class AssetDictionarySource @Inject constructor(
         return readLines(assetName)
     }
 
+    override fun autocorrectLines(): Sequence<String> = readLines(ASSET_AVRO_AUTOCORRECT)
+
+    override fun loanwordLines(): Sequence<String> = readLines(ASSET_BANGLA_LOANWORDS)
+
+    override fun suffixLines(): Sequence<String> = readLines(ASSET_AVRO_SUFFIX)
+
     private fun readLines(assetName: String): Sequence<String> = sequence {
         context.applicationContext.assets.open("$ASSET_DIR/$assetName").use { stream ->
             val reader: BufferedReader = stream.bufferedReader(Charsets.UTF_8)
@@ -66,6 +72,9 @@ class AssetDictionarySource @Inject constructor(
         const val ASSET_ENGLISH_BIGRAMS = "en_bigrams.txt"
         const val ASSET_BANGLA_BIGRAMS = "bn_bigrams.txt"
         const val ASSET_BANGLA_PHONETIC = "bn_phonetic.txt"
+        const val ASSET_AVRO_AUTOCORRECT = "avro_autocorrect.json"
+        const val ASSET_BANGLA_LOANWORDS = "bn_loanwords.txt"
+        const val ASSET_AVRO_SUFFIX = "avro_suffix.json"
         const val ASSET_ENGLISH_OFFENSIVE = "en_offensive.txt"
         const val ASSET_BANGLA_OFFENSIVE = "bn_offensive.txt"
     }

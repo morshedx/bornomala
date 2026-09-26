@@ -2,6 +2,7 @@ package com.bornomala.keyboard.suggestions.data
 
 import com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticKey
 import com.bornomala.keyboard.suggestions.data.dictionary.BanglaPhoneticRepository
+import com.bornomala.keyboard.suggestions.data.dictionary.BanglaSuffixRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryEntity
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import com.bornomala.keyboard.suggestions.domain.model.SuggestionLanguage
@@ -37,6 +38,7 @@ class BanglaLearnedPhoneticTest {
         dispatchers = dispatchers,
         banglaPhonetic = phonetic,
         userDictionary = userDictionary,
+        suffixes = BanglaSuffixRepository(InMemoryDictionarySource(emptyMap()), dispatchers),
     )
 
     private suspend fun learn(word: String, times: Int) {
@@ -53,21 +55,21 @@ class BanglaLearnedPhoneticTest {
     @Test
     fun `a word typed once trails the bundled index`() = runTest {
         learn("শশা", times = 1)
-        val result = engine().banglaPhoneticCandidates("shosha", 5)
+        val result = engine().banglaPhoneticCandidates("shosha", 5).words
         assertThat(result).containsExactly("সসা", "শশা").inOrder()
     }
 
     @Test
     fun `a word typed repeatedly leads the bundled index`() = runTest {
         learn("শশা", times = 2)
-        val result = engine().banglaPhoneticCandidates("shosha", 5)
+        val result = engine().banglaPhoneticCandidates("shosha", 5).words
         assertThat(result).containsExactly("শশা", "সসা").inOrder()
     }
 
     @Test
     fun `learned words only answer their own key`() = runTest {
         learn("শশা", times = 3)
-        assertThat(engine().banglaPhoneticCandidates("sa", 5)).doesNotContain("শশা")
+        assertThat(engine().banglaPhoneticCandidates("sa", 5).words).doesNotContain("শশা")
     }
 
     @Test
@@ -82,7 +84,7 @@ class BanglaLearnedPhoneticTest {
         dao.insertWords(
             listOf(UserDictionaryEntity("শশা", SuggestionLanguage.BANGLA.code, 5, 1L, "", "")),
         )
-        val result = engine().banglaPhoneticCandidates("shosha", 5)
+        val result = engine().banglaPhoneticCandidates("shosha", 5).words
         assertThat(result).contains("শশা")
         assertThat(dao.findExact("শশা", SuggestionLanguage.BANGLA.code)?.phoneticKey).isEqualTo("ssa")
     }
