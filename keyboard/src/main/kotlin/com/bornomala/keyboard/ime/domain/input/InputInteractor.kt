@@ -82,6 +82,13 @@ class InputInteractor(
      */
     private var symbolCharTyped: Boolean = false
 
+    /**
+     * A comma typed right after a Bangla word, held back to see whether a second comma follows:
+     * Avro's `,,` is an explicit hasant (্ + ZWNJ, `k,,Sh` -> ক্‌ষ). The editor shows the word plus
+     * the comma meanwhile; any other key settles it as an ordinary comma (see [commitComposing]).
+     */
+    private var pendingComma: Boolean = false
+
     /** Records an applied auto-correction for one-tap undo (original typed word vs the swap-in). */
     private data class AutoCorrectUndo(val original: String, val corrected: String)
 
@@ -106,6 +113,7 @@ class InputInteractor(
     fun resetComposing() {
         if (composingBuffer.isNotEmpty()) composingBuffer.setLength(0)
         pendingAutoCorrect = null
+        pendingComma = false
         symbolCharTyped = false
         editor.finishComposing()
         stateHolder.clearComposingAndSuggestions()
@@ -150,13 +158,16 @@ class InputInteractor(
             val roman = composingBuffer.toString()
             if (text != roman) callbacks.onBanglaPicked(roman, text)
         }
+        val comma = pendingComma
+        pendingComma = false
         if (state.isComposing) {
-            // Replace the composing region with the chosen word.
+            // Replace the composing region (including any held comma) with the chosen word.
             editor.setComposingText(text)
             editor.finishComposing()
         } else {
             editor.commitText(text)
         }
+        if (comma) editor.commitText(",")
         composingBuffer.setLength(0)
         stateHolder.clearComposingAndSuggestions()
         callbacks.onWordCommitted(state.language, text)
@@ -176,6 +187,28 @@ class InputInteractor(
         }
         val isLetter = rawChar.isLetter()
         val cased = if (isLetter && state.shift.isUpper) rawChar.uppercaseChar() else rawChar
+
+        if (pendingComma) {
+            if (rawChar == ',') {
+                // Second comma: Avro's explicit hasant joins the word being typed.
+                pendingComma = false
+                composingBuffer.append(",,")
+                renderBanglaComposing(state.language)
+                return
+            }
+            // Anything else: the held comma was an ordinary one. Finish the word and the comma
+            // exactly as typing them apart would, then handle this key from a clean slate.
+            commitComposing()
+            onCharacter(rawChar)
+            return
+        }
+        if (rawChar == ',' && state.language == KeyboardLanguage.BANGLA &&
+            config.banglaTransliteration && composingBuffer.isNotEmpty()
+        ) {
+            pendingComma = true
+            editor.setComposingText(state.composingText + ",")
+            return
+        }
 
         if (state.language == KeyboardLanguage.BANGLA &&
             config.banglaTransliteration &&
@@ -226,6 +259,12 @@ class InputInteractor(
 
     private fun onBackspace() {
         val state = stateHolder.current
+        if (pendingComma) {
+            // Delete just the held comma; the word stays in progress.
+            pendingComma = false
+            editor.setComposingText(state.composingText)
+            return
+        }
         if (state.isComposing && composingBuffer.isNotEmpty()) {
             // Shrink the in-progress word by one latin char and re-render.
             composingBuffer.setLength(composingBuffer.length - 1)
@@ -331,6 +370,12 @@ class InputInteractor(
             return
         }
         val verbatim = state.composingText
+        val comma = pendingComma
+        if (comma) {
+            // Take the held comma out of the composing region; it is committed after the word.
+            pendingComma = false
+            editor.setComposingText(verbatim)
+        }
         // Auto-correct: if the strip flagged a high-confidence target — an English spelling
         // correction, or the top Bangla phonetic-dictionary word (e.g. chara -> ছাড়া) — swap it
         // into the composing region before finalizing, and remember it so backspace can revert.
@@ -352,6 +397,7 @@ class InputInteractor(
             editor.finishComposing()
             committedWord = verbatim
         }
+        if (comma) editor.commitText(",")
         composingBuffer.setLength(0)
         stateHolder.clearComposingAndSuggestions()
         if (committedWord.isNotEmpty()) {
@@ -424,6 +470,14 @@ class InputInteractor(
     }
 
     private fun isAsciiLetter(c: Char): Boolean = (c in 'a'..'z') || (c in 'A'..'Z')
+
+    /** Re-renders the Bangla roman buffer into the composing region and refreshes suggestions. */
+    private fun renderBanglaComposing(language: KeyboardLanguage) {
+        val rendered = transliteration.transliterate(composingBuffer.toString())
+        editor.setComposingText(rendered)
+        stateHolder.setComposing(rendered)
+        callbacks.onComposingChanged(language, composingBuffer.toString())
+    }
 
     /**
      * Avro symbols that only mean something inside a word — `^` chandrabindu (`cha^d` -> চাঁদ),

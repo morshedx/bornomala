@@ -112,6 +112,69 @@ class InputInteractorAutoCorrectTest {
     }
 
     @Test
+    fun `double comma in a bangla word is avro's explicit hasant`() {
+        typeBangla("k,,Sh")
+
+        assertThat(stateHolder.current.composingText).isEqualTo("k,,Sh")
+        assertThat(committed).isEmpty()
+    }
+
+    @Test
+    fun `a single comma after a bangla word stays an ordinary comma`() {
+        typeBangla("ami,")
+        assertThat(editor.text.toString()).isEqualTo("ami,")
+
+        interactor.onKey(KeyAction.Space)
+
+        assertThat(editor.text.toString()).isEqualTo("ami, ")
+        assertThat(committed).containsExactly("ami")
+    }
+
+    @Test
+    fun `a letter after a single comma starts a new word`() {
+        typeBangla("ami,t")
+
+        assertThat(committed).containsExactly("ami")
+        assertThat(stateHolder.current.composingText).isEqualTo("t")
+        assertThat(editor.text.toString()).isEqualTo("ami,t")
+    }
+
+    @Test
+    fun `backspace removes only the held comma`() {
+        typeBangla("ami,")
+
+        interactor.onKey(KeyAction.Backspace)
+
+        assertThat(editor.text.toString()).isEqualTo("ami")
+        assertThat(stateHolder.current.composingText).isEqualTo("ami")
+        assertThat(committed).isEmpty()
+    }
+
+    @Test
+    fun `a held comma survives a suggestion tap and an auto-correction`() {
+        typeBangla("ami,")
+        interactor.commitSuggestion("আমি")
+        assertThat(editor.text.toString()).isEqualTo("আমি, ")
+
+        editor.text.setLength(0)
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        typeBangla("chara")
+        stateHolder.setSuggestions(listOf(Suggestion(text = "ছাড়া", isAutoCorrect = true)))
+        interactor.onKey(KeyAction.Character(','))
+        interactor.onKey(KeyAction.Space)
+        assertThat(editor.text.toString()).isEqualTo("ছাড়া, ")
+    }
+
+    @Test
+    fun `english commas are unaffected`() {
+        stateHolder.setLanguage(KeyboardLanguage.ENGLISH)
+        "hi,".forEach { interactor.onKey(KeyAction.Character(it)) }
+
+        assertThat(editor.text.toString()).isEqualTo("hi,")
+        assertThat(stateHolder.current.isComposing).isFalse()
+    }
+
+    @Test
     fun `avro symbols inside a bangla word join the roman buffer`() {
         typeBangla("cha^d")
         assertThat(stateHolder.current.composingText).isEqualTo("cha^d")
