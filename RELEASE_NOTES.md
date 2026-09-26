@@ -4,6 +4,19 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.0
+
+- English loanwords in Bangla: software → সফটওয়্যার, chair → চেয়ার.
+- 150k-word Bangla dictionary, and suffixes: boigulo → বইগুলো.
+- Type ঁ ঃ ৎ mid-word: cha^d, du:kho, t``.
+- Your word picks are remembered, even with suffixes.
+- Passwords & incognito: nothing is learned.
+- Enter shows ✓, search, send or the app's own label.
+- URL fields get / and .com; English in password, email and URL fields.
+- Password-manager suggestions in the strip.
+
+---
+
 ## v0.8.8
 
 - Fixed Bangla words being silently rewritten when you press space — typing শশা could commit সা.
