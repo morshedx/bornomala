@@ -4,6 +4,13 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.1
+
+- Explicit hasant in Bangla: type two commas — k,,Sh → ক্‌ষ, bak,, → বাক্‌.
+- A single comma after a Bangla word still types a normal comma.
+
+---
+
 ## v0.9.0
 
 - English loanwords in Bangla: software → সফটওয়্যার, chair → চেয়ার.
