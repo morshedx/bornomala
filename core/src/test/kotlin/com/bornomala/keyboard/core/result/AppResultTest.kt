@@ -15,7 +15,9 @@ class AppResultTest {
 
     @Test
     fun `failure reports isFailure and getOrNull returns null`() {
-        val result = AppResult.failure(AppError.NotFound())
+        // Typed explicitly: failure() is AppResult<Nothing>, whose getOrNull() is Nothing? and
+        // matches every Truth assertThat overload.
+        val result: AppResult<Int> = AppResult.failure(AppError.NotFound())
         assertThat(result.isFailure).isTrue()
         assertThat(result.getOrNull()).isNull()
         assertThat(result.getOrDefault(7)).isEqualTo(7)
