@@ -6,9 +6,10 @@ local file path or fetched when omitted. Output: one family per line, most popul
 
     family<TAB>category
 
-where category is one of sans|serif|display|handwriting|mono. The picker styles the key labels
-(Latin letters), so every family is listed; Bangla glyphs fall back to the system font. Brand fonts (e.g. Google Sans) are left out: the Play services font
-provider does not serve them.
+where category is one of sans|serif|display|handwriting|mono. The picker styles the key labels,
+which are Latin letters, so only families with a Latin subset are listed (Bangla glyphs fall back
+to the system font). Google Sans is left out: it is Google's own font and the Play services font
+provider does not serve it. Other families Google tags as brand fonts (Roboto, Noto) are served.
 """
 import json
 import sys
@@ -35,7 +36,9 @@ def main() -> None:
     families = json.loads(raw)["familyMetadataList"]
     rows = []
     for f in families:
-        if f.get("isBrandFont") or not f.get("isOpenSource", True):
+        if not f.get("isOpenSource", True) or f["family"].startswith("Google Sans"):
+            continue
+        if "latin" not in f.get("subsets", []):
             continue
         name = f["family"]
         if "\t" in name or "\n" in name:

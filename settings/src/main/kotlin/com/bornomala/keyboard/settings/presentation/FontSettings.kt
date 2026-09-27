@@ -6,8 +6,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -101,6 +110,7 @@ private val FontMimeTypes = arrayOf(
  * fonts and an Import card first, then (only when Google Play services is present) every
  * Google Font with search and category filters, previewed lazily as the grid scrolls.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun FontSettings(
     settings: Settings,
@@ -139,12 +149,28 @@ internal fun FontSettings(
     val gridState = rememberLazyGridState()
     // Sticky once the bar reaches the top: from then on a copy is drawn over the grid, in the
     // very spot the bar occupies, so it stays put while the fonts scroll beneath it.
+    // The copy is only needed once the real bar has started to slide off; while it sits exactly
+    // at the top the real one (which may hold the search focus and caret) stays in view.
     val filtersStuck by remember(filterIndex) {
-        derivedStateOf { googleAvailable && gridState.firstVisibleItemIndex >= filterIndex }
+        derivedStateOf {
+            googleAvailable && (
+                gridState.firstVisibleItemIndex > filterIndex ||
+                    (gridState.firstVisibleItemIndex == filterIndex && gridState.firstVisibleItemScrollOffset > 0)
+                )
+        }
     }
-    // A new search or filter while stuck: start the results right under the bar.
+    val atOrPastFilters by remember(filterIndex) {
+        derivedStateOf { gridState.firstVisibleItemIndex >= filterIndex }
+    }
+    // Typing a search brings up the real keyboard, which already shows the chosen font, so the
+    // preview steps aside and the bar moves to the top with the matches between it and the keys.
+    val imeVisible = WindowInsets.isImeVisible
+    LaunchedEffect(imeVisible) {
+        if (imeVisible && googleAvailable) gridState.scrollToItem(filterIndex)
+    }
+    // A new search or filter while typing or after scrolling down: results start right under the bar.
     LaunchedEffect(query, category) {
-        if (filtersStuck) gridState.scrollToItem(filterIndex)
+        if (imeVisible || atOrPastFilters) gridState.scrollToItem(filterIndex)
     }
 
     SettingsPage(
@@ -152,10 +178,16 @@ internal fun FontSettings(
         onBack = onBack,
         modifier = modifier,
         // The same live keyboard as the Theme screen: it shows the chosen font on real keys.
-        pinned = { KeyboardPreviewBand(settings, callbacks.onKeyboardHeightScale) },
+        pinned = {
+            AnimatedVisibility(visible = !imeVisible, enter = expandVertically(), exit = shrinkVertically()) {
+                KeyboardPreviewBand(settings, callbacks.onKeyboardHeightScale)
+            }
+        },
         scrollable = false,
     ) {
-        Box(Modifier.fillMaxSize()) {
+        // imePadding: the list ends above the keyboard instead of running under it.
+        BoxWithConstraints(Modifier.fillMaxSize().imePadding()) {
+            val viewportHeight = maxHeight
             LazyVerticalGrid(
                 state = gridState,
                 columns = GridCells.Adaptive(minSize = 104.dp),
@@ -224,6 +256,11 @@ internal fun FontSettings(
                                 modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
                             )
                         }
+                    }
+                    // While typing, room after the results so the bar can always reach the top,
+                    // even when only a few fonts match.
+                    if (imeVisible) {
+                        header("tail") { Spacer(Modifier.height(viewportHeight)) }
                     }
                 }
             }

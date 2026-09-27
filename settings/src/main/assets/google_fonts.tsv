@@ -1,20 +1,27 @@
 Open Sans	sans
+Roboto	sans
+Noto Sans JP	sans
 Inter	sans
 Lato	sans
 Montserrat	sans
 Arimo	sans
 Poppins	sans
+Roboto Condensed	sans
 DM Sans	sans
 Raleway	sans
 Archivo Black	sans
+Roboto Mono	mono
 Outfit	sans
 Oswald	sans
 Plus Jakarta Sans	sans
 Ubuntu	sans
 Figtree	sans
 Kanit	sans
+Noto Sans KR	sans
 Lora	serif
 Mulish	sans
+Noto Sans	sans
+Noto Sans TC	sans
 Archivo	sans
 Bricolage Grotesque	sans
 JetBrains Mono	mono
@@ -26,12 +33,15 @@ Karla	sans
 Playfair Display	serif
 Jost	sans
 Nunito Sans	sans
+Noto Serif	serif
 Fira Sans	sans
 PT Serif	serif
+Roboto Slab	serif
 Rubik	sans
 Titillium Web	sans
 Manrope	sans
 Fjalla One	sans
+Noto Sans SC	sans
 Instrument Serif	serif
 Merriweather	serif
 Inconsolata	mono
@@ -51,6 +61,8 @@ Cairo	sans
 PT Sans	sans
 IBM Plex Mono	mono
 Schibsted Grotesk	sans
+Roboto Flex	sans
+Noto Sans Khmer	sans
 Prompt	sans
 Nanum Gothic	sans
 Barlow	sans
@@ -61,6 +73,7 @@ Quicksand	sans
 Geist	sans
 Caveat	handwriting
 Orbitron	sans
+Noto Sans Telugu	sans
 IBM Plex Sans	sans
 Lilita One	display
 Oxygen	sans
@@ -82,9 +95,11 @@ Crimson Text	serif
 Chakra Petch	sans
 Libre Baskerville	serif
 Barlow Semi Condensed	sans
+Noto Sans Thai	sans
 Heebo	sans
 Lobster	display
 Teko	sans
+Noto Sans Arabic	sans
 PT Sans Narrow	sans
 Gravitas One	display
 Arvo	serif
@@ -97,6 +112,7 @@ Asap	sans
 Abel	sans
 Dancing Script	handwriting
 Geist Mono	mono
+Noto Serif JP	serif
 Space Mono	mono
 M PLUS 1p	sans
 DM Mono	mono
@@ -114,6 +130,7 @@ Onest	sans
 ABeeZee	sans
 Mukta	sans
 Albert Sans	sans
+Noto Serif TC	serif
 Marcellus	serif
 Nanum Myeongjo	serif
 Assistant	sans
@@ -126,7 +143,9 @@ Bitter	serif
 Spectral	serif
 Rethink Sans	sans
 Syne	sans
+Noto Sans Devanagari	sans
 LINE Seed JP	sans
+Roboto Serif	serif
 Cabin	sans
 Unbounded	sans
 Lexend	sans
@@ -135,6 +154,7 @@ Frank Ruhl Libre	serif
 Urbanist	sans
 DM Serif Text	serif
 Sofia Sans	sans
+Noto Serif SC	serif
 Yellowtail	handwriting
 Zen Maru Gothic	sans
 Shippori Mincho	serif
@@ -146,9 +166,11 @@ Alegreya Sans	sans
 DM Serif Display	serif
 Hammersmith One	sans
 Dosis	sans
+Noto Serif KR	serif
 Atkinson Hyperlegible	sans
 Press Start 2P	display
 Luckiest Guy	display
+Noto Kufi Arabic	sans
 Kalam	handwriting
 Russo One	sans
 Alata	sans
@@ -179,11 +201,13 @@ Changa	sans
 Audiowide	display
 Pacifico	handwriting
 Alegreya	serif
+Noto Naskh Arabic	serif
 Sawarabi Mincho	serif
 VT323	mono
 Cantarell	sans
 Golos Text	sans
 Red Hat Text	sans
+Noto Sans Display	sans
 Libre Barcode 39	display
 Oleo Script	display
 Fira Code	mono
@@ -224,11 +248,13 @@ Biryani	sans
 Questrial	sans
 Commissioner	sans
 Epilogue	sans
+Noto Sans Mono	sans
 Creepster	display
 Francois One	sans
 Zilla Slab	serif
 Abril Fatface	display
 Kosugi Maru	sans
+Noto Sans Bengali	sans
 Fira Mono	mono
 Quattrocento	serif
 Rock Salt	handwriting
@@ -238,6 +264,7 @@ Damion	handwriting
 M PLUS 1	sans
 Neuton	serif
 Amaranth	sans
+Noto Sans Tamil	sans
 Paytone One	sans
 Rokkitt	serif
 Cutive Mono	mono
@@ -260,7 +287,9 @@ Gloria Hallelujah	handwriting
 Tangerine	handwriting
 Geologica	sans
 Michroma	sans
+Noto Sans HK	sans
 Encode Sans Condensed	sans
+Noto Sans Malayalam	sans
 Satisfy	handwriting
 El Messiri	sans
 Indie Flower	handwriting
@@ -281,6 +310,7 @@ Gelasio	serif
 Homemade Apple	handwriting
 Yanone Kaffeesatz	sans
 Pathway Gothic One	sans
+Noto Sans Hebrew	sans
 Viga	sans
 Yeseva One	display
 Comic Relief	display
@@ -295,6 +325,7 @@ Goldman	display
 Fira Sans Condensed	sans
 Lustria	serif
 Arsenal	sans
+Noto Serif Bengali	serif
 Bevan	serif
 Merienda	handwriting
 Varela	sans
@@ -305,6 +336,7 @@ Balsamiq Sans	display
 Catamaran	sans
 Chango	display
 Host Grotesk	sans
+Noto Serif Display	serif
 Mrs Saint Delafield	handwriting
 Belleza	sans
 Anuphan	sans
@@ -363,11 +395,13 @@ Sofia Sans Extra Condensed	sans
 Skranji	display
 Bowlby One SC	display
 M PLUS 2	sans
+Noto Nastaliq Urdu	serif
 Do Hyeon	sans
 MuseoModerno	display
 Economica	sans
 Libre Caslon Text	serif
 Ms Madi	handwriting
+Noto Sans Symbols	sans
 Tektur	display
 Murecho	sans
 Gochi Hand	handwriting
@@ -423,6 +457,7 @@ Sofia Sans Condensed	sans
 Stardos Stencil	display
 Geo	sans
 Signika Negative	sans
+Noto Sans Gujarati	sans
 Titan One	display
 Pontano Sans	sans
 Parkinsans	sans
@@ -452,6 +487,7 @@ Ibarra Real Nova	serif
 Palanquin Dark	sans
 Sintony	sans
 Ubuntu Condensed	sans
+Noto Sans Meetei Mayek	sans
 Radley	serif
 Alef	sans
 Libre Caslon Display	serif
@@ -484,6 +520,7 @@ Pattaya	sans
 Gabarito	display
 Share	sans
 Monoton	display
+Noto Sans Kannada	sans
 Caudex	serif
 Corben	display
 Rancho	handwriting
@@ -502,6 +539,7 @@ Graduate	serif
 Cormorant Upright	serif
 Alatsi	sans
 Fondamento	handwriting
+Noto Sans Gurmukhi	sans
 Anybody	display
 Karma	serif
 Caladea	serif
@@ -549,6 +587,7 @@ Ruslan Display	display
 Hi Melody	handwriting
 Reenie Beanie	handwriting
 Fanwood Text	serif
+Noto Serif Devanagari	serif
 AR One Sans	sans
 Bayon	sans
 Vidaloka	serif
@@ -559,8 +598,10 @@ Alegreya SC	serif
 Meddon	handwriting
 Flow Circular	display
 Sorts Mill Goudy	serif
+Noto Sans Oriya	sans
 Chiron GoRound TC	sans
 Angkor	display
+Noto Serif Georgian	serif
 Rosario	sans
 Lexend Peta	sans
 Rambla	sans
@@ -610,7 +651,6 @@ Fira Sans Extra Condensed	sans
 Monomaniac One	sans
 Kadwa	serif
 Waiting for the Sunrise	handwriting
-STIX Two Math	serif
 Arapey	serif
 Over the Rainbow	handwriting
 BioRhyme	serif
@@ -632,6 +672,7 @@ Tienne	serif
 Inclusive Sans	sans
 Blinker	sans
 Libre Barcode 39 Text	display
+Noto Serif Thai	serif
 Voltaire	sans
 Anek Devanagari	sans
 Pompiere	display
@@ -668,6 +709,7 @@ Bagel Fat One	display
 Mr De Haviland	handwriting
 Sarina	display
 Cherry Bomb One	display
+Noto Serif Khojki	serif
 Anonymous Pro	mono
 Mukta Mahee	sans
 Platypi	serif
@@ -696,12 +738,12 @@ Viaoda Libre	display
 Mansalva	handwriting
 Zhi Mang Xing	handwriting
 IBM Plex Sans JP	sans
-Libertinus Math	display
 Grandstander	display
 Gulzar	serif
 Xanh Mono	mono
 Gluten	display
 Sedgwick Ave	handwriting
+Noto Sans Symbols 2	sans
 Protest Strike	display
 Zain	sans
 Jomhuria	display
@@ -734,6 +776,7 @@ Moul	display
 Khula	sans
 Vesper Libre	serif
 Gloock	serif
+Noto Sans Armenian	sans
 Ysabeau SC	sans
 Vast Shadow	serif
 Scope One	serif
@@ -750,6 +793,7 @@ Cairo Play	sans
 Azeret Mono	mono
 Esteban	serif
 Zen Antique Soft	serif
+Noto Sans Warang Citi	sans
 New Rocker	display
 Nokora	sans
 Modak	display
@@ -786,11 +830,14 @@ Anaheim	sans
 Days One	sans
 Modern Antiqua	display
 Bona Nova	serif
+Noto Sans Lao	sans
+Noto Sans Sinhala	sans
 Orelega One	display
 Cabin Condensed	sans
 Clicker Script	handwriting
 Elsie	display
 Arya	sans
+Noto Sans Myanmar	sans
 Bakbak One	display
 Denk One	sans
 Lexend Exa	sans
@@ -817,6 +864,7 @@ Nova Oval	display
 Inder	sans
 IM Fell Double Pica	serif
 Kiwi Maru	serif
+Noto Sans Ethiopic	sans
 Atomic Age	display
 Fuggles	handwriting
 Monofett	mono
@@ -859,7 +907,6 @@ Baloo Chettan 2	display
 Sofia Sans Semi Condensed	sans
 Maiden Orange	serif
 IM Fell French Canon	serif
-Khmer	sans
 Julee	handwriting
 Miltonian Tattoo	display
 K2D	sans
@@ -878,6 +925,7 @@ Mochiy Pop P One	sans
 Sarala	sans
 Zilla Slab Highlight	serif
 Mystery Quest	display
+Noto Sans Georgian	sans
 Sail	display
 Luxurious Script	handwriting
 Stick	sans
@@ -893,6 +941,7 @@ Lovers Quarrel	handwriting
 Vina Sans	display
 Charis SIL	serif
 Iceberg	display
+Noto Serif Ahom	serif
 Barriecito	display
 Shojumaru	display
 TASA Orbiter	sans
@@ -914,6 +963,7 @@ Kaisei HarunoUmi	serif
 Barrio	display
 Dangrek	display
 Montaga	serif
+Noto Sans Tagalog	sans
 The Nautigal	handwriting
 Single Day	display
 Waterfall	handwriting
@@ -941,7 +991,6 @@ Elms Sans	sans
 Cherry Swash	display
 Petit Formal Script	handwriting
 Kavoon	display
-Playwrite IN	handwriting
 Kdam Thmor Pro	sans
 Averia Libre	display
 Varta	sans
@@ -949,6 +998,7 @@ Medula One	display
 Paprika	display
 Baloo Bhaina 2	display
 Henny Penny	display
+Noto Serif Tibetan	serif
 Homenaje	sans
 Milonga	display
 Eagle Lake	handwriting
@@ -968,6 +1018,7 @@ Rubik Moonrocks	display
 Voces	sans
 Headland One	serif
 Lemon	display
+Noto Sans Canadian Aboriginal	sans
 Belgrano	serif
 BIZ UDPMincho	serif
 IBM Plex Sans Devanagari	sans
@@ -975,13 +1026,14 @@ Glegoo	serif
 Winky Sans	sans
 Victor Mono	mono
 IM Fell Double Pica SC	serif
-Playwrite US Trad	handwriting
 Comforter Brush	handwriting
 Nova Slim	display
 Jomolhari	serif
 Jolly Lodger	display
 Butterfly Kids	handwriting
+Noto Sans Bhaiksuki	sans
 Anek Odia	sans
+Noto Serif Malayalam	serif
 Delius Unicase	handwriting
 Pathway Extreme	sans
 Piedra	display
@@ -993,10 +1045,13 @@ Alumni Sans Pinstripe	sans
 Mountains of Christmas	display
 Odibee Sans	display
 Style Script	handwriting
+Noto Sans Thaana	sans
 Sevillana	display
 Akronim	display
+Noto Sans Gothic	sans
 Kenia	display
 Cactus Classical Serif	serif
+Noto Sans Old North Arabian	sans
 Liu Jian Mao Cao	handwriting
 Edu SA Beginner	handwriting
 Ceviche One	display
@@ -1009,6 +1064,7 @@ Huninn	sans
 Marhey	display
 Pliant	sans
 Koulen	display
+Noto Serif Armenian	serif
 Trispace	sans
 Redacted	display
 Sedgwick Ave Display	handwriting
@@ -1017,13 +1073,11 @@ Stack Sans Headline	sans
 Chocolate Classical Sans	sans
 Trocchi	serif
 Sigmar	display
-Playwrite US Modern	handwriting
 Aref Ruqaa	serif
 Freckle Face	display
 Suwannaphum	serif
 Anek Kannada	sans
 Grand Hotel	handwriting
-Playwrite VN	handwriting
 Zalando Sans Expanded	sans
 Gideon Roman	display
 Strait	sans
@@ -1032,23 +1086,29 @@ Ballet	handwriting
 Tiro Devanagari Hindi	serif
 Chathura	sans
 Geom	sans
+Noto Serif Tamil	serif
+Noto Serif Kannada	serif
 Mouse Memoirs	sans
 Smokum	display
 Akaya Kanadaka	display
 Edu NSW ACT Cursive	handwriting
 Rum Raisin	sans
+Noto Sans Syriac Western	sans
 Yusei Magic	sans
 Grape Nuts	handwriting
 Bruno Ace	display
 Offside	display
 Nova Script	display
 Notable	sans
+Noto Music	sans
 Bruno Ace SC	display
 Major Mono Display	mono
 Benne	serif
+Noto Sans Samaritan	sans
 Carrois Gothic SC	sans
 Micro 5	display
 Ancizar Serif	serif
+Noto Serif Telugu	serif
 Joan	serif
 Rubik Scribble	display
 Manufacturing Consent	display
@@ -1061,7 +1121,9 @@ Festive	handwriting
 Goudy Bookletter 1911	serif
 Kotta One	serif
 Grechen Fuemen	handwriting
+Noto Serif Hebrew	serif
 Handjet	display
+Noto Sans Glagolitic	sans
 Vampiro One	display
 Mr Bedfort	handwriting
 Tac One	sans
@@ -1071,10 +1133,11 @@ Rubik Microbe	display
 Akaya Telivigala	display
 Passions Conflict	handwriting
 Sixtyfour Convergence	mono
+Noto Sans Sundanese	sans
 Bacasime Antique	serif
 Baloo Bhaijaan 2	display
 Iosevka Charon Mono	mono
-Content	display
+Noto Sans Buhid	sans
 Lunasima	sans
 Climate Crisis	display
 Cagliostro	sans
@@ -1090,8 +1153,6 @@ Playpen Sans Arabic	handwriting
 Rubik Doodle Shadow	display
 Underdog	display
 Amiko	sans
-Playwrite HR	handwriting
-Playwrite NO	handwriting
 Montserrat Underline	sans
 Dekko	handwriting
 Rubik Gemstones	display
@@ -1099,8 +1160,7 @@ Aubrey	display
 Tillana	display
 Gwendolyn	handwriting
 Bitcount Grid Double	display
-Playwrite AR	handwriting
-Playwrite CA Guides	handwriting
+Noto Sans Linear A	sans
 Donegal One	serif
 Syne Tactile	display
 WDXL Lubrifont JP N	sans
@@ -1108,7 +1168,6 @@ Sonsie One	display
 Vend Sans	sans
 Beiruti	sans
 Blaka	display
-Playwrite IS	handwriting
 Poetsen One	display
 Keania One	display
 Orbit	sans
@@ -1127,10 +1186,11 @@ Tiro Devanagari Marathi	serif
 Montagu Slab	serif
 Ysabeau Infant	sans
 Kings	handwriting
-Siemreap	sans
+Noto Sans Kaithi	sans
 Tulpen One	display
 Yaldevi	sans
 Stint Ultra Expanded	serif
+Noto Sans Sora Sompeng	sans
 Zen Kurenaido	sans
 Jersey 15	display
 Red Rose	display
@@ -1155,7 +1215,6 @@ Plaster	display
 Rubik Beastly	display
 Lexend Tera	sans
 Kite One	sans
-Playwrite DK Uloopet	handwriting
 Ancizar Sans	sans
 Baloo Tamma 2	display
 Rhodium Libre	serif
@@ -1164,18 +1223,20 @@ Spectral SC	serif
 Diplomata	display
 Rochester	handwriting
 Mukta Vaani	sans
+Noto Sans Egyptian Hieroglyphs	sans
 Sirin Stencil	display
 Hubballi	sans
 Konkhmer Sleokchher	display
 WDXL Lubrifont TC	sans
-Playwrite AU NSW	handwriting
-Chenla	display
 Metal	display
 Chiron Hei HK	sans
 Copse	serif
 Kedebideri	sans
 B612 Mono	mono
+Noto Serif Gujarati	serif
 Finlandica Text	sans
+Noto Sans Ol Chiki	sans
+Noto Sans Osmanya	sans
 Encode Sans Expanded	sans
 Peddana	serif
 Trykker	serif
@@ -1194,14 +1255,16 @@ Bungee Outline	display
 Hedvig Letters Serif	serif
 Galdeano	sans
 Slackey	display
+Noto Sans Lao Looped	sans
 Rubik Broken Fax	display
 Kumar One Outline	display
 Send Flowers	handwriting
 Fruktur	display
+Noto Sans Mende Kikakui	sans
 Kalnia Glaze	display
+Noto Serif Sinhala	serif
 Almendra	serif
 Ubuntu Sans Mono	mono
-Playwrite IE	handwriting
 Ranga	display
 Arsenal SC	sans
 Manjari	sans
@@ -1211,13 +1274,17 @@ Moirai One	display
 Asul	serif
 Grey Qo	handwriting
 Lakki Reddy	handwriting
+Noto Serif Dogra	serif
 Happy Monkey	display
 Londrina Sketch	display
 Metal Mania	display
 Wellfleet	serif
+Noto Rashi Hebrew	serif
 Reem Kufi Ink	sans
 Jersey 20	display
+Noto Sans Old Hungarian	sans
 Bahiana	display
+Noto Sans Osage	sans
 Tiro Kannada	serif
 Alike	serif
 Stalinist One	display
@@ -1225,14 +1292,18 @@ Encode Sans Semi Condensed	sans
 Oi	display
 Epunda Sans	sans
 Puritan	sans
+Noto Sans Anatolian Hieroglyphs	sans
 Battambang	display
 Passero One	display
 Matemasie	sans
 Poller One	display
 Cause	handwriting
 Tirra	sans
+Noto Sans Cham	sans
 Balthazar	serif
+Noto Sans Cuneiform	sans
 Iansui	handwriting
+Noto Sans Thai Looped	sans
 Diplomata SC	display
 Valley Sans	sans
 GFS Neohellenic	sans
@@ -1242,7 +1313,10 @@ Sirivennela	sans
 Princess Sofia	handwriting
 Foldit	display
 Jaini Purva	display
+Noto Sans Medefaidrin	sans
+Noto Sans Tai Viet	sans
 Bytesized	sans
+Noto Sans Adlam	sans
 Lancelot	display
 Miranda Sans	sans
 Bigelow Rules	display
@@ -1250,6 +1324,7 @@ Gveret Levin	handwriting
 Exile	display
 Gidugu	sans
 Inspiration	handwriting
+Noto Serif Ethiopic	serif
 Snippet	sans
 Arima	display
 BioRhyme Expanded	serif
@@ -1265,20 +1340,18 @@ Kelly Slab	display
 Ruwudu	serif
 Tsukimi Rounded	sans
 Oldenburg	display
-Playwrite GB S	handwriting
 Hanalei Fill	display
 Megrim	display
 Langar	display
 Shippori Antique	sans
 Coustard	serif
 Diphylleia	serif
-Playwrite AU QLD	handwriting
 Yuyu	handwriting
 Estedad	sans
 Molle	handwriting
 Menbere	sans
 Lumanosimo	handwriting
-Wavefont	display
+Noto Sans Batak	sans
 Bitcount Single Ink	display
 Libertinus Mono	mono
 Stick No Bills	sans
@@ -1287,16 +1360,18 @@ Tapestry	handwriting
 Betania Patmos	handwriting
 Rubik Puddles	display
 Della Respira	serif
+Noto Serif Tangut	serif
 Narnoor	sans
 Cascadia Mono	sans
 Tai Heritage Pro	serif
 Are You Serious	handwriting
 Walter Turncoat	handwriting
 Jacquard 12 Charted	display
-Playwrite DK Loopet	handwriting
 Edu NSW ACT Hand Pre	handwriting
+Noto Sans Pahawh Hmong	sans
 Jacquard 24 Charted	display
-Playwrite PL Guides	handwriting
+Noto Sans Bamum	sans
+Noto Sans Shavian	sans
 Rubik Marker Hatch	display
 Moulpali	sans
 Sulphur Point	sans
@@ -1304,56 +1379,70 @@ Big Shoulders Inline	display
 Cutive	serif
 UoqMunThenKhung	serif
 Aguafina Script	handwriting
+Noto Sans Tirhuta	sans
+Noto Sans Vithkuqi	sans
 Jersey 15 Charted	display
 Protest Guerrilla	display
 Black And White Picture	display
 Ponomar	display
 B612	sans
 Geostar	display
+Noto Sans Hanifi Rohingya	sans
+Noto Sans Yi	sans
+Noto Sans Old Italic	sans
 Bitcount Prop Single Ink	display
+Noto Sans Chorasmian	sans
 Rock 3D	display
 Jersey 25 Charted	display
+Noto Sans Nandinagari	sans
+Noto Sans Multani	sans
 Rasa	serif
 Scoutie Sans	sans
-Playwrite ES	handwriting
 Yuji Hentaigana Akebono	handwriting
-Karla Tamil Inclined	sans
+Noto Sans Hanunoo	sans
+Noto Serif Balinese	serif
 Wendy One	sans
+Noto Sans Tamil Supplement	sans
 Workbench	mono
 Annapurna SIL	serif
 Danfo	serif
 Combo	display
-Playwrite HU	handwriting
+Noto Sans Bassa Vah	sans
 Bitcount Ink	display
 Crafty Girls	handwriting
 Labrada	serif
 Sassy Frass	handwriting
-Playwrite NL	handwriting
+Noto Sans Gunjala Gondi	sans
 Petemoss	handwriting
+Noto Sans Old Permic	sans
+Noto Sans Sharada	sans
+Noto Sans Takri	sans
+Noto Serif Toto	serif
 Montez	handwriting
 Saira Stencil	display
 Betania Patmos In GDL	handwriting
 Taprom	display
+Noto Sans PhagsPa	sans
 Redacted Script	display
 M PLUS U	sans
-Playwrite ZA	handwriting
 Fuzzy Bubbles	handwriting
 Asimovian	sans
 Coral Pixels	display
 Nosifer	display
-Linefont	display
+Noto Sans Cypro Minoan	sans
 Tagesschrift	display
 Lilex	mono
 Rubik Pixels	display
 Snowburst One	display
-Playwrite DE SAS Guides	handwriting
+Noto Sans Syriac	sans
 Qwigley	handwriting
 Palette Mosaic	display
-Playwrite ID Guides	handwriting
+Noto Sans Saurashtra	sans
+Noto Serif Gurmukhi	serif
+Noto Sans Syriac Eastern	sans
 Playpen Sans Deva	handwriting
-Playwrite HR Lijeva Guides	handwriting
 Aladin	display
-Playwrite ES Guides	handwriting
+Noto Sans Syloti Nagri	sans
 Agu Display	display
 Grandiflora One	serif
 Finlandica Headline	sans
@@ -1361,120 +1450,123 @@ Freeman	display
 Savate	sans
 Kufam	sans
 Mingzat	sans
-Playwrite DE SAS	handwriting
 Ole	handwriting
-Playwrite HR Guides	handwriting
 Rubik Doodle Triangles	display
+Noto Sans Tifinagh	sans
 Bitcount Single	display
 Bpmf Huninn	sans
 Anta	sans
 Edu SA Hand	handwriting
-Playwrite IT Moderna	handwriting
-Playwrite NG Modern	handwriting
+Noto Sans Indic Siyaq Numbers	sans
 Ga Maamli	display
-Karla Tamil Upright	sans
 Jaini	display
 Hibur Mono	mono
 Alan Sans	sans
 Datatype	mono
 Rubik Maze	display
-Playwrite HR Lijeva	handwriting
 Hanalei	display
 Ponnala	display
 Doto	sans
 Tuffy	sans
+Noto Serif Khitan Small Script	serif
 Protest Riot	display
 Bitcount	display
+Noto Sans Khojki	sans
 Oleo Script Swash Caps	display
-Allkin	display
-Playwrite MX	handwriting
 Madimi One	sans
+Noto Sans Duployan	sans
+Noto Sans Avestan	sans
+Noto Sans Lisu	sans
+Noto Serif Makasar	serif
 League Script	handwriting
-Playwrite GB J Guides	handwriting
 Edu AU VIC WA NT Pre	handwriting
 Sour Gummy	sans
 Yarndings 20 Charted	display
+Noto Sans Elymaic	sans
+Noto Sans Tai Le	sans
 Grenze	serif
-Playwrite BE WAL	handwriting
+Noto Sans Wancho	sans
 Mooli	sans
-Playwrite AU VIC	handwriting
-Playwrite NZ	handwriting
+Noto Sans Old Persian	sans
+Noto Sans Lydian	sans
+Noto Sans Vai	sans
 Bpmf Zihi Kai Std	sans
 Bodoni Moda SC	serif
-Playwrite ID	handwriting
 Yuyu Short	handwriting
+Noto Sans Newa	sans
 Bokor	display
 Yuji Hentaigana Akari	handwriting
 Kalnia	serif
-Playwrite TZ	handwriting
 Galada	display
-Playwrite SK	handwriting
 Edu AU VIC WA NT Arrows	handwriting
 Blaka Hollow	display
 Meie Script	handwriting
 Gamja Flower	handwriting
+Noto Sans NKo Unjoined	sans
 Edu VIC WA NT Hand	handwriting
 Unkempt	display
+Noto Sans Palmyrene	sans
 Sunshiney	handwriting
 Alkalami	serif
 BJCree	serif
 Padyakke Expanded One	serif
+Noto Sans Phoenician	sans
 Strichpunkt Sans	sans
+Noto Sans Imperial Aramaic	sans
+Noto Sans Inscriptional Parthian	sans
 Reddit Mono	mono
 Wire One	sans
-Playwrite CO Guides	handwriting
+Noto Sans Siddham	sans
+Noto Sans New Tai Lue	sans
 Micro 5 Charted	display
+Noto Sans Tagbanwa	sans
 Phudu	display
 Artifika	serif
-Playwrite ES Deco	handwriting
-Playwrite BR	handwriting
+Noto Sans Chakma	sans
+Noto Sans Limbu	sans
 Bitcount Prop Double Ink	display
 Bitcount Grid Double Ink	display
+Noto Sans Old South Arabian	sans
 Nova Flat	display
+Noto Serif Old Uyghur	serif
+Noto Sans Zanabazar Square	sans
+Noto Sans Buginese	sans
+Noto Sans Sogdian	sans
+Noto Sans Khudawadi	sans
+Noto Serif HK	serif
+Noto Sans Caucasian Albanian	sans
+Noto Sans Kawi	sans
 Rationale	sans
 Jersey 10 Charted	display
+Noto Sans Soyombo	sans
+Noto Sans SignWriting	sans
 Mohave	sans
-Playwrite US Trad Guides	handwriting
 Jersey 20 Charted	display
-Playwrite CL	handwriting
+Noto Sans Ugaritic	sans
+Noto Sans Lepcha	sans
+Noto Sans Linear B	sans
 Asta Sans	sans
-Playwrite NZ Guides	handwriting
+Noto Sans Masaram Gondi	sans
 Train One	display
 Long Cang	handwriting
+Noto Sans Mro	sans
+Noto Sans Modi	sans
+Noto Sans Pau Cin Hau	sans
 Dynalight	display
-Playwrite AU VIC Guides	handwriting
+Noto Sans Hatran	sans
 Betania Patmos GDL	handwriting
 Convergence	sans
-Playwrite DE Grund Guides	handwriting
 Jacquarda Bastarda 9 Charted	display
-Playwrite DE VA	handwriting
-Playwrite DK Uloopet Guides	handwriting
-Playwrite PT Guides	handwriting
+Noto Sans Ogham	sans
+Noto Sans Nushu	sans
+Noto Sans Old Sogdian	sans
 Ranchers	display
 Macondo	display
-Playwrite PE Guides	handwriting
-Playwrite NZ Basic Guides	handwriting
 Ramsina	serif
-Playwrite DE LA Guides	handwriting
-Playwrite IN Guides	handwriting
 Yarndings 12 Charted	display
 Yarndings 20	display
 Libre Barcode 39 Extended Text	display
-Playwrite TZ Guides	handwriting
-Playwrite GB S Guides	handwriting
-Playwrite IT Moderna Guides	handwriting
 Sancreek	display
-Playwrite AT Guides	handwriting
-Playwrite AU QLD Guides	handwriting
-Playwrite AU NSW Guides	handwriting
-Playwrite FR Trad Guides	handwriting
-Playwrite RO Guides	handwriting
-Playwrite HU Guides	handwriting
-Playwrite BE VLG Guides	handwriting
-Playwrite NO Guides	handwriting
-Playwrite IS Guides	handwriting
-Playwrite CZ Guides	handwriting
-Playwrite NL Guides	handwriting
 Mozilla Headline	sans
 Gupter	serif
 Gayathri	sans
@@ -1534,8 +1626,11 @@ Margarine	display
 Mozilla Text	sans
 Londrina Outline	display
 Federant	display
+Noto Sans Coptic	sans
 Smooch	handwriting
+Noto Sans Cypriot	sans
 Habibi	serif
+Noto Serif Khmer	serif
 Zen Tokyo Zoo	display
 Spirax	display
 Tauri	sans
@@ -1545,16 +1640,12 @@ Romanesco	handwriting
 Mate SC	serif
 Devonshire	handwriting
 Griffy	display
-Playwrite BE WAL Guides	handwriting
 Nabla	display
 Tourney	display
 Shalimar	handwriting
-Playwrite CU Guides	handwriting
 SN Pro	sans
 Jacques Francois	serif
 Island Moments	handwriting
-Playwrite DE Grund	handwriting
-Playwrite CU	handwriting
 Yeon Sung	display
 Lexend Mega	sans
 Braah One	sans
@@ -1569,6 +1660,7 @@ Seymour One	sans
 Condiment	handwriting
 Shafarik	display
 Inika	serif
+Noto Serif Lao	serif
 Alumni Sans Inline One	display
 Glass Antiqua	display
 Aref Ruqaa Ink	serif
@@ -1585,11 +1677,11 @@ Castoro Titling	display
 Reem Kufi Fun	sans
 SUSE Mono	sans
 Emblema One	display
+Noto Sans Mongolian	sans
 Ruluko	sans
 Almendra SC	serif
 Jacques Francois Shadow	display
 Bilbo	handwriting
-Playwrite VN Guides	handwriting
 Fleur De Leah	handwriting
 Chilanka	handwriting
 Anek Gurmukhi	sans
@@ -1599,6 +1691,7 @@ Praise	handwriting
 Sixtyfour	mono
 Dai Banna SIL	serif
 My Soul	handwriting
+Noto Sans Javanese	sans
 Intel One Mono	mono
 Edu AU VIC WA NT Hand	handwriting
 Meera Inimai	sans
@@ -1607,11 +1700,11 @@ Odor Mean Chey	serif
 Sofadi One	display
 Libre Barcode 39 Extended	display
 Jacquarda Bastarda 9	display
-Playwrite AU SA	handwriting
 Edu NSW ACT Foundation	handwriting
 Updock	handwriting
 Ribeye Marrow	display
 Kirang Haerang	display
+Noto Sans Tangsa	sans
 LXGW WenKai Mono TC	mono
 Love Light	handwriting
 Rubik Distressed	display
@@ -1622,10 +1715,10 @@ Preahvihear	sans
 Amarna	sans
 Dr Sugiyama	handwriting
 Cossette Texte	sans
+Noto Sans Cherokee	sans
 Jacquard 24	display
 Kolker Brush	handwriting
 Alumni Sans Collegiate One	sans
-Playwrite CA	handwriting
 Triodion	display
 Estonia	handwriting
 Cherish	handwriting
@@ -1640,13 +1733,13 @@ Revalia	display
 Geist Pixel	display
 Zen Loop	display
 Flavors	display
-Playwrite RO	handwriting
 Bonbon	handwriting
+Noto Sans Marchen	sans
 Ojuju	sans
 Splash	handwriting
+Noto Serif Yezidi	serif
 Rubik 80s Fade	display
 Edu AU VIC WA NT Guides	handwriting
-Playwrite PL	handwriting
 Rubik Glitch Pop	display
 Rubik Vinyl	display
 Edu AU VIC WA NT Dots	handwriting
@@ -1655,71 +1748,75 @@ Flow Rounded	display
 Tiro Tamil	serif
 Explora	handwriting
 Moo Lah Lah	display
-Playwrite AT	handwriting
+Noto Sans NKo	sans
 Gajraj One	display
-Playwrite BE VLG	handwriting
+Noto Sans Runic	sans
+Noto Sans Sunuwar	sans
 Ruge Boogie	handwriting
 Parastoo	serif
 Flow Block	display
+Noto Sans Carian	sans
 BBH Bogle	sans
 Ingrid Darling	handwriting
 Bahianita	display
 M PLUS Code Latin	sans
-Phetsarath	sans
+Noto Serif Vithkuqi	serif
+Noto Sans Balinese	sans
 Geomini	sans
 Epunda Slab	serif
 Libertinus Serif Display	display
+Noto Sans Grantha	sans
+Noto Traditional Nushu	sans
 Alien Block	display
+Noto Sans Adlam Unjoined	sans
 Winky Rough	sans
-Playwrite FR Moderne	handwriting
+Noto Sans Old Turkic	sans
 Playpen Sans Thai	handwriting
-Playwrite NZ Basic	handwriting
+Noto Sans Nag Mundari	sans
 Lisu Bosa	serif
 Chokokutai	display
 Hind Mysuru	sans
+Noto Sans Mayan Numerals	sans
 Rubik Maps	display
-Playwrite PT	handwriting
+Noto Sans Elbasan	sans
+Noto Serif NP Hmong	serif
 Puppies Play	handwriting
+Noto Serif Oriya	serif
 Asap Sharp	sans
-Playwrite MX Guides	handwriting
-Playwrite GB J	handwriting
+Noto Sans Mahajani	sans
 Edu QLD Beginner	handwriting
 Namdhinggo	serif
 Montenegrin Gothic One	serif
-Playwrite AU TAS	handwriting
+Noto Sans Tai Tham	sans
+Noto Sans Meroitic	sans
+Noto Serif Ottoman Siyaq	serif
 Warnes	display
 Rubik Lines	display
+Noto Serif Todhri	serif
+Noto Sans Nabataean	sans
 Sankofa Display	sans
+Noto Sans Brahmi	sans
 Maname	serif
-Playwrite CZ	handwriting
-Playwrite DE LA	handwriting
+Noto Sans Mandaic	sans
 Blaka Ink	display
-Playwrite CO	handwriting
+Noto Sans Inscriptional Pahlavi	sans
+Noto Sans Rejang	sans
 Libertinus Keyboard	display
+Noto Serif Grantha	serif
+Noto Serif Hentaigana	serif
 Kay Pho Du	serif
+Noto Sans Deseret	sans
+Noto Znamenny Musical Notation	sans
 Bitcount Prop Double	display
-Playwrite PE	handwriting
+Noto Sans Miao	sans
 Matangi	sans
 Edu VIC WA NT Hand Pre	handwriting
 Bpmf Iansui	handwriting
 Bitcount Grid Single Ink	display
+Noto Sans Manichaean	sans
 Kanchenjunga	sans
 Yarndings 12	display
 Betania Patmos In	handwriting
-Playwrite FR Trad	handwriting
-Playwrite BR Guides	handwriting
-Playwrite IT Trad	handwriting
-Playwrite AR Guides	handwriting
-Playwrite IE Guides	handwriting
-Playwrite FR Moderne Guides	handwriting
-Playwrite DE VA Guides	handwriting
-Playwrite AU SA Guides	handwriting
-Playwrite ES Deco Guides	handwriting
-Playwrite IT Trad Guides	handwriting
-Playwrite US Modern Guides	handwriting
-Playwrite AU TAS Guides	handwriting
-Playwrite NG Modern Guides	handwriting
-Playwrite DK Loopet Guides	handwriting
-Playwrite ZA Guides	handwriting
-Playwrite CL Guides	handwriting
-Playwrite SK Guides	handwriting
+Noto Sans Kayah Li	sans
+Noto Sans Psalter Pahlavi	sans
+Noto Sans Kharoshthi	sans
