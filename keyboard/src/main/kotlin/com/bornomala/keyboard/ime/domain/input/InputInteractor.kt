@@ -381,7 +381,12 @@ class InputInteractor(
         // into the composing region before finalizing, and remember it so backspace can revert.
         // Both languages obey the auto-correction setting: with it off, space commits exactly
         // what was typed and the alternatives stay one tap away on the suggestion strip.
-        val autoCorrectAllowed = suggestionsOn && config.autoCorrectEnabled && fieldProfile.allowAutoCorrect
+        // A field's "don't rewrite" restriction (URLs, email) protects English text as typed. It
+        // does not apply to Bangla: the roman input is never the final text there, so choosing
+        // the Bangla word (computer -> কম্পিউটার) is transliteration, not a rewrite. Passwords
+        // are still covered — they get no suggestions at all.
+        val fieldAllows = fieldProfile.allowAutoCorrect || state.language == KeyboardLanguage.BANGLA
+        val autoCorrectAllowed = suggestionsOn && config.autoCorrectEnabled && fieldAllows
         val correction = if (autoCorrectAllowed) {
             state.suggestions.firstOrNull { it.isAutoCorrect }?.text
         } else {

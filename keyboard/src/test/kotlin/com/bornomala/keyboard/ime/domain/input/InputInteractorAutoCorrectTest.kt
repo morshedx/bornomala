@@ -86,6 +86,29 @@ class InputInteractorAutoCorrectTest {
         assertThat(editor.text.toString()).isEqualTo("teh ")
     }
 
+    /** Regression (0.9.2): typing `computer` in Chrome's address bar committed চম্পুতের. */
+    @Test
+    fun `bangla auto-pick still applies in fields that forbid english auto-correct`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        interactor.setField(FieldProfile(allowAutoCorrect = false))
+        compose(KeyboardLanguage.BANGLA, typed = "চম্পুতের", autoCorrectTo = "কম্পিউটার")
+
+        interactor.onKey(KeyAction.Space)
+
+        assertThat(editor.text.toString()).isEqualTo("কম্পিউটার ")
+    }
+
+    @Test
+    fun `bangla auto-pick still obeys the user's auto-correction setting there`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = false))
+        interactor.setField(FieldProfile(allowAutoCorrect = false))
+        compose(KeyboardLanguage.BANGLA, typed = "চম্পুতের", autoCorrectTo = "কম্পিউটার")
+
+        interactor.onKey(KeyAction.Space)
+
+        assertThat(editor.text.toString()).isEqualTo("চম্পুতের ")
+    }
+
     @Test
     fun `capitalization follows the field`() {
         interactor.updateConfig(InputConfig(autoCapitalization = true))

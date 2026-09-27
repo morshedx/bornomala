@@ -262,6 +262,8 @@ private fun KeyContent(
     val labelSize = when {
         flat -> 16.sp
         isSpacebar -> 15.4.sp
+        // Longer labels (".com", an app's "Send") step down so they fit on one line in wide fonts.
+        label.length > 3 -> 13.sp
         label.length > 1 -> 15.5.sp
         else -> 22.sp
     } * labelScale
@@ -274,6 +276,8 @@ private fun KeyContent(
             fontFamily = fontFamily,
             fontWeight = if (isSpacebar) FontWeight.Medium else FontWeight.Normal,
             textAlign = TextAlign.Center,
+            maxLines = 1,
+            softWrap = false,
         )
         val hint = key.hint
         if (hint != null) {
