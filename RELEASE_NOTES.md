@@ -4,6 +4,12 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.2
+
+- Fixed: word suggestions were missing in Chrome's address bar, Google Keep and other apps.
+
+---
+
 ## v0.9.1
 
 - Explicit hasant in Bangla: type two commas — k,,Sh → ক্‌ষ, bak,, → বাক্‌.
