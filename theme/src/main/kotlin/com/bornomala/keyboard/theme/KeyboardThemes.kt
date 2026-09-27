@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
  * the keyboard's [KeyboardColors] and the Material scheme's light/dark-ness.
  */
 enum class KeyboardTheme(val displayName: String) {
+    // Listed in picker order: the default (Solarized) first. Persisted by name, never by position.
+    SOLARIZED("Solarized"),
     SYSTEM("System"),
     LIGHT("Light"),
     DARK("Dark"),
@@ -21,7 +23,6 @@ enum class KeyboardTheme(val displayName: String) {
     SUNSET("Sunset"),
     GRAPE("Grape"),
     ROSE("Rose"),
-    SOLARIZED("Solarized"),
     ;
 
     companion object {
