@@ -4,6 +4,14 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.8
+
+- New welcome screen that walks you through turning on Bornomala and switching to it, step by step.
+- Pick a theme, number row and keyboard height right from setup: drag the handle on the keyboard to resize it.
+- Clearer privacy explanation of Android's keyboard warning.
+
+---
+
 ## v0.9.7
 
 - Redesigned settings, in the clean style of Android and Gboard settings.
