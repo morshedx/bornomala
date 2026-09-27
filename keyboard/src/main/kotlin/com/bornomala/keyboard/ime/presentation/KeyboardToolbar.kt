@@ -55,15 +55,14 @@ internal fun ActionStrip(
     emojiActive: Boolean,
     clipboardActive: Boolean,
     numpadActive: Boolean,
-    settingsActive: Boolean,
     callbacks: KeyboardCallbacks,
     modifier: Modifier = Modifier,
     clipSuggestion: String? = null,
 ) {
     val colors = BornomalaTheme.keyboardColors
-    // When a panel (clipboard/settings) or the numpad is open, the left button is a back arrow
+    // When the clipboard panel or the numpad is open, the left button is a back arrow
     // that returns to the main keyboard (matching the emoji panel), instead of the tools toggle.
-    val backActive = numpadActive || clipboardActive || settingsActive
+    val backActive = numpadActive || clipboardActive
     // Suggestions only ever replace the tools while the field actually holds text. An empty
     // field shows the quick-action tools — unless a freshly-copied clip is offered as a chip,
     // which takes priority over both (Gboard-style) and sits centred in the strip.
@@ -94,7 +93,6 @@ internal fun ActionStrip(
                 onClick = {
                     when {
                         clipboardActive -> callbacks.onToggleClipboard()
-                        settingsActive -> callbacks.onToggleSettingsMenu()
                         numpadActive -> callbacks.onToggleNumbers()
                     }
                 },
@@ -112,7 +110,6 @@ internal fun ActionStrip(
                 emojiActive = emojiActive,
                 numpadActive = numpadActive,
                 clipboardActive = clipboardActive,
-                settingsActive = settingsActive,
                 callbacks = callbacks,
                 modifier = Modifier.weight(1f).fillMaxHeight(),
             )
@@ -200,7 +197,6 @@ private fun ToolsRow(
     emojiActive: Boolean,
     numpadActive: Boolean,
     clipboardActive: Boolean,
-    settingsActive: Boolean,
     callbacks: KeyboardCallbacks,
     modifier: Modifier = Modifier,
 ) {
@@ -212,7 +208,7 @@ private fun ToolsRow(
         StripIconButton(LucideIcons.Smile, "Emoji", callbacks.onToggleEmoji, active = emojiActive)
         NumbersButton(active = numpadActive, onClick = callbacks.onToggleNumbers)
         StripIconButton(LucideIcons.ClipboardList, "Clipboard", callbacks.onToggleClipboard, active = clipboardActive)
-        StripIconButton(LucideIcons.Settings, "Keyboard settings", callbacks.onToggleSettingsMenu, active = settingsActive)
+        StripIconButton(LucideIcons.Settings, "Keyboard settings", callbacks.onOpenSettings)
         StripIconButton(LucideIcons.ChevronDown, "Hide keyboard", callbacks.onHideKeyboard)
     }
 }

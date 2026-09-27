@@ -38,7 +38,7 @@ import com.bornomala.keyboard.theme.ThemeMode
 @Immutable
 data class Settings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val keyboardTheme: KeyboardTheme = KeyboardTheme.SYSTEM,
+    val keyboardTheme: KeyboardTheme = KeyboardTheme.SOLARIZED,
     val keyboardFont: KeyboardFont = KeyboardFont.SYSTEM,
     val keyBorder: Boolean = false,
     val horizontalGapScale: Float = 1f,
@@ -49,12 +49,12 @@ data class Settings(
     val keyboardHeightScale: Float = DEFAULT_KEYBOARD_HEIGHT_SCALE,
     val keyPressVibration: Boolean = false,
     val keyPressSound: Boolean = false,
-    val numberRowEnabled: Boolean = false,
+    val numberRowEnabled: Boolean = true,
     val suggestionsEnabled: Boolean = true,
     val autoCorrectEnabled: Boolean = true,
     val blockOffensiveWords: Boolean = true,
     val clipboardEnabled: Boolean = true,
-    val autoCapitalization: Boolean = true,
+    val autoCapitalization: Boolean = false,
     val doubleSpacePeriod: Boolean = true,
     val banglaAutoCommit: Boolean = true,
     val banglaPhoneticSuggestions: Boolean = true,
@@ -64,7 +64,7 @@ data class Settings(
     companion object {
         const val MIN_KEYBOARD_HEIGHT_SCALE: Float = 0.75f
         const val MAX_KEYBOARD_HEIGHT_SCALE: Float = 1.4f
-        const val DEFAULT_KEYBOARD_HEIGHT_SCALE: Float = 1.0f
+        const val DEFAULT_KEYBOARD_HEIGHT_SCALE: Float = 1.1f
 
         /** Defaults snapshot, used as the initial emission and on read errors. */
         val DEFAULTS: Settings = Settings()

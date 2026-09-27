@@ -160,7 +160,6 @@ internal fun KeyboardScreen(
                     emojiActive = state.panel == KeyboardPanel.EMOJI,
                     clipboardActive = state.panel == KeyboardPanel.CLIPBOARD,
                     numpadActive = state.page == KeyboardPage.NUMPAD,
-                    settingsActive = state.panel == KeyboardPanel.SETTINGS,
                     callbacks = callbacks,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -179,14 +178,7 @@ internal fun KeyboardScreen(
                 rowHeight * rows
             }
 
-            if (state.panel == KeyboardPanel.SETTINGS) {
-                // In-keyboard settings menu: a category grid that opens the full app per section.
-                // No search; sized to the alpha key area so the window stays keyboard-height.
-                SettingsMenuPanel(
-                    onOpenSection = callbacks.onOpenSettingsSection,
-                    modifier = Modifier.fillMaxWidth().height(panelHeight),
-                )
-            } else if (state.panel != KeyboardPanel.NONE) {
+            if (state.panel != KeyboardPanel.NONE) {
                 // Search bar; tapping it reveals the keyboard below (Gboard-style) whose
                 // keystrokes feed the panel query rather than the text field. For emoji it sits
                 // inside the panel (below the back+tabs bar); for clipboard it sits above the host.
@@ -340,8 +332,6 @@ private val PreviewCallbacks = KeyboardCallbacks(
     onLongPressChar = {},
     onSuggestion = {},
     onOpenSettings = {},
-    onToggleSettingsMenu = {},
-    onOpenSettingsSection = {},
     onToggleEmoji = {},
     onToggleNumbers = {},
     onToggleClipboard = {},
@@ -382,7 +372,6 @@ fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
                 emojiActive = false,
                 clipboardActive = false,
                 numpadActive = false,
-                settingsActive = false,
                 callbacks = PreviewCallbacks,
                 modifier = Modifier
                     .fillMaxWidth()

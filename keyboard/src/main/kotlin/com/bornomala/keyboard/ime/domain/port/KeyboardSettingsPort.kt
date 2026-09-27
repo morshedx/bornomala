@@ -39,7 +39,7 @@ interface KeyboardSettingsPort {
  */
 data class KeyboardSettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val keyboardTheme: KeyboardTheme = KeyboardTheme.SYSTEM,
+    val keyboardTheme: KeyboardTheme = KeyboardTheme.SOLARIZED,
     val keyboardFont: KeyboardFont = KeyboardFont.SYSTEM,
     val keyBorder: Boolean = false,
     val horizontalGapScale: Float = 1f,
@@ -47,17 +47,29 @@ data class KeyboardSettings(
     val keyLabelScale: Float = 1f,
     val suggestionBarScale: Float = 1f,
     val bottomGapScale: Float = 1f,
-    val keyHeightFraction: Float = 0.5f,
+    val keyHeightFraction: Float = DEFAULT_KEY_HEIGHT_FRACTION,
     val hapticsEnabled: Boolean = true,
     val soundEnabled: Boolean = false,
-    val showNumberRow: Boolean = false,
+    val showNumberRow: Boolean = true,
     val suggestionsEnabled: Boolean = true,
     val autoCorrectEnabled: Boolean = true,
     val blockOffensiveWords: Boolean = true,
-    val autoCapitalization: Boolean = true,
+    val autoCapitalization: Boolean = false,
     val doubleSpacePeriod: Boolean = true,
     val banglaTransliterationEnabled: Boolean = true,
     val learnFromTyping: Boolean = true,
     val volumeKeyCursorControl: Boolean = true,
     val lastLanguage: KeyboardLanguage = KeyboardLanguage.ENGLISH,
 )
+
+/**
+ * Key-row height fraction (0..1 of the min..max row height) for the default 110% keyboard height,
+ * matching `Settings.DEFAULT_KEYBOARD_HEIGHT_SCALE`; used only until the first settings value
+ * arrives, so the first frame does not flash a different height.
+ */
+private val DEFAULT_KEY_HEIGHT_FRACTION: Float = run {
+    val base = com.bornomala.keyboard.theme.KeyboardDimens.keyRowHeight.value
+    val min = com.bornomala.keyboard.theme.KeyboardDimens.minKeyRowHeight.value
+    val max = com.bornomala.keyboard.theme.KeyboardDimens.maxKeyRowHeight.value
+    ((base * 1.1f - min) / (max - min)).coerceIn(0f, 1f)
+}

@@ -13,7 +13,4 @@ enum class KeyboardPanel {
 
     /** Emoji picker panel. */
     EMOJI,
-
-    /** In-keyboard settings menu (grid of category tiles). */
-    SETTINGS,
 }

@@ -8,6 +8,14 @@
     <string name="settings_section_feedback">Key feedback</string>
     <string name="settings_section_features">Features</string>
     <string name="settings_section_preferences">Preferences</string>
+    <string name="settings_section_languages">Languages</string>
+    <string name="settings_languages_summary">English, বাংলা (Avro phonetic)</string>
+    <string name="settings_section_corrections">Corrections &amp; suggestions</string>
+    <string name="settings_section_suggestions">Suggestions</string>
+    <string name="settings_section_corrections_group">Corrections</string>
+    <string name="settings_section_clipboard">Clipboard</string>
+    <string name="settings_section_keys">Keys</string>
+    <string name="settings_section_key_press">Key press</string>
     <string name="settings_section_layout">Font &amp; size</string>
     <string name="settings_section_bangla">Bangla (Avro phonetic)</string>
     <string name="settings_section_accessibility">Accessibility</string>

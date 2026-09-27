@@ -76,7 +76,9 @@ import com.bornomala.keyboard.settings.R
 import com.bornomala.keyboard.settings.domain.model.Settings
 import com.bornomala.keyboard.settings.presentation.components.RadioOption
 import com.bornomala.keyboard.settings.presentation.components.RadioSettingGroup
-import com.bornomala.keyboard.settings.presentation.components.SettingsDivider
+import com.bornomala.keyboard.settings.presentation.components.SettingsActionRow
+import com.bornomala.keyboard.settings.presentation.components.SettingsNavRow
+import com.bornomala.keyboard.settings.presentation.components.SettingsPage
 import com.bornomala.keyboard.settings.presentation.components.SettingsSectionHeader
 import com.bornomala.keyboard.settings.presentation.components.SliderSettingRow
 import com.bornomala.keyboard.settings.presentation.components.SwitchSettingRow
@@ -209,13 +211,14 @@ private fun rememberCallbacks(
         )
     }
 
-/** Top-level settings categories, each opening its own sub-screen. */
+/** Top-level settings categories, each opening its own sub-screen (Gboard's grouping). */
 private enum class SettingsRoute(val titleRes: Int, val key: String?) {
     HOME(R.string.settings_title, null),
-    APPEARANCE(R.string.settings_section_appearance, "appearance"),
-    FEEDBACK(R.string.settings_section_feedback, "feedback"),
+    LANGUAGES(R.string.settings_section_languages, "bangla"),
     PREFERENCES(R.string.settings_section_preferences, "preferences"),
-    BANGLA(R.string.settings_section_bangla, "bangla"),
+    THEME(R.string.settings_theme, "appearance"),
+    CORRECTIONS(R.string.settings_section_corrections, "corrections"),
+    CLIPBOARD(R.string.settings_section_clipboard, "clipboard"),
     ABOUT(R.string.settings_section_about, "about"),
     /** Delegated to the host activity via [SettingsCallbacks.onCloudBackup]. */
     BACKUP(R.string.settings_section_backup, "backup"),
@@ -225,9 +228,11 @@ private enum class SettingsRoute(val titleRes: Int, val key: String?) {
     companion object {
         /** Maps an in-keyboard menu section key (see the IME's `SettingsSections`) to a route. */
         fun fromKey(key: String?): SettingsRoute? = key?.let { k ->
-            // Legacy keys (Typing/Features were merged into Preferences) still deep-link correctly.
+            // Older keys still deep-link: key feedback and typing now live in Preferences,
+            // the former Features group is Corrections & suggestions.
             when (k) {
-                "typing", "features" -> PREFERENCES
+                "feedback", "typing" -> PREFERENCES
+                "features" -> CORRECTIONS
                 else -> entries.firstOrNull { it.key == k }
             }
         }
@@ -235,12 +240,10 @@ private enum class SettingsRoute(val titleRes: Int, val key: String?) {
 }
 
 /**
- * Settings host: a category list (HOME) that drills into a focused sub-screen per group,
- * instead of one long scroll. The top bar shows the active category with a back arrow; the
- * system back / arrow returns to HOME. Stateless (driven by [settings] + [callbacks]) so it
- * previews and tests without a ViewModel.
+ * Settings host: a Gboard-style category list (HOME) that drills into one flat sub-screen per
+ * group. Each screen has a large collapsing title; system back / the arrow returns to HOME.
+ * Stateless (driven by [settings] + [callbacks]) so it previews and tests without a ViewModel.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsContent(
     settings: Settings,
@@ -254,53 +257,29 @@ internal fun SettingsContent(
     var showResetDialog by remember { mutableStateOf(false) }
 
     if (route != SettingsRoute.HOME) BackHandler { route = SettingsRoute.HOME }
+    val back = { route = SettingsRoute.HOME }
+    val title = stringResource(route.titleRes)
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            // HOME shows a large title (matching the grouped-card design); sub-screens use a
-            // compact bar with a back arrow.
-            if (route == SettingsRoute.HOME) {
-                LargeTopAppBar(title = { Text(stringResource(route.titleRes)) })
-            } else {
-                TopAppBar(
-                    title = { Text(stringResource(route.titleRes)) },
-                    navigationIcon = {
-                        IconButton(onClick = { route = SettingsRoute.HOME }) {
-                            Icon(
-                                imageVector = LucideIcons.ArrowLeft,
-                                contentDescription = stringResource(R.string.settings_back),
-                            )
-                        }
-                    },
-                )
-            }
-        },
-    ) { padding ->
-        val content = Modifier
-            .padding(padding)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-        when (route) {
-            SettingsRoute.HOME -> SettingsHome(
-                modifier = content,
-                onOpen = { r ->
-                    when (r) {
-                        SettingsRoute.SOFTWARE_UPDATE -> callbacks.onSoftwareUpdate()
-                        SettingsRoute.BACKUP -> callbacks.onCloudBackup()
-                        else -> route = r
-                    }
-                },
-                onReset = { showResetDialog = true },
-            )
-            SettingsRoute.APPEARANCE -> AppearanceSettings(settings, callbacks, content)
-            SettingsRoute.FEEDBACK -> FeedbackSettings(settings, callbacks, content)
-            SettingsRoute.PREFERENCES -> PreferencesSettings(settings, callbacks, content)
-            SettingsRoute.BANGLA -> BanglaSettings(settings, callbacks, content)
-            SettingsRoute.ABOUT -> Column(content) { SettingsCard { AboutSection() } }
-            SettingsRoute.BACKUP -> Unit // handled by host via onCloudBackup callback
-            SettingsRoute.SOFTWARE_UPDATE -> Unit // handled by host via onSoftwareUpdate callback
-        }
+    when (route) {
+        SettingsRoute.HOME -> SettingsHome(
+            settings = settings,
+            modifier = modifier,
+            onOpen = { r ->
+                when (r) {
+                    SettingsRoute.SOFTWARE_UPDATE -> callbacks.onSoftwareUpdate()
+                    SettingsRoute.BACKUP -> callbacks.onCloudBackup()
+                    else -> route = r
+                }
+            },
+            onReset = { showResetDialog = true },
+        )
+        SettingsRoute.THEME -> ThemeSettings(settings, callbacks, title, back, modifier)
+        SettingsRoute.LANGUAGES -> SettingsPage(title, back, modifier) { LanguagesSettings(settings, callbacks) }
+        SettingsRoute.PREFERENCES -> SettingsPage(title, back, modifier) { PreferencesSettings(settings, callbacks) }
+        SettingsRoute.CORRECTIONS -> SettingsPage(title, back, modifier) { CorrectionsSettings(settings, callbacks) }
+        SettingsRoute.CLIPBOARD -> SettingsPage(title, back, modifier) { ClipboardSettings(settings, callbacks) }
+        SettingsRoute.ABOUT -> SettingsPage(title, back, modifier) { AboutSection() }
+        SettingsRoute.BACKUP, SettingsRoute.SOFTWARE_UPDATE -> Unit // handled by the host
     }
 
     if (showResetDialog) {
@@ -316,97 +295,47 @@ internal fun SettingsContent(
 
 @Composable
 private fun SettingsHome(
+    settings: Settings,
     modifier: Modifier,
     onOpen: (SettingsRoute) -> Unit,
     onReset: () -> Unit,
 ) {
-    // Categories grouped into rounded cards (two per card), each row a muted icon + title +
-    // subtitle with a hairline divider between rows in a card. Destructive Reset sits alone.
-    val groups = listOf(
-        listOf(
-            CategoryItem(LucideIcons.Palette, stringResource(R.string.settings_section_appearance), "Theme and colors", SettingsRoute.APPEARANCE),
-            CategoryItem(LucideIcons.Vibrate, stringResource(R.string.settings_section_feedback), "Vibration and sound", SettingsRoute.FEEDBACK),
-        ),
-        listOf(
-            CategoryItem(LucideIcons.Keyboard, stringResource(R.string.settings_section_preferences), "Typing, font, size, suggestions", SettingsRoute.PREFERENCES),
-            CategoryItem(LucideIcons.Languages, stringResource(R.string.settings_section_bangla), "Auto-commit and phonetic alternatives", SettingsRoute.BANGLA),
-        ),
-        listOf(
-            CategoryItem(LucideIcons.Info, stringResource(R.string.settings_section_about), "Version, privacy, license", SettingsRoute.ABOUT),
-            CategoryItem(LucideIcons.RefreshCw, stringResource(R.string.settings_section_backup), "Save your data to Google Drive", SettingsRoute.BACKUP),
-            CategoryItem(LucideIcons.Download, stringResource(R.string.settings_section_software_update), "Check for and install app updates", SettingsRoute.SOFTWARE_UPDATE),
-        ),
-    )
-    Column(
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
-    ) {
-        groups.forEach { group ->
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(24.dp),
-            ) {
-                group.forEachIndexed { index, item ->
-                    CategoryRow(item) { onOpen(item.route) }
-                    if (index < group.lastIndex) {
-                        HorizontalDivider(
-                            modifier = Modifier.padding(start = 64.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                        )
-                    }
-                }
-            }
-        }
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
-        ) {
-            ResetRow(onClick = onReset)
-        }
-    }
-}
-
-private data class CategoryItem(
-    val icon: ImageVector,
-    val title: String,
-    val subtitle: String,
-    val route: SettingsRoute,
-)
-
-@Composable
-private fun CategoryRow(item: CategoryItem, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = 18.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = item.icon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(24.dp),
+    SettingsPage(title = stringResource(R.string.settings_title), onBack = null, modifier = modifier) {
+        SettingsNavRow(
+            icon = LucideIcons.Globe,
+            title = stringResource(R.string.settings_section_languages),
+            summary = stringResource(R.string.settings_languages_summary),
+            onClick = { onOpen(SettingsRoute.LANGUAGES) },
         )
-        Spacer(Modifier.width(22.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = item.title,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = item.subtitle,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        SettingsNavRow(LucideIcons.Settings, stringResource(R.string.settings_section_preferences), onClick = { onOpen(SettingsRoute.PREFERENCES) })
+        SettingsNavRow(
+            icon = LucideIcons.Palette,
+            title = stringResource(R.string.settings_theme),
+            summary = settings.keyboardTheme.displayName,
+            onClick = { onOpen(SettingsRoute.THEME) },
+        )
+        SettingsNavRow(LucideIcons.Lightbulb, stringResource(R.string.settings_section_corrections), onClick = { onOpen(SettingsRoute.CORRECTIONS) })
+        SettingsNavRow(LucideIcons.ClipboardList, stringResource(R.string.settings_section_clipboard), onClick = { onOpen(SettingsRoute.CLIPBOARD) })
+        SettingsNavRow(LucideIcons.RefreshCw, stringResource(R.string.settings_section_backup), onClick = { onOpen(SettingsRoute.BACKUP) })
+        SettingsNavRow(LucideIcons.Download, stringResource(R.string.settings_section_software_update), onClick = { onOpen(SettingsRoute.SOFTWARE_UPDATE) })
+        SettingsNavRow(LucideIcons.Info, stringResource(R.string.settings_section_about), onClick = { onOpen(SettingsRoute.ABOUT) })
+        SettingsActionRow(
+            title = stringResource(R.string.settings_reset),
+            summary = stringResource(R.string.settings_reset_desc),
+            onClick = onReset,
+            titleColor = MaterialTheme.colorScheme.error,
+        )
     }
 }
 
-@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
-private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
+private fun ThemeSettings(
+    settings: Settings,
+    callbacks: SettingsCallbacks,
+    title: String,
+    onBack: () -> Unit,
+    modifier: Modifier,
+) {
     var showConfigurator by remember { mutableStateOf(false) }
     // "Try now" (SwiftKey-style): reveals a focused text field that summons the real keyboard,
     // so the user can type and watch theme changes apply live. While it is active, tapping a
@@ -415,20 +344,35 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
     var tryNow by rememberSaveable { mutableStateOf(false) }
     if (tryNow) BackHandler { tryNow = false }
 
-    Box(Modifier.fillMaxSize()) {
-        // imePadding so the scroll content (incl. the height / bottom-gap sliders) can scroll
-        // above the keyboard when "Try now" is open — the activity is edge-to-edge, so the
-        // keyboard is an inset, not a window resize.
-        Column(modifier.imePadding()) {
-            Text(
-                text = stringResource(R.string.settings_theme),
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp),
-            )
+    SettingsPage(
+        title = title,
+        onBack = onBack,
+        modifier = modifier,
+        bottomOverlay = {
+            Box(Modifier.fillMaxSize()) {
+                if (tryNow) {
+                    TryNowField(
+                        onClose = { tryNow = false },
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                    )
+                } else {
+                    ExtendedFloatingActionButton(
+                        onClick = { tryNow = true },
+                        icon = { Icon(LucideIcons.Keyboard, contentDescription = null) },
+                        text = { Text(stringResource(R.string.settings_try_now)) },
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .navigationBarsPadding()
+                            .padding(20.dp),
+                    )
+                }
+            }
+        },
+    ) {
             val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
-            SettingsCard {
+            run {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(14.dp),
                 ) {
                     KeyboardTheme.entries.chunked(3).forEach { rowThemes ->
@@ -454,26 +398,8 @@ private fun AppearanceSettings(settings: Settings, callbacks: SettingsCallbacks,
                     }
                 }
             }
-            // Breathing room so the floating button never hides the last card.
-            Spacer(Modifier.height(88.dp))
-        }
-
-        if (tryNow) {
-            TryNowField(
-                onClose = { tryNow = false },
-                modifier = Modifier.align(Alignment.BottomCenter),
-            )
-        } else {
-            ExtendedFloatingActionButton(
-                onClick = { tryNow = true },
-                icon = { Icon(LucideIcons.Keyboard, contentDescription = null) },
-                text = { Text(stringResource(R.string.settings_try_now)) },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .navigationBarsPadding()
-                    .padding(20.dp),
-            )
-        }
+            // Room so the floating button, or the keyboard under "Try now", never hides a tile.
+            Spacer(Modifier.height(if (tryNow) 360.dp else 96.dp))
     }
 
     if (showConfigurator) {
@@ -579,18 +505,6 @@ private fun ConfiguratorSheet(
     }
 }
 
-/** Wraps a group of setting rows in a rounded card, matching the home menu's grouping. */
-@Composable
-private fun SettingsCard(content: @Composable androidx.compose.foundation.layout.ColumnScope.() -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-    ) {
-        Column(content = content)
-    }
-}
-
 @Composable
 private fun ScaleSlider(title: String, description: String, value: Float, onChange: (Float) -> Unit) {
     val percent = (value * 100f).roundToInt()
@@ -656,152 +570,129 @@ private fun ThemeSwatch(
     }
 }
 
+/** Bangla transliteration options (the only language with settings of its own). */
 @Composable
-private fun FeedbackSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
-    Column(modifier) {
-        SettingsCard {
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_vibration),
-                description = stringResource(R.string.settings_vibration_desc),
-                checked = settings.keyPressVibration,
-                onCheckedChange = callbacks.onVibration,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_sound),
-                description = stringResource(R.string.settings_sound_desc),
-                checked = settings.keyPressSound,
-                onCheckedChange = callbacks.onSound,
-            )
-        }
-    }
+private fun LanguagesSettings(settings: Settings, callbacks: SettingsCallbacks) {
+    SettingsSectionHeader(stringResource(R.string.settings_section_bangla))
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_bangla_auto_commit),
+        description = stringResource(R.string.settings_bangla_auto_commit_desc),
+        checked = settings.banglaAutoCommit,
+        onCheckedChange = callbacks.onBanglaAutoCommit,
+    )
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_bangla_phonetic_suggestions),
+        description = stringResource(R.string.settings_bangla_phonetic_suggestions_desc),
+        checked = settings.banglaPhoneticSuggestions,
+        enabled = settings.suggestionsEnabled,
+        onCheckedChange = callbacks.onBanglaPhoneticSuggestions,
+    )
 }
 
-/**
- * Preferences = the former Typing + Features screens merged into one. Two labelled cards keep
- * the original grouping (typing behaviour, then suggestion/learning/clipboard features).
- */
+/** Keys, key-press feedback, and font & size — as Gboard's Preferences groups them. */
 @Composable
-private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
-    Column(modifier) {
-        SectionLabel(stringResource(R.string.settings_section_typing))
-        SettingsCard {
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_auto_cap),
-                description = stringResource(R.string.settings_auto_cap_desc),
-                checked = settings.autoCapitalization,
-                onCheckedChange = callbacks.onAutoCap,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_double_space),
-                description = stringResource(R.string.settings_double_space_desc),
-                checked = settings.doubleSpacePeriod,
-                onCheckedChange = callbacks.onDoubleSpace,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_number_row),
-                description = stringResource(R.string.settings_number_row_desc),
-                checked = settings.numberRowEnabled,
-                onCheckedChange = callbacks.onNumberRow,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_volume_cursor),
-                description = stringResource(R.string.settings_volume_cursor_desc),
-                checked = settings.volumeKeyCursorControl,
-                onCheckedChange = callbacks.onVolumeKeyCursorControl,
-            )
-        }
+private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks) {
+    SettingsSectionHeader(stringResource(R.string.settings_section_keys))
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_number_row),
+        description = stringResource(R.string.settings_number_row_desc),
+        checked = settings.numberRowEnabled,
+        onCheckedChange = callbacks.onNumberRow,
+    )
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_volume_cursor),
+        description = stringResource(R.string.settings_volume_cursor_desc),
+        checked = settings.volumeKeyCursorControl,
+        onCheckedChange = callbacks.onVolumeKeyCursorControl,
+    )
 
-        SectionLabel(stringResource(R.string.settings_section_features))
-        SettingsCard {
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_suggestions),
-                description = stringResource(R.string.settings_suggestions_desc),
-                checked = settings.suggestionsEnabled,
-                onCheckedChange = callbacks.onSuggestions,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_auto_correct),
-                description = stringResource(R.string.settings_auto_correct_desc),
-                checked = settings.autoCorrectEnabled,
-                enabled = settings.suggestionsEnabled,
-                onCheckedChange = callbacks.onAutoCorrect,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_block_offensive),
-                description = stringResource(R.string.settings_block_offensive_desc),
-                checked = settings.blockOffensiveWords,
-                enabled = settings.suggestionsEnabled,
-                onCheckedChange = callbacks.onBlockOffensiveWords,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_learn_typing),
-                description = stringResource(R.string.settings_learn_typing_desc),
-                checked = settings.learnFromTyping,
-                enabled = settings.suggestionsEnabled,
-                onCheckedChange = callbacks.onLearnFromTyping,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_clipboard),
-                description = stringResource(R.string.settings_clipboard_desc),
-                checked = settings.clipboardEnabled,
-                onCheckedChange = callbacks.onClipboard,
-            )
-        }
+    SettingsSectionHeader(stringResource(R.string.settings_section_key_press))
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_vibration),
+        description = stringResource(R.string.settings_vibration_desc),
+        checked = settings.keyPressVibration,
+        onCheckedChange = callbacks.onVibration,
+    )
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_sound),
+        description = stringResource(R.string.settings_sound_desc),
+        checked = settings.keyPressSound,
+        onCheckedChange = callbacks.onSound,
+    )
 
-        SectionLabel(stringResource(R.string.settings_section_layout))
-        SettingsCard {
-            RadioSettingGroup(
-                title = stringResource(R.string.settings_font),
-                description = stringResource(R.string.settings_font_desc),
-                options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
-                selected = settings.keyboardFont,
-                onSelected = callbacks.onKeyboardFont,
-            )
-        }
-        SettingsCard {
-            HeightSlider(
-                scale = settings.keyboardHeightScale,
-                onScaleChange = callbacks.onKeyboardHeightScale,
-            )
-            BottomGapSlider(
-                scale = settings.bottomGapScale,
-                onScaleChange = callbacks.onBottomGapScale,
-            )
-        }
-        // Breathing room at the end of the scroll.
-        Spacer(Modifier.height(24.dp))
-    }
+    SettingsSectionHeader(stringResource(R.string.settings_section_layout))
+    RadioSettingGroup(
+        title = stringResource(R.string.settings_font),
+        description = stringResource(R.string.settings_font_desc),
+        options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
+        selected = settings.keyboardFont,
+        onSelected = callbacks.onKeyboardFont,
+    )
+    HeightSlider(
+        scale = settings.keyboardHeightScale,
+        onScaleChange = callbacks.onKeyboardHeightScale,
+    )
+    BottomGapSlider(
+        scale = settings.bottomGapScale,
+        onScaleChange = callbacks.onBottomGapScale,
+    )
 }
 
-/** Small group label above a [SettingsCard], matching the Appearance screen's section headers. */
+/** Suggestions, auto-correction and the typing aids Gboard files under the same heading. */
 @Composable
-private fun SectionLabel(text: String) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.titleSmall,
-        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+private fun CorrectionsSettings(settings: Settings, callbacks: SettingsCallbacks) {
+    SettingsSectionHeader(stringResource(R.string.settings_section_suggestions))
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_suggestions),
+        description = stringResource(R.string.settings_suggestions_desc),
+        checked = settings.suggestionsEnabled,
+        onCheckedChange = callbacks.onSuggestions,
+    )
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_block_offensive),
+        description = stringResource(R.string.settings_block_offensive_desc),
+        checked = settings.blockOffensiveWords,
+        enabled = settings.suggestionsEnabled,
+        onCheckedChange = callbacks.onBlockOffensiveWords,
+    )
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_learn_typing),
+        description = stringResource(R.string.settings_learn_typing_desc),
+        checked = settings.learnFromTyping,
+        enabled = settings.suggestionsEnabled,
+        onCheckedChange = callbacks.onLearnFromTyping,
+    )
+
+    SettingsSectionHeader(stringResource(R.string.settings_section_corrections_group))
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_auto_correct),
+        description = stringResource(R.string.settings_auto_correct_desc),
+        checked = settings.autoCorrectEnabled,
+        enabled = settings.suggestionsEnabled,
+        onCheckedChange = callbacks.onAutoCorrect,
+    )
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_auto_cap),
+        description = stringResource(R.string.settings_auto_cap_desc),
+        checked = settings.autoCapitalization,
+        onCheckedChange = callbacks.onAutoCap,
+    )
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_double_space),
+        description = stringResource(R.string.settings_double_space_desc),
+        checked = settings.doubleSpacePeriod,
+        onCheckedChange = callbacks.onDoubleSpace,
     )
 }
 
 @Composable
-private fun BanglaSettings(settings: Settings, callbacks: SettingsCallbacks, modifier: Modifier) {
-    Column(modifier) {
-        SettingsCard {
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_bangla_auto_commit),
-                description = stringResource(R.string.settings_bangla_auto_commit_desc),
-                checked = settings.banglaAutoCommit,
-                onCheckedChange = callbacks.onBanglaAutoCommit,
-            )
-            SwitchSettingRow(
-                title = stringResource(R.string.settings_bangla_phonetic_suggestions),
-                description = stringResource(R.string.settings_bangla_phonetic_suggestions_desc),
-                checked = settings.banglaPhoneticSuggestions,
-                enabled = settings.suggestionsEnabled,
-                onCheckedChange = callbacks.onBanglaPhoneticSuggestions,
-            )
-        }
-    }
+private fun ClipboardSettings(settings: Settings, callbacks: SettingsCallbacks) {
+    SwitchSettingRow(
+        title = stringResource(R.string.settings_clipboard),
+        description = stringResource(R.string.settings_clipboard_desc),
+        checked = settings.clipboardEnabled,
+        onCheckedChange = callbacks.onClipboard,
+    )
 }
 
 @Composable
@@ -847,30 +738,6 @@ private fun BottomGapSlider(
 /** Base bottom-gap height in dp at 100% (mirrors KeyboardDimens.keyboardBottomGap). */
 private const val BOTTOM_GAP_BASE_DP = 24
 
-/** A clickable (non-toggle) destructive action row matching the settings row look. */
-@Composable
-private fun ResetRow(onClick: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp)
-            .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
-    ) {
-        Text(
-            text = stringResource(R.string.settings_reset),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error,
-        )
-        Text(
-            text = stringResource(R.string.settings_reset_desc),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-}
-
 /** App identity, version (read from the installed package), and the privacy/credits notes. */
 @Composable
 private fun AboutSection() {
@@ -883,8 +750,8 @@ private fun AboutSection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+            .padding(horizontal = 24.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Text(
             text = stringResource(R.string.settings_about_app),

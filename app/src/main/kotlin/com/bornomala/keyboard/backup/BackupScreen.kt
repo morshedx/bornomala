@@ -21,7 +21,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
+import com.bornomala.keyboard.settings.presentation.components.SettingsPage
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
@@ -64,26 +64,12 @@ fun BackupScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Backup & restore") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(LucideIcons.ArrowLeft, contentDescription = "Back")
-                    }
-                },
-            )
-        },
+    SettingsPage(
+        title = "Backup & restore",
+        onBack = onBack,
         snackbarHost = { SnackbarHost(snackbar) },
-    ) { padding ->
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-        ) {
+    ) {
+        Column(Modifier.padding(horizontal = 24.dp, vertical = 8.dp)) {
             if (state.busy) {
                 LinearProgressIndicator(Modifier.fillMaxWidth())
                 Spacer(Modifier.height(12.dp))
@@ -108,17 +94,21 @@ fun BackupScreen(
                 return@Column
             }
 
-            Card(shape = RoundedCornerShape(20.dp), modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(16.dp)) {
-                    Text(state.email ?: "Signed in", fontWeight = FontWeight.SemiBold)
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        lastBackupLabel(state),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+            Text(
+                "Account",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                state.email ?: "Signed in",
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal),
+            )
+            Text(
+                lastBackupLabel(state),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
 
             Spacer(Modifier.height(16.dp))
             Row(

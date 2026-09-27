@@ -12,9 +12,7 @@ import com.bornomala.keyboard.ime.domain.model.KeyAction
  * @param onKey invoked when a key's primary action fires.
  * @param onLongPressChar invoked when a character is chosen from a long-press popup.
  * @param onSuggestion invoked when a suggestion chip is tapped.
- * @param onOpenSettings invoked to open the full keyboard settings app (long-press comma).
- * @param onToggleSettingsMenu toggles the in-keyboard settings menu panel (gear button).
- * @param onOpenSettingsSection opens the full settings app at the given section key.
+ * @param onOpenSettings opens the keyboard settings app (toolbar gear, long-press comma).
  * @param onToggleEmoji toggles the emoji picker panel.
  * @param onToggleNumbers toggles between the numeric pad and the alphabetic keyboard.
  * @param onToggleClipboard toggles the clipboard history panel.
@@ -29,8 +27,6 @@ class KeyboardCallbacks(
     val onLongPressChar: (Char) -> Unit,
     val onSuggestion: (String) -> Unit,
     val onOpenSettings: () -> Unit,
-    val onToggleSettingsMenu: () -> Unit,
-    val onOpenSettingsSection: (String) -> Unit,
     val onToggleEmoji: () -> Unit,
     val onToggleNumbers: () -> Unit,
     val onToggleClipboard: () -> Unit,

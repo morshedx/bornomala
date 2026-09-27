@@ -36,10 +36,12 @@ class SettingsActivity : ComponentActivity() {
             val state by viewModel.uiState.collectAsStateWithLifecycle()
             val settings = (state as? Resource.Success)?.data ?: Settings.DEFAULTS
 
+            // The settings app follows the phone's light/dark mode (the app theme-mode setting,
+            // System by default) and the system font — not the keyboard theme or keyboard font,
+            // which only style the keyboard. The in-screen keyboard preview applies those itself.
+            // Material You colours on Android 12+.
             BornomalaTheme(
-                theme = settings.keyboardTheme,
-                font = settings.keyboardFont,
-                // Material You for the settings app UI (Android 12+); keyboard palette unchanged.
+                themeMode = settings.themeMode,
                 dynamicColor = true,
             ) {
                 SettingsScreen(
