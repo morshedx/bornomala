@@ -4,6 +4,13 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.9
+
+- Redesigned Theme screen: a live keyboard on top, themes in one row, and key size, label size and gap controls below it.
+- Backup is simpler: no passphrase any more. Your backup is kept privately in your Google Drive, protected by your Google account.
+
+---
+
 ## v0.9.8
 
 - New welcome screen that walks you through turning on Bornomala and switching to it, step by step.
