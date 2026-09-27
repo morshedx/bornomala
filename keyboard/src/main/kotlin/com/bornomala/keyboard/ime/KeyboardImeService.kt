@@ -24,6 +24,7 @@ import com.bornomala.keyboard.ime.data.editor.EnterActionResolver
 import com.bornomala.keyboard.ime.data.editor.FieldProfileResolver
 import com.bornomala.keyboard.ime.data.editor.InputConnectionEditorPort
 import com.bornomala.keyboard.ime.data.layout.LayoutProvider
+import com.bornomala.keyboard.ime.domain.input.BanglaAcronym
 import com.bornomala.keyboard.ime.domain.input.BanglaAutoPick
 import com.bornomala.keyboard.ime.domain.input.InputConfig
 import com.bornomala.keyboard.ime.domain.input.InputInteractor
@@ -629,7 +630,8 @@ class KeyboardImeService : InputMethodService() {
         // dictionary word as the highlighted auto-pick (committed on space, e.g. ছাড়া), then the
         // plain phonetic render and the remaining candidates.
         add(roman, transliteration = false, highlight = false)
-        val autoPick = BanglaAutoPick.choose(roman, rendered, word, phonetic)
+        val acronym = BanglaAcronym.spell(roman)
+        val autoPick = BanglaAutoPick.choose(roman, rendered, word, phonetic, acronym)
         if (autoPick != null) add(autoPick, transliteration = true, highlight = true)
         // A loanword that lost to a real Bangla spelling stays one tap away, just after it.
         if (word != null && word.word != autoPick) {
@@ -638,6 +640,8 @@ class KeyboardImeService : InputMethodService() {
         }
         // The render is highlighted only when there is no phonetic auto-pick to take its place.
         add(rendered, transliteration = true, highlight = autoPick == null)
+        // A short input spelled out as an abbreviation (ips -> আইপিএস); tapping it is remembered.
+        if (acronym != null) add(acronym, transliteration = true, highlight = false)
         phonetic.words.forEach { add(it, transliteration = true, highlight = false) }
         engineCandidates.forEach { add(it, transliteration = true, highlight = false) }
         dictionary.forEach { add(it.text, transliteration = true, highlight = false) }

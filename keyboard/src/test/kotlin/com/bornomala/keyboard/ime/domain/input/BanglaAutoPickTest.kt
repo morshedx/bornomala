@@ -72,6 +72,33 @@ class BanglaAutoPickTest {
     }
 
     @Test
+    fun `vowelless abbreviations are spelled out on space`() {
+        assertThat(BanglaAutoPick.choose("sms", "স্ম্স", null, candidates(), BanglaAcronym.spell("sms")))
+            .isEqualTo("এসএমএস")
+        assertThat(BanglaAutoPick.choose("kg", "ক্গ", null, candidates(), BanglaAcronym.spell("kg")))
+            .isEqualTo("কেজি")
+    }
+
+    @Test
+    fun `abbreviations with vowels are only offered, never swapped in`() {
+        assertThat(BanglaAutoPick.choose("ips", "ইপ্স", null, candidates(), BanglaAcronym.spell("ips"))).isNull()
+        assertThat(BanglaAutoPick.choose("rif", "রিফ", null, candidates(), BanglaAcronym.spell("rif"))).isNull()
+    }
+
+    @Test
+    fun `a loanword or pick beats the spelled-out form`() {
+        val km = BanglaWordMatch("কিমি.", learned = false)
+        assertThat(BanglaAutoPick.choose("km", "ক্ম", km, candidates(), BanglaAcronym.spell("km"))).isEqualTo("কিমি.")
+        val pick = BanglaWordMatch("আইপিএস", learned = true)
+        assertThat(BanglaAutoPick.choose("ips", "ইপ্স", pick, candidates(), BanglaAcronym.spell("ips"))).isEqualTo("আইপিএস")
+    }
+
+    @Test
+    fun `a trusted rendering is not spelled out`() {
+        assertThat(BanglaAutoPick.choose("hm", "হ্ম", null, candidates("হ্ম", trusted = 1), BanglaAcronym.spell("hm"))).isNull()
+    }
+
+    @Test
     fun `phonetic swaps need a trusted word and a finished-looking word`() {
         assertThat(BanglaAutoPick.choose("chara", "চারা", null, candidates("ছাড়া", trusted = 1))).isEqualTo("ছাড়া")
         assertThat(BanglaAutoPick.choose("chara", "চারা", null, candidates("ছাড়া", trusted = 0))).isNull()

@@ -26,7 +26,11 @@ object BanglaAutoPick {
      *      - suggest-only candidates (riti dictionary words, suffix joins) — `chair` renders ছাইর,
      *        which suffix joining also builds as ছাই + র, and must still become চেয়ার.
      *     A user who really wants the rendering taps it once, which records a pick (rule 1);
-     *  3. the top *trusted* phonetic-dictionary word, withheld when the roman is still too short to
+     *  3. for vowelless input (`sms`, `pc`, `kg` — abbreviations, since Avro spells words with
+     *     their vowels) the spelled-out [acronym] (এসএমএস), unless the rendering is itself a
+     *     trusted word. Input with vowels (`ips`) only offers it: it could as well be a name
+     *     (`rif` -> রিফ), and one tap on আইপিএস records a pick (rule 1);
+     *  4. the top *trusted* phonetic-dictionary word, withheld when the roman is still too short to
      *     be a finished word or when the transliteration is itself a known word — learned or not,
      *     since then it is not a misspelling to fix. Suggest-only candidates count as known words
      *     for that check but are never auto-picked.
@@ -36,6 +40,7 @@ object BanglaAutoPick {
         rendered: String,
         word: BanglaWordMatch?,
         candidates: BanglaPhoneticCandidates,
+        acronym: String? = null,
     ): String? {
         val phonetic = candidates.words
         val renderedRank = if (rendered.isEmpty()) -1 else phonetic.indexOf(rendered)
@@ -48,6 +53,11 @@ object BanglaAutoPick {
             // earlier position mean "more common".
             val wordRank = phonetic.indexOf(word.word)
             if (wordRank in 0 until minOf(renderedRank, candidates.trustedCount)) return word.word
+        }
+        if (acronym != null && BanglaAcronym.isVowelless(roman)) {
+            val renderedIsTrustedWord = renderedRank in 0 until candidates.trustedCount &&
+                rendered !in candidates.learnedOnly
+            if (!renderedIsTrustedWord) return acronym
         }
         if (roman.length < MIN_PHONETIC_PICK_LEN) return null
         if (renderedIsKnownWord) return null
