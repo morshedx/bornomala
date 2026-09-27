@@ -4,6 +4,15 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.10
+
+- Photo theme: put your own picture behind the keys, with a dim control so the letters stay readable.
+- More fonts: browse and download any Google Font, or import a TTF/OTF font from your phone.
+- Drag the handle on the keyboard preview to change the keyboard height.
+- Key letters are now centred properly in every font.
+
+---
+
 ## v0.9.9
 
 - Redesigned Theme screen: a live keyboard on top, themes in one row, and key size, label size and gap controls below it.
