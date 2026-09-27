@@ -37,6 +37,10 @@ import com.bornomala.keyboard.theme.ThemeMode
  * @property backgroundImageStamp when the keyboard photo was last picked (0 = none); a new
  *   value tells the keyboard to reload the photo file.
  * @property backgroundDim 0..[MAX_BACKGROUND_DIM] darkening over the photo, for readable keys.
+ * @property customFontName display name of the saved custom font (a Google Font's family, or
+ *   the imported file's name); shown in settings when [keyboardFont] is `CUSTOM`.
+ * @property customFontStamp when the custom font was last saved (0 = none); a new value tells
+ *   the keyboard to reload the font file.
  */
 @Immutable
 data class Settings(
@@ -65,6 +69,8 @@ data class Settings(
     val volumeKeyCursorControl: Boolean = true,
     val backgroundImageStamp: Long = 0L,
     val backgroundDim: Float = DEFAULT_BACKGROUND_DIM,
+    val customFontName: String = "",
+    val customFontStamp: Long = 0L,
 ) {
     companion object {
         const val MIN_KEYBOARD_HEIGHT_SCALE: Float = 0.75f

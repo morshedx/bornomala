@@ -108,13 +108,14 @@ fun SettingsScreen(
     onCloudBackup: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val busyFont by viewModel.fontBusy.collectAsStateWithLifecycle()
     val callbacks = rememberCallbacks(viewModel, onSoftwareUpdate, onCloudBackup)
 
     when (val current = state) {
         is Resource.Loading -> SettingsScaffold(modifier) { LoadingState(it) }
-        is Resource.Success -> SettingsContent(current.data, callbacks, modifier, initialSection)
+        is Resource.Success -> SettingsContent(current.data, callbacks, modifier, initialSection, busyFont)
         // The repository recovers read errors to defaults, so render defaults defensively.
-        is Resource.Error -> SettingsContent(Settings.DEFAULTS, callbacks, modifier, initialSection)
+        is Resource.Error -> SettingsContent(Settings.DEFAULTS, callbacks, modifier, initialSection, busyFont)
     }
 }
 
@@ -159,6 +160,8 @@ internal data class SettingsCallbacks(
     val onSuggestionBarScale: (Float) -> Unit,
     val onBottomGapScale: (Float) -> Unit,
     val onBackgroundPhotoPicked: (android.net.Uri) -> Unit,
+    val onGoogleFont: (String) -> Unit,
+    val onImportFont: (android.net.Uri) -> Unit,
     val onBackgroundDim: (Float) -> Unit,
     val onKeyboardHeightScale: (Float) -> Unit,
     val onVibration: (Boolean) -> Unit,
@@ -199,6 +202,8 @@ private fun rememberCallbacks(
             onSuggestionBarScale = viewModel::onSuggestionBarScaleChange,
             onBottomGapScale = viewModel::onBottomGapScaleChange,
             onBackgroundPhotoPicked = viewModel::onBackgroundPhotoPicked,
+            onGoogleFont = viewModel::onGoogleFontChosen,
+            onImportFont = viewModel::onFontImported,
             onBackgroundDim = viewModel::onBackgroundDimChange,
             onKeyboardHeightScale = viewModel::onKeyboardHeightScaleChange,
             onVibration = viewModel::onKeyPressVibrationChange,
@@ -226,6 +231,8 @@ private enum class SettingsRoute(val titleRes: Int, val key: String?) {
     LANGUAGES(R.string.settings_section_languages, "bangla"),
     PREFERENCES(R.string.settings_section_preferences, "preferences"),
     THEME(R.string.settings_theme, "appearance"),
+    /** Key-label font picker, opened from Preferences (back returns there). */
+    FONT(R.string.settings_font, "font"),
     CORRECTIONS(R.string.settings_section_corrections, "corrections"),
     CLIPBOARD(R.string.settings_section_clipboard, "clipboard"),
     ABOUT(R.string.settings_section_about, "about"),
@@ -259,14 +266,17 @@ internal fun SettingsContent(
     callbacks: SettingsCallbacks,
     modifier: Modifier = Modifier,
     initialSection: String? = null,
+    busyFont: String? = null,
 ) {
     var route by rememberSaveable {
         mutableStateOf(SettingsRoute.fromKey(initialSection) ?: SettingsRoute.HOME)
     }
     var showResetDialog by remember { mutableStateOf(false) }
 
-    if (route != SettingsRoute.HOME) BackHandler { route = SettingsRoute.HOME }
-    val back = { route = SettingsRoute.HOME }
+    // Sub-screens return to HOME, except the font picker, which returns to Preferences.
+    val parent = if (route == SettingsRoute.FONT) SettingsRoute.PREFERENCES else SettingsRoute.HOME
+    if (route != SettingsRoute.HOME) BackHandler { route = parent }
+    val back = { route = parent }
     val title = stringResource(route.titleRes)
 
     when (route) {
@@ -284,7 +294,10 @@ internal fun SettingsContent(
         )
         SettingsRoute.THEME -> ThemeSettings(settings, callbacks, title, back, modifier)
         SettingsRoute.LANGUAGES -> SettingsPage(title, back, modifier) { LanguagesSettings(settings, callbacks) }
-        SettingsRoute.PREFERENCES -> SettingsPage(title, back, modifier) { PreferencesSettings(settings, callbacks) }
+        SettingsRoute.PREFERENCES -> SettingsPage(title, back, modifier) {
+            PreferencesSettings(settings, callbacks, onOpenFonts = { route = SettingsRoute.FONT })
+        }
+        SettingsRoute.FONT -> FontSettings(settings, callbacks, busyFont, title, back, modifier)
         SettingsRoute.CORRECTIONS -> SettingsPage(title, back, modifier) { CorrectionsSettings(settings, callbacks) }
         SettingsRoute.CLIPBOARD -> SettingsPage(title, back, modifier) { ClipboardSettings(settings, callbacks) }
         SettingsRoute.ABOUT -> SettingsPage(title, back, modifier) { AboutSection() }
@@ -622,7 +635,7 @@ private fun LanguagesSettings(settings: Settings, callbacks: SettingsCallbacks) 
 
 /** Keys, key-press feedback, and font & size — as Gboard's Preferences groups them. */
 @Composable
-private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks) {
+private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks, onOpenFonts: () -> Unit) {
     SettingsSectionHeader(stringResource(R.string.settings_section_keys))
     SwitchSettingRow(
         title = stringResource(R.string.settings_number_row),
@@ -652,12 +665,15 @@ private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks
     )
 
     SettingsSectionHeader(stringResource(R.string.settings_section_layout))
-    RadioSettingGroup(
+    SettingsNavRow(
+        icon = LucideIcons.Languages,
         title = stringResource(R.string.settings_font),
-        description = stringResource(R.string.settings_font_desc),
-        options = KeyboardFont.entries.map { RadioOption(it, it.displayName) },
-        selected = settings.keyboardFont,
-        onSelected = callbacks.onKeyboardFont,
+        summary = if (settings.keyboardFont == KeyboardFont.CUSTOM) {
+            settings.customFontName.ifEmpty { KeyboardFont.CUSTOM.displayName }
+        } else {
+            settings.keyboardFont.displayName
+        },
+        onClick = onOpenFonts,
     )
     HeightSlider(
         scale = settings.keyboardHeightScale,

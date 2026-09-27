@@ -16,6 +16,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.setViewTreeLifecycleOwner
@@ -50,6 +51,8 @@ import com.bornomala.keyboard.ime.presentation.KeyboardScreen
 import com.bornomala.keyboard.theme.BornomalaTheme
 import com.bornomala.keyboard.theme.KeyboardBackground
 import com.bornomala.keyboard.theme.KeyboardBackgroundImage
+import com.bornomala.keyboard.theme.KeyboardFont
+import com.bornomala.keyboard.theme.KeyboardFontFile
 import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.LocalKeyboardBackground
 import dagger.hilt.android.AndroidEntryPoint
@@ -107,6 +110,9 @@ class KeyboardImeService : InputMethodService() {
 
     /** The photo theme's image, decoded off the main thread when (and only when) it is in use. */
     private val backgroundPhoto = MutableStateFlow<ImageBitmap?>(null)
+
+    /** The custom key-label font, loaded off the main thread while [KeyboardFont.CUSTOM] is on. */
+    private val customFont = MutableStateFlow<FontFamily?>(null)
 
     /** Hot-path-readable feedback flags, updated whenever settings change. */
     @Volatile private var hapticsEnabled = false
@@ -213,6 +219,7 @@ class KeyboardImeService : InputMethodService() {
         composeHost.onCreate()
         observeSettings()
         observeBackgroundPhoto()
+        observeCustomFont()
         restoreLastLanguage()
         clipboardManager.addPrimaryClipChangedListener(clipChangedListener)
     }
@@ -236,6 +243,7 @@ class KeyboardImeService : InputMethodService() {
             setContent {
                 val settings by settingsState.collectAsStateWithLifecycle()
                 val photo by backgroundPhoto.collectAsStateWithLifecycle()
+                val font by customFont.collectAsStateWithLifecycle()
                 val background = remember(photo, settings.keyboardTheme, settings.backgroundDim) {
                     photo?.takeIf { settings.keyboardTheme == KeyboardTheme.IMAGE }
                         ?.let { KeyboardBackground(it, settings.backgroundDim) }
@@ -245,6 +253,7 @@ class KeyboardImeService : InputMethodService() {
                 BornomalaTheme(
                     theme = settings.keyboardTheme,
                     font = settings.keyboardFont,
+                    customFont = font,
                     metrics = com.bornomala.keyboard.theme.keyboardMetrics(
                         horizontalGapScale = settings.horizontalGapScale,
                         verticalGapScale = settings.verticalGapScale,
@@ -575,6 +584,25 @@ class KeyboardImeService : InputMethodService() {
                         null
                     } else {
                         withContext(dispatchers.io) { KeyboardBackgroundImage.load(this@KeyboardImeService) }
+                    }
+                }
+        }
+    }
+
+    /**
+     * Loads the custom font file when that font is chosen, and again only when a new one is
+     * saved; until it is ready (or if the file is gone) the keys use the system font.
+     */
+    private fun observeCustomFont() {
+        serviceScope.launch {
+            settingsState
+                .map { if (it.keyboardFont == KeyboardFont.CUSTOM) it.customFontStamp else 0L }
+                .distinctUntilChanged()
+                .collectLatest { stamp ->
+                    customFont.value = if (stamp == 0L) {
+                        null
+                    } else {
+                        withContext(dispatchers.io) { KeyboardFontFile.load(this@KeyboardImeService) }
                     }
                 }
         }

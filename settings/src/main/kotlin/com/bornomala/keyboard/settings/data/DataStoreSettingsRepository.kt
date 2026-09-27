@@ -131,6 +131,13 @@ internal class DataStoreSettingsRepository(
     override suspend fun setBackgroundDim(dim: Float): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.BACKGROUND_DIM] = SettingsMapper.clampDim(dim) }
 
+    override suspend fun setCustomFont(name: String, stamp: Long): AppResult<Unit> =
+        edit { prefs ->
+            prefs[SettingsPreferenceKeys.CUSTOM_FONT_NAME] = name
+            prefs[SettingsPreferenceKeys.CUSTOM_FONT_STAMP] = stamp
+            prefs[SettingsPreferenceKeys.KEYBOARD_FONT] = KeyboardFont.CUSTOM.name
+        }
+
     override suspend fun resetToDefaults(): AppResult<Unit> =
         edit { prefs -> prefs.clear() }
 
@@ -163,6 +170,8 @@ internal class DataStoreSettingsRepository(
             prefs[keys.VOLUME_KEY_CURSOR_CONTROL] = settings.volumeKeyCursorControl
             prefs[keys.BACKGROUND_IMAGE_STAMP] = settings.backgroundImageStamp
             prefs[keys.BACKGROUND_DIM] = settings.backgroundDim
+            prefs[keys.CUSTOM_FONT_NAME] = settings.customFontName
+            prefs[keys.CUSTOM_FONT_STAMP] = settings.customFontStamp
         }
 
     /**

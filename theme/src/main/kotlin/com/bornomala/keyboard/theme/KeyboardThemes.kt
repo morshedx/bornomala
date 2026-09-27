@@ -133,6 +133,7 @@ private fun colored(
 fun BornomalaTheme(
     theme: KeyboardTheme,
     font: KeyboardFont = KeyboardFont.SYSTEM,
+    customFont: androidx.compose.ui.text.font.FontFamily? = null,
     metrics: KeyboardMetrics = keyboardMetrics(),
     // Material You (dynamic wallpaper-derived colors) for the app's Activity surfaces only.
     // It recolors the MaterialTheme scheme (settings/onboarding UI), never the keyboard, which
@@ -157,13 +158,13 @@ fun BornomalaTheme(
 
     CompositionLocalProvider(
         LocalKeyboardColors provides keyboardColors,
-        LocalKeyboardFontFamily provides keyboardFontFamily(font),
+        LocalKeyboardFontFamily provides keyboardFontFamily(font, customFont),
         LocalKeyboardMetrics provides metrics,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
             shapes = BornomalaShapes,
-            typography = BornomalaTypography.withFontFamily(keyboardFontFamily(font)),
+            typography = BornomalaTypography.withFontFamily(keyboardFontFamily(font, customFont)),
             content = content,
         )
     }

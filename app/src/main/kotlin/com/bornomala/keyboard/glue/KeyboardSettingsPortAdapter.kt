@@ -58,6 +58,7 @@ class KeyboardSettingsPortAdapter @Inject constructor(
                 lastLanguage = language,
                 backgroundImageStamp = s.backgroundImageStamp,
                 backgroundDim = s.backgroundDim,
+                customFontStamp = s.customFontStamp,
             )
         }
 

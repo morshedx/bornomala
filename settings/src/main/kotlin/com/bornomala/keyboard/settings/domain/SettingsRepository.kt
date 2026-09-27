@@ -88,6 +88,12 @@ interface SettingsRepository {
     /** Sets the darkening over the keyboard photo, clamped to 0..[Settings.MAX_BACKGROUND_DIM]. */
     suspend fun setBackgroundDim(dim: Float): AppResult<Unit>
 
+    /**
+     * Records that a new custom font file called [name] was saved (at [stamp], epoch millis) and
+     * switches the keyboard to it, in one edit.
+     */
+    suspend fun setCustomFont(name: String, stamp: Long): AppResult<Unit>
+
     /** Restores every preference to its default value in a single atomic edit. */
     suspend fun resetToDefaults(): AppResult<Unit>
 

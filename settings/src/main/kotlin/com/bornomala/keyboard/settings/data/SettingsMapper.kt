@@ -72,6 +72,10 @@ internal object SettingsMapper {
                 ?: defaults.backgroundImageStamp,
             backgroundDim = prefs[SettingsPreferenceKeys.BACKGROUND_DIM]
                 ?.let(::clampDim) ?: defaults.backgroundDim,
+            customFontName = prefs[SettingsPreferenceKeys.CUSTOM_FONT_NAME]
+                ?: defaults.customFontName,
+            customFontStamp = prefs[SettingsPreferenceKeys.CUSTOM_FONT_STAMP]
+                ?: defaults.customFontStamp,
         )
     }
 

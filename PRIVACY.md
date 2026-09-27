@@ -9,8 +9,9 @@ does not do with your information.
 ## The short version
 
 Bornomala collects **nothing**. Everything you type stays on your device — the keyboard itself
-never connects to the internet. The app goes online for only two things, both started by you:
-checking for app updates, and the optional backup to your own Google Drive. There is no account
+never connects to the internet. The app goes online only for things you start yourself:
+checking for app updates, the optional backup to your own Google Drive, and browsing Google Fonts
+for a keyboard font. There is no account
 with us, no analytics, no advertising, and no tracking.
 
 ## No data collection
@@ -45,6 +46,13 @@ never uses the network. The app requests the `INTERNET` permission for two featu
   clipboard history can contain things you copied, such as passwords or codes. Automatic daily
   backup runs only if you turn it on. You can restore or delete the backup from the app at any
   time.
+
+- **Google Fonts (optional).** When you open *Preferences → Font*, the font list is fetched
+  through Google Play services' font service, which downloads fonts from Google as you scroll and
+  caches them on the phone. The app itself makes no request; Google Play services does, and
+  Google's privacy policy applies to it. Nothing you type is involved. A font you pick (or import
+  from your phone) is copied into the app's private storage, so the keyboard never needs the
+  network to use it.
 
 ## On-device data
 

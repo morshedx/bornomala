@@ -44,6 +44,8 @@ private fun PreviewHost(themeMode: ThemeMode) {
             onSuggestionBarScale = { settings = settings.copy(suggestionBarScale = it) },
             onBottomGapScale = { settings = settings.copy(bottomGapScale = it) },
             onBackgroundPhotoPicked = {},
+            onGoogleFont = {},
+            onImportFont = {},
             onBackgroundDim = { settings = settings.copy(backgroundDim = it) },
             onKeyboardHeightScale = { settings = settings.copy(keyboardHeightScale = it) },
             onVibration = { settings = settings.copy(keyPressVibration = it) },

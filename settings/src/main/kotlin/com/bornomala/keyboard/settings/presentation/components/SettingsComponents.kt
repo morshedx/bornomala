@@ -69,7 +69,8 @@ private fun RowTitleStyle(): TextStyle = MaterialTheme.typography.titleLarge.cop
 /**
  * A settings screen: large collapsing title, optional back arrow, and a scrolling column.
  * [pinned] sits between the title and the column and does not scroll (e.g. a live preview);
- * [bottomOverlay] is drawn over the scroll content (e.g. a floating button).
+ * [bottomOverlay] is drawn over the scroll content (e.g. a floating button). With [scrollable]
+ * false the content supplies its own scrolling (e.g. a lazy list).
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,6 +79,7 @@ fun SettingsPage(
     onBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     pinned: @Composable () -> Unit = {},
+    scrollable: Boolean = true,
     bottomOverlay: @Composable () -> Unit = {},
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
@@ -110,10 +112,14 @@ fun SettingsPage(
             pinned()
             androidx.compose.foundation.layout.Box(Modifier.weight(1f).fillMaxWidth()) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(bottom = 24.dp),
+                    modifier = if (scrollable) {
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(bottom = 24.dp)
+                    } else {
+                        Modifier.fillMaxSize()
+                    },
                     content = content,
                 )
                 bottomOverlay()

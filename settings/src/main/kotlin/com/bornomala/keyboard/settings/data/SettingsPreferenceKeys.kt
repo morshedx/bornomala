@@ -35,4 +35,6 @@ internal object SettingsPreferenceKeys {
     val VOLUME_KEY_CURSOR_CONTROL = booleanPreferencesKey("volume_key_cursor_control")
     val BACKGROUND_IMAGE_STAMP = longPreferencesKey("background_image_stamp")
     val BACKGROUND_DIM = floatPreferencesKey("background_dim")
+    val CUSTOM_FONT_NAME = stringPreferencesKey("custom_font_name")
+    val CUSTOM_FONT_STAMP = longPreferencesKey("custom_font_stamp")
 }

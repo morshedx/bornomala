@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -47,6 +48,8 @@ import com.bornomala.keyboard.theme.BornomalaTheme
 import com.bornomala.keyboard.theme.KeyboardBackground
 import com.bornomala.keyboard.theme.KeyboardBackgroundImage
 import com.bornomala.keyboard.theme.KeyboardDimens
+import com.bornomala.keyboard.theme.KeyboardFont
+import com.bornomala.keyboard.theme.KeyboardFontFile
 import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.keyboardTray
 import com.bornomala.keyboard.theme.keyboardColorsFor
@@ -83,6 +86,9 @@ fun ResizableKeyboardPreview(
         if (settings.keyboardTheme == KeyboardTheme.IMAGE) settings.backgroundImageStamp else 0L,
     )
     val background = photo?.let { KeyboardBackground(it, settings.backgroundDim) }
+    val customFont = rememberKeyboardFont(
+        if (settings.keyboardFont == KeyboardFont.CUSTOM) settings.customFontStamp else 0L,
+    )
     var dragging by remember { mutableStateOf(false) }
     var scale by remember { mutableFloatStateOf(settings.keyboardHeightScale) }
     LaunchedEffect(settings.keyboardHeightScale) {
@@ -164,6 +170,7 @@ fun ResizableKeyboardPreview(
         BornomalaTheme(
             theme = settings.keyboardTheme,
             font = settings.keyboardFont,
+            customFont = customFont,
             metrics = keyboardMetrics(
                 horizontalGapScale = settings.horizontalGapScale,
                 verticalGapScale = settings.verticalGapScale,
@@ -196,6 +203,19 @@ fun rememberKeyboardPhoto(stamp: Long): ImageBitmap? {
         value = if (stamp == 0L) null else withContext(Dispatchers.IO) { KeyboardBackgroundImage.load(context) }
     }
     return photo
+}
+
+/**
+ * The saved custom keyboard font for [stamp] (0 = none), loaded off the main thread; null until
+ * loaded. A new stamp (a newly saved font) reloads it.
+ */
+@Composable
+fun rememberKeyboardFont(stamp: Long): FontFamily? {
+    val context = LocalContext.current
+    val font by produceState<FontFamily?>(initialValue = null, stamp) {
+        value = if (stamp == 0L) null else withContext(Dispatchers.IO) { KeyboardFontFile.load(context) }
+    }
+    return font
 }
 
 /** Keyboard height in 5% steps within the allowed range, matching the settings slider. */

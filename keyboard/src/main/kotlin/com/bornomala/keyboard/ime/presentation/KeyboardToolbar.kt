@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -225,7 +226,15 @@ private fun NumbersButton(active: Boolean, onClick: () -> Unit) {
     @Composable
     fun cell(digit: String) {
         Box(modifier = Modifier.size(width = 11.dp, height = 10.dp), contentAlignment = Alignment.Center) {
-            Text(digit, color = tint, fontSize = 9.sp, fontWeight = FontWeight.Medium, lineHeight = 9.sp)
+            // An icon, not a label: always the system font, so a tall custom font can't clip it.
+            Text(
+                digit,
+                color = tint,
+                fontSize = 9.sp,
+                fontWeight = FontWeight.Medium,
+                lineHeight = 9.sp,
+                fontFamily = FontFamily.Default,
+            )
         }
     }
 

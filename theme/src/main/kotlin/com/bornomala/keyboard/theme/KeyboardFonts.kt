@@ -7,11 +7,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 
 /**
- * Selectable key-label fonts. [SYSTEM] uses the platform default; more can be bundled later.
+ * Selectable key-label fonts. [SYSTEM] uses the platform default and [JETBRAINS_MONO] is bundled;
+ * [CUSTOM] is a font file saved on the phone ([KeyboardFontFile]) — a downloaded Google Font or
+ * one the user imported — whose display name is kept in settings.
  */
 enum class KeyboardFont(val displayName: String) {
     SYSTEM("System default"),
     JETBRAINS_MONO("JetBrains Mono"),
+    CUSTOM("Custom"),
     ;
 
     companion object {
@@ -24,10 +27,15 @@ internal val JetBrainsMonoFamily = FontFamily(
     Font(R.font.jetbrains_mono_medium, FontWeight.Medium),
 )
 
-/** The [FontFamily] for a chosen font, or null for the system default. */
-fun keyboardFontFamily(font: KeyboardFont): FontFamily? = when (font) {
+/**
+ * The [FontFamily] for a chosen font, or null for the system default. [custom] is the loaded
+ * [KeyboardFontFile] for [KeyboardFont.CUSTOM]; while it loads (or if it is missing) the system
+ * default is used.
+ */
+fun keyboardFontFamily(font: KeyboardFont, custom: FontFamily? = null): FontFamily? = when (font) {
     KeyboardFont.SYSTEM -> null
     KeyboardFont.JETBRAINS_MONO -> JetBrainsMonoFamily
+    KeyboardFont.CUSTOM -> custom
 }
 
 /** Key-label font family for the current theme scope; null = system default. */
