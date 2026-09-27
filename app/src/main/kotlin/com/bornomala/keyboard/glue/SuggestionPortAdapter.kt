@@ -67,7 +67,9 @@ class SuggestionPortAdapter @Inject constructor(
     }
 
     override suspend fun banglaPhonetic(roman: String, limit: Int): BanglaPhoneticCandidates =
-        engine.banglaPhoneticCandidates(roman, limit).let { BanglaPhoneticCandidates(it.words, it.trustedCount) }
+        engine.banglaPhoneticCandidates(roman, limit).let {
+            BanglaPhoneticCandidates(it.words, it.trustedCount, it.learnedOnly)
+        }
 
     override suspend fun banglaWord(roman: String): BanglaWordMatch? =
         banglaWords.lookup(roman)?.let { BanglaWordMatch(it.word, it.learned) }

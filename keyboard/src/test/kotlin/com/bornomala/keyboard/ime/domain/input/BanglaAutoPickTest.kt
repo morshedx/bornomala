@@ -1,0 +1,61 @@
+package com.bornomala.keyboard.ime.domain.input
+
+import com.bornomala.keyboard.ime.domain.model.BanglaPhoneticCandidates
+import com.bornomala.keyboard.ime.domain.model.BanglaWordMatch
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
+
+class BanglaAutoPickTest {
+
+    private fun candidates(vararg words: String, trusted: Int = words.size, learnedOnly: Set<String> = emptySet()) =
+        BanglaPhoneticCandidates(words.toList(), trusted, learnedOnly)
+
+    private val loanword = BanglaWordMatch("কম্পিউটার", learned = false)
+
+    @Test
+    fun `a loanword replaces a rendering that is no known word`() {
+        assertThat(BanglaAutoPick.choose("computer", "চম্পুতের", loanword, candidates()))
+            .isEqualTo("কম্পিউটার")
+    }
+
+    /**
+     * Regression (0.9.2): চম্পুতের, committed where the loanword could not apply, was learned — and
+     * from then on counted as a real word, blocking কম্পিউটার in every field.
+     */
+    @Test
+    fun `a merely learned rendering does not block a loanword`() {
+        val learned = candidates("চম্পুতের", trusted = 1, learnedOnly = setOf("চম্পুতের"))
+        assertThat(BanglaAutoPick.choose("computer", "চম্পুতের", loanword, learned)).isEqualTo("কম্পিউটার")
+    }
+
+    @Test
+    fun `a rarer loanword does not replace a dictionary word`() {
+        val nice = BanglaWordMatch("নাইস", learned = false)
+        assertThat(BanglaAutoPick.choose("nice", "নিচে", nice, candidates("নিচে"))).isNull()
+    }
+
+    @Test
+    fun `a more frequent spelling fix replaces a dictionary misspelling`() {
+        val fix = BanglaWordMatch("কারণ", learned = false)
+        assertThat(BanglaAutoPick.choose("karon", "কারন", fix, candidates("কারণ", "কারন"))).isEqualTo("কারণ")
+    }
+
+    @Test
+    fun `the user's own pick always wins`() {
+        val pick = BanglaWordMatch("চম্পুতের", learned = true)
+        assertThat(BanglaAutoPick.choose("computer", "চম্পুতের", pick, candidates("চম্পুতের"))).isEqualTo("চম্পুতের")
+    }
+
+    @Test
+    fun `learned words still stop an ordinary phonetic swap`() {
+        val learned = candidates("শশা", "সা", trusted = 2, learnedOnly = setOf("শশা"))
+        assertThat(BanglaAutoPick.choose("shosha", "শশা", null, learned)).isNull()
+    }
+
+    @Test
+    fun `phonetic swaps need a trusted word and a finished-looking word`() {
+        assertThat(BanglaAutoPick.choose("chara", "চারা", null, candidates("ছাড়া", trusted = 1))).isEqualTo("ছাড়া")
+        assertThat(BanglaAutoPick.choose("chara", "চারা", null, candidates("ছাড়া", trusted = 0))).isNull()
+        assertThat(BanglaAutoPick.choose("ch", "চ", null, candidates("ছ"))).isNull()
+    }
+}

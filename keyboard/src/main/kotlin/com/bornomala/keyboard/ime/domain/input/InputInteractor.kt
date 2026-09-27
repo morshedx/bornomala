@@ -342,6 +342,8 @@ class InputInteractor(
         commitComposing()
         stateHolder.cycleLanguage()
         callbacks.onComposingChanged(stateHolder.current.language, "")
+        // Switching back to English re-arms sentence-start capitalization where it applies.
+        maybeAutoCapitalize()
     }
 
     /**

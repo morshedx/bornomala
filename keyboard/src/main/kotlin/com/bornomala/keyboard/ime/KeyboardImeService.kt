@@ -24,6 +24,7 @@ import com.bornomala.keyboard.ime.data.editor.EnterActionResolver
 import com.bornomala.keyboard.ime.data.editor.FieldProfileResolver
 import com.bornomala.keyboard.ime.data.editor.InputConnectionEditorPort
 import com.bornomala.keyboard.ime.data.layout.LayoutProvider
+import com.bornomala.keyboard.ime.domain.input.BanglaAutoPick
 import com.bornomala.keyboard.ime.domain.input.InputConfig
 import com.bornomala.keyboard.ime.domain.input.InputInteractor
 import com.bornomala.keyboard.clipboard.domain.repository.ClipboardRepository
@@ -628,7 +629,7 @@ class KeyboardImeService : InputMethodService() {
         // dictionary word as the highlighted auto-pick (committed on space, e.g. ছাড়া), then the
         // plain phonetic render and the remaining candidates.
         add(roman, transliteration = false, highlight = false)
-        val autoPick = banglaAutoPick(roman, rendered, word, phonetic)
+        val autoPick = BanglaAutoPick.choose(roman, rendered, word, phonetic)
         if (autoPick != null) add(autoPick, transliteration = true, highlight = true)
         // A loanword that lost to a real Bangla spelling stays one tap away, just after it.
         if (word != null && word.word != autoPick) {
@@ -643,41 +644,6 @@ class KeyboardImeService : InputMethodService() {
         return out
     }
 
-    /**
-     * The word that space may commit in place of the literal transliteration, or null to keep
-     * exactly what was typed. In order:
-     *
-     *  1. the user's own earlier pick for this exact spelling — an explicit choice, always honoured;
-     *  2. a whole-word [word] match — an English loanword (`chair` -> চেয়ার) or an Avro spelling
-     *     fix (`beshI` -> বেশি). When the typed spelling already renders a real Bangla word it is
-     *     applied only if it is the more frequent of the two (both are then phonetic candidates,
-     *     ranked by frequency): `karon` -> কারণ swaps, but `nice` keeps নিচে and `apon` keeps
-     *     আপন, with the match offered one tap away instead;
-     *  3. the top *trusted* phonetic-dictionary word, withheld when the roman is still too short
-     *     to be a finished word (a 1-2 letter prefix matches far too many words to guess from) or
-     *     when the transliteration is itself a candidate (not a misspelling to fix). Suggest-only
-     *     candidates still count as real words for that check, but are never auto-picked.
-     */
-    private fun banglaAutoPick(
-        roman: String,
-        rendered: String,
-        word: BanglaWordMatch?,
-        candidates: BanglaPhoneticCandidates,
-    ): String? {
-        val phonetic = candidates.words
-        val renderedRank = if (rendered.isEmpty()) -1 else phonetic.indexOf(rendered)
-        val renderedIsRealWord = renderedRank >= 0
-        if (word != null) {
-            if (word.learned || !renderedIsRealWord) return word.word
-            // Only the trusted head of the list is frequency-ranked, so only there does an
-            // earlier position mean "more common".
-            val wordRank = phonetic.indexOf(word.word)
-            if (wordRank in 0 until minOf(renderedRank, candidates.trustedCount)) return word.word
-        }
-        if (roman.length < MIN_BANGLA_AUTO_PICK_LEN) return null
-        if (renderedIsRealWord) return null
-        return candidates.topTrusted
-    }
 
     /**
      * The last two committed tokens before the cursor (previous, secondPrevious), used for
@@ -739,9 +705,6 @@ class KeyboardImeService : InputMethodService() {
 
         const val SUGGESTION_LIMIT = 6
         const val PREVIOUS_WORD_LOOKBACK = 48
-
-        /** Shortest roman input that may be silently swapped for a phonetic-dictionary word. */
-        const val MIN_BANGLA_AUTO_PICK_LEN = 3
 
         /** How long after a copy the strip still offers a one-tap paste chip (Gboard-style). */
         const val CLIP_SUGGESTION_WINDOW_MS = 60_000L

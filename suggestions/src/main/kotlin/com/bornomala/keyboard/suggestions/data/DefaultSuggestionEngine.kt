@@ -61,7 +61,11 @@ class DefaultSuggestionEngine @Inject constructor(
         if (key.isEmpty()) return BanglaCandidates.EMPTY
         val hits = banglaPhonetic.hitsForKey(key, limit)
         val trusted = trustedCandidates(key, hits.trusted, limit)
-        if (trusted.size >= limit) return BanglaCandidates(trusted, trusted.size)
+        // Learned words not in the bundled index; the bundled index may hold more than `limit`
+        // words for a key, so check membership against a wider lookup.
+        val bundled = banglaPhonetic.hitsForKey(key, BUNDLED_MEMBERSHIP_LIMIT)
+        val learnedOnly = trusted.filterTo(HashSet()) { it !in bundled.trusted && it !in bundled.extra }
+        if (trusted.size >= limit) return BanglaCandidates(trusted, trusted.size, learnedOnly)
 
         val out = ArrayList<String>(limit)
         out.addAll(trusted)
@@ -70,7 +74,7 @@ class DefaultSuggestionEngine @Inject constructor(
             if (!out.contains(word)) out.add(word)
         }
         if (out.size < limit) addSuffixJoins(roman, limit, out)
-        return BanglaCandidates(out, trusted.size)
+        return BanglaCandidates(out, trusted.size, learnedOnly)
     }
 
     /**
@@ -188,6 +192,9 @@ class DefaultSuggestionEngine @Inject constructor(
 
         /** Base words tried per base + suffix reading; more only floods the strip. */
         const val BASES_PER_SPLIT = 2
+
+        /** Covers every word the generator stores per key (8 trusted + 4 suggest-only). */
+        const val BUNDLED_MEMBERSHIP_LIMIT = 16
 
         val RANK_COMPARATOR: Comparator<Suggestion> =
             compareByDescending<Suggestion> { it.score }

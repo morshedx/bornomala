@@ -45,6 +45,9 @@ class KeyboardStateHolder(
             page = KeyboardPage.ALPHA,
             composingText = "",
             suggestions = emptyList(),
+            // A one-shot shift armed by English auto-capitalization must not carry over: in Avro
+            // capitals are different letters (t = ত, T = ট). A deliberate caps lock stays.
+            shift = if (it.shift == ShiftState.SHIFTED) ShiftState.OFF else it.shift,
         )
     }
 

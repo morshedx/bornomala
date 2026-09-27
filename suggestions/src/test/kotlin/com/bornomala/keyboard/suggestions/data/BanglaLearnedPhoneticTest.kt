@@ -67,6 +67,14 @@ class BanglaLearnedPhoneticTest {
     }
 
     @Test
+    fun `words known only from learning are reported as learned-only`() = runTest {
+        learn("শশা", times = 2)
+        val result = engine().banglaPhoneticCandidates("shosha", 5)
+        assertThat(result.learnedOnly).containsExactly("শশা")
+        assertThat(result.words).contains("সসা")
+    }
+
+    @Test
     fun `learned words only answer their own key`() = runTest {
         learn("শশা", times = 3)
         assertThat(engine().banglaPhoneticCandidates("sa", 5).words).doesNotContain("শশা")
