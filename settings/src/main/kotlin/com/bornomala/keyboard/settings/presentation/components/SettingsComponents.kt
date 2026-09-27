@@ -20,7 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -50,8 +50,8 @@ import com.bornomala.keyboard.settings.R
 import com.bornomala.keyboard.theme.LucideIcons
 
 /**
- * Building blocks for the settings screens, in the flat Android/Gboard settings style: a large
- * title that collapses into the top bar on scroll, full-width rows with no card backgrounds,
+ * Building blocks for the settings screens, in the flat Android/Gboard settings style: a compact
+ * top bar with the title beside the back arrow, full-width rows with no card backgrounds,
  * and small accent-coloured section headers.
  *
  * Interactive rows use the proper semantics modifier ([toggleable] / [selectable] / clickable)
@@ -67,7 +67,7 @@ private val RowInset = 24.dp
 private fun RowTitleStyle(): TextStyle = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal)
 
 /**
- * A settings screen: large collapsing title, optional back arrow, and a scrolling column.
+ * A settings screen: a one-line top bar (title beside the optional back arrow) and a scrolling column.
  * [pinned] sits between the title and the column and does not scroll (e.g. a live preview);
  * [bottomOverlay] is drawn over the scroll content (e.g. a floating button). With [scrollable]
  * false the content supplies its own scrolling (e.g. a lazy list).
@@ -84,14 +84,15 @@ fun SettingsPage(
     snackbarHost: @Composable () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    // Pinned: the bar stays put and only tints when content scrolls beneath it.
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         snackbarHost = snackbarHost,
         topBar = {
-            LargeTopAppBar(
+            TopAppBar(
                 title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
                 navigationIcon = {
                     if (onBack != null) {
@@ -100,7 +101,7 @@ fun SettingsPage(
                         }
                     }
                 },
-                colors = TopAppBarDefaults.largeTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                 ),
