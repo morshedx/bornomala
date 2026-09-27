@@ -10,9 +10,8 @@ does not do with your information.
 
 Bornomala collects **nothing**. Everything you type stays on your device — the keyboard itself
 never connects to the internet. The app goes online for only two things, both started by you:
-checking for app updates, and the optional Google Drive backup (encrypted with your passphrase
-before it leaves the device). There is no account with us, no analytics, no advertising, and no
-tracking.
+checking for app updates, and the optional backup to your own Google Drive. There is no account
+with us, no analytics, no advertising, and no tracking.
 
 ## No data collection
 
@@ -22,8 +21,8 @@ including:
 - The text you type, the words you enter, or any content of any input field.
 - Contacts, location, photos, files, identifiers, or usage analytics.
 
-The only data that ever leaves your device is the optional backup you turn on yourself, which is
-encrypted before upload and goes to your own Google Drive, never to the developer.
+The only data that ever leaves your device is the optional backup you start yourself, which goes
+to your own Google Drive — never to the developer.
 
 A keyboard necessarily processes the keystrokes you make so it can show the right characters,
 transliterate Bangla, and offer suggestions. **All of this happens locally, on your device,
@@ -38,12 +37,17 @@ never uses the network. The app requests the `INTERNET` permission for two featu
   and, if you choose to update, the new app package from the developer's release server
   (`app-releases.morshed.im`). These requests contain nothing you typed and no personal
   identifiers; as with any web request, the server can see your IP address.
-- **Google Drive backup (optional, off by default).** If you sign in with Google and set a
-  backup passphrase, the app uploads a backup of your settings, learned words and word picks,
-  and clipboard history to **your own** Google Drive. It is encrypted on your device
-  (AES-256-GCM, with a key derived from your passphrase) before upload, so neither Google nor
-  the developer can read it. Automatic daily backup runs only if you turn it on. You can restore
-  or delete the backup from the app at any time.
+- **Google Drive backup (optional).** If you sign in with Google and back up, the app uploads
+  your settings, learned words and word picks, and clipboard history to **your own** Google
+  Drive, in its private app-data area (not shown in your Drive file list). The developer never
+  receives it. By default the backup is protected by your Google account — like WhatsApp's
+  default backup — so anyone who can sign in to your Google account, and Google itself, could
+  read it; note that clipboard history can contain things you copied, such as passwords or
+  codes. For stronger protection, turn on **Encrypt with passphrase**: the backup is then
+  encrypted on your device (AES-256-GCM, with a key derived from your passphrase) before upload,
+  so neither Google nor the developer can read it — and it cannot be restored without the
+  passphrase. Automatic daily backup runs only if you turn it on. You can restore or delete the
+  backup from the app at any time.
 
 ## On-device data
 

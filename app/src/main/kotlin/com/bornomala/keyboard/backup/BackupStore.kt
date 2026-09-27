@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 /**
  * Local, non-synced state for the backup feature: the signed-in email, last-backup time,
- * the auto-backup toggle, and the user's sync passphrase.
+ * the auto-backup toggle, the optional passphrase-encryption toggle, and the passphrase.
  *
  * The passphrase is wrapped with an Android Keystore AES key before being stored (so it is
  * not readable from the prefs file). This device-bound key is fine here — it only protects
@@ -39,6 +39,11 @@ class BackupStore @Inject constructor(
     var autoEnabled: Boolean
         get() = prefs.getBoolean(KEY_AUTO, false)
         set(value) = prefs.edit().putBoolean(KEY_AUTO, value).apply()
+
+    /** Encrypt backups with the user's passphrase (off by default: Google-account protection). */
+    var encryptionEnabled: Boolean
+        get() = prefs.getBoolean(KEY_ENCRYPT, false)
+        set(value) = prefs.edit().putBoolean(KEY_ENCRYPT, value).apply()
 
     val signedIn: Boolean get() = email != null
     val hasPassphrase: Boolean get() = prefs.contains(KEY_PASSPHRASE)
@@ -92,5 +97,6 @@ class BackupStore @Inject constructor(
         const val KEY_LAST_BACKUP = "last_backup_at"
         const val KEY_AUTO = "auto_enabled"
         const val KEY_PASSPHRASE = "passphrase"
+        const val KEY_ENCRYPT = "encryption_enabled"
     }
 }

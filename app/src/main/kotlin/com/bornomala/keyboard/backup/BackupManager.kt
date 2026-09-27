@@ -18,11 +18,15 @@ import javax.inject.Singleton
 /** A user-facing backup/restore failure carrying a message safe to show in the UI. */
 class BackupException(message: String) : Exception(message)
 
+/** Restore needs the passphrase of an encrypted backup, and none (or a wrong one) was given. */
+class PassphraseRequiredException : Exception("This backup is protected with a passphrase. Enter it to restore.")
+
 /**
- * Orchestrates a full backup/restore: gathers settings + learned dictionary + clipboard,
- * serializes, encrypts with the user's passphrase, and stores a single visible file in the
- * user's Google Drive (`drive.file`). One-way (device → Drive → restore); restore overwrites
- * local data. No live sync / merge.
+ * Orchestrates a full backup/restore: gathers settings + learned dictionary + picks + clipboard,
+ * serializes, and stores it in the hidden app-data folder of the user's Google Drive — as plain
+ * JSON by default (protected by the Google account, like WhatsApp's default backup), or
+ * encrypted with a passphrase when the user opts in. One-way (device → Drive → restore);
+ * restore overwrites local data. No live sync / merge.
  */
 @Singleton
 class BackupManager @Inject constructor(
@@ -34,10 +38,15 @@ class BackupManager @Inject constructor(
     private val drive: DriveClient,
     private val serializer: BackupSerializer,
 ) {
-    suspend fun remoteInfo(token: String): BackupInfo? = drive.findBackup(token)
+    /** The newest backup: the app-data file (plain or encrypted), or the legacy visible one. */
+    suspend fun remoteInfo(token: String): BackupInfo? = newest(allBackups(token))
 
-    /** Snapshots everything, encrypts it, and uploads (overwriting any existing backup). */
-    suspend fun backUp(token: String, passphrase: CharArray) {
+    /**
+     * Snapshots everything and uploads it, replacing the previous app-data backup. With a
+     * [passphrase] the file is encrypted first; without one it is stored as-is. The legacy
+     * visible backup is never touched, so an old passphrase can still unlock it later.
+     */
+    suspend fun backUp(token: String, passphrase: CharArray?) {
         val settings = settingsRepository.settings.first()
         val (words, ngrams) = userDictionary.exportAll().orThrow()
         val clips = clipboard.exportAll().orThrow()
@@ -53,32 +62,53 @@ class BackupManager @Inject constructor(
             clips = clips,
             romanPicks = picks,
         )
-        val blob = CryptoBox.encrypt(serializer.encode(data), passphrase)
-        drive.upload(token, blob, existingId = drive.findBackup(token)?.fileId)
+        val json = serializer.encode(data)
+        val (name, other, bytes) = if (passphrase != null) {
+            Triple(DriveClient.ENCRYPTED_FILE, DriveClient.PLAIN_FILE, CryptoBox.encrypt(json, passphrase))
+        } else {
+            Triple(DriveClient.PLAIN_FILE, DriveClient.ENCRYPTED_FILE, json)
+        }
+        drive.uploadAppData(token, name, bytes, existingId = drive.findAppData(token, name)?.fileId)
+        // Keep a single app-data backup: drop the other kind if the user switched modes.
+        drive.findAppData(token, other)?.let { drive.delete(token, it.fileId) }
     }
 
-    /** Downloads, decrypts, and overwrites local settings + dictionary + clipboard. */
-    suspend fun restore(token: String, passphrase: CharArray) {
-        val info = drive.findBackup(token)
+    /**
+     * Restores the newest backup, overwriting local settings, dictionary, picks and clipboard.
+     * An encrypted backup needs its [passphrase]; without it (or with a wrong one) this throws
+     * [PassphraseRequiredException].
+     */
+    suspend fun restore(token: String, passphrase: CharArray?) {
+        val info = remoteInfo(token)
             ?: throw BackupException("No backup found in your Google Drive")
         val blob = drive.download(token, info.fileId)
-        val plain = try {
-            CryptoBox.decrypt(blob, passphrase)
-        } catch (_: AEADBadTagException) {
-            throw BackupException("Wrong passphrase, or the backup is corrupted")
+        val json = if (info.encrypted) {
+            if (passphrase == null) throw PassphraseRequiredException()
+            try {
+                CryptoBox.decrypt(blob, passphrase)
+            } catch (_: AEADBadTagException) {
+                throw BackupException("Wrong passphrase, or the backup is corrupted")
+            }
+        } else {
+            blob
         }
-        val data = serializer.decode(plain)
+        val data = serializer.decode(json)
         settingsRepository.replaceAll(data.settings).orThrow()
         userDictionary.replaceAll(data.words, data.ngrams).orThrow()
         romanPicks.replaceAll(data.romanPicks).orThrow()
         clipboard.replaceAll(data.clips).orThrow()
     }
 
-    /** Deletes the backup file from Drive (no-op if none). */
+    /** Deletes every backup from Drive — app-data and legacy (no-op if none). */
     suspend fun deleteRemote(token: String) {
-        val id = drive.findBackup(token)?.fileId ?: return
-        drive.delete(token, id)
+        for (info in allBackups(token)) drive.delete(token, info.fileId)
     }
+
+    private suspend fun allBackups(token: String): List<BackupInfo> = listOfNotNull(
+        drive.findAppData(token, DriveClient.PLAIN_FILE),
+        drive.findAppData(token, DriveClient.ENCRYPTED_FILE),
+        drive.findLegacy(token),
+    )
 
     private fun appVersion(): String =
         runCatching {
@@ -90,3 +120,6 @@ class BackupManager @Inject constructor(
         is AppResult.Failure -> throw BackupException(error.message)
     }
 }
+
+/** The most recently modified backup, or null when there is none. */
+internal fun newest(backups: List<BackupInfo>): BackupInfo? = backups.maxByOrNull { it.modifiedAtMillis }

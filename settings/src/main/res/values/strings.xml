@@ -86,7 +86,7 @@
     <string name="settings_section_about">About</string>
     <string name="settings_about_app">Bornomala Keyboard</string>
     <string name="settings_about_version">Version %1$s</string>
-    <string name="settings_about_privacy">Privacy-first. What you type never leaves your device — no tracking, no analytics, no data collection. The app goes online only when you check for updates or use Google Drive backup, which is encrypted with your passphrase.</string>
+    <string name="settings_about_privacy">Privacy-first. What you type never leaves your device — no tracking, no analytics, no data collection. The app goes online only when you check for updates or back up to your own Google Drive.</string>
     <string name="settings_about_avro">Bangla typing uses the Avro Phonetic scheme. Rule data © OmicronLab.</string>
     <string name="settings_about_licenses">Open-source components: Avro Phonetic (OmicronLab, MIT), OpenBangla riti dictionary data (MPL-2.0), FrequencyWords (Hermit Dave, MIT), Lucide Icons (ISC), JetBrains Mono (OFL). Each under its own license.</string>
     <string name="settings_about_warranty">This software is provided \"as is\", without warranty of any kind, express or implied. The developer accepts no liability for any damages, data loss, or other harm arising from its use.</string>

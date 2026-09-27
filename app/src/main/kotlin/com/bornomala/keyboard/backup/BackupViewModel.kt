@@ -22,6 +22,12 @@ data class BackupUiState(
     val lastBackupAt: Long? = null,
     val remoteSizeBytes: Long? = null,
     val autoEnabled: Boolean = false,
+    /** Encrypt backups with a passphrase (opt-in; off means Google-account protection). */
+    val encrypt: Boolean = false,
+    /** A passphrase is cached on this device, so encrypted backups need not ask for it again. */
+    val hasSavedPassphrase: Boolean = false,
+    /** The newest backup on Drive is encrypted, so restoring it needs its passphrase. */
+    val remoteEncrypted: Boolean = false,
     val busy: Boolean = false,
     val message: String? = null,
 )
@@ -40,6 +46,8 @@ class BackupViewModel @Inject constructor(
             email = store.email,
             lastBackupAt = store.lastBackupAt.takeIf { it > 0 },
             autoEnabled = store.autoEnabled,
+            encrypt = store.encryptionEnabled,
+            hasSavedPassphrase = store.hasPassphrase,
         ),
     )
     val state: StateFlow<BackupUiState> = _state.asStateFlow()
@@ -64,25 +72,74 @@ class BackupViewModel @Inject constructor(
 
     fun onConsentCancelled() = _state.update { it.copy(busy = false, message = "Sign-in cancelled") }
 
-    fun backupNow(passphrase: String) = withPassphrase(passphrase) { pass ->
-        val t = ensureToken() ?: return@withPassphrase
-        backupManager.backUp(t, pass)
-        store.savePassphrase(pass)
+    /**
+     * Backs up now. Without encryption no passphrase is involved. With it, the typed
+     * [passphrase] is used (and cached for auto-backup), or the cached one when left empty.
+     */
+    fun backupNow(passphrase: String) {
+        if (!store.encryptionEnabled) {
+            launchBusy { doBackup(null) }
+            return
+        }
+        if (passphrase.isEmpty() && store.hasPassphrase) {
+            launchBusy {
+                val cached = store.loadPassphrase()
+                    ?: throw BackupException("Enter your passphrase to back up")
+                try {
+                    doBackup(cached)
+                } finally {
+                    cached.fill('\u0000')
+                }
+            }
+            return
+        }
+        withPassphrase(passphrase) { pass ->
+            doBackup(pass)
+            store.savePassphrase(pass)
+            refreshFromStore(null)
+        }
+    }
+
+    private suspend fun doBackup(passphrase: CharArray?) {
+        val t = ensureToken() ?: return
+        backupManager.backUp(t, passphrase)
         store.lastBackupAt = System.currentTimeMillis()
         refreshFromStore("Backed up to Google Drive")
         refreshRemote()
     }
 
-    fun restore(passphrase: String) = withPassphrase(passphrase) { pass ->
-        val t = ensureToken() ?: return@withPassphrase
-        backupManager.restore(t, pass)
-        store.savePassphrase(pass)
-        refreshFromStore("Restored. Reopen the keyboard if it doesn't refresh.")
+    /**
+     * Restores the newest backup. A backup made without a passphrase needs none; an encrypted
+     * one uses the typed [passphrase], or the one cached on this device when left empty.
+     */
+    fun restore(passphrase: String) = launchBusy {
+        val t = ensureToken() ?: return@launchBusy
+        val typed = passphrase.takeIf { it.isNotEmpty() }?.toCharArray()
+        val pass = typed ?: store.loadPassphrase()
+        try {
+            backupManager.restore(t, pass)
+            if (typed != null) store.savePassphrase(typed)
+            refreshFromStore("Restored. Reopen the keyboard if it doesn't refresh.")
+        } catch (e: PassphraseRequiredException) {
+            _state.update { it.copy(remoteEncrypted = true, message = e.message) }
+        } finally {
+            pass?.fill('\u0000')
+        }
+    }
+
+    /** Turns passphrase encryption on or off for future backups. */
+    fun setEncrypt(enabled: Boolean) {
+        store.encryptionEnabled = enabled
+        refreshFromStore(if (enabled) "Enter a passphrase and back up to encrypt your backup" else null)
     }
 
     fun setAuto(enabled: Boolean) = launchBusy {
-        if (enabled && !store.hasPassphrase) {
+        if (enabled && store.lastBackupAt <= 0L) {
             _state.update { it.copy(message = "Back up once first to enable auto-backup") }
+            return@launchBusy
+        }
+        if (enabled && store.encryptionEnabled && !store.hasPassphrase) {
+            _state.update { it.copy(message = "Back up once with your passphrase first") }
             return@launchBusy
         }
         store.autoEnabled = enabled
@@ -128,6 +185,7 @@ class BackupViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     remoteSizeBytes = info.sizeBytes,
+                    remoteEncrypted = info.encrypted,
                     lastBackupAt = info.modifiedAtMillis.takeIf { m -> m > 0 } ?: it.lastBackupAt,
                 )
             }
@@ -139,6 +197,8 @@ class BackupViewModel @Inject constructor(
             signedIn = store.signedIn,
             email = store.email,
             autoEnabled = store.autoEnabled,
+            encrypt = store.encryptionEnabled,
+            hasSavedPassphrase = store.hasPassphrase,
             lastBackupAt = store.lastBackupAt.takeIf { v -> v > 0 } ?: it.lastBackupAt,
             message = message ?: it.message,
         )

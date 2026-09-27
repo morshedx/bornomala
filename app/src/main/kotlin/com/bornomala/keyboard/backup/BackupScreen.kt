@@ -90,8 +90,10 @@ fun BackupScreen(
             }
 
             Text(
-                "Back up your settings, learned words and clipboard to your Google Drive, " +
-                    "encrypted with your passphrase. Restore them on a new phone.",
+                "Back up your settings, learned words and clipboard to your Google Drive, and " +
+                    "restore them on a new phone. The backup is stored privately in your Drive " +
+                    "and protected by your Google account. Turn on passphrase encryption for " +
+                    "extra protection.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -119,16 +121,50 @@ fun BackupScreen(
             }
 
             Spacer(Modifier.height(16.dp))
-            OutlinedTextField(
-                value = passphrase,
-                onValueChange = { passphrase = it },
-                label = { Text("Backup passphrase") },
-                supportingText = { Text("Used to encrypt your backup. You'll need it to restore.") },
-                singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Password),
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth(),
-            )
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("Encrypt with passphrase", fontWeight = FontWeight.Medium)
+                    Text(
+                        "Only you can read the backup. If you forget the passphrase, " +
+                            "it can't be restored.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Switch(
+                    checked = state.encrypt,
+                    onCheckedChange = viewModel::setEncrypt,
+                    enabled = !state.busy,
+                )
+            }
+
+            // Needed to encrypt a backup, or to unlock an encrypted one when restoring.
+            if (state.encrypt || state.remoteEncrypted) {
+                Spacer(Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = passphrase,
+                    onValueChange = { passphrase = it },
+                    label = { Text("Backup passphrase") },
+                    supportingText = {
+                        Text(
+                            when {
+                                state.remoteEncrypted && !state.encrypt ->
+                                    "Your latest backup is encrypted. Enter its passphrase to restore it."
+                                state.hasSavedPassphrase ->
+                                    "Leave empty to use the passphrase saved on this phone."
+                                else -> "Write it down: you'll need it to restore."
+                            },
+                        )
+                    },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Password),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
 
             Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {

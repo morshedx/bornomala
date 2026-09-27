@@ -28,9 +28,16 @@ data class BackupData(
     }
 }
 
-/** Lightweight remote-file info shown in the UI (no contents downloaded). */
+/**
+ * Lightweight remote-file info shown in the UI (no contents downloaded).
+ *
+ * @param encrypted the file is encrypted with a passphrase, which restore then needs.
+ * @param legacy the pre-app-data backup in the visible `headquarter/bornomala` folder.
+ */
 data class BackupInfo(
     val fileId: String,
     val sizeBytes: Long,
     val modifiedAtMillis: Long,
+    val encrypted: Boolean = false,
+    val legacy: Boolean = false,
 )
