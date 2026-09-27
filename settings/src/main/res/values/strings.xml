@@ -43,8 +43,13 @@
     <string name="settings_number_row_desc">Always show a dedicated row of digits.</string>
     <string name="settings_volume_cursor">Volume keys move cursor</string>
     <string name="settings_volume_cursor_desc">While the keyboard is open, volume up/down nudges the cursor right/left. When audio or video is playing, the keys control volume as usual.</string>
-    <string name="settings_try_now">Try now</string>
-    <string name="settings_try_now_hint">Try out your setup</string>
+    <string name="settings_key_border">Key border</string>
+    <string name="settings_key_border_desc">Draw a hairline around each key.</string>
+    <string name="settings_key_label_size">Key label size</string>
+    <string name="settings_suggestion_bar_size">Suggestion bar size</string>
+    <string name="settings_section_gaps">Key gaps</string>
+    <string name="settings_vertical_gap">Vertical gap</string>
+    <string name="settings_horizontal_gap">Horizontal gap</string>
     <string name="settings_suggestions">Word suggestions</string>
     <string name="settings_suggestions_desc">Show the suggestion bar while typing.</string>
     <string name="settings_auto_correct">Auto-correction</string>

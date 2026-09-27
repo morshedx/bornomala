@@ -17,6 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import com.bornomala.keyboard.theme.KeyboardFont
+import com.bornomala.keyboard.theme.KeyboardDimens
 import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.keyboardColorsFor
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.activity.compose.BackHandler
@@ -328,6 +330,10 @@ private fun SettingsHome(
     }
 }
 
+/**
+ * Theme & layout: the real keyboard pinned at the top, rendered from the live settings so every
+ * change below shows immediately; under it one scrolling row of themes and the size/gap controls.
+ */
 @Composable
 private fun ThemeSettings(
     settings: Settings,
@@ -336,181 +342,107 @@ private fun ThemeSettings(
     onBack: () -> Unit,
     modifier: Modifier,
 ) {
-    var showConfigurator by remember { mutableStateOf(false) }
-    // "Try now" (SwiftKey-style): reveals a focused text field that summons the real keyboard,
-    // so the user can type and watch theme changes apply live. While it is active, tapping a
-    // theme tile applies the theme immediately instead of opening the configurator sheet (the
-    // sheet would cover the live keyboard).
-    var tryNow by rememberSaveable { mutableStateOf(false) }
-    if (tryNow) BackHandler { tryNow = false }
-
     SettingsPage(
         title = title,
         onBack = onBack,
         modifier = modifier,
-        bottomOverlay = {
-            Box(Modifier.fillMaxSize()) {
-                if (tryNow) {
-                    TryNowField(
-                        onClose = { tryNow = false },
-                        modifier = Modifier.align(Alignment.BottomCenter),
-                    )
-                } else {
-                    ExtendedFloatingActionButton(
-                        onClick = { tryNow = true },
-                        icon = { Icon(LucideIcons.Keyboard, contentDescription = null) },
-                        text = { Text(stringResource(R.string.settings_try_now)) },
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .navigationBarsPadding()
-                            .padding(20.dp),
-                    )
-                }
-            }
-        },
+        pinned = { KeyboardPreviewBand(settings) },
     ) {
-            val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
-            run {
-                Column(
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp),
-                ) {
-                    KeyboardTheme.entries.chunked(3).forEach { rowThemes ->
-                        Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                            rowThemes.forEach { theme ->
-                                val preview = keyboardColorsFor(theme, systemDark)
-                                ThemeSwatch(
-                                    name = theme.displayName,
-                                    tray = preview.keyboardBackground,
-                                    key = preview.keyBackground,
-                                    accent = preview.accentKeyBackground,
-                                    spacebarBar = preview.keyContent.copy(alpha = 0.35f),
-                                    selected = theme == settings.keyboardTheme,
-                                    onClick = {
-                                        callbacks.onKeyboardTheme(theme)
-                                        if (!tryNow) showConfigurator = true
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                )
-                            }
-                            repeat(3 - rowThemes.size) { Spacer(Modifier.weight(1f)) }
-                        }
-                    }
-                }
-            }
-            // Room so the floating button, or the keyboard under "Try now", never hides a tile.
-            Spacer(Modifier.height(if (tryNow) 360.dp else 96.dp))
-    }
+        SettingsSectionHeader(stringResource(R.string.settings_theme))
+        ThemeRow(selected = settings.keyboardTheme, onSelect = callbacks.onKeyboardTheme)
 
-    if (showConfigurator) {
-        ConfiguratorSheet(settings, callbacks, onDismiss = { showConfigurator = false })
+        SettingsSectionHeader(stringResource(R.string.settings_section_keys))
+        SwitchSettingRow(
+            title = stringResource(R.string.settings_key_border),
+            description = stringResource(R.string.settings_key_border_desc),
+            checked = settings.keyBorder,
+            onCheckedChange = callbacks.onKeyBorder,
+        )
+        HeightSlider(scale = settings.keyboardHeightScale, onScaleChange = callbacks.onKeyboardHeightScale)
+        ScaleSlider(stringResource(R.string.settings_key_label_size), settings.keyLabelScale, callbacks.onKeyLabelScale)
+        ScaleSlider(stringResource(R.string.settings_suggestion_bar_size), settings.suggestionBarScale, callbacks.onSuggestionBarScale)
+
+        SettingsSectionHeader(stringResource(R.string.settings_section_gaps))
+        ScaleSlider(stringResource(R.string.settings_vertical_gap), settings.verticalGapScale, callbacks.onVerticalGapScale)
+        ScaleSlider(stringResource(R.string.settings_horizontal_gap), settings.horizontalGapScale, callbacks.onHorizontalGapScale)
     }
 }
 
-/**
- * The SwiftKey-style "try out your setup" bar. An auto-focused text field pinned above the
- * IME (via [imePadding]); focusing it makes the system show the active keyboard — Bornomala,
- * when it is the selected IME — so theme/gap/font changes (persisted to DataStore and observed
- * by the running IME) are reflected live as the user types.
- */
+/** The real keyboard composable in the chosen theme, font, metrics, height and number row. */
 @Composable
-private fun TryNowField(onClose: () -> Unit, modifier: Modifier = Modifier) {
-    val focusRequester = remember { FocusRequester() }
-    var text by rememberSaveable { mutableStateOf("") }
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
-
-    // The activity is edge-to-edge, so the keyboard is reported as an inset rather than a
-    // window resize: imePadding lifts the field to sit directly above the keyboard.
-    Surface(modifier = modifier.fillMaxWidth().imePadding(), tonalElevation = 3.dp) {
-        Column {
-            HorizontalDivider()
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
-                    placeholder = { Text(stringResource(R.string.settings_try_now_hint)) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .weight(1f)
-                        .focusRequester(focusRequester),
-                )
-                IconButton(onClick = onClose) {
-                    Icon(LucideIcons.X, contentDescription = stringResource(R.string.settings_back))
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun ConfiguratorSheet(
-    settings: Settings,
-    callbacks: SettingsCallbacks,
-    onDismiss: () -> Unit,
-) {
-    ModalBottomSheet(onDismissRequest = onDismiss) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 24.dp),
+private fun KeyboardPreviewBand(settings: Settings) {
+    val rowHeight = (KeyboardDimens.keyRowHeight * settings.keyboardHeightScale)
+        .coerceIn(KeyboardDimens.minKeyRowHeight, KeyboardDimens.maxKeyRowHeight)
+    androidx.compose.foundation.layout.Box(
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .padding(horizontal = 12.dp, vertical = 12.dp),
+    ) {
+        BornomalaTheme(
+            theme = settings.keyboardTheme,
+            font = settings.keyboardFont,
+            metrics = keyboardMetrics(
+                horizontalGapScale = settings.horizontalGapScale,
+                verticalGapScale = settings.verticalGapScale,
+                keyLabelScale = settings.keyLabelScale,
+                suggestionBarScale = settings.suggestionBarScale,
+                bottomGapScale = settings.bottomGapScale,
+                keyBorder = settings.keyBorder,
+            ),
         ) {
-            // Fixed-height frame so dragging the size sliders never resizes the sheet.
-            // Inside it we render the *real* keyboard composable wrapped in a BornomalaTheme
-            // whose metrics come from the live settings, so the preview matches the actual
-            // keyboard exactly and reacts to every slider/switch without a separate mock.
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(340.dp)
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-            ) {
-                BornomalaTheme(
-                    theme = settings.keyboardTheme,
-                    font = settings.keyboardFont,
-                    metrics = keyboardMetrics(
-                        horizontalGapScale = settings.horizontalGapScale,
-                        verticalGapScale = settings.verticalGapScale,
-                        keyLabelScale = settings.keyLabelScale,
-                        suggestionBarScale = settings.suggestionBarScale,
-                        bottomGapScale = settings.bottomGapScale,
-                        keyBorder = settings.keyBorder,
-                    ),
-                ) {
-                    KeyboardConfiguratorPreview(Modifier.fillMaxSize())
-                }
-            }
-            SwitchSettingRow(
-                title = "Key border",
-                description = "Draw a hairline around each key.",
-                checked = settings.keyBorder,
-                onCheckedChange = callbacks.onKeyBorder,
+            KeyboardConfiguratorPreview(
+                modifier = Modifier.fillMaxWidth(),
+                showNumberRow = settings.numberRowEnabled,
+                rowHeight = rowHeight,
+                bangla = true,
             )
-            Text(
-                text = "Key gaps & font sizes",
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 4.dp),
-            )
-            ScaleSlider("Vertical gap", "", settings.verticalGapScale, callbacks.onVerticalGapScale)
-            ScaleSlider("Horizontal gap", "", settings.horizontalGapScale, callbacks.onHorizontalGapScale)
-            ScaleSlider("Key label size", "", settings.keyLabelScale, callbacks.onKeyLabelScale)
-            ScaleSlider("Suggestion bar size", "", settings.suggestionBarScale, callbacks.onSuggestionBarScale)
         }
     }
 }
 
+/** Every keyboard theme in one horizontally scrolling row, opened on the current one. */
 @Composable
-private fun ScaleSlider(title: String, description: String, value: Float, onChange: (Float) -> Unit) {
+private fun ThemeRow(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Unit) {
+    val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
+    val scrollState = rememberScrollState()
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    LaunchedEffect(Unit) {
+        val index = KeyboardTheme.entries.indexOf(selected)
+        scrollState.scrollTo(with(density) { ((ThemeTileWidth + ThemeTileGap) * index).roundToPx() })
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(scrollState)
+            .padding(horizontal = 24.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(ThemeTileGap),
+    ) {
+        KeyboardTheme.entries.forEach { theme ->
+            val preview = keyboardColorsFor(theme, systemDark)
+            ThemeSwatch(
+                name = theme.displayName,
+                tray = preview.keyboardBackground,
+                key = preview.keyBackground,
+                accent = preview.accentKeyBackground,
+                spacebarBar = preview.keyContent.copy(alpha = 0.35f),
+                selected = theme == selected,
+                onClick = { onSelect(theme) },
+                modifier = Modifier.width(ThemeTileWidth),
+            )
+        }
+    }
+}
+
+private val ThemeTileWidth = 104.dp
+private val ThemeTileGap = 12.dp
+
+@Composable
+private fun ScaleSlider(title: String, value: Float, onChange: (Float) -> Unit) {
     val percent = (value * 100f).roundToInt()
     SliderSettingRow(
         title = title,
-        description = description,
+        description = "",
         valueLabel = "$percent%",
         sliderContentDescription = "$title, $percent percent",
         value = value,
