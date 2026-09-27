@@ -215,8 +215,9 @@ private fun LazyGridScope.header(key: String, content: @Composable () -> Unit) {
 }
 
 /**
- * The real keyboard in the current theme (and photo), drawn with the chosen font, compact:
- * letters only at a fixed row height, since this screen is about the labels.
+ * The real keyboard in the current theme (and photo) and number-row setting, drawn with the
+ * chosen font. Compact — keys only, no toolbar, at a fixed row height — since this screen is
+ * about the labels.
  */
 @Composable
 private fun FontPreviewBand(settings: Settings, customFamily: FontFamily?) {
@@ -246,8 +247,10 @@ private fun FontPreviewBand(settings: Settings, customFamily: FontFamily?) {
             CompositionLocalProvider(LocalKeyboardBackground provides background) {
                 KeyboardConfiguratorPreview(
                     modifier = Modifier.fillMaxWidth(),
-                    showNumberRow = false,
+                    showNumberRow = settings.numberRowEnabled,
                     rowHeight = 46.dp,
+                    bangla = true,
+                    showToolbar = false,
                 )
             }
         }
