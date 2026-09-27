@@ -273,7 +273,11 @@ private fun ImportRow(busy: Boolean, onClick: () -> Unit) {
         Icon(LucideIcons.Download, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.width(24.dp))
         Column(Modifier.weight(1f)) {
-            Text(stringResource(R.string.settings_font_import), style = MaterialTheme.typography.titleLarge)
+            Text(
+                stringResource(R.string.settings_font_import),
+                // Regular weight, like every other settings row title.
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal),
+            )
             Text(
                 stringResource(R.string.settings_font_import_desc),
                 style = MaterialTheme.typography.bodyLarge,
