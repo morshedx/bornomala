@@ -2,7 +2,6 @@ package com.bornomala.keyboard.backup
 
 import android.content.Context
 import android.os.Build
-import com.bornomala.keyboard.backup.crypto.CryptoBox
 import com.bornomala.keyboard.backup.drive.DriveClient
 import com.bornomala.keyboard.clipboard.domain.repository.ClipboardRepository
 import com.bornomala.keyboard.core.result.AppResult
@@ -11,22 +10,17 @@ import com.bornomala.keyboard.suggestions.data.local.RomanPickRepository
 import com.bornomala.keyboard.suggestions.data.local.UserDictionaryRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
-import javax.crypto.AEADBadTagException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /** A user-facing backup/restore failure carrying a message safe to show in the UI. */
 class BackupException(message: String) : Exception(message)
 
-/** Restore needs the passphrase of an encrypted backup, and none (or a wrong one) was given. */
-class PassphraseRequiredException : Exception("This backup is protected with a passphrase. Enter it to restore.")
-
 /**
  * Orchestrates a full backup/restore: gathers settings + learned dictionary + picks + clipboard,
- * serializes, and stores it in the hidden app-data folder of the user's Google Drive — as plain
- * JSON by default (protected by the Google account, like WhatsApp's default backup), or
- * encrypted with a passphrase when the user opts in. One-way (device → Drive → restore);
- * restore overwrites local data. No live sync / merge.
+ * serializes them to JSON, and stores that in the hidden app-data folder of the user's Google
+ * Drive, protected by their Google account (like WhatsApp's backup). One-way (device → Drive →
+ * restore); restore overwrites local data. No live sync / merge.
  */
 @Singleton
 class BackupManager @Inject constructor(
@@ -38,15 +32,11 @@ class BackupManager @Inject constructor(
     private val drive: DriveClient,
     private val serializer: BackupSerializer,
 ) {
-    /** The newest backup: the app-data file (plain or encrypted), or the legacy visible one. */
-    suspend fun remoteInfo(token: String): BackupInfo? = newest(allBackups(token))
+    /** The backup in Drive, or null when there is none. */
+    suspend fun remoteInfo(token: String): BackupInfo? = drive.findAppData(token, DriveClient.BACKUP_FILE)
 
-    /**
-     * Snapshots everything and uploads it, replacing the previous app-data backup. With a
-     * [passphrase] the file is encrypted first; without one it is stored as-is. The legacy
-     * visible backup is never touched, so an old passphrase can still unlock it later.
-     */
-    suspend fun backUp(token: String, passphrase: CharArray?) {
+    /** Snapshots everything and uploads it, replacing the previous backup. */
+    suspend fun backUp(token: String) {
         val settings = settingsRepository.settings.first()
         val (words, ngrams) = userDictionary.exportAll().orThrow()
         val clips = clipboard.exportAll().orThrow()
@@ -63,52 +53,32 @@ class BackupManager @Inject constructor(
             romanPicks = picks,
         )
         val json = serializer.encode(data)
-        val (name, other, bytes) = if (passphrase != null) {
-            Triple(DriveClient.ENCRYPTED_FILE, DriveClient.PLAIN_FILE, CryptoBox.encrypt(json, passphrase))
-        } else {
-            Triple(DriveClient.PLAIN_FILE, DriveClient.ENCRYPTED_FILE, json)
-        }
-        drive.uploadAppData(token, name, bytes, existingId = drive.findAppData(token, name)?.fileId)
-        // Keep a single app-data backup: drop the other kind if the user switched modes.
-        drive.findAppData(token, other)?.let { drive.delete(token, it.fileId) }
+        val existing = drive.findAppData(token, DriveClient.BACKUP_FILE)?.fileId
+        drive.uploadAppData(token, DriveClient.BACKUP_FILE, json, existingId = existing)
+        deleteOldEncrypted(token)
     }
 
-    /**
-     * Restores the newest backup, overwriting local settings, dictionary, picks and clipboard.
-     * An encrypted backup needs its [passphrase]; without it (or with a wrong one) this throws
-     * [PassphraseRequiredException].
-     */
-    suspend fun restore(token: String, passphrase: CharArray?) {
+    /** Restores the backup, overwriting local settings, dictionary, picks and clipboard. */
+    suspend fun restore(token: String) {
         val info = remoteInfo(token)
             ?: throw BackupException("No backup found in your Google Drive")
-        val blob = drive.download(token, info.fileId)
-        val json = if (info.encrypted) {
-            if (passphrase == null) throw PassphraseRequiredException()
-            try {
-                CryptoBox.decrypt(blob, passphrase)
-            } catch (_: AEADBadTagException) {
-                throw BackupException("Wrong passphrase, or the backup is corrupted")
-            }
-        } else {
-            blob
-        }
-        val data = serializer.decode(json)
+        val data = serializer.decode(drive.download(token, info.fileId))
         settingsRepository.replaceAll(data.settings).orThrow()
         userDictionary.replaceAll(data.words, data.ngrams).orThrow()
         romanPicks.replaceAll(data.romanPicks).orThrow()
         clipboard.replaceAll(data.clips).orThrow()
     }
 
-    /** Deletes every backup from Drive — app-data and legacy (no-op if none). */
+    /** Deletes the backup from Drive (no-op if none). */
     suspend fun deleteRemote(token: String) {
-        for (info in allBackups(token)) drive.delete(token, info.fileId)
+        drive.findAppData(token, DriveClient.BACKUP_FILE)?.let { drive.delete(token, it.fileId) }
+        deleteOldEncrypted(token)
     }
 
-    private suspend fun allBackups(token: String): List<BackupInfo> = listOfNotNull(
-        drive.findAppData(token, DriveClient.PLAIN_FILE),
-        drive.findAppData(token, DriveClient.ENCRYPTED_FILE),
-        drive.findLegacy(token),
-    )
+    /** Removes a passphrase-encrypted backup left by an older version; nothing can read it now. */
+    private suspend fun deleteOldEncrypted(token: String) {
+        drive.findAppData(token, DriveClient.OLD_ENCRYPTED_FILE)?.let { drive.delete(token, it.fileId) }
+    }
 
     private fun appVersion(): String =
         runCatching {
@@ -120,6 +90,3 @@ class BackupManager @Inject constructor(
         is AppResult.Failure -> throw BackupException(error.message)
     }
 }
-
-/** The most recently modified backup, or null when there is none. */
-internal fun newest(backups: List<BackupInfo>): BackupInfo? = backups.maxByOrNull { it.modifiedAtMillis }

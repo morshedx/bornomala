@@ -15,7 +15,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 /**
- * Obtains a Google OAuth access token for the Drive `drive.file` scope, using the modern
+ * Obtains a Google OAuth access token for the Drive `drive.appdata` scope, using the modern
  * Identity Authorization API (the classic GoogleSignIn is deprecated). No client secret is
  * embedded — the Android OAuth client is identified by package name + signing SHA-1, which
  * must be registered in a Google Cloud project with the Drive API enabled.
@@ -30,7 +30,7 @@ class GoogleAuthManager @Inject constructor(
 ) {
     private val client = Identity.getAuthorizationClient(context)
     private val request = AuthorizationRequest.builder()
-        .setRequestedScopes(listOf(Scope(DRIVE_APPDATA_SCOPE), Scope(DRIVE_FILE_SCOPE)))
+        .setRequestedScopes(listOf(Scope(DRIVE_APPDATA_SCOPE)))
         .build()
 
     sealed interface AuthState {
@@ -69,8 +69,5 @@ class GoogleAuthManager @Inject constructor(
     private companion object {
         /** The hidden app-data folder, where backups are stored. */
         const val DRIVE_APPDATA_SCOPE = "https://www.googleapis.com/auth/drive.appdata"
-
-        /** Files the app created in the visible Drive: reads/deletes the legacy backup only. */
-        const val DRIVE_FILE_SCOPE = "https://www.googleapis.com/auth/drive.file"
     }
 }

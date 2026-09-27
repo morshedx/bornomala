@@ -8,8 +8,8 @@ import com.bornomala.keyboard.suggestions.data.local.UserDictionaryEntity
 
 /**
  * Full snapshot of everything a backup carries: user settings, the learned dictionary
- * (words + n-grams + roman picks), and clipboard history, plus metadata. Serialized to JSON, then
- * encrypted with the user's passphrase before upload.
+ * (words + n-grams + roman picks), and clipboard history, plus metadata. Serialized to JSON and
+ * stored in the user's own Google Drive, protected by their Google account.
  */
 data class BackupData(
     val schemaVersion: Int,
@@ -28,16 +28,9 @@ data class BackupData(
     }
 }
 
-/**
- * Lightweight remote-file info shown in the UI (no contents downloaded).
- *
- * @param encrypted the file is encrypted with a passphrase, which restore then needs.
- * @param legacy the pre-app-data backup in the visible `headquarter/bornomala` folder.
- */
+/** Lightweight remote-file info shown in the UI (no contents downloaded). */
 data class BackupInfo(
     val fileId: String,
     val sizeBytes: Long,
     val modifiedAtMillis: Long,
-    val encrypted: Boolean = false,
-    val legacy: Boolean = false,
 )

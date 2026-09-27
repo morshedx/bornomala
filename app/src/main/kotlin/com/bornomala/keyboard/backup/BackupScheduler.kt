@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 /**
  * Schedules automatic backups via WorkManager once the user enables auto-backup (after a
- * one-time sign-in + passphrase). A daily periodic backup runs when charging + on Wi-Fi
+ * one-time sign-in and a first backup). A daily periodic backup runs when charging + on Wi-Fi
  * (battery/data friendly). A debounced one-shot can also be requested after data changes.
  */
 @Singleton

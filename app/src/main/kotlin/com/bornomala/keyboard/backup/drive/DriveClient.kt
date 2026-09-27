@@ -17,12 +17,8 @@ import javax.inject.Singleton
  * [HttpURLConnection] (no heavy `google-api-services-drive` dependency — matches the OTA code).
  *
  * Backups live in the Drive **app-data folder** (`drive.appdata` scope): a hidden, app-private
- * space that does not appear in the user's Drive file list, as WhatsApp does. Two names:
- * [PLAIN_FILE] (no passphrase; protected by the Google account) and [ENCRYPTED_FILE] (encrypted
- * with the user's passphrase before upload). Only one is kept at a time.
- *
- * Older versions stored an encrypted backup at `headquarter/bornomala/backup.bin` in the visible
- * Drive (`drive.file` scope, [findLegacy]); it is still found and restorable, never overwritten.
+ * space that does not appear in the user's Drive file list, as WhatsApp does, protected by the
+ * user's Google account.
  *
  * All calls take a short-lived OAuth access token (minted by [GoogleAuthManager]) and run on
  * the IO dispatcher.
@@ -31,27 +27,15 @@ import javax.inject.Singleton
 class DriveClient @Inject constructor(
     private val dispatchers: DispatcherProvider,
 ) {
-    /** Finds the app-data backup called [name] ([PLAIN_FILE] or [ENCRYPTED_FILE]), or null. */
+    /** Finds the app-data file called [name], or null. */
     suspend fun findAppData(token: String, name: String): BackupInfo? = withContext(dispatchers.io) {
-        queryFile(token, "name = '$name' and 'appDataFolder' in parents and trashed = false", APPDATA_SPACE)
-            ?.copy(encrypted = name == ENCRYPTED_FILE)
-    }
-
-    /** Finds the pre-app-data encrypted backup (`headquarter/bornomala/backup.bin`), or null. */
-    suspend fun findLegacy(token: String): BackupInfo? = withContext(dispatchers.io) {
-        val folderId = findBackupFolder(token) ?: return@withContext null
-        queryFile(token, "name = '$LEGACY_FILE' and '$folderId' in parents and trashed = false", DRIVE_SPACE)
-            ?.copy(encrypted = true, legacy = true)
-    }
-
-    private fun queryFile(token: String, query: String, space: String): BackupInfo? {
-        val q = URLEncoder.encode(query, "UTF-8")
+        val q = URLEncoder.encode("name = '$name' and 'appDataFolder' in parents and trashed = false", "UTF-8")
         val fields = URLEncoder.encode("files(id,size,modifiedTime)", "UTF-8")
-        val body = request("$DRIVE/files?spaces=$space&q=$q&fields=$fields&pageSize=1", "GET", token)
-        val files = JSONObject(body).optJSONArray("files") ?: return null
-        if (files.length() == 0) return null
+        val body = request("$DRIVE/files?spaces=$APPDATA_SPACE&q=$q&fields=$fields&pageSize=1", "GET", token)
+        val files = JSONObject(body).optJSONArray("files") ?: return@withContext null
+        if (files.length() == 0) return@withContext null
         val f = files.getJSONObject(0)
-        return BackupInfo(
+        BackupInfo(
             fileId = f.getString("id"),
             sizeBytes = f.optString("size", "0").toLongOrNull() ?: 0L,
             modifiedAtMillis = parseRfc3339(f.optString("modifiedTime")),
@@ -90,25 +74,6 @@ class DriveClient @Inject constructor(
         } finally {
             conn.disconnect()
         }
-    }
-
-    // --- folders ----------------------------------------------------------------------
-
-    /** Resolves `headquarter/bornomala`, returning null if either folder is absent. */
-    private fun findBackupFolder(token: String): String? {
-        val top = findFolder(token, FOLDER_TOP, "root") ?: return null
-        return findFolder(token, FOLDER_SUB, top)
-    }
-
-    private fun findFolder(token: String, name: String, parentId: String): String? {
-        val q = URLEncoder.encode(
-            "name = '$name' and mimeType = '$FOLDER_MIME' and '$parentId' in parents and trashed = false",
-            "UTF-8",
-        )
-        val fields = URLEncoder.encode("files(id)", "UTF-8")
-        val files = JSONObject(request("$DRIVE/files?spaces=$DRIVE_SPACE&q=$q&fields=$fields&pageSize=1", "GET", token))
-            .optJSONArray("files") ?: return null
-        return if (files.length() == 0) null else files.getJSONObject(0).getString("id")
     }
 
     // --- file upload ------------------------------------------------------------------
@@ -186,19 +151,17 @@ class DriveClient @Inject constructor(
         runCatching { java.time.Instant.parse(value).toEpochMilli() }.getOrDefault(0L)
 
     companion object {
-        /** App-data backup without a passphrase (settings/dictionary/clipboard JSON). */
-        const val PLAIN_FILE = "backup.json"
+        /** The backup: settings, dictionary, picks and clipboard as JSON. */
+        const val BACKUP_FILE = "backup.json"
 
-        /** App-data backup encrypted with the user's passphrase ([com.bornomala.keyboard.backup.crypto.CryptoBox]). */
-        const val ENCRYPTED_FILE = "backup.enc"
+        /**
+         * The passphrase-encrypted backup older versions could write. Nothing reads it any more;
+         * it is deleted on the next backup or delete so no unreadable copy lingers in Drive.
+         */
+        const val OLD_ENCRYPTED_FILE = "backup.enc"
 
-        private const val LEGACY_FILE = "backup.bin"
         private const val APPDATA_SPACE = "appDataFolder"
         private const val APPDATA_PARENT = "appDataFolder"
-        private const val DRIVE_SPACE = "drive"
-        private const val FOLDER_TOP = "headquarter"
-        private const val FOLDER_SUB = "bornomala"
-        private const val FOLDER_MIME = "application/vnd.google-apps.folder"
         private const val MIME = "application/octet-stream"
         private const val DRIVE = "https://www.googleapis.com/drive/v3"
         private const val UPLOAD = "https://www.googleapis.com/upload/drive/v3"

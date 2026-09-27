@@ -4,7 +4,7 @@
 
     <!--
       Privacy-first: the keyboard itself never touches the network. INTERNET (below) serves only
-      user-initiated OTA update checks and the optional, passphrase-encrypted Google Drive backup.
+      user-initiated OTA update checks and the optional backup to the user's own Google Drive.
       Vibration is used for optional key-press haptics, which does not involve any data collection.
     -->
     <uses-permission android:name="android.permission.VIBRATE" />

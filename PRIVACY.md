@@ -40,14 +40,11 @@ never uses the network. The app requests the `INTERNET` permission for two featu
 - **Google Drive backup (optional).** If you sign in with Google and back up, the app uploads
   your settings, learned words and word picks, and clipboard history to **your own** Google
   Drive, in its private app-data area (not shown in your Drive file list). The developer never
-  receives it. By default the backup is protected by your Google account — like WhatsApp's
-  default backup — so anyone who can sign in to your Google account, and Google itself, could
-  read it; note that clipboard history can contain things you copied, such as passwords or
-  codes. For stronger protection, turn on **Encrypt with passphrase**: the backup is then
-  encrypted on your device (AES-256-GCM, with a key derived from your passphrase) before upload,
-  so neither Google nor the developer can read it — and it cannot be restored without the
-  passphrase. Automatic daily backup runs only if you turn it on. You can restore or delete the
-  backup from the app at any time.
+  receives it. The backup is protected by your Google account — like WhatsApp's backup — so
+  anyone who can sign in to your Google account, and Google itself, could read it; note that
+  clipboard history can contain things you copied, such as passwords or codes. Automatic daily
+  backup runs only if you turn it on. You can restore or delete the backup from the app at any
+  time.
 
 ## On-device data
 
