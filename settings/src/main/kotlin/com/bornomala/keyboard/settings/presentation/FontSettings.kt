@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.settings.presentation
 
+import android.graphics.Typeface
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -67,6 +68,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bornomala.keyboard.theme.GlyphCentering
+import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.platform.LocalFontFamilyResolver
+import androidx.compose.ui.platform.LocalDensity
 import com.bornomala.keyboard.settings.R
 import com.bornomala.keyboard.settings.data.fonts.GoogleFont
 import com.bornomala.keyboard.settings.data.fonts.GoogleFontCategory
@@ -92,6 +99,11 @@ private val PreviewDispatcher = Dispatchers.IO.limitedParallelism(4)
 internal const val IMPORTING_FONT = "\u0000import"
 
 private val CardShape = RoundedCornerShape(20.dp)
+
+/** Each card's sample, drawn in its font and centred by its letters (not its line box). */
+private const val SAMPLE = "Aa"
+private val SampleSize = 40.sp
+private val SampleStyle = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
 
 /** MIME types offered by the import picker; file managers label fonts inconsistently. */
 private val FontMimeTypes = arrayOf(
@@ -425,11 +437,18 @@ private fun FontCard(
                 .aspectRatio(1.35f),
             contentAlignment = Alignment.Center,
         ) {
+            val resolver = LocalFontFamilyResolver.current
+            val metrics = remember(family, resolver) {
+                GlyphCentering.metricsFor(resolver.resolve(family ?: FontFamily.Default).value as? Typeface)
+            }
+            val shift = with(LocalDensity.current) { (SampleSize.toPx() * metrics.shiftFor(SAMPLE)).toDp() }
             Text(
-                text = "Aa",
+                text = SAMPLE,
                 fontFamily = family,
                 fontWeight = FontWeight.Normal,
-                fontSize = 40.sp,
+                fontSize = SampleSize,
+                style = SampleStyle,
+                modifier = Modifier.offset(y = shift),
                 maxLines = 1,
                 color = (if (selected) colors.onPrimaryContainer else colors.onSurface)
                     .copy(alpha = if (loading) 0.25f else 1f),

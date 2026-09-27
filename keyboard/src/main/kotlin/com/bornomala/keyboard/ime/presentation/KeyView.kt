@@ -30,6 +30,13 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFontFamilyResolver
+import androidx.compose.foundation.layout.offset
+import android.graphics.Typeface
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Icon
@@ -43,6 +50,7 @@ import com.bornomala.keyboard.ime.domain.model.KeyIcon
 import com.bornomala.keyboard.ime.domain.model.KeyStyle
 import com.bornomala.keyboard.ime.domain.model.ShiftState
 import com.bornomala.keyboard.theme.BornomalaTheme
+import com.bornomala.keyboard.theme.GlyphCentering
 
 /**
  * Renders a single key. Performance notes:
@@ -268,12 +276,20 @@ private fun KeyContent(
         else -> 22.sp
     } * labelScale
     val fontFamily = BornomalaTheme.keyFontFamily
+    val fontResolver = LocalFontFamilyResolver.current
+    val metrics = remember(fontFamily, fontResolver) {
+        GlyphCentering.metricsFor(fontResolver.resolve(fontFamily ?: FontFamily.Default).value as? Typeface)
+    }
+    // Shift the label so its letters, not its line box, sit in the middle of the key.
+    val labelShift = with(LocalDensity.current) { (labelSize.toPx() * metrics.shiftFor(label)).toDp() }
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(
             text = label,
             color = contentColor,
             fontSize = labelSize,
+            style = KeyLabelStyle,
             fontFamily = fontFamily,
+            modifier = Modifier.offset(y = labelShift),
             fontWeight = if (isSpacebar) FontWeight.Medium else FontWeight.Normal,
             textAlign = TextAlign.Center,
             maxLines = 1,
@@ -285,6 +301,7 @@ private fun KeyContent(
                 text = hint,
                 color = contentColor.copy(alpha = 0.5f),
                 fontSize = 10.sp,
+                style = KeyLabelStyle,
                 fontFamily = fontFamily,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -293,6 +310,10 @@ private fun KeyContent(
         }
     }
 }
+
+/** Key label text: no extra font padding, so the line box is exactly the font's ascent+descent. */
+private val KeyLabelStyle = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
+
 
 private fun labelFor(key: Key, shift: ShiftState): String {
     if (key.label.isEmpty()) return ""
