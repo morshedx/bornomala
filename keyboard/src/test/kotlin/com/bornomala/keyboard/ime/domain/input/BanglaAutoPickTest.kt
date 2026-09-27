@@ -28,6 +28,25 @@ class BanglaAutoPickTest {
         assertThat(BanglaAutoPick.choose("computer", "চম্পুতের", loanword, learned)).isEqualTo("কম্পিউটার")
     }
 
+    /**
+     * Regression (0.9.3): `chair` renders ছাইর, which suffix joining also builds (ছাই + র) as a
+     * suggest-only candidate; that blocked চেয়ার. Same for riti-only words (back -> বাচক).
+     */
+    @Test
+    fun `suggest-only candidates do not block a loanword`() {
+        val chair = BanglaWordMatch("চেয়ার", learned = false)
+        val suffixJoin = candidates("চাইর", "ছাইর", trusted = 0)
+        assertThat(BanglaAutoPick.choose("chair", "ছাইর", chair, suffixJoin)).isEqualTo("চেয়ার")
+
+        val back = BanglaWordMatch("ব্যাক", learned = false)
+        assertThat(BanglaAutoPick.choose("back", "বাচক", back, candidates("বাচক", trusted = 0))).isEqualTo("ব্যাক")
+    }
+
+    @Test
+    fun `a suggest-only rendering still blocks an ordinary phonetic swap`() {
+        assertThat(BanglaAutoPick.choose("chair", "ছাইর", null, candidates("চাইর", "ছাইর", trusted = 1))).isNull()
+    }
+
     @Test
     fun `a rarer loanword does not replace a dictionary word`() {
         val nice = BanglaWordMatch("নাইস", learned = false)
