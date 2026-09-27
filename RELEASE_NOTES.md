@@ -4,6 +4,16 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.5
+
+- The Bangla word now shows while you type (chair → চেয়ার), before you press space.
+- betari, batari and byatari all give ব্যাটারি; kemera gives ক্যামেরা.
+- Abbreviations: sms → এসএমএস, kg → কেজি; ips offers আইপিএস.
+- Words mis-typed earlier no longer block the right word.
+- Clearing the address bar keeps your language.
+
+---
+
 ## v0.9.4
 
 - Fixed: more English loanwords now convert in Bangla — chair → চেয়ার, back → ব্যাক, belt → বেল্ট and hundreds more that were being left letter-by-letter.
