@@ -68,6 +68,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.runtime.mutableIntStateOf
 import com.bornomala.keyboard.theme.GlyphCentering
 import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.text.TextStyle
@@ -159,18 +163,8 @@ internal fun FontSettings(
     // JetBrains Mono, the custom font (if any), Import and the "Google Fonts" title.
     val filterIndex = if (showCustom) 6 else 5
     val gridState = rememberLazyGridState()
-    // Sticky once the bar reaches the top: from then on a copy is drawn over the grid, in the
-    // very spot the bar occupies, so it stays put while the fonts scroll beneath it.
-    // The copy is only needed once the real bar has started to slide off; while it sits exactly
-    // at the top the real one (which may hold the search focus and caret) stays in view.
-    val filtersStuck by remember(filterIndex) {
-        derivedStateOf {
-            googleAvailable && (
-                gridState.firstVisibleItemIndex > filterIndex ||
-                    (gridState.firstVisibleItemIndex == filterIndex && gridState.firstVisibleItemScrollOffset > 0)
-                )
-        }
-    }
+    // Measured height of the search + filter bar; the grid reserves an empty slot this tall.
+    var filterBarHeight by remember { mutableIntStateOf(0) }
     val atOrPastFilters by remember(filterIndex) {
         derivedStateOf { gridState.firstVisibleItemIndex >= filterIndex }
     }
@@ -198,7 +192,7 @@ internal fun FontSettings(
         scrollable = false,
     ) {
         // imePadding: the list ends above the keyboard instead of running under it.
-        BoxWithConstraints(Modifier.fillMaxSize().imePadding()) {
+        BoxWithConstraints(Modifier.fillMaxSize().imePadding().clipToBounds()) {
             val viewportHeight = maxHeight
             LazyVerticalGrid(
                 state = gridState,
@@ -242,13 +236,9 @@ internal fun FontSettings(
                 }
                 if (googleAvailable) {
                     header("h-google") { GroupTitle(stringResource(R.string.settings_font_google)) }
-                    header("filters") {
-                        FilterBar(
-                            query = query,
-                            onQueryChange = { query = it },
-                            category = category,
-                            onCategory = { category = it },
-                        )
+                    // An empty slot the size of the bar: the one real bar (below) rides on it.
+                    header(FILTER_SLOT_KEY) {
+                        Spacer(Modifier.height(with(LocalDensity.current) { filterBarHeight.toDp() }))
                     }
                     items(shown, key = { "g-" + it.family }) { font ->
                         GoogleFontCard(
@@ -276,23 +266,41 @@ internal fun FontSettings(
                     }
                 }
             }
-            if (filtersStuck) {
+            if (googleAvailable) {
+                // The single search + filter bar, drawn over the grid. It follows its slot as the
+                // grid scrolls and stops at the top once the slot passes it (sticky). Being one
+                // field — never swapped for a copy — it keeps focus while the keyboard opens and
+                // the layout shifts beneath it.
+                val viewportPx = with(LocalDensity.current) { viewportHeight.roundToPx() }
                 FilterBar(
                     query = query,
                     onQueryChange = { query = it },
                     category = category,
                     onCategory = { category = it },
                     modifier = Modifier
+                        .onSizeChanged { filterBarHeight = it.height }
+                        .offset {
+                            val info = gridState.layoutInfo
+                            val slot = info.visibleItemsInfo.firstOrNull { it.key == FILTER_SLOT_KEY }
+                            val y = when {
+                                slot != null -> (slot.offset.y + info.beforeContentPadding).coerceAtLeast(0)
+                                gridState.firstVisibleItemIndex > filterIndex -> 0
+                                else -> viewportPx // slot is further down: keep the bar off screen
+                            }
+                            IntOffset(0, y)
+                        }
                         .background(MaterialTheme.colorScheme.surface)
-                        // Same inset as the grid's top content padding, so it lines up exactly.
-                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                        .padding(horizontal = 16.dp),
                 )
             }
         }
     }
 }
 
-/** Search field and category chips, as one block so the sticky copy lines up exactly. */
+/** Grid key of the empty slot the search + filter bar rides on. */
+private const val FILTER_SLOT_KEY = "filters"
+
+/** Search field and category chips, as one block. */
 @Composable
 private fun FilterBar(
     query: String,
