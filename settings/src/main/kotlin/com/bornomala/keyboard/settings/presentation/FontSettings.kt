@@ -32,7 +32,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -55,7 +54,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bornomala.keyboard.ime.presentation.KeyboardConfiguratorPreview
 import com.bornomala.keyboard.settings.R
 import com.bornomala.keyboard.settings.data.fonts.GoogleFont
 import com.bornomala.keyboard.settings.data.fonts.GoogleFontCategory
@@ -63,15 +61,9 @@ import com.bornomala.keyboard.settings.data.fonts.GoogleFonts
 import com.bornomala.keyboard.settings.domain.model.Settings
 import com.bornomala.keyboard.settings.presentation.components.SettingsPage
 import com.bornomala.keyboard.settings.presentation.components.rememberKeyboardFont
-import com.bornomala.keyboard.settings.presentation.components.rememberKeyboardPhoto
-import com.bornomala.keyboard.theme.BornomalaTheme
-import com.bornomala.keyboard.theme.KeyboardBackground
 import com.bornomala.keyboard.theme.KeyboardFont
-import com.bornomala.keyboard.theme.KeyboardTheme
-import com.bornomala.keyboard.theme.LocalKeyboardBackground
 import com.bornomala.keyboard.theme.LucideIcons
 import com.bornomala.keyboard.theme.keyboardFontFamily
-import com.bornomala.keyboard.theme.keyboardMetrics
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
@@ -99,7 +91,8 @@ private val FontMimeTypes = arrayOf(
 )
 
 /**
- * Key-label font picker. A live keyboard pinned on top shows the chosen font on real keys;
+ * Key-label font picker. The live keyboard (as on the Theme screen) pinned on top shows the
+ * chosen font on real keys;
  * below it, a grid of font cards — each a large "Aa" drawn in that font — with the phone's
  * fonts and an Import card first, then (only when Google Play services is present) every
  * Google Font with search and category filters, previewed lazily as the grid scrolls.
@@ -139,7 +132,8 @@ internal fun FontSettings(
         title = title,
         onBack = onBack,
         modifier = modifier,
-        pinned = { FontPreviewBand(settings, customFamily) },
+        // The same live keyboard as the Theme screen: it shows the chosen font on real keys.
+        pinned = { KeyboardPreviewBand(settings, callbacks.onKeyboardHeightScale) },
         scrollable = false,
     ) {
         LazyVerticalGrid(
@@ -212,49 +206,6 @@ internal fun FontSettings(
 /** A full-width grid row (group titles, the search field, the chips). */
 private fun LazyGridScope.header(key: String, content: @Composable () -> Unit) {
     item(key = key, span = { GridItemSpan(maxLineSpan) }) { content() }
-}
-
-/**
- * The real keyboard in the current theme (and photo) and number-row setting, drawn with the
- * chosen font. Compact — keys only, no toolbar, at a fixed row height — since this screen is
- * about the labels.
- */
-@Composable
-private fun FontPreviewBand(settings: Settings, customFamily: FontFamily?) {
-    val photo = rememberKeyboardPhoto(
-        if (settings.keyboardTheme == KeyboardTheme.IMAGE) settings.backgroundImageStamp else 0L,
-    )
-    val background = photo?.let { KeyboardBackground(it, settings.backgroundDim) }
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(12.dp),
-    ) {
-        BornomalaTheme(
-            theme = settings.keyboardTheme,
-            font = settings.keyboardFont,
-            customFont = customFamily,
-            metrics = keyboardMetrics(
-                horizontalGapScale = settings.horizontalGapScale,
-                verticalGapScale = settings.verticalGapScale,
-                keyLabelScale = settings.keyLabelScale,
-                suggestionBarScale = settings.suggestionBarScale,
-                bottomGapScale = settings.bottomGapScale,
-                keyBorder = settings.keyBorder,
-            ),
-        ) {
-            CompositionLocalProvider(LocalKeyboardBackground provides background) {
-                KeyboardConfiguratorPreview(
-                    modifier = Modifier.fillMaxWidth(),
-                    showNumberRow = settings.numberRowEnabled,
-                    rowHeight = 46.dp,
-                    bangla = true,
-                    showToolbar = false,
-                )
-            }
-        }
-    }
 }
 
 @Composable

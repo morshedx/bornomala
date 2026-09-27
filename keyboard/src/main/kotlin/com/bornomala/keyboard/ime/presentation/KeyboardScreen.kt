@@ -350,8 +350,7 @@ private val PreviewCallbacks = KeyboardCallbacks(
 /**
  * Display-only render of the real keyboard (toolbar + key grid) for settings and onboarding
  * previews. [showNumberRow], [rowHeight] and [bangla] mirror the matching user settings so a
- * preview can reflect them live. With [drawTray] false the caller paints the tray (and photo);
- * with [showToolbar] false only the keys are drawn.
+ * preview can reflect them live. With [drawTray] false the caller paints the tray (and photo).
  */
 @Composable
 fun KeyboardConfiguratorPreview(
@@ -360,7 +359,6 @@ fun KeyboardConfiguratorPreview(
     rowHeight: Dp = 56.dp,
     bangla: Boolean = false,
     drawTray: Boolean = true,
-    showToolbar: Boolean = true,
 ) {
     val colors = BornomalaTheme.keyboardColors
     val metrics = BornomalaTheme.metrics
@@ -387,19 +385,17 @@ fun KeyboardConfiguratorPreview(
         ) {
             // The real toolbar/suggestion bar. With no suggestions it shows the tools row,
             // exactly like the live keyboard before the user starts typing.
-            if (showToolbar) {
-                ActionStrip(
-                    suggestions = emptyList(),
-                    hasText = false,
-                    emojiActive = false,
-                    clipboardActive = false,
-                    numpadActive = false,
-                    callbacks = PreviewCallbacks,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp * metrics.suggestionBarScale),
-                )
-            }
+            ActionStrip(
+                suggestions = emptyList(),
+                hasText = false,
+                emojiActive = false,
+                clipboardActive = false,
+                numpadActive = false,
+                callbacks = PreviewCallbacks,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp * metrics.suggestionBarScale),
+            )
             KeyGrid(
                 layout = layout,
                 shift = ShiftState.OFF,

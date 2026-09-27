@@ -438,7 +438,7 @@ private fun ThemeSettings(
  * its bottom edge: drag down for taller keys, up for shorter.
  */
 @Composable
-private fun KeyboardPreviewBand(settings: Settings, onHeightChange: (Float) -> Unit) {
+internal fun KeyboardPreviewBand(settings: Settings, onHeightChange: (Float) -> Unit) {
     androidx.compose.foundation.layout.Box(
         Modifier
             .fillMaxWidth()
