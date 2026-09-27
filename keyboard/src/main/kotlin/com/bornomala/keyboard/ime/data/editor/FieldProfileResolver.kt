@@ -44,12 +44,17 @@ object FieldProfileResolver {
             variation == InputType.TYPE_TEXT_VARIATION_URI -> FieldKind.URL
             else -> FieldKind.TEXT
         }
-        val noSuggestionsFlag = isText && inputType and InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS != 0
         val noLearningFlag = imeOptions and EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING != 0
         val forceAscii = imeOptions and EditorInfo.IME_FLAG_FORCE_ASCII != 0
 
         // Only free text is worth suggesting for; numbers, phones and dates are not words.
-        val allowSuggestions = isText && !isPassword && !noSuggestionsFlag
+        //
+        // TYPE_TEXT_FLAG_NO_SUGGESTIONS is deliberately ignored, as Gboard does. Apps set it on
+        // everyday fields — Chrome's address bar, Google Keep notes — and mean "don't rewrite my
+        // input" (Chrome's UrlBar says so), not "hide the strip"; honouring it blanked the strip
+        // in those apps. Fields that must not be rewritten say so more specifically: passwords,
+        // URLs and email addresses, all handled below.
+        val allowSuggestions = isText && !isPassword
         val allowAutoCorrect = allowSuggestions && kind == FieldKind.TEXT &&
             variation != InputType.TYPE_TEXT_VARIATION_FILTER
 

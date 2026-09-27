@@ -9,9 +9,9 @@ package com.bornomala.keyboard.ime.domain.model
  * @param isPassword a password or PIN field.
  * @param allowLearning false for passwords and fields that request no personalized learning
  *   (e.g. an incognito browser tab): nothing typed there is remembered.
- * @param allowSuggestions false for passwords and fields that request no suggestions.
+ * @param allowSuggestions false for passwords and non-text fields (numbers, phones, dates).
  * @param allowAutoCorrect false where rewriting what was typed is never wanted: passwords,
- *   URLs, email addresses, and fields without suggestions.
+ *   URLs and email addresses.
  * @param capsMode the auto-capitalization the field requests.
  * @param languageOverride a language to switch to for this field only (English for passwords,
  *   URLs, email and ASCII-only fields; otherwise the app's language hint), or null.

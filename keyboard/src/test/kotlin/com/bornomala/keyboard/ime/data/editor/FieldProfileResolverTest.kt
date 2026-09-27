@@ -57,12 +57,29 @@ class FieldProfileResolverTest {
         assertThat(p.isPassword).isFalse()
     }
 
+    /**
+     * Regression: 0.9.0 hid the strip for this flag, blanking suggestions in Google Keep notes
+     * and Chrome's address bar, where Gboard still suggests.
+     */
     @Test
-    fun `no-suggestions flag turns off suggestions and auto-correct`() {
-        val p = resolve(TYPE_CLASS_TEXT or TYPE_TEXT_FLAG_NO_SUGGESTIONS)
-        assertThat(p.allowSuggestions).isFalse()
-        assertThat(p.allowAutoCorrect).isFalse()
+    fun `no-suggestions flag is ignored, as Gboard does`() {
+        val p = resolve(TYPE_CLASS_TEXT or TYPE_TEXT_FLAG_MULTI_LINE or TYPE_TEXT_FLAG_NO_SUGGESTIONS)
+        assertThat(p.allowSuggestions).isTrue()
+        assertThat(p.allowAutoCorrect).isTrue()
         assertThat(p.allowLearning).isTrue()
+    }
+
+    /** Exactly what Chrome's omnibox sends (UrlBar.onCreateInputConnection), in an incognito tab. */
+    @Test
+    fun `chrome address bar suggests without auto-correct, and learns nothing in incognito`() {
+        val p = resolve(
+            TYPE_CLASS_TEXT or TYPE_TEXT_FLAG_NO_SUGGESTIONS or TYPE_TEXT_VARIATION_URI,
+            EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING,
+        )
+        assertThat(p.allowSuggestions).isTrue()
+        assertThat(p.allowAutoCorrect).isFalse()
+        assertThat(p.allowLearning).isFalse()
+        assertThat(p.kind).isEqualTo(FieldKind.URL)
     }
 
     @Test
