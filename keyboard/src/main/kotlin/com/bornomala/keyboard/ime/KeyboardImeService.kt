@@ -262,7 +262,9 @@ class KeyboardImeService : InputMethodService() {
         interactor.setField(profile)
         applyEnterKey(info, profile)
         stateHolder.setFieldKind(profile.kind)
-        applyLanguageOverride(profile.languageOverride)
+        // A restart of the same field (e.g. Chrome's address bar after tapping ✕) keeps whatever
+        // language the user switched to there; only a newly focused field applies its override.
+        if (!restarting) applyLanguageOverride(profile.languageOverride)
         // Seed the empty/typing signal for the newly bound field so the strip starts correct.
         refreshHasText()
     }

@@ -14,9 +14,6 @@ data class BanglaPhoneticCandidates(
     val learnedOnly: Set<String> = emptySet(),
 ) {
 
-    /** The best auto-pickable word, or null. */
-    val topTrusted: String? get() = if (trustedCount > 0) words.firstOrNull() else null
-
     companion object {
         val EMPTY = BanglaPhoneticCandidates(emptyList(), 0)
     }

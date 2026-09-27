@@ -66,9 +66,15 @@ class BanglaAutoPickTest {
     }
 
     @Test
-    fun `learned words still stop an ordinary phonetic swap`() {
-        val learned = candidates("শশা", "সা", trusted = 2, learnedOnly = setOf("শশা"))
-        assertThat(BanglaAutoPick.choose("shosha", "শশা", null, learned)).isNull()
+    fun `dictionary words still stop an ordinary phonetic swap`() {
+        assertThat(BanglaAutoPick.choose("shosha", "শশা", null, candidates("শশা", "সা"))).isNull()
+    }
+
+    /** Regression: বেতারি, learned from an earlier miss, kept `betari` from becoming ব্যাটারি. */
+    @Test
+    fun `a merely learned rendering does not stop a phonetic swap`() {
+        val learned = candidates("বেতারি", "ব্যাটারি", trusted = 2, learnedOnly = setOf("বেতারি"))
+        assertThat(BanglaAutoPick.choose("betari", "বেতারি", null, learned)).isEqualTo("ব্যাটারি")
     }
 
     @Test

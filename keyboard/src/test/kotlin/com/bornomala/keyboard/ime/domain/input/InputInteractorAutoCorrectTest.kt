@@ -255,6 +255,20 @@ class InputInteractorAutoCorrectTest {
     }
 
     @Test
+    fun `undoing a bangla swap with backspace remembers what was typed`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        typeBangla("betari")
+        stateHolder.setSuggestions(listOf(Suggestion(text = "ব্যাটারি", isAutoCorrect = true)))
+        interactor.onKey(KeyAction.Space)
+        assertThat(editor.text.toString()).isEqualTo("ব্যাটারি ")
+
+        interactor.onKey(KeyAction.Backspace)
+
+        assertThat(editor.text.toString()).isEqualTo("betari")
+        assertThat(picks).containsExactly("betari" to "betari")
+    }
+
+    @Test
     fun `tapping a bangla suggestion remembers it for the typed roman`() {
         typeBangla("bus")
 

@@ -31,9 +31,11 @@ object BanglaAutoPick {
      *     trusted word. Input with vowels (`ips`) only offers it: it could as well be a name
      *     (`rif` -> রিফ), and one tap on আইপিএস records a pick (rule 1);
      *  4. the top *trusted* phonetic-dictionary word, withheld when the roman is still too short to
-     *     be a finished word or when the transliteration is itself a known word — learned or not,
-     *     since then it is not a misspelling to fix. Suggest-only candidates count as known words
-     *     for that check but are never auto-picked.
+     *     be a finished word or when the transliteration is itself a dictionary word (trusted or
+     *     suggest-only), since then it is not a misspelling to fix. A rendering the keyboard only
+     *     *learned* does not count — an earlier miss (বেতারি, committed before `betari` could find
+     *     ব্যাটারি) must not block the fix forever; a user who wants the rendering undoes the swap
+     *     with backspace or taps it, which records a pick (rule 1).
      */
     fun choose(
         roman: String,
@@ -44,7 +46,7 @@ object BanglaAutoPick {
     ): String? {
         val phonetic = candidates.words
         val renderedRank = if (rendered.isEmpty()) -1 else phonetic.indexOf(rendered)
-        val renderedIsKnownWord = renderedRank >= 0
+        val renderedIsKnownWord = renderedRank >= 0 && rendered !in candidates.learnedOnly
         if (word != null) {
             val renderedIsTrustedWord = renderedRank in 0 until candidates.trustedCount &&
                 rendered !in candidates.learnedOnly
@@ -61,6 +63,10 @@ object BanglaAutoPick {
         }
         if (roman.length < MIN_PHONETIC_PICK_LEN) return null
         if (renderedIsKnownWord) return null
-        return candidates.topTrusted
+        // The best trusted word other than the rendering itself (a learned rendering may lead).
+        for (i in 0 until minOf(candidates.trustedCount, phonetic.size)) {
+            if (phonetic[i] != rendered) return phonetic[i]
+        }
+        return null
     }
 }

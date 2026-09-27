@@ -91,7 +91,12 @@ class InputInteractor(
     private var pendingComma: Boolean = false
 
     /** Records an applied auto-correction for one-tap undo (original typed word vs the swap-in). */
-    private data class AutoCorrectUndo(val original: String, val corrected: String)
+    private data class AutoCorrectUndo(
+        val original: String,
+        val corrected: String,
+        /** The Bangla roman input behind the swap; empty for English. */
+        val roman: String = "",
+    )
 
     /** Updates behavioural config (snapshot of user settings). Cheap; no reset. */
     fun updateConfig(newConfig: InputConfig) {
@@ -405,7 +410,8 @@ class InputInteractor(
             editor.setComposingText(correction)
             editor.finishComposing()
             committedWord = correction
-            pendingAutoCorrect = AutoCorrectUndo(original = verbatim, corrected = correction)
+            val roman = if (state.language == KeyboardLanguage.BANGLA) composingBuffer.toString() else ""
+            pendingAutoCorrect = AutoCorrectUndo(original = verbatim, corrected = correction, roman = roman)
         } else {
             editor.finishComposing()
             committedWord = verbatim
@@ -430,6 +436,9 @@ class InputInteractor(
         if (before.toString() != tail) return false
         editor.deleteSurroundingText(tail.length, 0)
         editor.commitText(undo.original)
+        // Undoing a Bangla swap is a deliberate choice of what was typed: remember it so the same
+        // spelling is not swapped again (the auto-pick defers to picks, not to learned words).
+        if (undo.roman.isNotEmpty()) callbacks.onBanglaPicked(undo.roman, undo.original)
         callbacks.onComposingChanged(stateHolder.current.language, "")
         return true
     }

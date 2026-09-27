@@ -101,6 +101,14 @@ SPELLING_VARIANTS = [
     ("\u0993\u09DF", "\u09AC"),
 ]
 
+# ্যা (æ, Avro `ya`) is commonly typed as `e` or `a`: betari/batari -> ব্যাটারি, kemera ->
+# ক্যামেরা. These keys are weaker evidence than the ones above, so a word filed under them ranks
+# after every word the key already holds (`baka` keeps বাঁকা ahead of ব্যাখ্যা).
+DEMOTED_SPELLING_VARIANTS = [
+    (HASANT + "\u09AF\u09BE", "\u09C7"),
+    (HASANT + "\u09AF\u09BE", "\u09BE"),
+]
+
 
 def precompose(text: str) -> str:
     for decomposed, composed in PRECOMPOSE.items():
@@ -189,10 +197,10 @@ def bangla_key(word: str) -> str:
     return assemble(events(word))
 
 
-def keys_for(word: str) -> list[str]:
+def keys_for(word: str, variants=None) -> list[str]:
     """The base key plus the keys of alternative spellings, de-duplicated, base first."""
     out = [bangla_key(word)]
-    for source, replacement in SPELLING_VARIANTS:
+    for source, replacement in (SPELLING_VARIANTS if variants is None else variants):
         if source in word:
             key = bangla_key(word.replace(source, replacement))
             if key and key not in out:
@@ -256,10 +264,17 @@ def main() -> int:
     for word, synthetic in load_previous_index().items():
         frequencies.setdefault(word, synthetic)
 
-    index: dict[str, list[tuple[int, str]]] = defaultdict(list)
+    # (demoted, freq, word): words filed under a DEMOTED_SPELLING_VARIANTS key rank after every
+    # other word under that key, so `baka` keeps বাঁকা first while `betari`, which matches nothing
+    # else, still finds ব্যাটারি.
+    index: dict[str, list[tuple[int, int, str]]] = defaultdict(list)
     for word, freq in frequencies.items():
-        for key in keys_for(word):
-            index[key].append((freq, word))
+        keys = keys_for(word)
+        for key in keys:
+            index[key].append((0, freq, word))
+        for key in keys_for(word, DEMOTED_SPELLING_VARIANTS)[1:]:
+            if key not in keys:
+                index[key].append((1, freq, word))
 
     # Suggest-only: shortest first (closest to the bare key), then alphabetical for stability.
     # A word is kept only if it fits under its own key; only then is it also indexed under its
@@ -268,6 +283,7 @@ def main() -> int:
     riti_words = [word for word in load_riti_words() if word not in frequencies]
     for word in sorted(riti_words, key=lambda w: (len(w), w)):
         keys = keys_for(word)
+        keys += [k for k in keys_for(word, DEMOTED_SPELLING_VARIANTS)[1:] if k not in keys]
         if not keys or len(extra[keys[0]]) >= MAX_EXTRA_WORDS_PER_KEY:
             continue
         for key in keys:
@@ -285,8 +301,8 @@ def main() -> int:
         "# every line below with the Kotlin implementation so the two cannot drift.",
     ]
     for key in sorted(set(index) | set(extra)):
-        ranked = sorted(index.get(key, []), key=lambda pair: (-pair[0], pair[1]))
-        words = [word for _, word in ranked[:MAX_WORDS_PER_KEY]]
+        ranked = sorted(index.get(key, []), key=lambda e: (e[0], -e[1], e[2]))
+        words = [word for _, _, word in ranked[:MAX_WORDS_PER_KEY]]
         more = [word for word in extra.get(key, []) if word not in words]
         line = f"{key}\t{' '.join(words)}"
         if more:
