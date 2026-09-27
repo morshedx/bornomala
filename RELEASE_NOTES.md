@@ -4,6 +4,15 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.3
+
+- Fixed: English loanwords (computer → কম্পিউটার) stopped converting after a word was typed letter-by-letter once.
+- Bangla loanwords now convert in browser address bars and search boxes too.
+- Switching to Bangla no longer starts with Shift on.
+- The .com key label no longer wraps.
+
+---
+
 ## v0.9.2
 
 - Fixed: word suggestions were missing in Chrome's address bar, Google Keep and other apps.
