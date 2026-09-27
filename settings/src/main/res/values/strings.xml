@@ -52,8 +52,9 @@
     <string name="settings_font_display">Display</string>
     <string name="settings_font_handwriting">Handwriting</string>
     <string name="settings_font_mono">Monospace</string>
-    <string name="settings_font_import">Import font file</string>
-    <string name="settings_font_import_desc">A TTF or OTF font from your phone.</string>
+    <string name="settings_font_import_short">Import</string>
+    <string name="settings_font_clear_search">Clear search</string>
+    <string name="settings_font_none_found">No fonts match your search</string>
     <string name="settings_font_import_failed">That file isn’t a font the keyboard can use</string>
     <string name="settings_font_download_failed">Couldn’t download that font. Check your connection.</string>
     <string name="settings_photo">Photo</string>
