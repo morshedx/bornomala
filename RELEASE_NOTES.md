@@ -4,6 +4,15 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.6
+
+- Backup no longer needs a passphrase: it's kept privately in your Google Drive, protected by your Google account (like WhatsApp).
+- Want extra protection? Turn on "Encrypt with passphrase".
+- Old passphrase backups can still be restored.
+- Updated privacy policy and About screen.
+
+---
+
 ## v0.9.5
 
 - The Bangla word now shows while you type (chair → চেয়ার), before you press space.
