@@ -29,7 +29,6 @@
 
     <!-- Keyboard height -->
     <string name="settings_keyboard_height">Keyboard height</string>
-    <string name="settings_keyboard_height_desc">Adjust how tall the keyboard appears.</string>
     <string name="settings_keyboard_height_value">%1$d%%</string>
 
     <!-- Feedback -->
@@ -111,7 +110,6 @@
     <string name="settings_font">Font</string>
     <string name="settings_font_desc">Choose the font used for key labels.</string>
     <string name="settings_load_error">Couldn\'t load settings. Showing defaults.</string>
-    <string name="settings_height_slider_cd">Keyboard height, %1$d percent</string>
 
     <!-- Software update -->
     <string name="settings_section_software_update">Software update</string>

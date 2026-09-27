@@ -675,10 +675,7 @@ private fun PreferencesSettings(settings: Settings, callbacks: SettingsCallbacks
         },
         onClick = onOpenFonts,
     )
-    HeightSlider(
-        scale = settings.keyboardHeightScale,
-        onScaleChange = callbacks.onKeyboardHeightScale,
-    )
+    // Keyboard height is set by dragging the handle on the Theme and Font screens' preview.
     BottomGapSlider(
         scale = settings.bottomGapScale,
         onScaleChange = callbacks.onBottomGapScale,
@@ -739,25 +736,6 @@ private fun ClipboardSettings(settings: Settings, callbacks: SettingsCallbacks) 
         description = stringResource(R.string.settings_clipboard_desc),
         checked = settings.clipboardEnabled,
         onCheckedChange = callbacks.onClipboard,
-    )
-}
-
-@Composable
-private fun HeightSlider(
-    scale: Float,
-    onScaleChange: (Float) -> Unit,
-) {
-    val percent = (scale * 100f).roundToInt()
-    SliderSettingRow(
-        title = stringResource(R.string.settings_keyboard_height),
-        description = stringResource(R.string.settings_keyboard_height_desc),
-        valueLabel = stringResource(R.string.settings_keyboard_height_value, percent),
-        sliderContentDescription = stringResource(R.string.settings_height_slider_cd, percent),
-        value = scale,
-        valueRange = Settings.MIN_KEYBOARD_HEIGHT_SCALE..Settings.MAX_KEYBOARD_HEIGHT_SCALE,
-        // 5% increments across the 75%..140% range.
-        steps = 12,
-        onValueChange = onScaleChange,
     )
 }
 
