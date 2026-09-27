@@ -34,6 +34,9 @@ import com.bornomala.keyboard.theme.ThemeMode
  *   suggestion bar while typing Bangla.
  * @property learnFromTyping allow the user dictionary to learn frequently typed words.
  * @property volumeKeyCursorControl move the text cursor with the volume keys while typing.
+ * @property backgroundImageStamp when the keyboard photo was last picked (0 = none); a new
+ *   value tells the keyboard to reload the photo file.
+ * @property backgroundDim 0..[MAX_BACKGROUND_DIM] darkening over the photo, for readable keys.
  */
 @Immutable
 data class Settings(
@@ -60,11 +63,15 @@ data class Settings(
     val banglaPhoneticSuggestions: Boolean = true,
     val learnFromTyping: Boolean = true,
     val volumeKeyCursorControl: Boolean = true,
+    val backgroundImageStamp: Long = 0L,
+    val backgroundDim: Float = DEFAULT_BACKGROUND_DIM,
 ) {
     companion object {
         const val MIN_KEYBOARD_HEIGHT_SCALE: Float = 0.75f
         const val MAX_KEYBOARD_HEIGHT_SCALE: Float = 1.4f
         const val DEFAULT_KEYBOARD_HEIGHT_SCALE: Float = 1.1f
+        const val MAX_BACKGROUND_DIM: Float = 0.8f
+        const val DEFAULT_BACKGROUND_DIM: Float = 0.3f
 
         /** Defaults snapshot, used as the initial emission and on read errors. */
         val DEFAULTS: Settings = Settings()

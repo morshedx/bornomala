@@ -83,6 +83,7 @@ import com.bornomala.keyboard.settings.presentation.components.SettingsNavRow
 import com.bornomala.keyboard.settings.presentation.components.HeightHandle
 import com.bornomala.keyboard.settings.presentation.components.ResizableKeyboardPreview
 import com.bornomala.keyboard.settings.presentation.components.SettingsPage
+import com.bornomala.keyboard.settings.presentation.components.rememberKeyboardPhoto
 import com.bornomala.keyboard.settings.presentation.components.SettingsSectionHeader
 import com.bornomala.keyboard.settings.presentation.components.SliderSettingRow
 import com.bornomala.keyboard.settings.presentation.components.SwitchSettingRow
@@ -157,6 +158,8 @@ internal data class SettingsCallbacks(
     val onKeyLabelScale: (Float) -> Unit,
     val onSuggestionBarScale: (Float) -> Unit,
     val onBottomGapScale: (Float) -> Unit,
+    val onBackgroundPhotoPicked: (android.net.Uri) -> Unit,
+    val onBackgroundDim: (Float) -> Unit,
     val onKeyboardHeightScale: (Float) -> Unit,
     val onVibration: (Boolean) -> Unit,
     val onSound: (Boolean) -> Unit,
@@ -195,6 +198,8 @@ private fun rememberCallbacks(
             onKeyLabelScale = viewModel::onKeyLabelScaleChange,
             onSuggestionBarScale = viewModel::onSuggestionBarScaleChange,
             onBottomGapScale = viewModel::onBottomGapScaleChange,
+            onBackgroundPhotoPicked = viewModel::onBackgroundPhotoPicked,
+            onBackgroundDim = viewModel::onBackgroundDimChange,
             onKeyboardHeightScale = viewModel::onKeyboardHeightScaleChange,
             onVibration = viewModel::onKeyPressVibrationChange,
             onSound = viewModel::onKeyPressSoundChange,
@@ -345,6 +350,19 @@ private fun ThemeSettings(
     onBack: () -> Unit,
     modifier: Modifier,
 ) {
+    // The system photo picker: no storage permission, and only the chosen image is shared.
+    val pickPhoto = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
+    ) { uri -> uri?.let(callbacks.onBackgroundPhotoPicked) }
+    val launchPicker = {
+        pickPhoto.launch(
+            androidx.activity.result.PickVisualMediaRequest(
+                androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly,
+            ),
+        )
+    }
+    val photoActive = settings.keyboardTheme == KeyboardTheme.IMAGE
+
     SettingsPage(
         title = title,
         onBack = onBack,
@@ -352,7 +370,39 @@ private fun ThemeSettings(
         pinned = { KeyboardPreviewBand(settings, callbacks.onKeyboardHeightScale) },
     ) {
         SettingsSectionHeader(stringResource(R.string.settings_theme))
-        ThemeRow(selected = settings.keyboardTheme, onSelect = callbacks.onKeyboardTheme)
+        ThemeRow(
+            selected = settings.keyboardTheme,
+            photoStamp = settings.backgroundImageStamp,
+            onSelect = callbacks.onKeyboardTheme,
+            onPhoto = {
+                // No photo yet, or the photo theme is already on: pick one. Otherwise switch
+                // back to the photo chosen earlier.
+                if (settings.backgroundImageStamp == 0L || photoActive) {
+                    launchPicker()
+                } else {
+                    callbacks.onKeyboardTheme(KeyboardTheme.IMAGE)
+                }
+            },
+        )
+        if (photoActive) {
+            SettingsSectionHeader(stringResource(R.string.settings_section_photo))
+            SettingsActionRow(
+                title = stringResource(R.string.settings_photo_change),
+                summary = stringResource(R.string.settings_photo_change_desc),
+                onClick = launchPicker,
+            )
+            val dimPercent = (settings.backgroundDim * 100f).roundToInt()
+            SliderSettingRow(
+                title = stringResource(R.string.settings_photo_dim),
+                description = stringResource(R.string.settings_photo_dim_desc),
+                valueLabel = "$dimPercent%",
+                sliderContentDescription = stringResource(R.string.settings_photo_dim) + ", $dimPercent percent",
+                value = settings.backgroundDim,
+                valueRange = 0f..Settings.MAX_BACKGROUND_DIM,
+                steps = 15,
+                onValueChange = callbacks.onBackgroundDim,
+            )
+        }
 
         SettingsSectionHeader(stringResource(R.string.settings_section_keys))
         SwitchSettingRow(
@@ -392,9 +442,17 @@ private fun KeyboardPreviewBand(settings: Settings, onHeightChange: (Float) -> U
     }
 }
 
-/** Every keyboard theme in one horizontally scrolling row, opened on the current one. */
+/**
+ * Every colour theme in one horizontally scrolling row, opened on the current one, then the
+ * photo tile: the user's photo once chosen, otherwise an "add photo" tile.
+ */
 @Composable
-private fun ThemeRow(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Unit) {
+private fun ThemeRow(
+    selected: KeyboardTheme,
+    photoStamp: Long,
+    onSelect: (KeyboardTheme) -> Unit,
+    onPhoto: () -> Unit,
+) {
     val systemDark = androidx.compose.foundation.isSystemInDarkTheme()
     val scrollState = rememberScrollState()
     val density = androidx.compose.ui.platform.LocalDensity.current
@@ -409,7 +467,7 @@ private fun ThemeRow(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Unit)
             .padding(horizontal = 24.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(ThemeTileGap),
     ) {
-        KeyboardTheme.entries.forEach { theme ->
+        KeyboardTheme.entries.filter { it != KeyboardTheme.IMAGE }.forEach { theme ->
             val preview = keyboardColorsFor(theme, systemDark)
             ThemeSwatch(
                 name = theme.displayName,
@@ -422,6 +480,56 @@ private fun ThemeRow(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Unit)
                 modifier = Modifier.width(ThemeTileWidth),
             )
         }
+        PhotoTile(
+            stamp = photoStamp,
+            selected = selected == KeyboardTheme.IMAGE,
+            onClick = onPhoto,
+            modifier = Modifier.width(ThemeTileWidth),
+        )
+    }
+}
+
+/** The photo theme's tile: a thumbnail of the chosen photo, or an "add photo" prompt. */
+@Composable
+private fun PhotoTile(stamp: Long, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val thumbnail = rememberKeyboardPhoto(stamp)
+    val shape = RoundedCornerShape(14.dp)
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+                .clip(shape)
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                .border(
+                    width = if (selected) 2.dp else 1.dp,
+                    color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
+                    shape = shape,
+                )
+                .clickable(role = Role.Button, onClick = onClick),
+            contentAlignment = Alignment.Center,
+        ) {
+            if (thumbnail != null) {
+                androidx.compose.foundation.Image(
+                    bitmap = thumbnail,
+                    contentDescription = null,
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize().clip(shape),
+                )
+            } else {
+                Icon(
+                    LucideIcons.ImagePlus,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = stringResource(if (thumbnail != null) R.string.settings_photo else R.string.settings_photo_add),
+            style = MaterialTheme.typography.labelSmall,
+            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

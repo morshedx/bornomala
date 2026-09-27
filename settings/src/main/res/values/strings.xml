@@ -43,6 +43,14 @@
     <string name="settings_number_row_desc">Always show a dedicated row of digits.</string>
     <string name="settings_volume_cursor">Volume keys move cursor</string>
     <string name="settings_volume_cursor_desc">While the keyboard is open, volume up/down nudges the cursor right/left. When audio or video is playing, the keys control volume as usual.</string>
+    <string name="settings_photo">Photo</string>
+    <string name="settings_photo_add">Add photo</string>
+    <string name="settings_section_photo">Photo</string>
+    <string name="settings_photo_change">Change photo</string>
+    <string name="settings_photo_change_desc">Pick another picture for the keyboard background.</string>
+    <string name="settings_photo_dim">Background dim</string>
+    <string name="settings_photo_dim_desc">Darken the photo so the keys stay easy to read.</string>
+    <string name="settings_photo_failed">Couldn’t use that image</string>
     <string name="settings_key_border">Key border</string>
     <string name="settings_key_border_desc">Draw a hairline around each key.</string>
     <string name="settings_key_label_size">Key label size</string>

@@ -76,6 +76,8 @@ class BackupSerializer @Inject constructor() {
         put("banglaPhoneticSuggestions", s.banglaPhoneticSuggestions)
         put("learnFromTyping", s.learnFromTyping)
         put("volumeKeyCursorControl", s.volumeKeyCursorControl)
+        // The keyboard photo itself stays on the phone; only its dim level is backed up.
+        put("backgroundDim", s.backgroundDim.toDouble())
     }
 
     private fun settingsFromJson(o: JSONObject?): Settings {
@@ -105,6 +107,8 @@ class BackupSerializer @Inject constructor() {
             banglaPhoneticSuggestions = o.optBoolean("banglaPhoneticSuggestions", d.banglaPhoneticSuggestions),
             learnFromTyping = o.optBoolean("learnFromTyping", d.learnFromTyping),
             volumeKeyCursorControl = o.optBoolean("volumeKeyCursorControl", d.volumeKeyCursorControl),
+            backgroundDim = o.optDouble("backgroundDim", d.backgroundDim.toDouble()).toFloat()
+                .coerceIn(0f, Settings.MAX_BACKGROUND_DIM),
         )
     }
 

@@ -36,6 +36,8 @@ interface KeyboardSettingsPort {
  * @param banglaTransliterationEnabled route Bangla input through the engine (vs. fixed map).
  * @param volumeKeyCursorControl move the cursor with the volume keys while the keyboard shows.
  * @param lastLanguage language to restore on start.
+ * @param backgroundImageStamp when the photo theme's image was last picked (0 = none).
+ * @param backgroundDim darkening over the photo (0..1).
  */
 data class KeyboardSettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
@@ -60,6 +62,8 @@ data class KeyboardSettings(
     val learnFromTyping: Boolean = true,
     val volumeKeyCursorControl: Boolean = true,
     val lastLanguage: KeyboardLanguage = KeyboardLanguage.ENGLISH,
+    val backgroundImageStamp: Long = 0L,
+    val backgroundDim: Float = 0.3f,
 )
 
 /**

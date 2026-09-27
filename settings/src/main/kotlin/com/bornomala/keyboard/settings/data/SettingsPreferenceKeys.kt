@@ -2,6 +2,7 @@ package com.bornomala.keyboard.settings.data
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 /**
@@ -32,4 +33,6 @@ internal object SettingsPreferenceKeys {
     val BANGLA_PHONETIC_SUGGESTIONS = booleanPreferencesKey("bangla_phonetic_suggestions")
     val LEARN_FROM_TYPING = booleanPreferencesKey("learn_from_typing")
     val VOLUME_KEY_CURSOR_CONTROL = booleanPreferencesKey("volume_key_cursor_control")
+    val BACKGROUND_IMAGE_STAMP = longPreferencesKey("background_image_stamp")
+    val BACKGROUND_DIM = floatPreferencesKey("background_dim")
 }

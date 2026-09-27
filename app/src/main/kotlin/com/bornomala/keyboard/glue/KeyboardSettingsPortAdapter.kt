@@ -56,6 +56,8 @@ class KeyboardSettingsPortAdapter @Inject constructor(
                 learnFromTyping = s.learnFromTyping,
                 volumeKeyCursorControl = s.volumeKeyCursorControl,
                 lastLanguage = language,
+                backgroundImageStamp = s.backgroundImageStamp,
+                backgroundDim = s.backgroundDim,
             )
         }
 

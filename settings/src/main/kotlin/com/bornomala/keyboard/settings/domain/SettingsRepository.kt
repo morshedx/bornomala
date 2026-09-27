@@ -79,6 +79,15 @@ interface SettingsRepository {
 
     suspend fun setVolumeKeyCursorControl(enabled: Boolean): AppResult<Unit>
 
+    /**
+     * Records that a new keyboard photo was saved (at [stamp], epoch millis) and switches the
+     * keyboard to the photo theme, in one edit.
+     */
+    suspend fun setBackgroundImage(stamp: Long): AppResult<Unit>
+
+    /** Sets the darkening over the keyboard photo, clamped to 0..[Settings.MAX_BACKGROUND_DIM]. */
+    suspend fun setBackgroundDim(dim: Float): AppResult<Unit>
+
     /** Restores every preference to its default value in a single atomic edit. */
     suspend fun resetToDefaults(): AppResult<Unit>
 

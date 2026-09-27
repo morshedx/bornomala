@@ -53,6 +53,8 @@ import com.bornomala.keyboard.ime.domain.model.KeyboardPage
 import com.bornomala.keyboard.ime.domain.model.KeyboardPanel
 import com.bornomala.keyboard.ime.domain.model.KeyboardState
 import com.bornomala.keyboard.theme.BornomalaTheme
+import com.bornomala.keyboard.theme.LocalKeyboardBackground
+import com.bornomala.keyboard.theme.keyboardTray
 
 /**
  * The complete keyboard surface: suggestion bar, the active key grid, and the long-press
@@ -115,7 +117,7 @@ internal fun KeyboardScreen(
         modifier = modifier
             .fillMaxWidth()
             .onGloballyPositioned { rootCoordinates = it }
-            .background(colors.keyboardBackground)
+            .keyboardTray(colors.keyboardBackground, LocalKeyboardBackground.current)
             // Reserve the gesture/navigation-bar inset: the tray background paints to the
             // bottom edge while the keys sit above the gesture pill (no black gap, no overlap).
             .navigationBarsPadding(),
@@ -348,7 +350,7 @@ private val PreviewCallbacks = KeyboardCallbacks(
 /**
  * Display-only render of the real keyboard (toolbar + key grid) for settings and onboarding
  * previews. [showNumberRow], [rowHeight] and [bangla] mirror the matching user settings so a
- * preview can reflect them live.
+ * preview can reflect them live. With [drawTray] false the caller paints the tray (and photo).
  */
 @Composable
 fun KeyboardConfiguratorPreview(
@@ -356,6 +358,7 @@ fun KeyboardConfiguratorPreview(
     showNumberRow: Boolean = false,
     rowHeight: Dp = 56.dp,
     bangla: Boolean = false,
+    drawTray: Boolean = true,
 ) {
     val colors = BornomalaTheme.keyboardColors
     val metrics = BornomalaTheme.metrics
@@ -371,7 +374,13 @@ fun KeyboardConfiguratorPreview(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(14.dp))
-                .background(colors.keyboardBackground)
+                .then(
+                    if (drawTray) {
+                        Modifier.keyboardTray(colors.keyboardBackground, LocalKeyboardBackground.current)
+                    } else {
+                        Modifier
+                    },
+                )
                 .padding(horizontal = 4.dp, vertical = 6.dp),
         ) {
             // The real toolbar/suggestion bar. With no suggestions it shows the tools row,

@@ -68,6 +68,10 @@ internal object SettingsMapper {
                 ?: defaults.learnFromTyping,
             volumeKeyCursorControl = prefs[SettingsPreferenceKeys.VOLUME_KEY_CURSOR_CONTROL]
                 ?: defaults.volumeKeyCursorControl,
+            backgroundImageStamp = prefs[SettingsPreferenceKeys.BACKGROUND_IMAGE_STAMP]
+                ?: defaults.backgroundImageStamp,
+            backgroundDim = prefs[SettingsPreferenceKeys.BACKGROUND_DIM]
+                ?.let(::clampDim) ?: defaults.backgroundDim,
         )
     }
 
@@ -88,4 +92,6 @@ internal object SettingsMapper {
             Settings.MIN_KEYBOARD_HEIGHT_SCALE,
             Settings.MAX_KEYBOARD_HEIGHT_SCALE,
         )
+
+    fun clampDim(value: Float): Float = value.coerceIn(0f, Settings.MAX_BACKGROUND_DIM)
 }

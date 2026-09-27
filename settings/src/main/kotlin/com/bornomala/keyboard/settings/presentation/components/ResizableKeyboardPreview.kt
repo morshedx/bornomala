@@ -22,12 +22,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
@@ -41,9 +44,15 @@ import com.bornomala.keyboard.ime.presentation.KeyboardConfiguratorPreview
 import com.bornomala.keyboard.settings.R
 import com.bornomala.keyboard.settings.domain.model.Settings
 import com.bornomala.keyboard.theme.BornomalaTheme
+import com.bornomala.keyboard.theme.KeyboardBackground
+import com.bornomala.keyboard.theme.KeyboardBackgroundImage
 import com.bornomala.keyboard.theme.KeyboardDimens
+import com.bornomala.keyboard.theme.KeyboardTheme
+import com.bornomala.keyboard.theme.keyboardTray
 import com.bornomala.keyboard.theme.keyboardColorsFor
 import com.bornomala.keyboard.theme.keyboardMetrics
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
 /** Where the height handle sits, which also decides which drag direction makes keys taller. */
@@ -70,6 +79,10 @@ fun ResizableKeyboardPreview(
     shape: Shape = RoundedCornerShape(24.dp),
 ) {
     val colors = keyboardColorsFor(settings.keyboardTheme, isSystemInDarkTheme())
+    val photo = rememberKeyboardPhoto(
+        if (settings.keyboardTheme == KeyboardTheme.IMAGE) settings.backgroundImageStamp else 0L,
+    )
+    val background = photo?.let { KeyboardBackground(it, settings.backgroundDim) }
     var dragging by remember { mutableStateOf(false) }
     var scale by remember { mutableFloatStateOf(settings.keyboardHeightScale) }
     LaunchedEffect(settings.keyboardHeightScale) {
@@ -144,7 +157,8 @@ fun ResizableKeyboardPreview(
     Column(
         modifier
             .clip(shape)
-            .background(colors.keyboardBackground),
+            // One tray (and photo) behind both the handle strip and the keys.
+            .keyboardTray(colors.keyboardBackground, background),
     ) {
         if (handle == HeightHandle.TOP) handleStrip()
         BornomalaTheme(
@@ -164,10 +178,24 @@ fun ResizableKeyboardPreview(
                 showNumberRow = settings.numberRowEnabled,
                 rowHeight = rowHeight,
                 bangla = true,
+                drawTray = false,
             )
         }
         if (handle == HeightHandle.BOTTOM) handleStrip()
     }
+}
+
+/**
+ * The keyboard photo for [stamp] (0 = none), decoded off the main thread; null until loaded.
+ * A new stamp (a newly picked photo) reloads it.
+ */
+@Composable
+fun rememberKeyboardPhoto(stamp: Long): ImageBitmap? {
+    val context = LocalContext.current
+    val photo by produceState<ImageBitmap?>(initialValue = null, stamp) {
+        value = if (stamp == 0L) null else withContext(Dispatchers.IO) { KeyboardBackgroundImage.load(context) }
+    }
+    return photo
 }
 
 /** Keyboard height in 5% steps within the allowed range, matching the settings slider. */

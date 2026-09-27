@@ -23,6 +23,9 @@ enum class KeyboardTheme(val displayName: String) {
     SUNSET("Sunset"),
     GRAPE("Grape"),
     ROSE("Rose"),
+
+    /** The user's own photo behind see-through keys ([KeyboardBackgroundImage]). */
+    IMAGE("Photo"),
     ;
 
     companion object {
@@ -53,6 +56,39 @@ fun keyboardColorsFor(theme: KeyboardTheme, systemInDark: Boolean): KeyboardColo
     // comma, period, globe, delete, numpad rails), teal accent (Enter) — so the grid reads with
     // the same digit/functional contrast as the other themes.
     KeyboardTheme.SOLARIZED -> colored(0xFF212B30, 0xFF394147, 0xFF454D53, 0xFF2D353A, 0xFF394147, 0xFF39A097)
+    KeyboardTheme.IMAGE -> ImageKeyboardColors
+}
+
+/**
+ * Photo theme: translucent keys and a transparent suggestion bar so the photo shows through,
+ * white labels (kept readable by the dim layer [KeyboardBackground.dim]) and the Solarized teal
+ * Enter key. [KeyboardColors.keyboardBackground] is the dark fill shown under the photo, or on
+ * its own if the photo is missing (e.g. after restoring a backup on another phone).
+ */
+private val ImageKeyboardColors: KeyboardColors = run {
+    val content = Color.White
+    val key = Color(0x33FFFFFF)
+    val keyPressed = Color(0x59FFFFFF)
+    KeyboardColors(
+        keyboardBackground = Color(0xFF1B2226),
+        keyBackground = key,
+        keyBackgroundPressed = keyPressed,
+        keyContent = content,
+        functionalKeyBackground = Color(0x1FFFFFFF),
+        functionalKeyBackgroundPressed = Color(0x47FFFFFF),
+        functionalKeyContent = content,
+        spacebarBackground = key,
+        spacebarContent = content.copy(alpha = 0.8f),
+        accentKeyBackground = Color(0xFF39A097),
+        accentKeyContent = content,
+        suggestionBarBackground = Color.Transparent,
+        suggestionText = content,
+        suggestionTextHighlighted = Color(0xFF8FE3D8),
+        suggestionDivider = Color(0x40FFFFFF),
+        popupBackground = Color(0xFF2D353A),
+        popupContent = content,
+        keyStroke = Color(0x33000000),
+    )
 }
 
 /** Builds a full [KeyboardColors] from a few seed colors (all colored themes are dark). */

@@ -844,7 +844,7 @@ private fun ThemePicker(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Un
     val density = LocalDensity.current
     // Start with the current theme in view: the default (Solarized) is last in the row.
     LaunchedEffect(Unit) {
-        val index = KeyboardTheme.entries.indexOf(selected)
+        val index = ColorThemes.indexOf(selected)
         scrollState.scrollTo(with(density) { ((SwatchSize + SwatchGap) * index).roundToPx() })
     }
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -860,7 +860,7 @@ private fun ThemePicker(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Un
                 .padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(SwatchGap),
         ) {
-            KeyboardTheme.entries.forEach { theme ->
+            ColorThemes.forEach { theme ->
                 val colors = keyboardColorsFor(theme, systemDark)
                 val isSelected = theme == selected
                 Box(
@@ -898,6 +898,9 @@ private fun ThemePicker(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Un
         }
     }
 }
+
+/** The colour themes; the photo theme needs a picked image, so it lives in Settings only. */
+private val ColorThemes = KeyboardTheme.entries.filter { it != KeyboardTheme.IMAGE }
 
 private val SwatchSize = 56.dp
 private val SwatchGap = 12.dp

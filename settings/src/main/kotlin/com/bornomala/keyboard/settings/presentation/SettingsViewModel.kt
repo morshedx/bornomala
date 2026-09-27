@@ -1,20 +1,28 @@
 package com.bornomala.keyboard.settings.presentation
 
+import android.content.Context
+import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bornomala.keyboard.core.dispatchers.DispatcherProvider
 import com.bornomala.keyboard.core.result.Resource
+import com.bornomala.keyboard.settings.R
 import com.bornomala.keyboard.settings.domain.SettingsRepository
 import com.bornomala.keyboard.settings.domain.model.Settings
+import com.bornomala.keyboard.theme.KeyboardBackgroundImage
 import com.bornomala.keyboard.theme.KeyboardFont
 import com.bornomala.keyboard.theme.KeyboardTheme
 import com.bornomala.keyboard.theme.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Drives [SettingsScreen]. Exposes the persisted [Settings] as a [Resource]-wrapped
@@ -28,6 +36,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val repository: SettingsRepository,
+    @ApplicationContext private val context: Context,
+    private val dispatchers: DispatcherProvider,
 ) : ViewModel() {
 
     val uiState: StateFlow<Resource<Settings>> =
@@ -113,6 +123,21 @@ class SettingsViewModel @Inject constructor(
     fun onVolumeKeyCursorControlChange(enabled: Boolean) = launchEdit {
         repository.setVolumeKeyCursorControl(enabled)
     }
+
+    /**
+     * Copies the photo the user picked into the app's private storage (off the main thread) and
+     * switches the keyboard to it. Shows a short message if the image can't be read.
+     */
+    fun onBackgroundPhotoPicked(uri: Uri) = launchEdit {
+        val saved = withContext(dispatchers.io) { KeyboardBackgroundImage.save(context, uri) }
+        if (saved) {
+            repository.setBackgroundImage(System.currentTimeMillis())
+        } else {
+            Toast.makeText(context, R.string.settings_photo_failed, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun onBackgroundDimChange(dim: Float) = launchEdit { repository.setBackgroundDim(dim) }
 
     fun onResetToDefaults() = launchEdit {
         repository.resetToDefaults()

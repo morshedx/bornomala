@@ -122,6 +122,15 @@ internal class DataStoreSettingsRepository(
     override suspend fun setVolumeKeyCursorControl(enabled: Boolean): AppResult<Unit> =
         edit { prefs -> prefs[SettingsPreferenceKeys.VOLUME_KEY_CURSOR_CONTROL] = enabled }
 
+    override suspend fun setBackgroundImage(stamp: Long): AppResult<Unit> =
+        edit { prefs ->
+            prefs[SettingsPreferenceKeys.BACKGROUND_IMAGE_STAMP] = stamp
+            prefs[SettingsPreferenceKeys.KEYBOARD_THEME] = KeyboardTheme.IMAGE.name
+        }
+
+    override suspend fun setBackgroundDim(dim: Float): AppResult<Unit> =
+        edit { prefs -> prefs[SettingsPreferenceKeys.BACKGROUND_DIM] = SettingsMapper.clampDim(dim) }
+
     override suspend fun resetToDefaults(): AppResult<Unit> =
         edit { prefs -> prefs.clear() }
 
@@ -152,6 +161,8 @@ internal class DataStoreSettingsRepository(
             prefs[keys.BANGLA_PHONETIC_SUGGESTIONS] = settings.banglaPhoneticSuggestions
             prefs[keys.LEARN_FROM_TYPING] = settings.learnFromTyping
             prefs[keys.VOLUME_KEY_CURSOR_CONTROL] = settings.volumeKeyCursorControl
+            prefs[keys.BACKGROUND_IMAGE_STAMP] = settings.backgroundImageStamp
+            prefs[keys.BACKGROUND_DIM] = settings.backgroundDim
         }
 
     /**

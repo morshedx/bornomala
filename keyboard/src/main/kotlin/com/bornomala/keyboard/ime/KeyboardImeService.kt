@@ -12,7 +12,10 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.view.inputmethod.InlineSuggestionsResponse
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.setViewTreeLifecycleOwner
@@ -45,6 +48,10 @@ import com.bornomala.keyboard.ime.domain.state.KeyboardStateHolder
 import com.bornomala.keyboard.ime.presentation.KeyboardCallbacks
 import com.bornomala.keyboard.ime.presentation.KeyboardScreen
 import com.bornomala.keyboard.theme.BornomalaTheme
+import com.bornomala.keyboard.theme.KeyboardBackground
+import com.bornomala.keyboard.theme.KeyboardBackgroundImage
+import com.bornomala.keyboard.theme.KeyboardTheme
+import com.bornomala.keyboard.theme.LocalKeyboardBackground
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -52,7 +59,10 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -94,6 +104,9 @@ class KeyboardImeService : InputMethodService() {
 
     /** Settings snapshot driving the renderer (theme/height/suggestion toggle). */
     private val settingsState = MutableStateFlow(KeyboardSettings())
+
+    /** The photo theme's image, decoded off the main thread when (and only when) it is in use. */
+    private val backgroundPhoto = MutableStateFlow<ImageBitmap?>(null)
 
     /** Hot-path-readable feedback flags, updated whenever settings change. */
     @Volatile private var hapticsEnabled = false
@@ -199,6 +212,7 @@ class KeyboardImeService : InputMethodService() {
         )
         composeHost.onCreate()
         observeSettings()
+        observeBackgroundPhoto()
         restoreLastLanguage()
         clipboardManager.addPrimaryClipChangedListener(clipChangedListener)
     }
@@ -221,6 +235,11 @@ class KeyboardImeService : InputMethodService() {
             setViewTreeSavedStateRegistryOwner(composeHost)
             setContent {
                 val settings by settingsState.collectAsStateWithLifecycle()
+                val photo by backgroundPhoto.collectAsStateWithLifecycle()
+                val background = remember(photo, settings.keyboardTheme, settings.backgroundDim) {
+                    photo?.takeIf { settings.keyboardTheme == KeyboardTheme.IMAGE }
+                        ?.let { KeyboardBackground(it, settings.backgroundDim) }
+                }
                 val state by stateHolder.state.collectAsStateWithLifecycle()
                 val inlineSuggestions by (inlineAutofill?.views ?: NO_INLINE_SUGGESTIONS).collectAsStateWithLifecycle()
                 BornomalaTheme(
@@ -235,13 +254,15 @@ class KeyboardImeService : InputMethodService() {
                         keyBorder = settings.keyBorder,
                     ),
                 ) {
-                    KeyboardScreen(
-                        state = state,
-                        layoutProvider = layoutProvider,
-                        callbacks = callbacks,
-                        keyHeightFraction = settings.keyHeightFraction,
-                        inlineSuggestions = inlineSuggestions,
-                    )
+                    CompositionLocalProvider(LocalKeyboardBackground provides background) {
+                        KeyboardScreen(
+                            state = state,
+                            layoutProvider = layoutProvider,
+                            callbacks = callbacks,
+                            keyHeightFraction = settings.keyHeightFraction,
+                            inlineSuggestions = inlineSuggestions,
+                        )
+                    }
                 }
             }
         }
@@ -537,6 +558,25 @@ class KeyboardImeService : InputMethodService() {
                     suggestionsEnabled = s.suggestionsEnabled,
                 )
             }
+        }
+    }
+
+    /**
+     * Loads the keyboard photo when the photo theme is on, and again only when a new photo is
+     * picked (its stamp changes); drops it when another theme is chosen, freeing the memory.
+     */
+    private fun observeBackgroundPhoto() {
+        serviceScope.launch {
+            settingsState
+                .map { if (it.keyboardTheme == KeyboardTheme.IMAGE) it.backgroundImageStamp else 0L }
+                .distinctUntilChanged()
+                .collectLatest { stamp ->
+                    backgroundPhoto.value = if (stamp == 0L) {
+                        null
+                    } else {
+                        withContext(dispatchers.io) { KeyboardBackgroundImage.load(this@KeyboardImeService) }
+                    }
+                }
         }
     }
 
