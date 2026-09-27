@@ -4,6 +4,13 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.11
+
+- Settings screens have a compact title bar, with the title next to the back arrow.
+- Font search no longer closes the keyboard when you tap it after scrolling.
+
+---
+
 ## v0.9.10
 
 - Photo theme: put your own picture behind the keys, with a dim control so the letters stay readable.
