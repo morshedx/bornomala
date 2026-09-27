@@ -4,6 +4,15 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.7
+
+- Redesigned settings, in the clean style of Android and Gboard settings.
+- Settings follow your phone's light/dark mode and font.
+- The keyboard's gear button opens settings directly.
+- New defaults: Solarized theme, number row, no auto-capitalization, 110% height.
+
+---
+
 ## v0.9.6
 
 - Backup no longer needs a passphrase: it's kept privately in your Google Drive, protected by your Google account (like WhatsApp).
