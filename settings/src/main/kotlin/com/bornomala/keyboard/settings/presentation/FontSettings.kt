@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,6 +34,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -127,6 +131,21 @@ internal fun FontSettings(
     }
     val customFamily = rememberKeyboardFont(settings.customFontStamp)
     val isCustom = settings.keyboardFont == KeyboardFont.CUSTOM
+    val showCustom = settings.customFontStamp != 0L && customFamily != null
+
+    // Grid position of the search + filter bar: after the "On this phone" title, System,
+    // JetBrains Mono, the custom font (if any), Import and the "Google Fonts" title.
+    val filterIndex = if (showCustom) 6 else 5
+    val gridState = rememberLazyGridState()
+    // Sticky once the bar reaches the top: from then on a copy is drawn over the grid, in the
+    // very spot the bar occupies, so it stays put while the fonts scroll beneath it.
+    val filtersStuck by remember(filterIndex) {
+        derivedStateOf { googleAvailable && gridState.firstVisibleItemIndex >= filterIndex }
+    }
+    // A new search or filter while stuck: start the results right under the bar.
+    LaunchedEffect(query, category) {
+        if (filtersStuck) gridState.scrollToItem(filterIndex)
+    }
 
     SettingsPage(
         title = title,
@@ -136,70 +155,111 @@ internal fun FontSettings(
         pinned = { KeyboardPreviewBand(settings, callbacks.onKeyboardHeightScale) },
         scrollable = false,
     ) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 104.dp),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 32.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            header("h-phone") { GroupTitle(stringResource(R.string.settings_font_on_phone)) }
-            item(key = "system") {
-                FontCard(
-                    name = KeyboardFont.SYSTEM.displayName,
-                    family = null,
-                    selected = settings.keyboardFont == KeyboardFont.SYSTEM,
-                    onClick = { callbacks.onKeyboardFont(KeyboardFont.SYSTEM) },
-                )
-            }
-            item(key = "mono") {
-                FontCard(
-                    name = KeyboardFont.JETBRAINS_MONO.displayName,
-                    family = keyboardFontFamily(KeyboardFont.JETBRAINS_MONO),
-                    selected = settings.keyboardFont == KeyboardFont.JETBRAINS_MONO,
-                    onClick = { callbacks.onKeyboardFont(KeyboardFont.JETBRAINS_MONO) },
-                )
-            }
-            if (settings.customFontStamp != 0L && customFamily != null) {
-                item(key = "custom") {
+        Box(Modifier.fillMaxSize()) {
+            LazyVerticalGrid(
+                state = gridState,
+                columns = GridCells.Adaptive(minSize = 104.dp),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 32.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                header("h-phone") { GroupTitle(stringResource(R.string.settings_font_on_phone)) }
+                item(key = "system") {
                     FontCard(
-                        name = settings.customFontName.ifEmpty { KeyboardFont.CUSTOM.displayName },
-                        family = customFamily,
-                        selected = isCustom,
-                        onClick = { callbacks.onKeyboardFont(KeyboardFont.CUSTOM) },
+                        name = KeyboardFont.SYSTEM.displayName,
+                        family = null,
+                        selected = settings.keyboardFont == KeyboardFont.SYSTEM,
+                        onClick = { callbacks.onKeyboardFont(KeyboardFont.SYSTEM) },
                     )
                 }
-            }
-            item(key = "import") {
-                ImportCard(
-                    busy = busyFont == IMPORTING_FONT,
-                    onClick = { importFont.launch(FontMimeTypes) },
-                )
-            }
-            if (googleAvailable) {
-                header("h-google") { GroupTitle(stringResource(R.string.settings_font_google)) }
-                header("search") { SearchField(query = query, onQueryChange = { query = it }) }
-                header("chips") { CategoryChips(selected = category, onSelect = { category = it }) }
-                items(shown, key = { "g-" + it.family }) { font ->
-                    GoogleFontCard(
-                        family = font.family,
-                        selected = isCustom && settings.customFontName == font.family,
-                        busy = busyFont == font.family,
-                        onClick = { callbacks.onGoogleFont(font.family) },
+                item(key = "mono") {
+                    FontCard(
+                        name = KeyboardFont.JETBRAINS_MONO.displayName,
+                        family = keyboardFontFamily(KeyboardFont.JETBRAINS_MONO),
+                        selected = settings.keyboardFont == KeyboardFont.JETBRAINS_MONO,
+                        onClick = { callbacks.onKeyboardFont(KeyboardFont.JETBRAINS_MONO) },
                     )
                 }
-                if (shown.isEmpty() && catalog.isNotEmpty()) {
-                    header("empty") {
-                        Text(
-                            text = stringResource(R.string.settings_font_none_found),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
+                if (showCustom) {
+                    item(key = "custom") {
+                        FontCard(
+                            name = settings.customFontName.ifEmpty { KeyboardFont.CUSTOM.displayName },
+                            family = customFamily,
+                            selected = isCustom,
+                            onClick = { callbacks.onKeyboardFont(KeyboardFont.CUSTOM) },
                         )
                     }
                 }
+                item(key = "import") {
+                    ImportCard(
+                        busy = busyFont == IMPORTING_FONT,
+                        onClick = { importFont.launch(FontMimeTypes) },
+                    )
+                }
+                if (googleAvailable) {
+                    header("h-google") { GroupTitle(stringResource(R.string.settings_font_google)) }
+                    header("filters") {
+                        FilterBar(
+                            query = query,
+                            onQueryChange = { query = it },
+                            category = category,
+                            onCategory = { category = it },
+                        )
+                    }
+                    items(shown, key = { "g-" + it.family }) { font ->
+                        GoogleFontCard(
+                            family = font.family,
+                            selected = isCustom && settings.customFontName == font.family,
+                            busy = busyFont == font.family,
+                            onClick = { callbacks.onGoogleFont(font.family) },
+                        )
+                    }
+                    if (shown.isEmpty() && catalog.isNotEmpty()) {
+                        header("empty") {
+                            Text(
+                                text = stringResource(R.string.settings_font_none_found),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
+                            )
+                        }
+                    }
+                }
+            }
+            if (filtersStuck) {
+                FilterBar(
+                    query = query,
+                    onQueryChange = { query = it },
+                    category = category,
+                    onCategory = { category = it },
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surface)
+                        // Same inset as the grid's top content padding, so it lines up exactly.
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                )
             }
         }
+    }
+}
+
+/** Search field and category chips, as one block so the sticky copy lines up exactly. */
+@Composable
+private fun FilterBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    category: GoogleFontCategory?,
+    onCategory: (GoogleFontCategory?) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        SearchField(query = query, onQueryChange = onQueryChange)
+        CategoryChips(selected = category, onSelect = onCategory)
     }
 }
 
