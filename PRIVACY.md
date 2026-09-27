@@ -1,6 +1,6 @@
 # Privacy Policy — Bornomala Keyboard
 
-**Last updated:** 7 June 2026
+**Last updated:** 27 September 2026
 
 Bornomala ("the app", "the keyboard") is a privacy-first Android keyboard developed by
 morshedx (contact: https://pocketware.vercel.app/bornomala/). This policy explains exactly what the app does and
@@ -8,31 +8,48 @@ does not do with your information.
 
 ## The short version
 
-Bornomala collects **nothing**. It has **no internet access**. Everything you type stays on
-your device. There is no account, no sign-in, no analytics, no advertising, and no tracking.
+Bornomala collects **nothing**. Everything you type stays on your device — the keyboard itself
+never connects to the internet. The app goes online for only two things, both started by you:
+checking for app updates, and the optional Google Drive backup (encrypted with your passphrase
+before it leaves the device). There is no account with us, no analytics, no advertising, and no
+tracking.
 
 ## No data collection
 
-The app does **not** collect, store off-device, transmit, sell, or share any personal or
-sensitive data, including:
+The developer does **not** collect, receive, sell, or share any personal or sensitive data,
+including:
 
 - The text you type, the words you enter, or any content of any input field.
 - Contacts, location, photos, files, identifiers, or usage analytics.
+
+The only data that ever leaves your device is the optional backup you turn on yourself, which is
+encrypted before upload and goes to your own Google Drive, never to the developer.
 
 A keyboard necessarily processes the keystrokes you make so it can show the right characters,
 transliterate Bangla, and offer suggestions. **All of this happens locally, on your device,
 in memory.** None of it is sent anywhere.
 
-## No internet permission
+## Network access
 
-Bornomala does not request the `INTERNET` permission. The app is technically incapable of
-making a network connection. You can verify this in the app's permission list (Android
-Settings → Apps → Bornomala → Permissions).
+The keyboard — typing, transliteration, suggestions, learning — works entirely offline and
+never uses the network. The app requests the `INTERNET` permission for two features only:
+
+- **App updates.** When you open *Settings → Updates*, the app downloads a small version file
+  and, if you choose to update, the new app package from the developer's release server
+  (`app-releases.morshed.im`). These requests contain nothing you typed and no personal
+  identifiers; as with any web request, the server can see your IP address.
+- **Google Drive backup (optional, off by default).** If you sign in with Google and set a
+  backup passphrase, the app uploads a backup of your settings, learned words and word picks,
+  and clipboard history to **your own** Google Drive. It is encrypted on your device
+  (AES-256-GCM, with a key derived from your passphrase) before upload, so neither Google nor
+  the developer can read it. Automatic daily backup runs only if you turn it on. You can restore
+  or delete the backup from the app at any time.
 
 ## On-device data
 
-Some features store data **only on your device**, in the app's private storage. This data
-never leaves the device and is removed when you uninstall the app:
+Some features store data on your device, in the app's private storage. It never leaves the
+device unless you turn on Google Drive backup (see above), and it is removed when you uninstall
+the app:
 
 - **User dictionary / learning** — words you type frequently, and the Bangla word you pick for
   a given spelling, to improve suggestions (can be disabled in Settings). Nothing is learned in
@@ -47,6 +64,9 @@ You can clear this data at any time by clearing the app's storage or uninstallin
 ## Permissions used
 
 - **Vibrate** — optional haptic feedback on key press (off by default; enable in Settings).
+- **Internet** and **network state** — only for update checks and the optional Drive backup
+  (see *Network access*).
+- **Install packages** — to install an update you chose to download.
 
 No other permissions are requested.
 
@@ -56,14 +76,15 @@ The app collects no data from anyone, including children. It is safe for all age
 
 ## Third-party services
 
-The app contains **no** third-party SDKs, advertising networks, analytics, or crash-reporting
-services.
+The app contains **no** advertising networks, analytics, or crash-reporting services. The only
+third-party SDK is Google Play Services sign-in, used solely to access your own Google Drive when
+you use backup; Google's own privacy policy applies to that sign-in.
 
 ## Open-source components
 
 Bornomala bundles open-source language data and assets, used under their respective licenses.
 See `THIRD_PARTY_LICENSES.md` in the project. These components run entirely offline and do not
-change the no-collection guarantees above.
+change the guarantees above.
 
 ## Changes to this policy
 
