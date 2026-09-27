@@ -5,6 +5,7 @@ import com.bornomala.keyboard.ime.domain.model.FieldProfile
 import com.bornomala.keyboard.ime.domain.model.KeyAction
 import com.bornomala.keyboard.ime.domain.model.KeyboardLanguage
 import com.bornomala.keyboard.ime.domain.model.KeyboardPage
+import com.bornomala.keyboard.ime.domain.model.KeyboardState
 import com.bornomala.keyboard.ime.domain.model.ShiftState
 import com.bornomala.keyboard.ime.domain.port.EditorPort
 import com.bornomala.keyboard.ime.domain.port.TransliterationPort
@@ -149,6 +150,21 @@ class InputInteractor(
             KeyAction.ShowImePicker -> { commitComposing(); callbacks.onShowImePicker() }
             KeyAction.None -> Unit
         }
+    }
+
+    /**
+     * Shows the word that space will commit in the composing region as soon as the strip for
+     * [roman] is ready — `chair` reads চেয়ার while typing, not the letter-by-letter ছাইর — so what
+     * the user sees is what they get. Bangla only, and only when auto-correction may apply, since
+     * otherwise space keeps the rendering. Ignored when [roman] is no longer what is being typed
+     * (a late result for an earlier keystroke).
+     */
+    fun previewBanglaAutoPick(roman: String) {
+        val state = stateHolder.current
+        if (state.language != KeyboardLanguage.BANGLA || !state.isComposing) return
+        if (composingBuffer.length != roman.length || !composingBuffer.contentEquals(roman)) return
+        val shown = autoCorrection(state) ?: state.composingText
+        editor.setComposingText(if (pendingComma) "$shown," else shown)
     }
 
     /** Commits a suggestion chosen from the suggestion bar, replacing the current word. */
@@ -383,17 +399,7 @@ class InputInteractor(
         // into the composing region before finalizing, and remember it so backspace can revert.
         // Both languages obey the auto-correction setting: with it off, space commits exactly
         // what was typed and the alternatives stay one tap away on the suggestion strip.
-        // A field's "don't rewrite" restriction (URLs, email) protects English text as typed. It
-        // does not apply to Bangla: the roman input is never the final text there, so choosing
-        // the Bangla word (computer -> কম্পিউটার) is transliteration, not a rewrite. Passwords
-        // are still covered — they get no suggestions at all.
-        val fieldAllows = fieldProfile.allowAutoCorrect || state.language == KeyboardLanguage.BANGLA
-        val autoCorrectAllowed = suggestionsOn && config.autoCorrectEnabled && fieldAllows
-        val correction = if (autoCorrectAllowed) {
-            state.suggestions.firstOrNull { it.isAutoCorrect }?.text
-        } else {
-            null
-        }
+        val correction = autoCorrection(state)
         val committedWord: String
         if (correction != null && correction != verbatim) {
             editor.setComposingText(correction)
@@ -477,6 +483,19 @@ class InputInteractor(
     }
 
     private fun isAsciiLetter(c: Char): Boolean = (c in 'a'..'z') || (c in 'A'..'Z')
+
+    /**
+     * The word space swaps in for the one being composed, or null to keep it as typed. A field's
+     * "don't rewrite" restriction (URLs, email) protects English text as typed; it does not apply
+     * to Bangla, where the roman input is never the final text, so choosing the Bangla word
+     * (computer -> কম্পিউটার) is transliteration, not a rewrite. Passwords are still covered —
+     * they get no suggestions at all.
+     */
+    private fun autoCorrection(state: KeyboardState): String? {
+        val fieldAllows = fieldProfile.allowAutoCorrect || state.language == KeyboardLanguage.BANGLA
+        if (!suggestionsOn || !config.autoCorrectEnabled || !fieldAllows) return null
+        return state.suggestions.firstOrNull { it.isAutoCorrect }?.text
+    }
 
     /** Re-renders the Bangla roman buffer into the composing region and refreshes suggestions. */
     private fun renderBanglaComposing(language: KeyboardLanguage) {

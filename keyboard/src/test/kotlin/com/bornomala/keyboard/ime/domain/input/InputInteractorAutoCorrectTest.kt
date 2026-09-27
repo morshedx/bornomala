@@ -216,6 +216,45 @@ class InputInteractorAutoCorrectTest {
     }
 
     @Test
+    fun `the bangla auto-pick shows in the field while typing`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        typeBangla("chair")
+        stateHolder.setSuggestions(listOf(Suggestion(text = "চেয়ার", isAutoCorrect = true)))
+
+        interactor.previewBanglaAutoPick("chair")
+        assertThat(editor.text.toString()).isEqualTo("চেয়ার")
+
+        interactor.onKey(KeyAction.Space)
+        assertThat(editor.text.toString()).isEqualTo("চেয়ার ")
+    }
+
+    @Test
+    fun `no preview when auto-correction is off or the word moved on`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = false))
+        typeBangla("chair")
+        stateHolder.setSuggestions(listOf(Suggestion(text = "চেয়ার", isAutoCorrect = true)))
+        interactor.previewBanglaAutoPick("chair")
+        assertThat(editor.text.toString()).isEqualTo("chair")
+
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        interactor.previewBanglaAutoPick("chai")
+        assertThat(editor.text.toString()).isEqualTo("chair")
+    }
+
+    @Test
+    fun `the preview keeps a held comma`() {
+        interactor.updateConfig(InputConfig(autoCorrectEnabled = true))
+        typeBangla("chair,")
+        stateHolder.setSuggestions(listOf(Suggestion(text = "চেয়ার", isAutoCorrect = true)))
+
+        interactor.previewBanglaAutoPick("chair")
+        assertThat(editor.text.toString()).isEqualTo("চেয়ার,")
+
+        interactor.onKey(KeyAction.Space)
+        assertThat(editor.text.toString()).isEqualTo("চেয়ার, ")
+    }
+
+    @Test
     fun `tapping a bangla suggestion remembers it for the typed roman`() {
         typeBangla("bus")
 

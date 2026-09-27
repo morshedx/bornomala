@@ -587,6 +587,8 @@ class KeyboardImeService : InputMethodService() {
                 stateHolder.setSuggestions(
                     buildBanglaSuggestions(currentWord, rendered, word, phonetic, engineCandidates, dict),
                 )
+                // Show the word space will commit (চেয়ার, not ছাইর) in the field right away.
+                interactor.previewBanglaAutoPick(currentWord)
             }
             return
         }
@@ -630,7 +632,9 @@ class KeyboardImeService : InputMethodService() {
         // dictionary word as the highlighted auto-pick (committed on space, e.g. ছাড়া), then the
         // plain phonetic render and the remaining candidates.
         add(roman, transliteration = false, highlight = false)
-        val acronym = BanglaAcronym.spell(roman)
+        // Spelled-out abbreviation (ips -> আইপিএস), only when nothing better matches: no loanword
+        // and no trusted dictionary word — otherwise it just clutters real words (chair, ami).
+        val acronym = if (word == null && phonetic.trustedCount == 0) BanglaAcronym.spell(roman) else null
         val autoPick = BanglaAutoPick.choose(roman, rendered, word, phonetic, acronym)
         if (autoPick != null) add(autoPick, transliteration = true, highlight = true)
         // A loanword that lost to a real Bangla spelling stays one tap away, just after it.
