@@ -4,6 +4,12 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.4
+
+- Fixed: more English loanwords now convert in Bangla — chair → চেয়ার, back → ব্যাক, belt → বেল্ট and hundreds more that were being left letter-by-letter.
+
+---
+
 ## v0.9.3
 
 - Fixed: English loanwords (computer → কম্পিউটার) stopped converting after a word was typed letter-by-letter once.
