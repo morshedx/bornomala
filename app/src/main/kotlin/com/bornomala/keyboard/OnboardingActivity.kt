@@ -108,6 +108,8 @@ import com.bornomala.keyboard.ime.presentation.KeyboardConfiguratorPreview
 import com.bornomala.keyboard.settings.SettingsActivity
 import com.bornomala.keyboard.settings.domain.SettingsRepository
 import com.bornomala.keyboard.settings.domain.model.Settings
+import com.bornomala.keyboard.settings.presentation.components.HeightHandle
+import com.bornomala.keyboard.settings.presentation.components.ResizableKeyboardPreview
 import com.bornomala.keyboard.theme.BornomalaTheme
 import com.bornomala.keyboard.theme.KeyboardDimens
 import com.bornomala.keyboard.theme.KeyboardTheme
@@ -817,7 +819,21 @@ private fun CustomizeStep(settings: Settings, actions: OnboardingActions, onCont
             }
             PrimaryAction(stringResource(R.string.onboarding_continue), onContinue)
         }
-        ResizableKeyboardPreview(settings = settings, onHeightChange = actions.onHeight)
+        // Pinned to the bottom like the live keyboard; the tray colour runs under the nav bar.
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .background(keyboardColorsFor(settings.keyboardTheme, isSystemInDarkTheme()).keyboardBackground)
+                .navigationBarsPadding(),
+        ) {
+            ResizableKeyboardPreview(
+                settings = settings,
+                onHeightChange = actions.onHeight,
+                modifier = Modifier.fillMaxWidth(),
+                handle = HeightHandle.TOP,
+                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+            )
+        }
     }
 }
 
@@ -885,115 +901,6 @@ private fun ThemePicker(selected: KeyboardTheme, onSelect: (KeyboardTheme) -> Un
 
 private val SwatchSize = 56.dp
 private val SwatchGap = 12.dp
-
-/** Keyboard height steps: 5%, matching the settings slider. */
-private fun snapHeight(scale: Float): Float =
-    ((scale * 20f).roundToInt() / 20f)
-        .coerceIn(Settings.MIN_KEYBOARD_HEIGHT_SCALE, Settings.MAX_KEYBOARD_HEIGHT_SCALE)
-
-/**
- * The real keyboard, pinned to the bottom like the live one, in the chosen theme and with a
- * drag handle on its top edge: drag up for taller keys, down for shorter. The preview follows
- * the finger; the new height is saved once, when the drag ends.
- */
-@Composable
-private fun ResizableKeyboardPreview(settings: Settings, onHeightChange: (Float) -> Unit) {
-    val colors = keyboardColorsFor(settings.keyboardTheme, isSystemInDarkTheme())
-    var dragging by remember { mutableStateOf(false) }
-    var scale by remember { mutableFloatStateOf(settings.keyboardHeightScale) }
-    LaunchedEffect(settings.keyboardHeightScale) {
-        if (!dragging) scale = settings.keyboardHeightScale
-    }
-    val snapped = snapHeight(scale)
-    val percent = (snapped * 100f).roundToInt()
-    val rows = if (settings.numberRowEnabled) 5 else 4
-    val rowPx = with(LocalDensity.current) { KeyboardDimens.keyRowHeight.toPx() }
-    val rowHeight = (KeyboardDimens.keyRowHeight * snapped)
-        .coerceIn(KeyboardDimens.minKeyRowHeight, KeyboardDimens.maxKeyRowHeight)
-    val dragState = rememberDraggableState { delta ->
-        scale = (scale - delta / (rows * rowPx))
-            .coerceIn(Settings.MIN_KEYBOARD_HEIGHT_SCALE, Settings.MAX_KEYBOARD_HEIGHT_SCALE)
-    }
-    val handleWidth by animateDpAsState(if (dragging) 52.dp else 40.dp, label = "handle-width")
-    val heightLabel = stringResource(R.string.onboarding_height_cd)
-    val percentText = stringResource(R.string.onboarding_percent, percent)
-
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-            .background(colors.keyboardBackground)
-            .navigationBarsPadding(),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(36.dp)
-                .draggable(
-                    state = dragState,
-                    orientation = Orientation.Vertical,
-                    onDragStarted = { dragging = true },
-                    onDragStopped = {
-                        dragging = false
-                        onHeightChange(snapHeight(scale))
-                    },
-                )
-                .semantics {
-                    contentDescription = heightLabel
-                    stateDescription = percentText
-                    progressBarRangeInfo = ProgressBarRangeInfo(
-                        current = snapped,
-                        range = Settings.MIN_KEYBOARD_HEIGHT_SCALE..Settings.MAX_KEYBOARD_HEIGHT_SCALE,
-                        steps = 12,
-                    )
-                    setProgress { target ->
-                        val value = snapHeight(target)
-                        scale = value
-                        onHeightChange(value)
-                        true
-                    }
-                },
-            contentAlignment = Alignment.Center,
-        ) {
-            Box(
-                Modifier
-                    .width(handleWidth)
-                    .height(5.dp)
-                    .clip(CircleShape)
-                    .background(colors.keyContent.copy(alpha = if (dragging) 0.9f else 0.5f)),
-            )
-            Text(
-                text = percentText,
-                style = MaterialTheme.typography.labelMedium,
-                color = colors.accentKeyContent,
-                modifier = Modifier
-                    .offset(x = 64.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(colors.accentKeyBackground)
-                    .padding(horizontal = 8.dp, vertical = 2.dp),
-            )
-        }
-        BornomalaTheme(
-            theme = settings.keyboardTheme,
-            font = settings.keyboardFont,
-            metrics = keyboardMetrics(
-                horizontalGapScale = settings.horizontalGapScale,
-                verticalGapScale = settings.verticalGapScale,
-                keyLabelScale = settings.keyLabelScale,
-                suggestionBarScale = settings.suggestionBarScale,
-                bottomGapScale = settings.bottomGapScale,
-                keyBorder = settings.keyBorder,
-            ),
-        ) {
-            KeyboardConfiguratorPreview(
-                modifier = Modifier.fillMaxWidth(),
-                showNumberRow = settings.numberRowEnabled,
-                rowHeight = rowHeight,
-                bangla = true,
-            )
-        }
-    }
-}
 
 // --- Done ----------------------------------------------------------------------------------
 

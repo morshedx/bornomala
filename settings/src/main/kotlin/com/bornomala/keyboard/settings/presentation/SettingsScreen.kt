@@ -80,6 +80,8 @@ import com.bornomala.keyboard.settings.presentation.components.RadioOption
 import com.bornomala.keyboard.settings.presentation.components.RadioSettingGroup
 import com.bornomala.keyboard.settings.presentation.components.SettingsActionRow
 import com.bornomala.keyboard.settings.presentation.components.SettingsNavRow
+import com.bornomala.keyboard.settings.presentation.components.HeightHandle
+import com.bornomala.keyboard.settings.presentation.components.ResizableKeyboardPreview
 import com.bornomala.keyboard.settings.presentation.components.SettingsPage
 import com.bornomala.keyboard.settings.presentation.components.SettingsSectionHeader
 import com.bornomala.keyboard.settings.presentation.components.SliderSettingRow
@@ -332,7 +334,8 @@ private fun SettingsHome(
 
 /**
  * Theme & layout: the real keyboard pinned at the top, rendered from the live settings so every
- * change below shows immediately; under it one scrolling row of themes and the size/gap controls.
+ * change below shows immediately, with a drag handle for its height; under it one scrolling row
+ * of themes and the size/gap controls.
  */
 @Composable
 private fun ThemeSettings(
@@ -346,7 +349,7 @@ private fun ThemeSettings(
         title = title,
         onBack = onBack,
         modifier = modifier,
-        pinned = { KeyboardPreviewBand(settings) },
+        pinned = { KeyboardPreviewBand(settings, callbacks.onKeyboardHeightScale) },
     ) {
         SettingsSectionHeader(stringResource(R.string.settings_theme))
         ThemeRow(selected = settings.keyboardTheme, onSelect = callbacks.onKeyboardTheme)
@@ -358,7 +361,6 @@ private fun ThemeSettings(
             checked = settings.keyBorder,
             onCheckedChange = callbacks.onKeyBorder,
         )
-        HeightSlider(scale = settings.keyboardHeightScale, onScaleChange = callbacks.onKeyboardHeightScale)
         ScaleSlider(stringResource(R.string.settings_key_label_size), settings.keyLabelScale, callbacks.onKeyLabelScale)
         ScaleSlider(stringResource(R.string.settings_suggestion_bar_size), settings.suggestionBarScale, callbacks.onSuggestionBarScale)
 
@@ -368,36 +370,25 @@ private fun ThemeSettings(
     }
 }
 
-/** The real keyboard composable in the chosen theme, font, metrics, height and number row. */
+/**
+ * The real keyboard in the chosen theme, font, metrics, height and number row, with a handle on
+ * its bottom edge: drag down for taller keys, up for shorter.
+ */
 @Composable
-private fun KeyboardPreviewBand(settings: Settings) {
-    val rowHeight = (KeyboardDimens.keyRowHeight * settings.keyboardHeightScale)
-        .coerceIn(KeyboardDimens.minKeyRowHeight, KeyboardDimens.maxKeyRowHeight)
+private fun KeyboardPreviewBand(settings: Settings, onHeightChange: (Float) -> Unit) {
     androidx.compose.foundation.layout.Box(
         Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(horizontal = 12.dp, vertical = 12.dp),
     ) {
-        BornomalaTheme(
-            theme = settings.keyboardTheme,
-            font = settings.keyboardFont,
-            metrics = keyboardMetrics(
-                horizontalGapScale = settings.horizontalGapScale,
-                verticalGapScale = settings.verticalGapScale,
-                keyLabelScale = settings.keyLabelScale,
-                suggestionBarScale = settings.suggestionBarScale,
-                bottomGapScale = settings.bottomGapScale,
-                keyBorder = settings.keyBorder,
-            ),
-        ) {
-            KeyboardConfiguratorPreview(
-                modifier = Modifier.fillMaxWidth(),
-                showNumberRow = settings.numberRowEnabled,
-                rowHeight = rowHeight,
-                bangla = true,
-            )
-        }
+        ResizableKeyboardPreview(
+            settings = settings,
+            onHeightChange = onHeightChange,
+            modifier = Modifier.fillMaxWidth(),
+            handle = HeightHandle.BOTTOM,
+            shape = RoundedCornerShape(14.dp),
+        )
     }
 }
 

@@ -35,8 +35,6 @@
     <string name="onboarding_number_row">Number row</string>
     <string name="onboarding_height">Height</string>
     <string name="onboarding_height_hint">Drag the handle on the keyboard</string>
-    <string name="onboarding_height_cd">Keyboard height</string>
-    <string name="onboarding_percent">%1$d%%</string>
     <string name="onboarding_continue">Continue</string>
     <string name="onboarding_done_title">You’re ready to type</string>
     <string name="onboarding_tip_switch">Switch languages</string>
