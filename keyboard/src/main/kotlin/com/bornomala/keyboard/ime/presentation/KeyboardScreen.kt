@@ -345,15 +345,25 @@ private val PreviewCallbacks = KeyboardCallbacks(
     onCursorSwipe = {},
 )
 
+/**
+ * Display-only render of the real keyboard (toolbar + key grid) for settings and onboarding
+ * previews. [showNumberRow], [rowHeight] and [bangla] mirror the matching user settings so a
+ * preview can reflect them live.
+ */
 @Composable
-fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
+fun KeyboardConfiguratorPreview(
+    modifier: Modifier = Modifier,
+    showNumberRow: Boolean = false,
+    rowHeight: Dp = 56.dp,
+    bangla: Boolean = false,
+) {
     val colors = BornomalaTheme.keyboardColors
     val metrics = BornomalaTheme.metrics
-    val layout = remember {
+    val layout = remember(showNumberRow, bangla) {
         LayoutProvider().layoutFor(
-            language = KeyboardLanguage.ENGLISH,
+            language = if (bangla) KeyboardLanguage.BANGLA else KeyboardLanguage.ENGLISH,
             page = KeyboardPage.ALPHA,
-            showNumberRow = false,
+            showNumberRow = showNumberRow,
         )
     }
     Box(modifier) {
@@ -382,7 +392,7 @@ fun KeyboardConfiguratorPreview(modifier: Modifier = Modifier) {
                 shift = ShiftState.OFF,
                 enterAction = EnterAction.DONE,
                 enterLabel = null,
-                rowHeight = 56.dp,
+                rowHeight = rowHeight,
                 onKey = {},
                 onLongPressChar = {},
                 onLongPressRequested = { _, _ -> },
