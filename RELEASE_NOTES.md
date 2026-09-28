@@ -4,6 +4,12 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.12
+
+- Keyboard height is now set by dragging the handle on the keyboard preview in Theme; the slider in Preferences is gone.
+
+---
+
 ## v0.9.11
 
 - Settings screens have a compact title bar, with the title next to the back arrow.
