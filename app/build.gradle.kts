@@ -18,7 +18,7 @@ plugins {
     alias(libs.plugins.play.publisher)
     // OTA self-update release task (./gradlew publishApkToR2): builds the signed APK, writes
     // latest.json, and uploads both to the Cloudflare R2 bucket the app polls for updates.
-    id("im.morshed.ota-release") version "1.3.0"
+    id("im.morshed.ota-release") version "1.5.2"
 }
 
 // App version, reused for the build config and the output APK file name.
