@@ -4,6 +4,13 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.13
+
+- The Software update screen has a new, clearer layout for checking, downloading and installing updates.
+- Built on the latest Android tools.
+
+---
+
 ## v0.9.12
 
 - Keyboard height is now set by dragging the handle on the keyboard preview in Theme; the slider in Preferences is gone.
