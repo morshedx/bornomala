@@ -2,6 +2,12 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.room)
+}
+
+// Exported schemas are the baseline for migration tests; commit them with each version bump.
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 android {

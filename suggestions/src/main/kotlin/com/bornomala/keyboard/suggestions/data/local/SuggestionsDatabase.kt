@@ -19,7 +19,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @Database(
     entities = [UserDictionaryEntity::class, LearnedNgramEntity::class, RomanPickEntity::class],
     version = 4,
-    exportSchema = false,
+    exportSchema = true,
 )
 abstract class SuggestionsDatabase : RoomDatabase() {
 
@@ -71,9 +71,11 @@ abstract class SuggestionsDatabase : RoomDatabase() {
                 DATABASE_NAME,
             )
                 .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
-                // Backstop only: a schema path with no migration drops the learned cache rather
-                // than failing to open. Real upgrades ship a migration (see [MIGRATION_2_3]).
-                .fallbackToDestructiveMigration()
+                // This holds user-learned words, so never wipe it on an upgrade: every version
+                // bump ships a migration. Only v1 (pre-migrations, never had a 1→2 path) and
+                // downgrades are dropped.
+                .fallbackToDestructiveMigrationFrom(true, 1)
+                .fallbackToDestructiveMigrationOnDowngrade(true)
                 .build()
     }
 }

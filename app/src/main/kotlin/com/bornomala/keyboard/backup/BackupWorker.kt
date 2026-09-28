@@ -1,5 +1,6 @@
 package com.bornomala.keyboard.backup
 
+import kotlinx.coroutines.CancellationException
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -34,13 +35,23 @@ class BackupWorker(
         if (!store.autoEnabled) return Result.success()
         val token = (deps.authManager().authorize() as? GoogleAuthManager.AuthState.Authorized)
             ?.accessToken
-            ?: return Result.retry() // grant lapsed → try again later
+            ?: return retryOrGiveUp() // grant lapsed → try again later
         return try {
             deps.backupManager().backUp(token)
             store.lastBackupAt = System.currentTimeMillis()
             Result.success()
+        } catch (e: CancellationException) {
+            throw e
         } catch (_: Exception) {
-            Result.retry()
+            retryOrGiveUp()
         }
+    }
+
+    /** Bounded: a periodic run that keeps failing waits for the next period instead. */
+    private fun retryOrGiveUp(): Result =
+        if (runAttemptCount < MAX_RETRIES) Result.retry() else Result.failure()
+
+    private companion object {
+        const val MAX_RETRIES = 5
     }
 }

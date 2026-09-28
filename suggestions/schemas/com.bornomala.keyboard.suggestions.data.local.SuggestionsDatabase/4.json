@@ -1,0 +1,189 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "4fe71b8b7cb813f83d7f6f38498dbe1c",
+    "entities": [
+      {
+        "tableName": "user_dictionary",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`word` TEXT NOT NULL, `lang` TEXT NOT NULL, `frequency` INTEGER NOT NULL, `last_used` INTEGER NOT NULL, `prev_word` TEXT NOT NULL, `phonetic_key` TEXT NOT NULL, PRIMARY KEY(`word`, `lang`))",
+        "fields": [
+          {
+            "fieldPath": "word",
+            "columnName": "word",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lang",
+            "columnName": "lang",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "frequency",
+            "columnName": "frequency",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUsed",
+            "columnName": "last_used",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevWord",
+            "columnName": "prev_word",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phoneticKey",
+            "columnName": "phonetic_key",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "word",
+            "lang"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_user_dictionary_lang_frequency",
+            "unique": false,
+            "columnNames": [
+              "lang",
+              "frequency"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_user_dictionary_lang_frequency` ON `${TABLE_NAME}` (`lang`, `frequency`)"
+          },
+          {
+            "name": "index_user_dictionary_lang_prev_word",
+            "unique": false,
+            "columnNames": [
+              "lang",
+              "prev_word"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_user_dictionary_lang_prev_word` ON `${TABLE_NAME}` (`lang`, `prev_word`)"
+          },
+          {
+            "name": "index_user_dictionary_lang_phonetic_key_frequency",
+            "unique": false,
+            "columnNames": [
+              "lang",
+              "phonetic_key",
+              "frequency"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_user_dictionary_lang_phonetic_key_frequency` ON `${TABLE_NAME}` (`lang`, `phonetic_key`, `frequency`)"
+          }
+        ]
+      },
+      {
+        "tableName": "learned_ngram",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`context` TEXT NOT NULL, `word` TEXT NOT NULL, `lang` TEXT NOT NULL, `frequency` INTEGER NOT NULL, `last_used` INTEGER NOT NULL, PRIMARY KEY(`context`, `word`, `lang`))",
+        "fields": [
+          {
+            "fieldPath": "context",
+            "columnName": "context",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "word",
+            "columnName": "word",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lang",
+            "columnName": "lang",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "frequency",
+            "columnName": "frequency",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUsed",
+            "columnName": "last_used",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "context",
+            "word",
+            "lang"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_learned_ngram_lang_context_frequency",
+            "unique": false,
+            "columnNames": [
+              "lang",
+              "context",
+              "frequency"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learned_ngram_lang_context_frequency` ON `${TABLE_NAME}` (`lang`, `context`, `frequency`)"
+          }
+        ]
+      },
+      {
+        "tableName": "roman_pick",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roman` TEXT NOT NULL, `lang` TEXT NOT NULL, `word` TEXT NOT NULL, `last_used` INTEGER NOT NULL, PRIMARY KEY(`roman`, `lang`))",
+        "fields": [
+          {
+            "fieldPath": "roman",
+            "columnName": "roman",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lang",
+            "columnName": "lang",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "word",
+            "columnName": "word",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUsed",
+            "columnName": "last_used",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "roman",
+            "lang"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4fe71b8b7cb813f83d7f6f38498dbe1c')"
+    ]
+  }
+}
