@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
@@ -8,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.bornomala.keyboard.emoji"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 29
         consumerProguardFiles("consumer-rules.pro")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,10 +30,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         compose = true
     }
@@ -44,6 +39,11 @@ android {
             isIncludeAndroidResources = true
         }
     }
+}
+
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

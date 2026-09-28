@@ -1,16 +1,15 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "com.bornomala.keyboard.suggestions"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 29
         consumerProguardFiles("consumer-rules.pro")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,16 +29,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
             isReturnDefaultValues = true
         }
     }
+}
+
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

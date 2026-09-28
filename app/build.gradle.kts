@@ -11,7 +11,6 @@ val updateToken: String =
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
@@ -89,7 +88,7 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "com.bornomala.keyboard"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         // minSdk 29: required by the im.morshed:ota self-update library (drops Android 8.0–9).
@@ -152,10 +151,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
@@ -214,6 +209,11 @@ afterEvaluate {
     }
 }
 
+
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
     // Feature & shared modules. As feature modules are scaffolded by their owning
     // agents they are wired into the IME and settings host through these deps.
@@ -247,7 +247,7 @@ dependencies {
     // OTA self-update: version check, download, and PackageInstaller flow + the UpdateScreen UI.
     // Self-contained (own Hilt ViewModel, worker, InstallReceiver, FileProvider via manifest merge);
     // configured by OtaModule (manifest URL + bearer token from BuildConfig).
-    implementation("im.morshed:ota:1.3.0")
+    implementation("im.morshed:ota:1.5.2")
 
     // Enables ProfileInstaller so macrobenchmark can measure/compile startup profiles.
     implementation(libs.androidx.profileinstaller)

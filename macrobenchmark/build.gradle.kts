@@ -1,14 +1,13 @@
 plugins {
     alias(libs.plugins.android.test)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.bornomala.keyboard.macrobenchmark"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 29
         targetSdk = 35
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -16,10 +15,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     buildTypes {
@@ -34,6 +29,11 @@ android {
 
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
+}
+
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

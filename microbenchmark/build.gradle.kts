@@ -1,15 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.androidx.benchmark)
 }
 
 android {
     namespace = "com.bornomala.keyboard.microbenchmark"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 29
         testInstrumentationRunner = "androidx.benchmark.junit4.AndroidBenchmarkRunner"
     }
 
@@ -29,10 +28,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
