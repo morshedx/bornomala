@@ -4,6 +4,13 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.14
+
+- Words the keyboard has learned are kept when the app updates.
+- Automatic backup stops retrying after a few failed attempts and tries again at the next scheduled time.
+
+---
+
 ## v0.9.13
 
 - The Software update screen has a new, clearer layout for checking, downloading and installing updates.

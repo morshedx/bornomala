@@ -21,8 +21,8 @@ plugins {
 }
 
 // App version, reused for the build config and the output APK file name.
-val appVersionName = "0.9.13"
-val appVersionCode = 77
+val appVersionName = "0.9.14"
+val appVersionCode = 78
 
 /**
  * The bullet list under `## v<version>` in RELEASE_NOTES.md, normalised to `- ` bullets. Feeds the
