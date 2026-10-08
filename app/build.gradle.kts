@@ -1,106 +1,32 @@
-import java.util.Properties
-
-// Secrets (e.g. OTA gateway token) come from the environment first, then
-// local.properties as a fallback. Never committed.
-val localProps = Properties().apply {
-    val f = rootProject.file("local.properties")
-    if (f.exists()) f.inputStream().use { load(it) }
-}
-val updateToken: String =
-    System.getenv("UPDATE_TOKEN") ?: localProps.getProperty("UPDATE_TOKEN") ?: ""
-// OTA endpoints, read the same way. OTA_BASE_URL is where the app polls for
-// updates; OTA_APK_BASE_URL is where latest.json points the download, and only
-// differs from it while moving domains.
-val otaBaseUrl: String =
-    System.getenv("OTA_BASE_URL") ?: localProps.getProperty("OTA_BASE_URL") ?: "https://dl.seqavo.com"
-val otaApkBaseUrl: String =
-    System.getenv("OTA_APK_BASE_URL") ?: localProps.getProperty("OTA_APK_BASE_URL") ?: otaBaseUrl
-
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    id("im.morshed.android.application")
+    id("im.morshed.android.compose")
+    id("im.morshed.android.hilt")
+    id("im.morshed.ota-release")
     alias(libs.plugins.play.publisher)
-    // OTA self-update release task (./gradlew publishApkToR2): builds the signed APK, writes
-    // latest.json, and uploads both to the Cloudflare R2 bucket the app polls for updates.
-    id("im.morshed.ota-release") version "1.5.2"
 }
 
-// App version, reused for the build config and the output APK file name.
+// From the kit: compileSdk, Java 17, R8 + resource shrinking with proguard-rules.pro,
+// release signing from keystore.properties and the guard that refuses a release
+// without it, APK naming (bornomala-<version>-<buildType>.apk), and OTA —
+// MANIFEST_URL / UPDATE_TOKEN in BuildConfig, im.morshed:ota, and publishApkToR2,
+// which takes its notes from the `## v<version>` section of RELEASE_NOTES.md and
+// refuses to publish without one.
+
+// App version.
 val appVersionName = "0.9.15"
 val appVersionCode = 79
 
-/**
- * The bullet list under `## v<version>` in RELEASE_NOTES.md, normalised to `- ` bullets. Feeds the
- * OTA manifest so the in-app update screen shows the same "what's new" text as the store listing —
- * the publish plugin exposes `notes` on its task but not on its extension, so it is wired here.
- *
- * Read through a value provider rather than at configuration time, so the configuration cache
- * re-evaluates it when the notes file changes.
- */
-fun releaseNotesFor(markdown: String, version: String): String {
-    val lines = markdown.lines()
-    val start = lines.indexOfFirst { it.trim() == "## v$version" || it.trim().startsWith("## v$version ") }
-    if (start < 0) return ""
-    return lines.asSequence()
-        .drop(start + 1)
-        .map { it.trim() }
-        // The section runs to the next heading or the `---` rule between entries; both terminate
-        // it here, so neither can leak into the manifest as a bullet.
-        .takeWhile { line -> !line.startsWith("## ") && !(line.length >= 3 && line.all { it == '-' }) }
-        .map { it.removePrefix("\u2022").removePrefix("-").trim() }
-        .filter { it.isNotEmpty() }
-        .joinToString("\n") { "- $it" }
-}
-
-val otaReleaseNotes: Provider<String> = providers
-    .fileContents(rootProject.layout.projectDirectory.file("RELEASE_NOTES.md"))
-    .asText
-    .map { releaseNotesFor(it, appVersionName) }
-    .orElse("")
-
-
-// Never ship a debug-signed release: the OTA library installs updates in place, and a signing
-// signature flip on the next release would fail the in-place update and wipe user data. Fail
-// loudly if a release/publish task runs without the stable release keystore.
-gradle.taskGraph.whenReady {
-    val needsRelease = allTasks.any {
-        val n = it.name
-        (n.contains("Release") && (n.startsWith("assemble") || n.startsWith("bundle") || n.startsWith("package"))) ||
-            n.contains("publishApkToR2", ignoreCase = true)
-    }
-    if (needsRelease && !rootProject.file("keystore.properties").exists()) {
-        throw GradleException(
-            "Release signing key missing: keystore.properties not found. Refusing to build/publish " +
-                "a release — a debug-signed release would break OTA updates and wipe user data.",
-        )
-    }
-    // An OTA release with no notes shows an empty changelog in the update screen. Catch it here
-    // rather than after the upload, when the only fix is re-publishing.
-    val publishing = allTasks.any { it.name.contains("publishApkToR2", ignoreCase = true) }
-    if (publishing && otaReleaseNotes.get().isBlank()) {
-        throw GradleException(
-            "Release notes missing: RELEASE_NOTES.md has no '## v$appVersionName' section. " +
-                "Add one before publishing — it is what the in-app update screen shows.",
-        )
-    }
-}
-
-// Optional release signing config, loaded from a gitignored keystore.properties.
-val keystorePropertiesFile = rootProject.file("keystore.properties")
-val keystoreProperties = Properties().apply {
-    if (keystorePropertiesFile.exists()) load(keystorePropertiesFile.inputStream())
+kitApp {
+    slug.set("bornomala")
 }
 
 android {
     namespace = "com.bornomala.keyboard"
-    compileSdk = 37
 
     defaultConfig {
-        // minSdk 29: required by the im.morshed:ota self-update library (drops Android 8.0–9).
         applicationId = "com.morshedx.bornomala"
-        minSdk = 29
+        // The app's own target, held where it was before the kit.
         targetSdk = 35
         versionCode = appVersionCode
         versionName = appVersionName
@@ -109,39 +35,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        // OTA gateway bearer token, injected from env / local.properties (never committed).
-        buildConfigField("String", "UPDATE_TOKEN", "\"$updateToken\"")
-        // OTA version manifest the app polls for newer releases (Cloudflare R2, bornomala slug).
-        buildConfigField("String", "MANIFEST_URL", "\"$otaBaseUrl/bornomala/latest.json\"")
-    }
-
-    signingConfigs {
-        if (keystorePropertiesFile.exists()) {
-            create("release") {
-                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
-                storePassword = keystoreProperties.getProperty("storePassword")
-                keyAlias = keystoreProperties.getProperty("keyAlias")
-                keyPassword = keystoreProperties.getProperty("keyPassword")
-            }
-        }
     }
 
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
             isDebuggable = true
-        }
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-            if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("release")
-            }
         }
         // Release-like build used by :macrobenchmark for trustworthy cold-start numbers.
         create("benchmark") {
@@ -153,26 +52,11 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-}
-
-// Name the output APKs with the version, e.g. bornomala-1.0.0-release.apk.
-base {
-    archivesName.set("bornomala-$appVersionName")
 }
 
 // Gradle Play Publisher — CLI publishing to Google Play.
@@ -196,31 +80,6 @@ play {
     releaseStatus.set(com.github.triplet.gradle.androidpublisher.ReleaseStatus.DRAFT)
 }
 
-// OTA release task (im.morshed.ota-release): ./gradlew publishApkToR2 builds the signed release
-// APK, writes the version manifest, and uploads both to the R2 bucket the app polls (latest.json
-// at <baseUrl>/<appSlug>/). R2 credentials come from the environment, never committed.
-otaRelease {
-    bucket.set("app-releases")
-    baseUrl.set(otaApkBaseUrl)
-    appSlug.set("bornomala")
-}
-
-// The publish task carries a `notes` property the extension does not expose — the plugin only
-// fills it from a -PotaNotes property. Wire it to the RELEASE_NOTES.md section for this version so
-// latest.json ships a real changelog without the publisher having to paste it on the command line.
-// Inside afterEvaluate so this runs after the plugin's own wiring and wins; an explicit
-// -PotaNotes still overrides, since that provider is preferred when present.
-afterEvaluate {
-    tasks.withType<im.morshed.ota.release.PublishApkToR2>().configureEach {
-        notes.set(providers.gradleProperty("otaNotes").orElse(otaReleaseNotes))
-    }
-}
-
-
-kotlin {
-    jvmToolchain(17)
-}
-
 dependencies {
     // Feature & shared modules. As feature modules are scaffolded by their owning
     // agents they are wired into the IME and settings host through these deps.
@@ -238,35 +97,21 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-
     implementation(libs.kotlinx.coroutines.android)
 
     // Cloud backup: Google sign-in/authorization for Drive + background backup scheduling.
     implementation(libs.play.services.auth)
     implementation(libs.androidx.work.runtime.ktx)
 
-    // OTA self-update: version check, download, and PackageInstaller flow + the UpdateScreen UI.
-    // Self-contained (own Hilt ViewModel, worker, InstallReceiver, FileProvider via manifest merge);
-    // configured by OtaModule (manifest URL + bearer token from BuildConfig).
-    implementation("im.morshed:ota:1.5.2")
-
     // Enables ProfileInstaller so macrobenchmark can measure/compile startup profiles.
     implementation(libs.androidx.profileinstaller)
 
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    // The tests are JUnit 4; the kit runs every module on the JUnit platform, and
+    // without the vintage engine they would be skipped rather than failed.
     testImplementation(libs.junit)
-    testImplementation(libs.truth)
-    testImplementation(libs.turbine)
-    testImplementation(libs.kotlinx.coroutines.test)
+    testRuntimeOnly(kit.junit.vintage.engine)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
 
@@ -276,5 +121,4 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.room)
+    // By id, without versions: the kit loads these in the root classloader.
+    id("com.android.library")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+    id("androidx.room")
 }
 
 // Exported schemas are the baseline for migration tests; commit them with each version bump.

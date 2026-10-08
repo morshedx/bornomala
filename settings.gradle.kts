@@ -1,6 +1,12 @@
 pluginManagement {
+    // A local android-kit checkout (-Pkit.dir, else ../android-kit) replaces the
+    // published kit, so kit and app change together. Clones without it use maven.
+    val kit = providers.gradleProperty("kit.dir").orElse("../android-kit").get()
+    if (providers.gradleProperty("kit.local").orNull != "false" && file("$kit/plugins").isDirectory) {
+        includeBuild("$kit/plugins")
+    }
     repositories {
-        maven("https://maven.morshed.im") // im.morshed.ota-release plugin + OTA components
+        maven("https://maven.morshed.im")
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -13,13 +19,10 @@ pluginManagement {
     }
 }
 
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        maven("https://maven.morshed.im") // im.morshed:ota + shared components
-        google()
-        mavenCentral()
-    }
+// Repositories, the `kit` catalog and versions for every other im.morshed.* plugin.
+// The app's own catalog stays `libs`.
+plugins {
+    id("im.morshed.settings") version "2.1.2"
 }
 
 rootProject.name = "Bornomala"

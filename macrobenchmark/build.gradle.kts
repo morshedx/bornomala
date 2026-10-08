@@ -1,5 +1,6 @@
 plugins {
-    alias(libs.plugins.android.test)
+    // By id, without a version: the kit loads AGP in the root classloader.
+    id("com.android.test")
 }
 
 android {

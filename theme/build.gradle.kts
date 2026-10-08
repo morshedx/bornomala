@@ -1,6 +1,7 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.compose.compiler)
+    // By id, without versions: the kit loads these in the root classloader.
+    id("com.android.library")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
