@@ -8,12 +8,12 @@
 #   - wrangler installed and authenticated (npm i -g wrangler; wrangler login)
 #   - env vars:
 #       R2_BUCKET     name of your R2 bucket (e.g. app-releases)
-#       R2_BASE_URL   public base URL of the bucket (e.g. https://app-releases.morshed.im)
+#       R2_BASE_URL   public base URL of the bucket (e.g. https://dl.seqavo.com)
 #                     must match UpdateConfig.MANIFEST_URL's host
 #       CLOUDFLARE_ACCOUNT_ID  only needed if your login has multiple accounts
 #
 # Usage:
-#   R2_BUCKET=app-releases R2_BASE_URL=https://app-releases.morshed.im \
+#   R2_BUCKET=app-releases R2_BASE_URL=https://dl.seqavo.com \
 #     scripts/publish-r2.sh "Release notes shown in the app"
 set -euo pipefail
 cd "$(dirname "$0")/.."

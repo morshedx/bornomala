@@ -36,7 +36,7 @@ never uses the network. The app requests the `INTERNET` permission for two featu
 
 - **App updates.** When you open *Settings → Updates*, the app downloads a small version file
   and, if you choose to update, the new app package from the developer's release server
-  (`app-releases.morshed.im`). These requests contain nothing you typed and no personal
+  (`dl.seqavo.com`). These requests contain nothing you typed and no personal
   identifiers; as with any web request, the server can see your IP address.
 - **Google Drive backup (optional).** If you sign in with Google and back up, the app uploads
   your settings, learned words and word picks, and clipboard history to **your own** Google

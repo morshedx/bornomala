@@ -8,6 +8,13 @@ val localProps = Properties().apply {
 }
 val updateToken: String =
     System.getenv("UPDATE_TOKEN") ?: localProps.getProperty("UPDATE_TOKEN") ?: ""
+// OTA endpoints, read the same way. OTA_BASE_URL is where the app polls for
+// updates; OTA_APK_BASE_URL is where latest.json points the download, and only
+// differs from it while moving domains.
+val otaBaseUrl: String =
+    System.getenv("OTA_BASE_URL") ?: localProps.getProperty("OTA_BASE_URL") ?: "https://dl.seqavo.com"
+val otaApkBaseUrl: String =
+    System.getenv("OTA_APK_BASE_URL") ?: localProps.getProperty("OTA_APK_BASE_URL") ?: otaBaseUrl
 
 plugins {
     alias(libs.plugins.android.application)
@@ -21,8 +28,8 @@ plugins {
 }
 
 // App version, reused for the build config and the output APK file name.
-val appVersionName = "0.9.14"
-val appVersionCode = 78
+val appVersionName = "0.9.15"
+val appVersionCode = 79
 
 /**
  * The bullet list under `## v<version>` in RELEASE_NOTES.md, normalised to `- ` bullets. Feeds the
@@ -106,7 +113,7 @@ android {
         // OTA gateway bearer token, injected from env / local.properties (never committed).
         buildConfigField("String", "UPDATE_TOKEN", "\"$updateToken\"")
         // OTA version manifest the app polls for newer releases (Cloudflare R2, bornomala slug).
-        buildConfigField("String", "MANIFEST_URL", "\"https://app-releases.morshed.im/bornomala/latest.json\"")
+        buildConfigField("String", "MANIFEST_URL", "\"$otaBaseUrl/bornomala/latest.json\"")
     }
 
     signingConfigs {
@@ -194,7 +201,7 @@ play {
 // at <baseUrl>/<appSlug>/). R2 credentials come from the environment, never committed.
 otaRelease {
     bucket.set("app-releases")
-    baseUrl.set("https://app-releases.morshed.im")
+    baseUrl.set(otaApkBaseUrl)
     appSlug.set("bornomala")
 }
 

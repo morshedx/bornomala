@@ -4,6 +4,12 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.9.15
+
+- Updates now come from dl.seqavo.com.
+
+---
+
 ## v0.9.14
 
 - Words the keyboard has learned are kept when the app updates.
