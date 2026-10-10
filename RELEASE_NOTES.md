@@ -4,6 +4,12 @@ Play Store "What's new" text per release. Keep each entry ≤500 characters.
 
 ---
 
+## v0.10.0
+
+- A redesigned update screen: clearer states, and it fits narrow phones and large text.
+
+---
+
 ## v0.9.15
 
 - Updates now come from dl.seqavo.com.

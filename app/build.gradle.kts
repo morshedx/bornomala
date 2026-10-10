@@ -14,8 +14,8 @@ plugins {
 // refuses to publish without one.
 
 // App version.
-val appVersionName = "0.9.15"
-val appVersionCode = 79
+val appVersionName = "0.10.0"
+val appVersionCode = 80
 
 kitApp {
     slug.set("bornomala")

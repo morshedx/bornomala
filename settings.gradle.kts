@@ -22,7 +22,7 @@ pluginManagement {
 // Repositories, the `kit` catalog and versions for every other im.morshed.* plugin.
 // The app's own catalog stays `libs`.
 plugins {
-    id("im.morshed.settings") version "2.1.2"
+    id("im.morshed.settings") version "2.4.0"
 }
 
 rootProject.name = "Bornomala"
